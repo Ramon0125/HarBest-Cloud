@@ -4,7 +4,7 @@ function agrclt(rnc,email,nombre,adm)
 if(validarparams(rnc,email,nombre,adm)){//Verifica que los inputs contengan valores
  if(validaremailcl(email))
   {// Verifica que sea un correo valido
-    if(validarint(rnc))//Verifica que sea un rnc valido
+    if(validarint(rnc,adm))//Verifica que sea un rnc valido
     {
       $.ajax({
       type: 'POST',//Metodo en el que se enviaran los datos

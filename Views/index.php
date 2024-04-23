@@ -42,18 +42,21 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
 
 <!-- Logo -->
 <div class="d-flex align-items-center justify-content-between">
+
  <a class="logo d-flex align-items-center">
  <img src="<?php echo APP_URL ?>Data/favicon.png" alt="Logo de <?php echo APP_NAME ?>">
  <span class="d-none d-lg-block"><?php echo APP_NAME ?></span>
  </a>
+ 
  <div class="header1 toggle-sidebar-btn">
- <input class="checkbox" type="checkbox" name="" id="" checked />
-            <div class="hamburger-lines">
-              <span class="line line1"></span>
-              <span class="line line2"></span>
-              <span class="line line3"></span>
-            </div> 
-            </div>
+  <input class="checkbox" type="checkbox" id="chk" checked/>
+  <div class="hamburger-lines">
+   <span class="line line1"></span>
+   <span class="line line2"></span>
+   <span class="line line3"></span>
+  </div> 
+ </div>
+
 </div>
 <!-- End Logo -->
 

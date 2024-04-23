@@ -1,5 +1,6 @@
 //Acciones que se cumpliran cuando se cargue por completo el DOM
-$(document).ready(function(){tablasejec('notif');});
+$(document).ready(function(){ tablasejec('notif'); });
+
 
 function tablasejec(str) 
 {
@@ -28,3 +29,26 @@ function tablasejec(str)
     error: function () {res(txt.EELS, "error", 2000);}});   
 }
 
+
+eventlisten('.fico','click',function (){ 
+  
+  if ($('#fiicon').hasClass('bi-x-circle')) 
+  { 
+    $('#Cartanotif').val('');
+    $('#fispan').text(' Buscar carta');
+    $('#fiicon').removeClass('bi-x-circle');
+    $('#fiicon').addClass('bi-arrow-up-circle');
+  }
+
+  else { $('#Cartanotif').click(); } 
+  
+});
+
+
+eventlisten('#Cartanotif','change',function (){
+
+  $('#fispan').text(' Quitar carta' );
+  $('#fiicon').removeClass('bi-arrow-up-circle');
+  $('#fiicon').addClass('bi-x-circle');
+
+  });

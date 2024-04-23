@@ -1,12 +1,16 @@
+const toggval = () => parseInt($('.sidebar').css('left'), 10); 
+
 //Acciones que se cumpliran cuando se cargue por completo el DOM
 $(document).ready(function(){
 
   load(2);
 
-  eventlisten('.toggle-sidebar-btn','click',function () {
-  $('body').toggleClass('toggle-sidebar');
 
-  });
+  if(toggval() == -300){$('#chk').click();}
+
+
+  eventlisten('.toggle-sidebar-btn','click',function () {  $('body').toggleClass('toggle-sidebar');  });
+  eventlisten('.hamburger-lines','click',function () {$('#chk').click(); $('body').toggleClass('toggle-sidebar');})
 
   // Obtener la fecha actual
   eventlisten('.modal','show.bs.modal', function () {
@@ -22,7 +26,11 @@ $(document).ready(function(){
     $(this).find('input[type="date"]').val(today);
 });
 
+
 });
+
+$(window).resize(function () { $('#chk').prop('checked',toggval() != -300 ? false : true); });
+
 
 const tabledata = {
   "language": { "emptyTable":     "No hay datos disponibles en la tabla",
@@ -151,9 +159,14 @@ function validaremail(email)
   return tester.test(email);}
 
 //Funcion que valida los numeros
-function validarint(int) 
+function validarint(...int) 
 { const tester1 = /^[0-9]+$/
-  return tester1.test(int);} 
+if(Array.isArray(int)){ int.forEach( val => { if(!tester1.test(val)){return false;}});
+return true;
+}
+else{ return tester1.test(int); } 
+
+} 
 
 
 function modifystyle(objects, property, value) 

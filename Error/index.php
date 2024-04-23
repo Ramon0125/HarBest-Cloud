@@ -1,4 +1,4 @@
-<?php require '../Settings/app.php'?>
+<?php require '../Controllers/Conexion.php'?>
 <!DOCTYPE html><html lang="en">
 <head>
 <link rel="icon" id="favicon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon">

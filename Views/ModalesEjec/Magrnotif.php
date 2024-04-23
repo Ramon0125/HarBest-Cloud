@@ -51,23 +51,20 @@ if (strpos($_SERVER['REQUEST_URI'], 'Magrnotif.php') === false) { ?>
     </div>
           
                    
-    <div class="col-md-5">
+    <div class="col-sm-5">
     <label for="Motnotif" class="form-label">Motivo Notif</label>
-    <select class="form-select" id="Motnotif" name="Motnotif" required>
-    <option disabled selected style="display:none;"></option>
-    <option value="IR2">IR2</option>
-    <option value="ITBIS">ITBIS</option>
-    <option value="IR3">IR3</option>
-    <option value="IR17">IR17</option>
-    <option value="ACTIVO">ACTIVO</option>
-    <option value="ANTICIPO">ANTICIPO</option>
-    </select>
+    <input type="text" class="form-control" name="Motnotif" id="Motnotif">
     </div>
           
           
-    <div class="col-md-7">
-    <label for="carta" class="form-label">Seleccione la carta</label>
-    <input class="form-control" type="file" id="carta" name="carta" accept=".pdf">
+    <div class="col-sm-7 cp">
+    <label for="Cartanotif" class="form-label">Carta Notif.</label>
+    <div class="form-control cartadiv">
+    <input type="file" id="Cartanotif" class="cartafiles" accept=".pdf,.jpg,.png,.docx">
+    <div class="fileicon fico">
+    <i id="fiicon" class="bi bi-arrow-up-circle"></i><span id="fispan"> Buscar carta</span>
+    </div>
+    </div>
     </div>
           
     <div class="col-lg-12">
@@ -80,7 +77,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Magrnotif.php') === false) { ?>
 </form></div>
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" style="background-color:green" onclick="agrnotif(document.getElementById('cltagrnot1').value,document.getElementById('Datenotf').value,document.getElementById('Notfic').value,document.getElementById('Tiponotf').value,document.getElementById('Motnotif').value,document.getElementById('carta').files[0],document.getElementById('Coments').value)">Agregar notif.</button>
+<button type="button" class="btn btn-success" style="background-color:green" onclick="agrnotif(document.getElementById('cltagrnot1').value,document.getElementById('Datenotf').value,document.getElementById('Notfic').value,document.getElementById('Tiponotf').value,document.getElementById('Motnotif').value,document.getElementById('Cartanotif').files[0],document.getElementById('Coments').value)">Agregar notif.</button>
 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#cltagrnot1',false,'#formagrnotif')">Cancelar</button>
 </div></div></div></div>
 <!----------------FIN AGREGAR NOTIFICACION------------------------------->
