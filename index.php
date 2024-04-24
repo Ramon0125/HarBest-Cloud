@@ -1,5 +1,6 @@
 <?php require './Controllers/Conexion.php'; ?>
 <!DOCTYPE html>
+<html lang="es">
 <head>
 <title><?php echo APP_NAME ?></title>
 
@@ -50,16 +51,16 @@ if (VALIDARBLOCK() === 'T') { ?>
  <form id="form">
  
  <div class="logo">
-  <img src="<?php echo APP_URL ?>Data/logo.ico" id="im">
+  <img src="<?php echo APP_URL ?>Data/logo.ico" id="im"  width="60%" height="60%" hei alt="<?php echo APP_NAME ?>">
  </div>
 
  <div class="form-item fi1">
-  <p class="formLabel">Usuario</p>
+  <label for="email" class="formLabel">Usuario</label>
   <input type="email" name="email" id="email" class="form-style" maxlength="50" autocomplete="email" readonly>
  </div>
 		
  <div class="form-item">
-  <p class="formLabel">Contraseña</p>
+  <label for="password" class="formLabel">Contraseña</label>
   <input type="password" name="password" id="password" class="form-style" maxlength="15" autocomplete="current-password" readonly>        
   <input type="checkbox" name="mc" id="mc" onclick="visor(document.getElementById('password'))">
   <label for="mc" class="rup-pass">Mostrar Contraseña</label>

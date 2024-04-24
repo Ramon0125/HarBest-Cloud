@@ -1,7 +1,9 @@
 <?php
-if (!class_exists('ConexionDB')) { require __DIR__.'/Conexion.php'; }
 
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' || strpos($_SERVER['REQUEST_URI'], 'datos.php') === false) {
+
+if (!class_exists('ConexionDB')) { require __DIR__.'/Conexion.php'; }
+
 
 $conexionDB = new ConexionDB();
 $conexion = $conexionDB->obtenerConexion(); 

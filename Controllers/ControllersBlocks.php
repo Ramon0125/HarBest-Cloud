@@ -1,8 +1,6 @@
 <?php
 if (strpos($_SERVER['REQUEST_URI'], 'ControllersBlocks.php') === false) { 
 
-session_start();
-
 $IP = $_SERVER['REMOTE_ADDR'];
 $CONDB1 = NEW ConexionDB();
 $CONDB = $CONDB1->obtenerConexion();

@@ -1,15 +1,20 @@
 <?php require '../Controllers/Conexion.php'; ?>
-<!doctype html><html lang="en" data-bs-theme="auto">
+<!DOCTYPE html>
 <head>
 <title><?php echo APP_NAME ?></title>
+
+<!--- Meta -------------->
 <meta name="robots" content="index, follow">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta name="keywords" content="<?php echo APP_NAME ?>, Contable,APP CONTABLE">
 <meta name="description" content="<?php echo APP_NAME ?> es una app web creada para automatizar servicios contables y procesos financieros, permitiendo gestionar las finanzas de manera efectiva.">
 <meta name="author" content="RAMON E. LEBRON">
+<!--- Fin Meta -------------->
+
+<!--- Links -------------->
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
-<link rel="icon"  type="image/x-icon" href="<?php echo APP_URL?>Data/favicon.ico"/>
+<link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
 <?php 
 require '../Controllers/datos.php';
 
@@ -23,13 +28,12 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
 ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet" type="text/css">
-<link href="<?PHP echo APP_URL ?>Styles/style.css" rel="stylesheet" type="text/css">
 <link href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" rel="stylesheet" crossorigin="anonymous" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"  type="text/javascript" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js" type="text/javascript" crossorigin="anonymous"></script>
-
+<link href="<?PHP echo APP_URL ?>Styles/style.css" rel="stylesheet" type="text/css">
 </head><body>
 
 
@@ -129,8 +133,7 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
 
   <!-- Notificaciones de inconsistencia --><li class="nav-item">
   <a class="nav-link collapsed b1" data-bs-target="#notif" data-bs-toggle="collapse">
-   <i class="bi bi-journal-text"></i>
-   <span>Notif. de inconsistencias</span>
+   <i class="bi bi-file-text"></i><span>Notif. de inconsistencias</span>
    <i class="bi bi-chevron-down ms-auto"></i>
   </a>
 
@@ -265,6 +268,13 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
   <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
   <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
   </ul></li><!--- End Resolución de Determinación -->
+
+
+  <li class="nav-heading">Consulta de envios</li>
+
+  <li class="nav-item">
+    <a class="nav-link collapsed b1" onclick="tablas('clts')">
+  <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
 
   <!-- Tablas -->
 

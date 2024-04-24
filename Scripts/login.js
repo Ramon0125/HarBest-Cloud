@@ -1,11 +1,11 @@
 $(document).ready(function(){
 	var formInputs = $('input[type="email"],input[type="password"]');
 	
-	formInputs.focus(function() { $(this).removeAttr('readonly'); $(this).parent().children('p.formLabel').addClass('formTop'); });
+	formInputs.focus(function() { $(this).removeAttr('readonly'); $(this).parent().children('label.formLabel').addClass('formTop'); });
 
-	formInputs.blur(function() { if ($.trim($(this).val()).length == 0){ $(this).parent().children('p.formLabel').removeClass('formTop'); }});
+	formInputs.blur(function() { if ($.trim($(this).val()).length == 0){ $(this).parent().children('label.formLabel').removeClass('formTop'); }});
 	
-	$('p.formLabel').click(function(){ $(this).parent().children('.form-style').focus();});
+	$('label.formLabel').click(function(){ $(this).parent().children('.form-style').focus();});
 
 });
 

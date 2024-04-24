@@ -1,4 +1,4 @@
-const toggval = () => parseInt($('.sidebar').css('left'), 10); 
+const toggval = () => parseInt($('#sidebar').css('left'), 10); 
 
 //Acciones que se cumpliran cuando se cargue por completo el DOM
 $(document).ready(function(){
@@ -11,6 +11,8 @@ $(document).ready(function(){
 
   eventlisten('.toggle-sidebar-btn','click',function () {  $('body').toggleClass('toggle-sidebar');  });
   eventlisten('.hamburger-lines','click',function () {$('#chk').click(); $('body').toggleClass('toggle-sidebar');})
+
+
 
   // Obtener la fecha actual
   eventlisten('.modal','show.bs.modal', function () {
@@ -29,14 +31,14 @@ $(document).ready(function(){
 
 });
 
-$(window).resize(function () { $('#chk').prop('checked',toggval() != -300 ? false : true); });
+$(window).resize(function () { $('#chk').prop('checked',toggval() == 0 ? true : false); });
 
 
 const tabledata = {
   "language": { "emptyTable":     "No hay datos disponibles en la tabla",
   "info":           "&nbsp; Mostrando _END_ de _TOTAL_ registros",
   "infoEmpty":      "&nbsp; No hay coincidencias",
-  "infoFiltered":   "(_MAX_ registros totales)",
+  "infoFiltered":   "(filtradon de _MAX_ registros totales)",
   "infoPostFix":    "",
   "thousands":      ",",
   "lengthMenu":     "&nbsp; Mostrar _MENU_ registros",
@@ -44,7 +46,8 @@ const tabledata = {
   "processing":     "Procesando...",
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron registros",
-  "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }}
+  "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
+  "lengthMenu": [20,40,50,100]
   };
 
   
@@ -136,7 +139,7 @@ switch (resp)
 {
 case "10000": location.reload(); break;///Se ejecuta si el array contiene la propiedad bloqueo
 case "01000": const url = '../Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
-case "00100": res(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
+case "00100": $('.modal').modal('hide'); $('.modal-backdrop ').css('display', 'none'); res(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
 case "00010": res(txt.MCI,txt.W,false,true,txt.CNV); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00001": res(txt.MCI1,txt.W,false,true,txt.EANV); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00000": res(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success

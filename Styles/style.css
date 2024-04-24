@@ -165,17 +165,17 @@ scrollbar-color: #aab7cf transparent;
 box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
 background-color:var(--background);}
 
-@media (max-width: 1199px) {
-.sidebar {left: -300px;}}
-
-
 @media (min-width: 1200px) {
 #main,#footer {
 margin-left: 300px;}}
 
 @media (max-width: 1199px) {
+
+.toggle-sidebar .checkbox {width: 25px;}
+
 .toggle-sidebar .sidebar {
-left: 0;}}
+left: -300px;}
+}
 
 @media (min-width: 1200px) {
 .toggle-sidebar #main,
@@ -400,7 +400,6 @@ table.tcu td{ text-align: center !important; }
   position: absolute;
   display: block;
   height: 23px;
-  width: 17px;
   top: 21px;
   left: 17px;
   z-index: 5;
