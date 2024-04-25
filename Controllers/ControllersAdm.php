@@ -29,7 +29,7 @@ public function agradm(string $name): array
     if($res['MENSAJE'] === 'AIC')
     {
       $this->response['success'] = true; 
-      AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'INSERTO UNA ADMINISTRACION');
+      AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UNA ADMINISTRACION');
     }
     else{$this->response['success'] = false; SUMBLOCKUSER();}
 
@@ -59,7 +59,7 @@ if($consulta->rowCount() > 0)
 {
 $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
 
-if($resultado['MENSAJE'] === 'AMC'){$this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'MODIFICO UNA ADMINISTRACION');}
+if($resultado['MENSAJE'] === 'AMC'){$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO UNA ADMINISTRACION');}
 else{$this->response['success'] = false; SUMBLOCKUSER();}
 
 $this->response['message'] = $resultado['MENSAJE'];

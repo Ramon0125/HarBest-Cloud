@@ -10,6 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
 if (VALIDARBLOCK() === 'T') 
  {
 
+
   if(Validarcadena1($_POST))
   {
   $verificar = new ControllerInicioSesion();
@@ -25,7 +26,7 @@ if (VALIDARBLOCK() === 'T')
 
   else {$response['CNV'] = true; SUMBLOCKUSER();}
 
- }
+}
 
  else 
  {

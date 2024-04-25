@@ -25,7 +25,7 @@ echo isset($_GET['hcerrar']) ? "<script type='text/javascript'>document.addEvent
 
 require './Controllers/ControllersBlocks.php';
 
-if (!is_null(USERDATA::GetInfo('ID_USUARIO')) && !isset($_GET['hcerrar']) && !isset($_SESSION['LOG'])) 
+if (!is_null(GetInfo('ID_USUARIO')) && !isset($_GET['hcerrar']) && !isset($_SESSION['LOG'])) 
 {Header("Location:".APP_URL."Views/");}
 
 if (VALIDARBLOCK() === 'T') { ?>

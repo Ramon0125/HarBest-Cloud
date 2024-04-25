@@ -19,7 +19,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
 
         $query = 'CALL SP_INSERTAR_NOTIF(?,?,?,?,?,?,?,?,?,?)';
         $exec = $this->con->prepare($query);
-        $IDE = USERDATA::GetInfo('ID_USUARIO');
+        $IDE = GetInfo('ID_USUARIO');
         $exec->bindParam(1,$IDE,pdo::PARAM_INT);
         $exec->bindParam(2,$IDC,pdo::PARAM_INT);
         $exec->bindParam(3,$NON,pdo::PARAM_STR);
@@ -38,9 +38,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
 
             if ($res['MENSAJE'] === 'NIC') 
             {
-             $this->response['success'] = true;
-             AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'INSERTO UNA NOTIFICACION DE INCONSISTENCIA');
-             
+            $this->response['success'] = true;
+            AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UNA NOTIFICACION DE INCONSISTENCIA');
+            EMAILS($NON,'NOTIF.');
             }
 
             else 

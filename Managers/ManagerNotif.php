@@ -9,6 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
   
   if (VALIDARBLOCK() === 'T') 
   {
+
+
+    if (!is_null(GetInfo('ID_USUARIO')) && Validarcadena1($_COOKIE['IDENTITY']) )
+    {
+
     if(Validarcadena1($_POST))
     {
         $func = NEW ControllersNotif();
@@ -35,7 +40,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
         else {$response['error'] = true; SUMBLOCKUSER();}
 
     }
-    else {$response['CNV'] = true; SUMBLOCKUSER();}
+    else {$response['CNV'] = true; SUMBLOCKUSER();}}
+
+    else {
+    $url = "../Error/?Error=002";
+    $html = file_get_contents($url);
+    echo $html;
+    }
   }
         
   else { $response['block'] = true; }

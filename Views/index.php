@@ -20,11 +20,11 @@ require '../Controllers/datos.php';
 
 require '../Controllers/ControllersBlocks.php';
 
-if(is_null(USERDATA::GetInfo('ID_USUARIO')) || isset($_SESSION['LOG'])){ header("Location:".APP_URL);}
+if(is_null(GetInfo('ID_USUARIO')) || isset($_SESSION['LOG'])){ header("Location:".APP_URL);}
 
 if (VALIDARBLOCK() === 'T') {
 
-if(USERDATA::GetInfo('ID_USUARIO') > 0){
+if(GetInfo('ID_USUARIO') > 0){
 ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet" type="text/css">
@@ -73,7 +73,7 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
 <!--Profile Image Icon -->
 <a class="nav-link nav-profile d-flex align-items-center pe-0 cpp cp" data-bs-toggle="dropdown">
  <i class="bi bi-person-circle rounded-circle"></i>
- <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo USERDATA::GetInfo('NOMBRES')." ".USERDATA::GetInfo('APELLIDOS'); ?></span>
+ <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo GetInfo('NOMBRES')." ".GetInfo('APELLIDOS'); ?></span>
 </a><!-- End Profile Image Icon -->
 
 <!-- Profile Dropdown Items -->
@@ -81,8 +81,8 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
 
 <!-- Name and Role -->
 <li class="dropdown-header logo">
- <h6><?php echo USERDATA::GetInfo('NOMBRES')." ".USERDATA::GetInfo('APELLIDOS') ?></h6>
- <span><?php echo USERDATA::GetInfo('PRIVILEGIOS') ?></span>
+ <h6><?php echo GetInfo('NOMBRES')." ".GetInfo('APELLIDOS') ?></h6>
+ <span><?php echo GetInfo('PRIVILEGIOS') ?></span>
 </li><!-- End Name and Role -->
  
 <li><hr class="dropdown-divider"></li>
@@ -127,7 +127,7 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
 
   <ul class="sidebar-nav" id="sidebar-nav">
 
-  <?php if(USERDATA::GetInfo('PRIVILEGIOS') === 'EJECUTIVO') { ?>
+  <?php if(GetInfo('PRIVILEGIOS') === 'EJECUTIVO') { ?>
 
   <li class="nav-heading">Protocolos</li>
 
@@ -276,6 +276,33 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
     <a class="nav-link collapsed b1" onclick="tablasejec('email_notif')">
   <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
 
+
+  <li class="nav-heading">Plantillas de emails</li>
+
+    <!--    Recurso Contencioso. --><li class="nav-item">
+    <a class="nav-link collapsed bi" data-bs-target="#plannotif" data-bs-toggle="collapse" href="#">
+  <i class="bi bi-journal-text "></i><span>Notif. inconsistencia</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+
+  <ul id="plannotif" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+  
+  <li class="dropdown-item">
+  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
+  <i class="bi-plus-square"></i>Adicionar</a></li>
+
+  <li class="dropdown-item">
+  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
+  <i class="bi bi-pencil-square"></i>Modificar</a></li>
+  
+  <li class="dropdown-item">
+  <hr class="divioer">
+  </li>
+  </ul></li><!--- End Resolución de Determinación -->
+
+
+
+
+
   <!-- Tablas -->
 
 <?php } else { ?> 
@@ -383,7 +410,7 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
 <script defer src="<?php echo APP_URL ?>Scripts/globalfuncs.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/datalistsglobal.js" type="text/javascript"></script>
 
-<?php if (USERDATA::GetInfo('PRIVILEGIOS') === 'ADMINISTRADOR') { ?> 
+<?php if (GetInfo('PRIVILEGIOS') === 'ADMINISTRADOR') { ?> 
 <script src="<?php echo APP_URL ?>Scripts/Admins/funcsadmins.js" type="text/javascript"></script>
 
 <!---------------------MODALES------- ------------------->

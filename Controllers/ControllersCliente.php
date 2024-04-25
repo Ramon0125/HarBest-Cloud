@@ -32,7 +32,7 @@ class ControllerCliente extends ConexionDB {
         {
             $resultado = $ejecutar->fetch(PDO::FETCH_ASSOC);
 
-            if($resultado['MENSAJE'] === 'CIC'){$this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'INSERTO UN CLIENTE');}
+            if($resultado['MENSAJE'] === 'CIC'){$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN CLIENTE');}
             else{$this->response['success'] = false; SUMBLOCKUSER();}
 
             $this->response['message'] = $resultado['MENSAJE'];
@@ -97,7 +97,7 @@ class ControllerCliente extends ConexionDB {
         {
         $resultado = $ejecutar->fetch(PDO::FETCH_ASSOC);
        
-        if($resultado['MENSAJE'] === 'CMC1'){$this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'MODIFICO UN CLIENTE');}
+        if($resultado['MENSAJE'] === 'CMC1'){$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO UN CLIENTE');}
         else{$this->response['success'] = false; SUMBLOCKUSER();}
 
         $this->response['message'] = $resultado['MENSAJE']; 
@@ -124,7 +124,7 @@ class ControllerCliente extends ConexionDB {
     {
     $resultado = $ejecutar->fetch(PDO::FETCH_ASSOC);
            
-    if($resultado['MENSAJE'] === 'CEC'){$this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'ELIMINO UN CLIENTE');}
+    if($resultado['MENSAJE'] === 'CEC'){$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UN CLIENTE');}
     else{$this->response['success'] = false; SUMBLOCKUSER();}
 
     $this->response['message'] = $resultado['MENSAJE'];

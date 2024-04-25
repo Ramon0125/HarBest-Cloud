@@ -47,7 +47,7 @@ return $this->response;
 
 public function ModificarPassword(string $passwordn1) : array {
 try 
-{  $val = USERDATA::GetInfo('EMAIL');
+{  $val = GetInfo('EMAIL');
     $sql = "CALL SP_MODIFICAR_CLAVES_USUARIOS (?, ?, ?)";
     $ejecucion = $this->exec->prepare($sql);
     $ejecucion->bindParam(1, $val, PDO::PARAM_STR);
@@ -61,7 +61,7 @@ try
     if($resultado['MENSAJE'] === 'CMC')
     {
       $this->response['success'] = true;
-      AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'MODIFICO SU CONTRASEÑA'); 
+      AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO SU CONTRASEÑA'); 
       unset($_SESSION['LOG']); 
       setcookie('PASS', '', time() - 3600, '/', '', false, true);}
     else {$this->response['success'] = false; SUMBLOCKUSER();}

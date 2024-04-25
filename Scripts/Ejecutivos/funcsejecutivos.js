@@ -36,8 +36,26 @@ function tablesresult(str,data){
       break;
   
       case 'email_notif':
-       $('#tabla').DataTable(tabledata);
-      break;
+          $('#tabla thead tr').append('<th>ACCIONES</th>');
+
+          $('#tabla').DataTable($.extend(true, {}, tabledata, {
+              "columnDefs": [{
+                  "targets": -1,
+                  "data": null,
+                  "render": function (data, type, row) {
+                    console.log(row[6]);
+                    if (row['ESTADO'] == 'CORREO ENVIADO') {
+                      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
+                  } else {
+                      return 'ENVIADO';
+                  }                  }
+              }]
+          }));
+
+          $('#tabla tbody').on('click', '.btnenviar', function () {
+              // Aquí puedes manejar la lógica para enviar el correo
+          });
+          break;
     }
 }
 

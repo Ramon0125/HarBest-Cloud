@@ -2,9 +2,6 @@
 if (strpos($_SERVER['REQUEST_URI'], 'ControllersBlocks.php') === false) { 
 
 $IP = $_SERVER['REMOTE_ADDR'];
-$CONDB1 = NEW ConexionDB();
-$CONDB = $CONDB1->obtenerConexion();
-
 
 if (!isset($_COOKIE['identificador']))
 {
@@ -12,6 +9,10 @@ if (!isset($_COOKIE['identificador']))
     setcookie('identificador', md5($identificador),0,'/', '', true, true);
 }
 else {$identificador = $_COOKIE['identificador'];}
+
+
+$CONDB1 = NEW ConexionDB();
+$CONDB = $CONDB1->obtenerConexion();
 
 
 function SUMBLOCKUSER()
@@ -28,7 +29,6 @@ function SUMBLOCKUSER()
         setcookie('ERRORS',$VAL,0,'/', '', true, true);  
     }
 }
-
 
 
 function BLOCKUSER($COOKIE)
@@ -74,8 +74,7 @@ $res->execute();
 function GetInfo($COLUMNA)
 {
     if(isset($_COOKIE['IDENTITY'])){
-    $CONDB1 = NEW ConexionDB();
-    $CONDB = $CONDB1->obtenerConexion();
+    global $CONDB;
     $query = "SELECT ". $COLUMNA . " FROM USUARIOS WHERE TOKEN = '". $_COOKIE['IDENTITY'] . "'"  ;
     $RES = $CONDB->prepare($query);
     $RES->execute();
@@ -83,6 +82,7 @@ function GetInfo($COLUMNA)
     
     $RES2 = $RES1 == false ? 0 : reset($RES1);
     return $RES2;}
+    else {return null;}
 }
 
 

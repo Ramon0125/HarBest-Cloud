@@ -30,7 +30,7 @@ class ControllerUser extends ConexionDB
       {
         $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
         
-        if($resultado['MENSAJE'] === 'UIC') {$this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'INSERTO UN USUARIO');} 
+        if($resultado['MENSAJE'] === 'UIC') {$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN USUARIO');} 
         else { $this->response['success'] = false; SUMBLOCKUSER();}
 
         $this->response['message'] = $resultado['MENSAJE'];         
@@ -100,7 +100,7 @@ public function ModifyUser(int $id, string $name, string $email, string $nname, 
       $ejecucion->closeCursor();
 
       if($resultado['MENSAJE'] === 'UMC')
-      {$this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'MODIFICO UN USUARIO');}
+      {$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO UN USUARIO');}
       
       else{SUMBLOCKUSER(); $this->response['success'] = false;}
 
@@ -130,7 +130,7 @@ public function DeleteUser(int $id, string $name): array
         $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
         $ejecucion->closeCursor();
 
-        if($resultado['MENSAJE'] === 'UEC'){ $this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'ELIMINO UN USUARIO');}
+        if($resultado['MENSAJE'] === 'UEC'){ $this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UN USUARIO');}
         else {$this->response['success'] = false; SUMBLOCKUSER();}
 
         $this->response['message'] = $resultado['MENSAJE'];}
@@ -157,7 +157,7 @@ public function DesblockUser(int $id): array
         $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
         $ejecucion->closeCursor();
 
-        if($resultado['MENSAJE'] === 'UDC'){ $this->response['success'] = true; AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'DESBLOQUEO UN USUARIO');}
+        if($resultado['MENSAJE'] === 'UDC'){ $this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'DESBLOQUEO UN USUARIO');}
         else {$this->response['success'] = false; SUMBLOCKUSER();}
 
         $this->response['message'] = $resultado['MENSAJE'];}

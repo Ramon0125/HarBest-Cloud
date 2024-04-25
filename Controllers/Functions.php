@@ -27,15 +27,24 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
   }
 
   function obtenertipo($archivoTemp) {
-    try
-    {
+
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mimeType = finfo_file($finfo, $archivoTemp);
-    }
-    catch(Exception){}
-    finally{finfo_close($finfo);}
+
+    finfo_close($finfo);
 
     return $mimeType;
+  }
+
+
+  function EMAILS(string $NOP,string $TIP){
+    $CONDB1 = NEW ConexionDB();
+    $CONDB = $CONDB1->obtenerConexion();
+    $query = "CALL SP_INSERT_EMAIL_STATUS(?,?)";
+    $val = $CONDB->prepare($query);
+    $val->bindParam(1,$NOP,PDO::PARAM_STR);
+    $val->bindParam(2,$TIP,PDO::PARAM_STR);
+    $val->execute();
   }
 
 
