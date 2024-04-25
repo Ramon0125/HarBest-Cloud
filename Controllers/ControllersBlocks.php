@@ -70,10 +70,8 @@ $res->bindParam(2,$MOVIMIENTO,PDO::PARAM_STR);
 $res->execute();
 }
 
-class USERDATA
-{
 
-public static function GetInfo($COLUMNA)
+function GetInfo($COLUMNA)
 {
     if(isset($_COOKIE['IDENTITY'])){
     $CONDB1 = NEW ConexionDB();
@@ -88,6 +86,5 @@ public static function GetInfo($COLUMNA)
 }
 
 
-}
 }
 else {header('LOCATION: ./404');}
