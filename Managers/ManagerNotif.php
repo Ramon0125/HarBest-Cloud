@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
     {
         $func = NEW ControllersNotif();
 
-        if ($_POST['tipo'] == 'agrnotif' && isset($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOT'], $_POST['TIPNOT'], $_POST['MOTIVNOT']) && isset($_FILES['CARTA'])) 
+        if ($_POST['tipo'] == 'agrnotif' && isset($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOT'], $_POST['TIPNOT'], $_POST['MOTIVNOT'], $_POST['AINCUMPLI'], $_POST['COMENTS']) && isset($_FILES['CARTA'])) 
         {
 
             if(validarCarta(pathinfo($_FILES['CARTA']['name'], PATHINFO_EXTENSION)))
@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
               
               $mimeType = obtenertipo($archivoTemp);
 
-              $response = $func->AGRNotif($_POST['IDCLT'], $_POST['NONOT'], $_POST['FECHANOT'], $_POST['TIPNOT'], $_POST['MOTIVNOT'], $CARTA, $_POST['COMENTS'],$mimeType);
+              $response = $func->AGRNotif($_POST['IDCLT'], $_POST['NONOT'], $_POST['FECHANOT'], $_POST['TIPNOT'], $_POST['MOTIVNOT'], $CARTA, $_POST['AINCUMPLI'],$_POST['COMENTS'],$mimeType);
             }
             else {$response['EANV'] = true; SUMBLOCKUSER();}  
         }

@@ -87,6 +87,7 @@ public static function GetInfo($COLUMNA)
     return $RES2;}
 }
 
+
 }
 }
 else {header('LOCATION: ./404');}

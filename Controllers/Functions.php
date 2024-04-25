@@ -37,5 +37,8 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
 
     return $mimeType;
   }
+
+
+  
 }
 else { header("LOCATION: ./404"); }

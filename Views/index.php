@@ -273,7 +273,7 @@ if(USERDATA::GetInfo('ID_USUARIO') > 0){
   <li class="nav-heading">Consulta de envios</li>
 
   <li class="nav-item">
-    <a class="nav-link collapsed b1" onclick="tablas('clts')">
+    <a class="nav-link collapsed b1" onclick="tablasejec('email_notif')">
   <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
 
   <!-- Tablas -->

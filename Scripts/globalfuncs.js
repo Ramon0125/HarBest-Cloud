@@ -162,14 +162,20 @@ function validaremail(email)
   return tester.test(email);}
 
 //Funcion que valida los numeros
-function validarint(...int) 
-{ const tester1 = /^[0-9]+$/
-if(Array.isArray(int)){ int.forEach( val => { if(!tester1.test(val)){return false;}});
-return true;
+function validarint(...ints) {
+  const tester1 = /^[0-9]+$/;
+  if (Array.isArray(ints)) {
+      for (const val of ints) {
+          if (!tester1.test(val)) {
+              return false;
+          }
+      }
+      return true;
+  } else {
+      return tester1.test(ints);
+  }
 }
-else{ return tester1.test(int); } 
 
-} 
 
 
 function modifystyle(objects, property, value) 

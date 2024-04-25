@@ -11,10 +11,18 @@ function tablasejec(str)
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
     success: function (data) 
-    {
-      $('#tabla').DataTable().destroy();
-      $('#tabla').html(data);
-      $('#tabla thead tr').append('<th>CARTAS</th>');
+    {tablesresult(str,data)},
+    error: function () {res(txt.EELS, "error", 2000);}});   
+}
+
+function tablesresult(str,data){
+
+  $('#tabla').DataTable().destroy();
+  $('#tabla').html(data);
+
+  switch (str) {
+    case 'notif':
+      $('#tabla thead tr').append('<th>CARTA</th>');
       
 
       $('#tabla').DataTable($.extend(true, {}, tabledata, {"columnDefs": [
@@ -25,9 +33,14 @@ function tablasejec(str)
       $('#tabla tbody').on('click', '.btnvercarta', function() 
       {var ID = $(this).closest('tr').find('td:eq(0)').text();
       vcarta(ID); });
-    },
-    error: function () {res(txt.EELS, "error", 2000);}});   
+      break;
+  
+      case 'email_notif':
+       $('#tabla').DataTable(tabledata);
+      break;
+    }
 }
+
 
 
 eventlisten('.fico','click',function (){ 

@@ -474,7 +474,7 @@ div .form-control.cartadiv{
 }
 
 .fileicon{    
-  width: 32%;
+  width: auto;
   cursor: pointer;
   position: absolute;
 }

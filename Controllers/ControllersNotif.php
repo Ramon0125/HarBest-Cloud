@@ -13,11 +13,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
      $this->con = $this->obtenerConexion();
     }
 
-    public function AGRNotif(int $IDC,string $NON,string $FEN,string $TIN,string $MON, string $CARTA, string $COM,string $MIME) : array 
+    public function AGRNotif(int $IDC,string $NON,string $FEN,string $TIN,string $MON, string $CARTA, string $AIN, string $COM, string $MIME) : array 
     {
     try {
 
-        $query = 'CALL SP_INSERTAR_NOTIF(?,?,?,?,?,?,?,?,?)';
+        $query = 'CALL SP_INSERTAR_NOTIF(?,?,?,?,?,?,?,?,?,?)';
         $exec = $this->con->prepare($query);
         $IDE = USERDATA::GetInfo('ID_USUARIO');
         $exec->bindParam(1,$IDE,pdo::PARAM_INT);
@@ -27,8 +27,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
         $exec->bindParam(5,$TIN,pdo::PARAM_STR);
         $exec->bindParam(6,$MON,pdo::PARAM_STR);
         $exec->bindParam(7,$CARTA,pdo::PARAM_STR);
-        $exec->bindParam(8,$COM,pdo::PARAM_STR);
-        $exec->bindParam(9,$MIME,pdo::PARAM_STR);
+        $exec->bindParam(8,$AIN,pdo::PARAM_STR);
+        $exec->bindParam(9,$COM,pdo::PARAM_STR);
+        $exec->bindParam(10,$MIME,pdo::PARAM_STR);
         $exec->execute();
         
         if ($exec->rowCount() > 0) 
@@ -39,6 +40,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
             {
              $this->response['success'] = true;
              AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'INSERTO UNA NOTIFICACION DE INCONSISTENCIA');
+             
             }
 
             else 
@@ -70,8 +72,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
             $this->response['success'] = true;
             $this->response['CARTA'] = $res['CARTA'];
             $this->response['TIPO'] = $res['MIME'];
-
-            AUDITORIA(USERDATA::GetInfo('ID_USUARIO'),'ABRIO UNA NOTIF. DE INCONSISTENCIA');
         }
         else { $this->response['error1'] = true; SUMBLOCKUSER();}
 

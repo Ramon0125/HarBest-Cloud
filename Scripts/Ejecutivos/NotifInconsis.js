@@ -1,6 +1,6 @@
-function agrnotif(IDCLT,FECHANOT,NONOT,TIPNOT,MOTIVNOT,CARTA,COMENTS = false)
+function agrnotif(IDCLT,FECHANOT,NONOT,TIPNOT,MOTIVNOT,CARTA,AINCUMPLI,COMENTS = false)
 {
-if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT)) 
+if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)) 
 {
  if (validarint(IDCLT)) 
  { 
@@ -11,6 +11,7 @@ if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT))
     formData.append('TIPNOT', TIPNOT);
     formData.append('MOTIVNOT', MOTIVNOT);
     formData.append('CARTA', CARTA);
+    formData.append('AINCUMPLI', AINCUMPLI);
     formData.append('COMENTS', COMENTS ? COMENTS : 'SIN COMENTARIOS');
     formData.append('tipo','agrnotif');
 

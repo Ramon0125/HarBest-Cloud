@@ -33,7 +33,9 @@ case 'notif':
 $Query = 'CALL SP_VER_NOTIFICACIONES()';
 break;
 
-
+case 'email_notif':
+$Query = "CALL READ_EMAIL_STATUS('NOTIF.')";
+break;
 }
 
 $STR = $Ejec->prepare($Query);
