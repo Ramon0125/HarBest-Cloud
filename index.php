@@ -17,6 +17,7 @@
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
 <?php
+
 if (isset($_GET['hcerrar']) || isset($_GET['hcerrar1']) ) 
 {
 CerrarSesion();
@@ -31,7 +32,6 @@ if (!is_null(GetInfo('ID_USUARIO')) && !isset($_GET['hcerrar']) && !isset($_SESS
 if (VALIDARBLOCK() === 'T') { ?>
 <link rel="stylesheet" href="<?php echo APP_URL ?>Styles/styles.css" type="text/css">
 <!--- Fin Links -------------->
-
 
 <!--- Scripts -------------->
 <script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>
@@ -67,7 +67,7 @@ if (VALIDARBLOCK() === 'T') { ?>
  </div>
 
  <div class="form-item">
-  <input type="button" class="login pull-right" value="Iniciar Sesion" onclick="InicioSesion(document.getElementById('email').value,document.getElementById('password').value)">    
+  <input type="button" class="login pull-right" value="Iniciar Sesión" onclick="InicioSesion(document.getElementById('email').value,document.getElementById('password').value)">    
  </div> 
 
  </form>

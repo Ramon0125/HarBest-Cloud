@@ -31,31 +31,32 @@ function tablesresult(str,data){
       }]}));
       
       $('#tabla tbody').on('click', '.btnvercarta', function() 
-      {var ID = $(this).closest('tr').find('td:eq(0)').text();
+      {let ID = $(this).closest('tr').find('td:eq(0)').text();
       vcarta(ID); });
       break;
   
       case 'email_notif':
-          $('#tabla thead tr').append('<th>ACCIONES</th>');
-
+          $('#tabla thead tr').append('<th></th>');
+      
           $('#tabla').DataTable($.extend(true, {}, tabledata, {
               "columnDefs": [{
                   "targets": -1,
+                  "orderable": false,
                   "data": null,
                   "render": function (data, type, row) {
-                    console.log(row[6]);
-                    if (row['ESTADO'] == 'CORREO ENVIADO') {
-                      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
-                  } else {
-                      return 'ENVIADO';
-                  }                  }
+                      if (row[6] != 'CORREO ENVIADO') {
+                          return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
+                      } else {
+                          return '<i class="bi bi-check2-circle" style="Dmargin-left: -10%;"></i>';
+                      }
+                  }
               }]
           }));
-
-          $('#tabla tbody').on('click', '.btnenviar', function () {
-              // Aquí puedes manejar la lógica para enviar el correo
-          });
-          break;
+      
+          $('#tabla tbody').on('click', '.btnenviar', function() 
+          {let NOTIF = $(this).closest('tr').find('td:eq(1)').text();
+          sendmail(NOTIF); });
+        break;
     }
 }
 
@@ -83,3 +84,22 @@ eventlisten('#Cartanotif','change',function (){
   $('#fiicon').addClass('bi-x-circle');
 
   });
+
+
+function sendmail(nop){
+if (validarparams(nop)) {
+  $.ajax({
+    type: "POST",
+    url: "../Managers/ManagerEmails.php",
+    data: {ENTITY: nop,FUNC: 'NOTIF.'},
+    dataType: "JSON",
+    beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
+    complete: function () { load(2); }, //Ocultar pantalla de carga
+    success: function (res) { 
+    responses(res); 
+    if(res.success){tablasejec('email_notif')}},
+    error: function(error){res(error,txt.W,2000);}
+  });
+}
+else {res(txt.EELS,txt.W,2000)}
+}

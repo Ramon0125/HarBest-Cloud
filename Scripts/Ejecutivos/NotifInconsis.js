@@ -50,7 +50,7 @@ function vcarta(IDN)
       dataType: "JSON",
       success: function (DATA) {
 
-        if(DATA.success && DATA.TIPO && DATA.TIPO){
+        if(DATA.success && DATA.TIPO){
 
         let binaryString = atob(DATA.CARTA);
 

@@ -47,7 +47,7 @@ const tabledata = {
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron registros",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
-  "lengthMenu": [20,40,50,100]
+  "lengthMenu": [10,20,40,50,100]
   };
 
   
@@ -62,8 +62,8 @@ SIC: 'Sesión iniciada correctamente',
 EELS: 'Error en la solicitud',
 CNV: 'Caracteres no válidos',
 EANV: 'Extencion de archivo no valida',
-MCI: 'Solo se pueden agregar letras, números y caracteres como: @ . _ -',
-MCI1: 'Solo se pueden agregar archivos .PDF, .JPG, .PNG Y .DOCX',
+MCI: 'Solo se pueden agregar letras, números y caracteres como: "@, ., _, -"',
+MCI1: 'Solo se pueden agregar archivos con formato: ".PDF, .JPG, .PNG Y .DOCX"',
 LCC: 'Las contraseñas no coinciden',
 CIC: '¡Cliente insertado correctamente!',
 EIC: '¡Error al insertar cliente!',
@@ -97,7 +97,9 @@ UDC: 'Usuario desbloqueado correctamente',
 EDU: 'Error al desbloquear el usuario',
 ENE: 'Esta Notificacion Existe',
 NIC: 'Notificacion Insertada correctamente',
-EIN: 'Error al insertar notificaion'
+EIN: 'Error al insertar notificaion',
+EEC: 'Email enviado correctamente',
+EECE: 'Error al enviar email'
 };
 
 

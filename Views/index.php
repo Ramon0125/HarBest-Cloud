@@ -1,15 +1,12 @@
 <?php require '../Controllers/Conexion.php'; ?>
 <!DOCTYPE html>
 <head>
-<title><?php echo APP_NAME ?></title>
 
 <!--- Meta -------------->
-<meta name="robots" content="index, follow">
+<meta name="robots" content="noindex, nofollow">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-<meta name="keywords" content="<?php echo APP_NAME ?>, Contable,APP CONTABLE">
-<meta name="description" content="<?php echo APP_NAME ?> es una app web creada para automatizar servicios contables y procesos financieros, permitiendo gestionar las finanzas de manera efectiva.">
 <meta name="author" content="RAMON E. LEBRON">
+<title><?php echo APP_NAME ?></title>
 <!--- Fin Meta -------------->
 
 <!--- Links -------------->
@@ -275,31 +272,6 @@ if(GetInfo('ID_USUARIO') > 0){
   <li class="nav-item">
     <a class="nav-link collapsed b1" onclick="tablasejec('email_notif')">
   <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
-
-
-  <li class="nav-heading">Plantillas de emails</li>
-
-    <!--    Recurso Contencioso. --><li class="nav-item">
-    <a class="nav-link collapsed bi" data-bs-target="#plannotif" data-bs-toggle="collapse" href="#">
-  <i class="bi bi-journal-text "></i><span>Notif. inconsistencia</span><i class="bi bi-chevron-down ms-auto"></i>
-  </a>
-
-  <ul id="plannotif" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-  
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
-  <i class="bi-plus-square"></i>Adicionar</a></li>
-
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-  <i class="bi bi-pencil-square"></i>Modificar</a></li>
-  
-  <li class="dropdown-item">
-  <hr class="divioer">
-  </li>
-  </ul></li><!--- End Resolución de Determinación -->
-
-
 
 
 

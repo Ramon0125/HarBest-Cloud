@@ -8,7 +8,7 @@ const APP_NAME = 'HarBest Cloud';
 const APP_URL = "http://127.0.0.1/PROGRAMAS/HarBest-Cloud/";
 ///VARIABLE GLOBAL DE LA URL DE LA APLICACION
 
-const APP_HOST = '127.0.0.1:3306';
+const APP_HOST = '127.0.0.1';
 
 
 const APP_DBNAME = 'pfiducial';

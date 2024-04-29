@@ -1,3 +1,5 @@
+*{font-display: swap;}
+
 :root {
 scroll-behavior: smooth;
 --color: green; /* Color primario de la pagina */
@@ -57,7 +59,7 @@ h1,h2,h3,h4,h5,h6 { font-family: "Nunito", sans-serif; }
 --------------------------------------------------------------*/
 #main {
   background: var(--bacgroundp);
-  padding: 74px 16px;
+  padding: 74px 10px;
   padding-bottom: 0px;
   transition: all 0.3s;
 }
@@ -167,7 +169,7 @@ background-color:var(--background);}
 
 @media (min-width: 1200px) {
 #main,#footer {
-margin-left: 300px;}}
+margin-left: 304px;}}
 
 @media (max-width: 1199px) {
 
