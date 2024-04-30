@@ -13,13 +13,14 @@ parent::__construct();
 $this->Oconect = $this->obtenerConexion();
 }
 
-public function agradm(string $name): array
+public function agradm(string $name,string $direc): array
 {
   try 
   {   
-    $var = "CALL SP_INSERTAR_ADM(?)";
+    $var = "CALL SP_INSERTAR_ADM(?,?)";
     $query = $this->Oconect->prepare($var);
     $query->bindParam(1, $name,PDO::PARAM_STR);
+    $query->bindParam(2, $direc,PDO::PARAM_STR);
     $query->execute();
     
     if($query->rowCount() > 0)
@@ -44,15 +45,16 @@ return $this->response;
 }
 
 
-public function edtadm(int $id, string $name, string $nname) : array 
+public function edtadm(int $id, string $name, string $nname, string $ndirecc) : array 
 {
 
 try {
-$query = "CALL SP_MODIFICAR_ADM(?,?,?)";
+$query = "CALL SP_MODIFICAR_ADM(?,?,?,?)";
 $consulta = $this->Oconect->prepare($query);
 $consulta->bindParam(1,$id,PDO::PARAM_INT);
 $consulta->bindParam(2,$name,PDO::PARAM_STR);
 $consulta->bindParam(3,$nname,PDO::PARAM_STR);
+$consulta->bindParam(4,$ndirecc,PDO::PARAM_STR);
 $consulta->execute();
 
 if($consulta->rowCount() > 0)

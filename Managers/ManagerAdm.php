@@ -18,11 +18,11 @@ if (Validarcadena1($_POST)){
 
 $CA = new ControllersAdm();
 
-if ($_POST['FUNC'] === 'agradm' && isset($_POST['Name'])) 
-{ $data = $CA->agradm($_POST['Name']); }
+if ($_POST['FUNC'] === 'agradm' && isset($_POST['Name'],$_POST['Dire'])) 
+{ $data = $CA->agradm($_POST['Name'],$_POST['Dire']); }
 
-else if ($_POST['FUNC'] === 'edtadm' && isset($_POST['id']) && isset($_POST['name']) && isset($_POST['nname'])) 
-{ $data = $CA->edtadm($_POST['id'], $_POST['name'], $_POST['nname']); }
+else if ($_POST['FUNC'] === 'edtadm' && isset($_POST['id'],$_POST['name'],$_POST['nname'],$_POST['ndirec'])) 
+{ $data = $CA->edtadm($_POST['id'], $_POST['name'], $_POST['nname'],$_POST['ndirec']); }
 
 else {$response['error'] = true;}
 

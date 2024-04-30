@@ -21,7 +21,7 @@ class EmailSender extends ConexionDB{
     $this->mail->Password = 'ewla zixa twmy wkcf';
     $this->mail->SMTPSecure = 'tls'; // tls o ssl
     $this->mail->Port = 587; // Puerto de SMTP
-    $this->mail->setFrom('ramonemili15@gmail.com', 'Prueba HarBest');
+    $this->mail->setFrom('ramonemili15@gmail.com', 'LR Consultoria');
     $this->mail->CharSet = 'UTF-8';
     $this->mail->isHTML(true);
     $this->hora = date('Y-m-d H:i:s');

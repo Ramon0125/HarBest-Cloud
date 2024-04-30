@@ -91,12 +91,12 @@ if (validarparams(nop)) {
   $.ajax({
     type: "POST",
     url: "../Managers/ManagerEmails.php",
-    data: {ENTITY: nop,FUNC: 'NOTIF.'},
+    data: {FUNC: 'NOTIF.',ENTITY: nop},
     dataType: "JSON",
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
     success: function (res) { 
-    responses(res); 
+    console.log(res); 
     if(res.success){tablasejec('email_notif')}},
     error: function(error){res(error,txt.W,2000);}
   });

@@ -13,16 +13,29 @@ if (strpos($_SERVER['REQUEST_URI'], 'Madm.php') === false) { ?>
 </div>
 
 <div class="container"><div class="row g-3">
-<div class="col-fluid col-lg-12">
 <form id="formagradm">
+
+<div class="col-lg-12">
 <label for="nadm" class="form-label">Escriba el nombre</label>  
 <input class="form-control" autocomplete="off" id="nadm" name="nadm" placeholder="">
-</form></div></div></div></div>
+</div>
+
+<br>
+
+<div class="col-lg-12">
+<label for="dadm" class="form-label">Escriba la dirección</label>  
+<input class="form-control" autocomplete="off" id="dadm" name="dadm" placeholder="">
+</div>
+
+</form></div></div>
+
+
+</div>
 
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" style="background-color:green;" onclick="agradm(document.getElementById('nadm').value)">Agregar</button>
-<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#nadm')">Cancelar</button>
+<button type="button" class="btn btn-success" style="background-color:green;" onclick="agradm(document.getElementById('nadm').value,document.getElementById('dadm').value)">Agregar</button>
+<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal(['#nadm','#dadm'])">Cancelar</button>
 </div></div></div></div>
 <!---------------FIN MODAL AGREGAR ADMINISTRACION------------------->
 
@@ -61,8 +74,13 @@ foreach ($agradms as $agradms1): ?>
 <div class="row g-3" >
 
 <div class="col-fluid col-lg-12">
-<label for="rncedtclt" class="form-label">Nuevo nombre</label>
-<input type="text" class="form-control" id="admedtname" name="admedtname" autocomplete="off" maxlength="11">
+<label for="admedtname" class="form-label">Nuevo nombre</label>
+<input type="text" class="form-control" id="admedtname" name="admedtname" autocomplete="off" maxlength="50">
+</div>
+
+<div class="col-fluid col-lg-12">
+<label for="admedtdirecc" class="form-label">Nueva direccion</label>
+<input type="text" class="form-control" id="admedtdirecc" name="admedtdirecc" autocomplete="off" maxlength="100">
 </div>
 
 </div></form></div>
@@ -72,7 +90,7 @@ foreach ($agradms as $agradms1): ?>
 
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 <div class="modal-footer justify-content-center">
-<button type="button" id="btnedtadm" class="btn btn-success" style="background-color:green; display:none" onclick="edtadm(document.getElementById('admedt1').value, document.getElementById('admedt').value, document.getElementById('admedtname').value)">Editar administracion</button>
+<button type="button" id="btnedtadm" class="btn btn-success" style="background-color:green; display:none" onclick="edtadm(document.getElementById('admedt1').value, document.getElementById('admedt').value, document.getElementById('admedtname').value, document.getElementById('admedtdirecc').value)">Editar administracion</button>
 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#admedt1',['#formedtadm1','#Datalistagradm'],['#formedtclt11','#formedtadm'])">Cancelar</button>
 </div></div></div></div>
 <!---------------FIN MODAL EDITAR CLIENTES------------------->
