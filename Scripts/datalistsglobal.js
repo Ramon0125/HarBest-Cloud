@@ -1,5 +1,5 @@
 
-function updatedatalists(tipo,datalists) {
+async function updatedatalists(tipo,datalists) {
 
     $(datalists).each(function(index, datalist) {$(datalist).empty();});
 

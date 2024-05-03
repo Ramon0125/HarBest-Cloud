@@ -54,7 +54,7 @@ function tablesresult(str,data){
           }));
       
           $('#tabla tbody').on('click', '.btnenviar', function() 
-          {let NOTIF = $(this).closest('tr').find('td:eq(1)').text();
+          {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
           sendmail(NOTIF); });
         break;
     }
@@ -84,22 +84,3 @@ eventlisten('#Cartanotif','change',function (){
   $('#fiicon').addClass('bi-x-circle');
 
   });
-
-
-function sendmail(nop){
-if (validarparams(nop)) {
-  $.ajax({
-    type: "POST",
-    url: "../Managers/ManagerEmails.php",
-    data: {FUNC: 'NOTIF.',ENTITY: nop},
-    dataType: "JSON",
-    beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
-    complete: function () { load(2); }, //Ocultar pantalla de carga
-    success: function (res) { 
-    console.log(res); 
-    if(res.success){tablasejec('email_notif')}},
-    error: function(error){res(error,txt.W,2000);}
-  });
-}
-else {res(txt.EELS,txt.W,2000)}
-}

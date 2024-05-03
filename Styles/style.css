@@ -342,7 +342,7 @@ option:hover,  .active{
   color: var(--textligthcolor);
 }
 
-#browseradmclt,#browseradmedtclt,#dtlcltargnot {
+#browseradmclt,#browseradmedtclt,#dtlcltargnot,#dtlcltedtnot {
   width: 42.5% !important;
   min-width: 40.5% !important;
 }
@@ -479,4 +479,9 @@ div .form-control.cartadiv{
   width: auto;
   cursor: pointer;
   position: absolute;
+}
+
+.labeledtmdf{
+  justify-content: center;
+  display: flex;
 }

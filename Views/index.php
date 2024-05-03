@@ -1,9 +1,11 @@
 <?php require '../Controllers/Conexion.php'; ?>
 <!DOCTYPE html>
+<html lang="es">
 <head>
 
 <!--- Meta -------------->
 <meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta charset="UTF-8">
 <meta name="author" content="RAMON E. LEBRON">
 <title><?php echo APP_NAME ?></title>
@@ -409,7 +411,7 @@ else {  ?>
 
 <!---------------------MODALES------- ------------------->
 <!-----------------------------------------------------MODAL NOTIF. INCONSIS---------------------------------------------->
-<?php include_once './ModalesEjec/Magrnotif.php'; ?>
+<?php include_once './ModalesEjec/Mnotif.php'; ?>
 <!---------------------------------------------------FIN MODAL NOTIF. INCONSIS---------------------------------------------->
 <!---------------------FIN MODALES------- ------------------->
 

@@ -38,7 +38,7 @@ const tabledata = {
   "language": { "emptyTable":     "No hay datos disponibles en la tabla",
   "info":           "&nbsp; Mostrando _END_ de _TOTAL_ registros",
   "infoEmpty":      "&nbsp; No hay coincidencias",
-  "infoFiltered":   "(filtradon de _MAX_ registros totales)",
+  "infoFiltered":   "(filtrado de _MAX_ registros totales)",
   "infoPostFix":    "",
   "thousands":      ",",
   "lengthMenu":     "&nbsp; Mostrar _MENU_ registros",
@@ -47,7 +47,7 @@ const tabledata = {
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron registros",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
-  "lengthMenu": [10,20,40,50,100]
+  "lengthMenu": [20,40,50,100]
   };
 
   
@@ -99,7 +99,10 @@ ENE: 'Esta Notificacion Existe',
 NIC: 'Notificacion Insertada correctamente',
 EIN: 'Error al insertar notificaion',
 EEC: 'Email enviado correctamente',
-EECE: 'Error al enviar email'
+EECE: 'Error al enviar email',
+NMC: 'Notificacion modificada correctamente',
+NEC: 'Notificacion eliminada correctamente',
+EEN: 'Error al eliminar la notificacion'
 };
 
 

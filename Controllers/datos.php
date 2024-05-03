@@ -35,16 +35,29 @@ function CLT(): array {
     $ejecucion111->execute();
     $clt = $ejecucion111->fetchAll(PDO::FETCH_ASSOC);
     return $clt ? $clt : [];
-    
+    }
+
+    function NTF(): array{
+    global $conexion;
+    $sql1 = "SELECT * FROM ALL_NOTIF";
+    $ejecucion1111 = $conexion->prepare($sql1);
+    $ejecucion1111->execute();
+    $not = $ejecucion1111->fetchAll(PDO::FETCH_ASSOC);
+    return $not ? $not : [];
     }
 
 if(isset($_POST['tipo']))
-{ switch($_POST['tipo'])
-{
-    case 1: echo json_encode(Users()); break;
-    case 2: echo json_encode(CLT()); break;
-    case 3: echo json_encode(ADM()); break;
-}
+{ 
+    
+    switch($_POST['tipo'])
+    {
+        case 1: $func = Users(); break;
+        case 2: $func = CLT(); break;
+        case 3: $func = ADM(); break;
+        case 4: $func = NTF(); break;
+    }
+
+    echo json_encode($func);
 }
 }
 
