@@ -1,6 +1,7 @@
 <?php
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+
+if (strpos($_SERVER['REQUEST_URI'], 'notifinconsis.php') === false) { 
 
 class EmailSender extends ConexionDB{
 
@@ -33,10 +34,9 @@ class EmailSender extends ConexionDB{
     $exec->execute();
 
     if ($exec->rowCount() > 0) {
-    $res = $exec->fetchAll(PDO::FETCH_ASSOC);
+    $value = $exec->fetch(PDO::FETCH_ASSOC);
     $exec->closeCursor();
 
-    foreach ($res as $value) {
     $modelo = file_get_contents("../Data/modelos/notifinconsis.html");
     $modelo = str_replace("[Nombre del Cliente]", $value["NOCLT"], $modelo);
     $modelo = str_replace("[Número de Notificación]", $value["NONOTIF"], $modelo);
@@ -48,8 +48,15 @@ class EmailSender extends ConexionDB{
     $this->mail->addAddress($value["EMCLT"], $value["NOCLT"]);
     $this->mail->Subject = mb_convert_encoding('Notificación de Impuestos Internos - Acción Requerida', "UTF-8", "auto");
     $this->mail->Body = $modelo;
-    $archivo_adjunto = '../Data/logo.ico'; // Ruta al archivo que deseas adjuntar
-    $this->mail->addAttachment($archivo_adjunto);
+    
+    $mime = explode('/',$value["MIME"]);
+
+    $filename = 'Carta de notificación de inconsistencia.'.$mime[1];
+
+    $archivo_temporal = tempnam(sys_get_temp_dir(), 'Carta_de_notificación_de_inconsistencia');
+    file_put_contents($archivo_temporal, base64_decode($value["CARTA"]));
+        
+    $this->mail->addAttachment($archivo_temporal,$filename);
 
     if ($this->mail->send()) {
     $RES = "UPDATE EMAILS_NOTIF SET ESTATUS = 'T' WHERE ID_NOTIF = ?";
@@ -58,12 +65,11 @@ class EmailSender extends ConexionDB{
     $RES1->execute();
     $this->res['success'] = true;
     $this->res['message'] = 'EEC';
-    } 
+    }
     
     else { 
     $this->res['success'] = false;
     $this->res['message'] = 'EECE';
-    }
     }
 
     } 
@@ -73,5 +79,8 @@ class EmailSender extends ConexionDB{
     return $this->res;
     }
 
-    }
+    }}
+
+    else 
+    {header('LOCATION: ./404');}
 ?>

@@ -39,26 +39,24 @@ switch ($_GET['Error'])
 	break;
 
     case '002': echo '002</h1>';
-    echo '<h2>Hay un problema en nuestro sistema.</h2>';
-    echo '<p>Nuestros ingenieros estelares están trabajando arduamente para resolver este problema intergaláctico. Por favor, inténtalo de nuevo más tarde.';
+    echo '<h2>¡Oops! Parece que hay un problema en nuestro sistema.</h2>';
+    echo '<p>Nuestros equipo ya fue informado sobre este problema. Por favor, inténtalo de nuevo más tarde.';
     echo ' <a href="'.APP_URL.'?hcerrar1">Volver a inicio</a></p>';
     break;
 
     default: echo '404</h1>';
-    echo '<h2>¡Oops! Parece que te has perdido en el ciberespacio.</h2>';
-	echo '<p>La página que estás buscando no se encuentra en nuestra galaxia digital.
-    Puede que se haya desplazado a una dimensión desconocida o simplemente haya sido absorbida por un agujero negro digital. 
-    <a href="'.APP_URL.'">Volver a inicio</a></p>';
+    echo '<h2>¡Oops! Parece que te has perdido en nuestro sistema.</h2>';
+	echo '<p>La página que estás buscando no se encuentra o no tienes permiso para acceder a ella.</p>
+    <p><a href="'.APP_URL.'">Volver a inicio</a></p>';
     break;	
 }}
 
 else 
 {
     echo '404</h1>';
-    echo '<h2>¡Oops! Parece que te has perdido en el ciberespacio.</h2>';
-	echo '<p>La página que estás buscando no se encuentra en nuestra galaxia digital.
-    Puede que se haya desplazado a una dimensión desconocida o simplemente haya sido absorbida por un agujero negro digital. 
-    <a href="'.APP_URL.'">Volver a inicio</a></p>';
+    echo '<h2>¡Oops! Parece que te has perdido en nuestro sistema.</h2>';
+	echo '<p>La página que estás buscando no se encuentra o no tienes permiso para acceder a ella.</p>
+    <p><a href="'.APP_URL.'">Volver a inicio</a></p>';
 }
 
 ?>

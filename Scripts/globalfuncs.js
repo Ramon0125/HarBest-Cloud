@@ -47,7 +47,7 @@ const tabledata = {
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron registros",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
-  "lengthMenu": [20,40,50,100]
+  "lengthMenu": [10,40,50,100]
   };
 
   

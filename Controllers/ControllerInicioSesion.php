@@ -6,7 +6,7 @@ class ControllerInicioSesion extends ConexionDB
 {
     private $response = array();
     private $exec;
-
+ 
    public function __construct()
    {
     parent::__construct();

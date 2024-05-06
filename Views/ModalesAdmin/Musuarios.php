@@ -62,7 +62,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
 
 <div class="col-fluid col-lg-12">
 <form id="formedtusr">
-<label for="slcuser" class="form-label">Buscar el Usuario</label>  
+<label for="slcuser" class="form-label labeledtmdf">Buscar el Usuario</label>  
 <input class="form-control" autocomplete="off" role="combobox" list="" id="slcuser" name="slcuser" placeholder="">
 <input type="hidden" id="slcuser1" name="slcuser1">
 
@@ -125,7 +125,7 @@ foreach ($usuarios as $user){ ?>
 
 <div class="col-fluid col-lg-12">
 <form id="formdltusr">
-<label for="slcdltuser" class="form-label">Buscar el Usuario</label>  
+<label for="slcdltuser" class="form-label labeledtmdf">Buscar el Usuario</label>  
 <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltuser" name="slcdltuser" placeholder="">
 <input type="hidden" id="slcdltuser1" name="slcdltuser1">
 

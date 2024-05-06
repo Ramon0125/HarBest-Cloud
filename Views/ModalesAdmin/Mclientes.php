@@ -69,7 +69,7 @@ foreach ($adms as $adm): ?>
 
 <div class="col-fluid col-lg-12">
 <form id="formedtclt">
-<label for="slcclt" class="form-label">Buscar el Cliente</label>  
+<label for="slcclt" class="form-label labeledtmdf">Buscar el Cliente</label>  
 <input class="form-control" autocomplete="off" role="combobox" list="" id="slcclt" name="slcclt" placeholder="">
 <input type="hidden" id="slcclt1" name="slcclt1">
 
@@ -141,7 +141,7 @@ foreach ($adms1 as $adm1): ?>
 
 <div class="col-fluid col-lg-12">
 <form id="formdltclt">
-<label for="slcdltclt" class="form-label">Buscar el Cliente</label>  
+<label for="slcdltclt" class="form-label labeledtmdf">Buscar el Cliente</label>  
 <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltclt" name="slcdltclt" placeholder="">
 <input type="hidden" id="slcdltclt1" name="slcdltclt1">
 

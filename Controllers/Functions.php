@@ -3,7 +3,7 @@
 if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) { 
 
   function validarCarta($string) : bool 
-  {$permitidos = ['pdf', 'jpg', 'png', 'docx'];
+  {$permitidos = ['pdf', 'jpg', 'png','docx'];
   return in_array(strtolower($string), $permitidos);
   }///FUNCION QUE VERIFICA EL TIPO DE ARCHIVO
 

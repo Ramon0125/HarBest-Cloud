@@ -39,6 +39,7 @@ function tablesresult(str,data){
           $('#tabla thead tr').append('<th></th>');
       
           $('#tabla').DataTable($.extend(true, {}, tabledata, {
+            "order": [],
               "columnDefs": [{
                   "targets": -1,
                   "orderable": false,

@@ -54,7 +54,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Madm.php') === false) { ?>
 
 <div class="col-fluid col-lg-12">
 <form id="formedtadm">
-<label for="admedt" class="form-label">Administracion</label>  
+<label for="admedt" class="form-label labeledtmdf">Administracion</label>  
 <input class="form-control" autocomplete="off" role="combobox" list="" id="admedt" name="admedt">
 <input type="hidden" id="admedt1" name="admedt1">
 
