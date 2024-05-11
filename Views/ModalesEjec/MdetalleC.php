@@ -20,7 +20,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
     <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfddc" name="slcntfddc" placeholder="">
     <input type="hidden" id="slcntfddc1" name="slcntfddc1">
     <datalist id="dtlagrddc" role="listbox">
-    <?php $ddc = DDC(); // Obtener clientes
+    <?php $ddc = Datos(5); // Obtener clientes
     if ($ddc !== false && count($ddc) > 0) {
     foreach ($ddc as $ddcs){ ?>
     <option value="<?php echo $ddcs["IDNotificacion"]; ?>"><?php echo $ddcs["NONotificacion"]; ?></option>

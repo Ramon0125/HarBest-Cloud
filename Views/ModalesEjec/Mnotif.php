@@ -29,7 +29,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
     <input class="form-control" autocomplete="off" role="combobox" list="" id="cltagrnot" name="cltagrnot" placeholder="">
     <input type="hidden" id="cltagrnot1" name="cltagrnot1">
     <datalist id="dtlcltargnot" role="listbox">
-    <?php $cliente = CLT(); // Obtener clientes
+    <?php $cliente = Datos(2); // Obtener clientes
     if ($cliente !== false && count($cliente) > 0) {
     foreach ($cliente as $clientes){ ?>
     <option value="<?php echo $clientes["ID_CLIENTE"]; ?>"><?php echo $clientes["NOMBRE_CLIENTE"]; ?></option>
@@ -106,7 +106,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
   <input class="form-control" autocomplete="off" role="combobox" list="" id="slcnotif" name="slcnotif" placeholder="">
   <input type="hidden" id="slcnotif1" name="slcnotif1">
   <datalist id="dtledtnot" role="listbox">
-  <?php $notif = NTF(); // Obtener clientes
+  <?php $notif = Datos(4); // Obtener clientes
   if ($notif !== false && count($notif) > 0) {
   foreach ($notif as $notifs){ ?>
   <option value="<?php echo $notifs["IDNotificacion"]; ?>"><?php echo $notifs["NONotificacion"]; ?></option>
@@ -126,7 +126,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
     <input class="form-control" autocomplete="off" role="combobox" list="" id="cltedtnot" name="cltedtnot" placeholder="">
     <input type="hidden" id="cltedtnot1" name="cltedtnot1">
     <datalist id="dtlcltedtnot" role="listbox">
-    <?php $cliente = CLT(); // Obtener clientes
+    <?php $cliente = Datos(2); // Obtener clientes
     if ($cliente !== false && count($cliente) > 0) {
     foreach ($cliente as $clientes){ ?>
     <option value="<?php echo $clientes["ID_CLIENTE"]; ?>"><?php echo $clientes["NOMBRE_CLIENTE"]; ?></option>
@@ -199,7 +199,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
   <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltnotif" name="slcdltnotif" placeholder="">
   <input type="hidden" id="slcdltnotif1" name="slcdltnotif1">
   <datalist id="dtldltnot" role="listbox">
-  <?php $notif = NTF();
+  <?php $notif = Datos(4);
   if ($notif !== false && count($notif) > 0) {
   foreach ($notif as $notifs){ ?>
   <option value="<?php echo $notifs["IDNotificacion"]; ?>"><?php echo $notifs["NONotificacion"]; ?></option>

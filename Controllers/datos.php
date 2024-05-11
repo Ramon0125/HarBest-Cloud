@@ -3,73 +3,31 @@
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' || strpos($_SERVER['REQUEST_URI'], 'datos.php') === false) {
 
 if (!class_exists('ConexionDB')) { require __DIR__.'/Conexion.php'; }
+if (!function_exists('Validarcadena1')) { require __DIR__.'/Functions.php'; }
 
-
+function Datos(int $op): array 
+{
 $conexionDB = new ConexionDB();
 $conexion = $conexionDB->obtenerConexion(); 
-    
-function Users(): array {
-    global $conexion;
-    $sql1 = "SELECT * FROM VW_USERS";
-    $ejecucion1 = $conexion->prepare($sql1);
-    $ejecucion1->execute();
-    $usr = $ejecucion1->fetchAll(PDO::FETCH_ASSOC);
-    return $usr ? $usr : [];
 
-    }
+$select = array(
+1 => "VW_USERS",
+2 => "VW_CLIENTES",
+3 => "ADM",
+4 => "ALL_NOTIF",
+5 => "ALL_DETALLE");
 
-function ADM(): array {
-    global $conexion; 
-    $sql1 = "SELECT * FROM ADM";
-    $ejecucion11 = $conexion->prepare($sql1);
-    $ejecucion11->execute();
-    $adm = $ejecucion11->fetchAll(PDO::FETCH_ASSOC);
-    return $adm ? $adm : [];
-
-    }
-
-function CLT(): array {
-    global $conexion;
-    $sql1 = "SELECT * FROM VW_CLIENTES";
-    $ejecucion111 = $conexion->prepare($sql1);
-    $ejecucion111->execute();
-    $clt = $ejecucion111->fetchAll(PDO::FETCH_ASSOC);
-    return $clt ? $clt : [];
-    }
-
-    function NTF(): array{
-    global $conexion;
-    $sql1 = "SELECT * FROM ALL_NOTIF";
-    $ejecucion1111 = $conexion->prepare($sql1);
-    $ejecucion1111->execute();
-    $not = $ejecucion1111->fetchAll(PDO::FETCH_ASSOC);
-    return $not ? $not : [];
-    }
-
-    function DDC(): array{
-        global $conexion;
-        $sql1 = "SELECT * FROM ALL_DETALLE";
-        $ejecucion1111 = $conexion->prepare($sql1);
-        $ejecucion1111->execute();
-        $ddc = $ejecucion1111->fetchAll(PDO::FETCH_ASSOC);
-        return $ddc ? $ddc : [];
-        }
-
-if(isset($_POST['tipo']))
-{ 
-    
-    switch($_POST['tipo'])
-    {
-        case 1: $func = Users(); break;
-        case 2: $func = CLT(); break;
-        case 3: $func = ADM(); break;
-        case 4: $func = NTF(); break;
-        case 5: $func = DDC(); break;
-
-    }
-
-    echo json_encode($func);
+$ejecucion = $conexion->prepare("SELECT * FROM ".$select[$op]);
+$ejecucion->execute();
+$rest = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+return $rest ? $rest : [];
 }
+
+
+if (isset($_POST['tipo'])){
+echo json_encode(Validarcadena1($_POST['tipo']) == true ? Datos($_POST['tipo']) : array('error' => true));
+}
+
 }
 
 else { header("LOCATION: ./404"); }
