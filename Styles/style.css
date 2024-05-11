@@ -485,3 +485,10 @@ div .form-control.cartadiv{
   justify-content: center;
   display: flex;
 }
+
+
+#detalles td {
+  vertical-align: middle;
+  text-align: left !important;
+white-space: normal;
+word-wrap: break-word;    }

@@ -85,3 +85,29 @@ eventlisten('#Cartanotif','change',function (){
   $('#fiicon').addClass('bi-x-circle');
 
   });
+
+  eventlisten('.fico1','click',function (){ 
+  
+    if ($('#fiiconddc').hasClass('bi-x-circle')) 
+    { 
+      $('#archivosddc').val('');
+      $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);
+      $('#fispanddc').text(' Buscar archivos');
+      $('#fiiconddc').removeClass('bi-x-circle');
+      $('#fiiconddc').addClass('bi-arrow-up-circle');
+    }
+  
+    else { $('#archivosddc').click(); } 
+    
+  });
+  
+  
+  eventlisten('#archivosddc','change',function (){
+
+    $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);    $('#fispanddc').text(' Quitar archivos' );
+    $('#fiiconddc').removeClass('bi-arrow-up-circle');
+    $('#fiiconddc').addClass('bi-x-circle');
+  
+
+    });
+  

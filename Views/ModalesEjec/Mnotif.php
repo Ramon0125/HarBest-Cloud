@@ -1,8 +1,8 @@
 <?php 
 
-if (strpos($_SERVER['REQUEST_URI'], 'Magrnotif.php') === false) { ?>
+if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 <!---- MODAL AGREGAR NOTIFICACION --------->
-<div class="modal fade ifa" id="agrnot" data-bs-backdrop="static" aria-hidden="true">
+<div class="modal fade" id="agrnot" data-bs-backdrop="static" aria-hidden="true">
 <div class="modal-dialog modal-dialog-scrollable"><div class="modal-content">
 <div class="modal-body">
 <div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">

@@ -5,10 +5,13 @@ async function updatedatalists(tipo,datalists) {
 
     $.ajax({
         type: 'POST',
-        url: '../Controllers/datos.php',
+        url: '../Controllers/datoscopy.php',
         data: { tipo: tipo },
         dataType: 'json',
         success: function (data) {
+
+        if (!data.error)
+        {
 
         $(datalists).each(function(index, datalist) {
  
@@ -17,7 +20,12 @@ async function updatedatalists(tipo,datalists) {
     
         $('<option>', { value: valor[keys[0]], text: valor[keys[1]] }).appendTo(datalist);
             });
-        });},
+        });
+      
+        }
+        
+        else {responses(data);}
+      },
         error: function () {res(txt.EELS, "error", 2000);}
       });
 }

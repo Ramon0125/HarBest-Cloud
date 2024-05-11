@@ -13,6 +13,7 @@ if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) && CARTA)
     formData.append('CARTA', CARTA);
     formData.append('AINCUMPLI', AINCUMPLI);
     formData.append('COMENTS', COMENTS ? COMENTS : 'SIN COMENTARIOS');
+    formData.append('MIME',CARTA.type);
     formData.append('tipo','agrnotif');
 
     $.ajax({
@@ -178,3 +179,4 @@ function sendmail(nop){
   }
   else {res(txt.EELS,txt.W,2000)}
   }
+

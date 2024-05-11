@@ -26,17 +26,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
       return true;
   }
 
-  function obtenertipo($archivoTemp) {
-
-    $finfo = finfo_open(FILEINFO_MIME_TYPE);
-    $mimeType = finfo_file($finfo, $archivoTemp);
-
-    finfo_close($finfo);
-
-    return $mimeType;
-  }
-
-
   function EMAILS(string $IDN){
     $CONDB1 = NEW ConexionDB();
     $CONDB = $CONDB1->obtenerConexion();

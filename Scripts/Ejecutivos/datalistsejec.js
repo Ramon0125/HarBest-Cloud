@@ -63,3 +63,20 @@ eventlisten('#slcdltnotif','input', function()
 eventlisten('#slcdltnotif','blur', function() 
 {datalistblur('#slcdltnotif','#slcdltnotif1','#btndltnotif','#dtldltnot');});
 /* FIN DATALIST FROM DLTUSER */
+
+
+/* DATALIST FROM EDTCLTADM */
+eventlisten('#dtlagrddc','click', function(event)
+{datalistclick2(event,'#slcntfddc','#slcntfddc1','#dtlagrddc');});
+
+
+// Evento 'oninput' para filtrar opciones según la entrada del usuario en 'admclt'
+eventlisten('#slcntfddc','input',function () 
+{datalistinput('#slcntfddc','#slcntfddc1',null,'#dtlagrddc');});
+
+    
+// Evento 'onblur' para realizar acciones cuando 'admclt' pierde el foco
+eventlisten('#slcntfddc','blur',function () 
+{datalistblur2('#slcntfddc','#slcntfddc1','#dtlagrddc');});
+    
+/////////FIN DATALIST ADM EDITAR CLIENTE//////////////////////////////////////////////

@@ -163,13 +163,9 @@ if(GetInfo('ID_USUARIO') > 0){
   <ul id="detcit" class="nav-content collapse " data-bs-parent="#sidebar-nav">
   
   <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
+  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrddc">
   <i class="bi-plus-square"></i>Adicionar</a></li>
 
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-  <i class="bi bi-pencil-square"></i>Modificar</a></li>
-  
   <li class="dropdown-item">
   <hr class="divioer">
   <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
@@ -413,11 +409,18 @@ else {  ?>
 <!-----------------------------------------------------MODAL NOTIF. INCONSIS---------------------------------------------->
 <?php include_once './ModalesEjec/Mnotif.php'; ?>
 <!---------------------------------------------------FIN MODAL NOTIF. INCONSIS---------------------------------------------->
+
+<!-----------------------------------------------------MODAL DETALLE CITACION---------------------------------------------->
+<?php include_once './ModalesEjec/MdetalleC.php'; ?>
+<!---------------------------------------------------FIN MODAL DETALLE CITACION---------------------------------------------->
+
+
 <!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 
-<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/NotifInconsis.js" type="text/javascript"></script> 
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/detallecitacion.js" type="text/javascript"></script> 
 <?php } ?> </body></html> <?php
 
 if (isset($_GET['Notificacion']))
@@ -438,4 +441,3 @@ else
   $html = file_get_contents($url);
   echo $html; 
 } 
-

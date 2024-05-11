@@ -40,7 +40,7 @@ if (validarparams(id,token) && validarint(id))
     document.querySelector('#edtusremail').value = data.EMAIL;
     document.querySelector('#edtusrname').value = data.NOMBRE;
     document.querySelector('#edtusrlastname').value = data.APELLIDOS;
-    document.querySelector('#edtpassword').value = data.CLAVE;
+    document.querySelector('#edtpassword').value = '********';
     modifystyle(['#formedt','#btnedtusr'],'display','block');
     }                    
     else {responses(data);}}, // Mostrar mensaje de error

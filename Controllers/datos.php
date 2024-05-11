@@ -46,6 +46,15 @@ function CLT(): array {
     return $not ? $not : [];
     }
 
+    function DDC(): array{
+        global $conexion;
+        $sql1 = "SELECT * FROM ALL_DETALLE";
+        $ejecucion1111 = $conexion->prepare($sql1);
+        $ejecucion1111->execute();
+        $ddc = $ejecucion1111->fetchAll(PDO::FETCH_ASSOC);
+        return $ddc ? $ddc : [];
+        }
+
 if(isset($_POST['tipo']))
 { 
     
@@ -55,6 +64,8 @@ if(isset($_POST['tipo']))
         case 2: $func = CLT(); break;
         case 3: $func = ADM(); break;
         case 4: $func = NTF(); break;
+        case 5: $func = DDC(); break;
+
     }
 
     echo json_encode($func);

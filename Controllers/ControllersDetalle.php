@@ -1,7 +1,7 @@
 <?php
-if (strpos($_SERVER['REQUEST_URI'], 'ControllersUser.php') === false) {
+if (strpos($_SERVER['REQUEST_URI'], 'ControllersDetalle.php') === false) {
 
-class ControllerUser extends ConexionDB
+class ControllerDettalles extends ConexionDB
 {
   private $response = array();
   private $OC;
@@ -14,35 +14,46 @@ class ControllerUser extends ConexionDB
   }
 
 
-  public function InsertUser(string $Email, string $Nombres, string $Apellidos): array
+  public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, string $INPERIO, string $INVALOR, STRING $INFECHA, ARRAY $INDETALL): array
   { 
 
-  try { $id = uniqid();
-      $sql = "CALL SP_INSERTAR_USUARIOS (?,?,?,'EJECUTIVO',?)";
+  try{
+
+    $detallesArchivos = array_map(function($tmp_name, $type) {
+      return array(
+          'archivo' => base64_encode(file_get_contents($tmp_name)),
+          'mime' => $type
+      );},$INDETALL['tmp_name'], $INDETALL['type']);
+    
+      $values = json_encode($detallesArchivos);
+
+      $sql = "CALL SP_INSERTAR_DETALLE (?,?,?,?,?,?,?)";
       $ejecucion = $this->OC->prepare($sql);
-      $ejecucion->bindParam(1,$Email,PDO::PARAM_STR);
-      $ejecucion->bindParam(2,$Nombres,PDO::PARAM_STR);
-      $ejecucion->bindParam(3,$Apellidos,PDO::PARAM_STR);
-      $ejecucion->bindParam(4,$id,PDO::PARAM_STR);
+      $ejecucion->bindParam(1,$INIDNOT,PDO::PARAM_INT);
+      $ejecucion->bindParam(2,$INNOCAS,PDO::PARAM_INT);
+      $ejecucion->bindParam(3,$ININCON,PDO::PARAM_STR);
+      $ejecucion->bindParam(4,$INPERIO,PDO::PARAM_STR);
+      $ejecucion->bindParam(5,$INVALOR,PDO::PARAM_STR);
+      $ejecucion->bindParam(6,$INFECHA,PDO::PARAM_STR);
+      $ejecucion->bindValue(7,$values,PDO::PARAM_LOB);
       $ejecucion->execute();
 
       if ($ejecucion->rowCount() > 0) 
       {
         $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
         
-        if($resultado['MENSAJE'] === 'UIC') {$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN USUARIO');} 
+        if($resultado['MENSAJE'] === 'DIC') {$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN DETALLE DE CITACION');} 
         else { $this->response['success'] = false; SUMBLOCKUSER();}
 
         $this->response['message'] = $resultado['MENSAJE'];         
       }
-      else { $this->response['error'] = true; SUMBLOCKUSER();}
+      else { $this->response['error1'] = true; SUMBLOCKUSER();}
 
-    }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($sql,$ejecucion,$resultado,$id);}
-
+    }catch(Exception $E) { $this->response['error1'] = $E; SUMBLOCKUSER();}
+    
     return $this->response;
 }
-
+/* 
 
 public function VerDatos($id, $token): array
 {
@@ -145,35 +156,7 @@ public function DeleteUser(int $id, string $name): array
 
     return $this->response;
 }
-
-
-public function DesblockUser(int $id): array
-{
-    try {
-      $sql = "CALL DESBLOQUEAR_USER(?)";
-      $ejecucion = $this->OC->prepare($sql);
-      $ejecucion->bindParam(1,$id,PDO::PARAM_STR);
-      $ejecucion->execute();
-
-      if ($ejecucion->rowCount() > 0) 
-      {
-        $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
-        $ejecucion->closeCursor();
-
-        if($resultado['MENSAJE'] === 'UDC'){ $this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'DESBLOQUEO UN USUARIO');}
-        else {$this->response['success'] = false; SUMBLOCKUSER();}
-
-        $this->response['message'] = $resultado['MENSAJE'];}
-
-
-        else { $this->response['error'] = true; SUMBLOCKUSER();}
-      }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($sql,$ejecucion,$resultado);}
-
-    return $this->response;
-}
-
-}
+ */}
 
 }
 

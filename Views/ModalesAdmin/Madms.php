@@ -1,6 +1,6 @@
 <?php
 
-if (strpos($_SERVER['REQUEST_URI'], 'Madm.php') === false) { ?>
+if (strpos($_SERVER['REQUEST_URI'], 'Madms.php') === false) { ?>
 
 <!-----------------MODAL AGREGAR ADMINISTRACION--------------------->
 <div class="modal modaladmin fade" id="agradm" data-bs-backdrop="static" aria-hidden="true">
