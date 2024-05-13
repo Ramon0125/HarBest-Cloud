@@ -47,9 +47,9 @@ class ControllerDettalles extends ConexionDB
 
         $this->response['message'] = $resultado['MENSAJE'];         
       }
-      else { $this->response['error1'] = true; SUMBLOCKUSER();}
+      else { $this->response['error'] = true; SUMBLOCKUSER();}
 
-    }catch(Exception $E) { $this->response['error1'] = $E; SUMBLOCKUSER();}
+    }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
     
     return $this->response;
 }

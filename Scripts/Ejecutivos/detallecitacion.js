@@ -93,16 +93,11 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL)
       formData.append('INNOCAS', INNOCAS);
       formData.append('INFECHA', INFECHA);
       formData.append('tipo', 'addddc');
+      formData.append('INDETALL[]', INDETALL);
+      formData.append('INCON[]', incon);
+      formData.append('PERIODO[]', periodo);
+      formData.append('VALOR[]', valor);
 
-      for (let i = 0; i < INDETALL.length; i++) {
-          formData.append('INDETALL[]', INDETALL[i]);
-      }
-
-      for (let j = 0; j < incon.length; j++) {
-          formData.append('INCON[]', incon[j]);
-          formData.append('PERIODO[]', periodo[j]);
-          formData.append('VALOR[]', valor[j]);
-      }
 
 
       $.ajax({

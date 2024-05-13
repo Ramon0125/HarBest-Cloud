@@ -20,7 +20,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
           } 
           
           else { // Si el valor no es un array, aplicamos la validación normalmente
-              if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚÑñ#()@._\/\s\-]+$/", $string)) { return false; }
+              if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚÑñ#()[\]\@._\/\s\-]+$/", $string)) { return false; }
           }
       }
       return true;

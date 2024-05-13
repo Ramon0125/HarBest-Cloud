@@ -1,44 +1,27 @@
 <?php 
 
-if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' && isset($_GET['tabla'])) {
+if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
+{
+require './Functions.php';
+
+if(isset($_GET['tabla']) && Validarcadena1($_GET['tabla'])){
 
 require './Conexion.php';
 
 $conexion = New ConexionDB();
 $Ejec = $conexion->obtenerConexion();
 
-switch ($_GET['tabla']) 
-{
-case 'usrs':
-$Query = 'SELECT * FROM ALL_USER';
-break;
+$tabla = array(
+'usrs' => 'ALL_USER',
+'clts' => 'ALL_CLTS',
+'adms' => 'ADM',
+'usrblocks' => 'ALL_USRBLOCK',
+'auditoria' => 'VW_AUDITORIA',
+'notif' => 'VW_VER_NOTIFICACIONES',
+'email_notif' => 'READ_EMAIL_NOTIF'
+);
 
-case 'clts':
-$Query = 'SELECT * FROM ALL_CLTS';
-break;
-
-case 'adms':
-$Query = 'SELECT * FROM ADM';
-break;
-
-case 'usrblocks':
-$Query = 'SELECT * FROM ALL_USRBLOCK';
-break;
-
-case 'auditoria':
-$Query = 'SELECT * FROM VW_AUDITORIA';
-break;
-
-case 'notif':
-$Query = 'CALL SP_VER_NOTIFICACIONES()';
-break;
-
-case 'email_notif':
-$Query = "SELECT * FROM READ_EMAIL_NOTIF";
-break;
-}
-
-$STR = $Ejec->prepare($Query);
+$STR = $Ejec->prepare('SELECT * FROM '.$tabla[$_GET['tabla']]);
 $STR->execute();
 $DATOS = array();
 ?>
@@ -53,6 +36,11 @@ foreach($DATOS[0] as $column_name => $value) { ?><th scope="col"><?php echo $col
 <tr><?php foreach ($REG as $column_value) 
 { ?><td><?php echo $column_value."</td>"; } ?></tr><?php }} ?>                         
 </tbody>
-<?php }
+<?php 
+}
+else {
+header('Content-Type: application/json');  
+echo json_encode(array('error' => true));}
+}
 
 else { header("LOCATION: ./404"); }

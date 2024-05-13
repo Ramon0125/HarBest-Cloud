@@ -10,8 +10,8 @@ function tablasejec(str)
     data: {tabla: str},//Datos que seran enviados
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
-    success: function (data) 
-    {tablesresult(str,data)},
+    success: function (data) {
+    data.error == true ? responses(data) : tablesresult(str,data);},
     error: function () {res(txt.EELS, "error", 2000);}});   
 }
 

@@ -148,6 +148,26 @@ FOREIGN KEY (ID_NOTIF) REFERENCES NOTIF_INCONSISTENCIA(IDNotificacion)
 ON DELETE CASCADE;
 
 
+CREATE VIEW VW_VER_NOTIFICACIONES
+AS
+    SELECT 
+		N.IDNotificacion AS 'ID',
+        CONCAT(U.NOMBRES,' ',U.APELLIDOS) AS 'ENCARGADO',
+        C.NOMBRE_CLIENTE AS 'CLIENTE',
+        date_format(N.FECHANotif, '%d/%m/%Y') AS 'FECHA',
+        N.NONotificacion AS 'NOTIFICACION',
+        N.TIPONotif AS 'TIPO',
+        N.MOTIVONotif AS 'MOTIVO',
+        N.Aincumplimiento AS 'AÑO',
+        date_format(N.FECHAVenci, '%d/%m/%Y') AS 'VENCIMIENTO',
+        N.Comentario AS 'COMENTARIO'
+    FROM 
+        NOTIF_INCONSISTENCIA AS N 
+        JOIN USUARIOS AS U ON N.IDEncargado = U.ID_USUARIO
+        JOIN CLIENTES AS C ON C.ID_CLIENTE = N.IDCliente 
+ORDER BY N.FECHAVenci DESC;
+
+
 CREATE VIEW ALL_NOTIF AS
 select IDNotificacion,NONotificacion from notif_inconsistencia as n 
 left join EMAILS_NOTIF as e on n.IDNotificacion = e.ID_NOTIF
@@ -475,27 +495,6 @@ SELECT 'UDC' AS MENSAJE;
 
 ELSE SELECT 'EDU' AS MENSAJE;
 END IF;
-END $$
-
-
-CREATE PROCEDURE SP_VER_NOTIFICACIONES()
-BEGIN
-    SELECT 
-		N.IDNotificacion AS 'ID',
-        CONCAT(U.NOMBRES,' ',U.APELLIDOS) AS 'ENCARGADO',
-        C.NOMBRE_CLIENTE AS 'CLIENTE',
-        date_format(N.FECHANotif, '%d/%m/%Y') AS 'FECHA',
-        N.NONotificacion AS 'NOTIFICACION',
-        N.TIPONotif AS 'TIPO',
-        N.MOTIVONotif AS 'MOTIVO',
-        N.Aincumplimiento AS 'AÑO',
-        date_format(N.FECHAVenci, '%d/%m/%Y') AS 'VENCIMIENTO',
-        N.Comentario AS 'COMENTARIO'
-    FROM 
-        NOTIF_INCONSISTENCIA AS N 
-        JOIN USUARIOS AS U ON N.IDEncargado = U.ID_USUARIO
-        JOIN CLIENTES AS C ON C.ID_CLIENTE = N.IDCliente 
-    ORDER BY N.FECHAVenci DESC;
 END $$
 
 

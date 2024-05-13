@@ -22,8 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
         {
           if(validarCarta(pathinfo($_FILES['CARTA']['name'], PATHINFO_EXTENSION)))
           {
-          $archivoTemp = $_FILES['CARTA']["tmp_name"];
-          $CARTA = base64_encode(file_get_contents($archivoTemp));
+          $CARTA = base64_encode(file_get_contents($_FILES['CARTA']["tmp_name"]));
           
           $response = $func->AGRNotif($_POST['IDCLT'], $_POST['NONOT'], $_POST['FECHANOT'], $_POST['TIPNOT'], $_POST['MOTIVNOT'], $CARTA, $_POST['AINCUMPLI'],$_POST['COMENTS'],$_POST['MIME']);
           }

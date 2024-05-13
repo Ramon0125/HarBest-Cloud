@@ -24,12 +24,13 @@ function tablas(str)
     type: 'GET',//Metodo en el que se enviaran los datos
     url: '../Controllers/Tables.php',//Direccion a la que se enviaran los datos
     data: {tabla: str},//Datos que seran enviados
+    dataType: 'json',
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
-    success: function (data) {tables(data,str);},
+    success: function (data) {
+    data.error == true ? responses(data) : tables(data,str);},
     error: function () {res(txt.EELS, "error", 2000);}});   
 }
-
 
 function tables(respuesta,str) 
 {
@@ -40,5 +41,3 @@ if (str === 'usrblocks') { datausrblocks(); }
 
 else { $('table').removeClass('tcu'); $('#tabla').DataTable(tabledata); }
 }
-
-
