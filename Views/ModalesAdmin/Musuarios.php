@@ -68,7 +68,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
 
 
 <datalist id="browser1" role="listbox">
-<?php $usuarios = Users(); // Obtener usuarios
+<?php $usuarios = Datos(1); // Obtener usuarios
 
 if ($usuarios !== false && count($usuarios) > 0) {
 foreach ($usuarios as $user){ ?>
@@ -130,7 +130,7 @@ foreach ($usuarios as $user){ ?>
 <input type="hidden" id="slcdltuser1" name="slcdltuser1">
 
 <datalist id="browserdltusr" role="listbox">
-<?php $usuarios1 = Users(); // Obtener usuarios
+<?php $usuarios1 = Datos(1); // Obtener usuarios
 
 if ($usuarios1 !== false && count($usuarios1) > 0) {
 foreach ($usuarios1 as $user1): ?>

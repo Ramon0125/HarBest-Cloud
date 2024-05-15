@@ -58,6 +58,44 @@ function tablesresult(str,data){
           {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
           sendmail(NOTIF); });
         break;
+
+      case 'detalles': 
+      $('#tabla thead tr').append('<th>Archivos</th>');
+
+      $('#tabla').DataTable($.extend(true, {}, tabledata, {"columnDefs": [
+      {"targets": -1, "data": null,
+      "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver Archivos</button>"
+      }]}));
+      
+      $('#tabla tbody').on('click', '.btnverddc', function() 
+      {let ID = $(this).closest('tr').find('td:eq(0)').text();
+      vddc(ID); });
+      break;
+
+
+      case 'email_ddc':
+        $('#tabla thead tr').append('<th></th>');
+    
+        $('#tabla').DataTable($.extend(true, {}, tabledata, {
+          "order": [],
+            "columnDefs": [{
+                "targets": -1,
+                "orderable": false,
+                "data": null,
+                "render": function (data, type, row) {
+                    if (row[6] != 'CORREO ENVIADO') {
+                        return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
+                    } else {
+                        return '<i class="bi bi-check2-circle" style="Dmargin-left: -10%;"></i>';
+                    }
+                }
+            }]
+        }));
+    
+        $('#tabla tbody').on('click', '.btnenviar', function() 
+        {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
+        sendmailddc(NOTIF); });
+      break;
     }
 }
 

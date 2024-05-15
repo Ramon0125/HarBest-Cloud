@@ -80,3 +80,19 @@ eventlisten('#slcntfddc','blur',function ()
 {datalistblur2('#slcntfddc','#slcntfddc1','#dtlagrddc');});
     
 /////////FIN DATALIST ADM EDITAR CLIENTE//////////////////////////////////////////////
+
+
+/* DATALIST FROM DLTNOTIF */
+eventlisten('#dtldltddc','click', function(event) 
+{datalistclick(event,'#slcdltddc','#slcdltddc1','#btndltddc','#dtldltddc',false,true);});
+
+
+// Evento 'oninput' para filtrar opciones según la entrada del usuario en 'slcdltuser'
+eventlisten('#slcdltddc','input', function() 
+{datalistinput('#slcdltddc','#slcdltddc1','#btndltddc','#dtldltddc');});
+
+
+// Evento 'onblur' para realizar acciones cuando 'slcdltuser' pierde el foco
+eventlisten('#slcdltddc','blur', function() 
+{datalistblur('#slcdltddc','#slcdltddc1','#btndltddc','#dtldltddc');});
+/* FIN DATALIST FROM DLTUSER */

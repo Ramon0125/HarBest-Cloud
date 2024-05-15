@@ -18,7 +18,9 @@ $tabla = array(
 'usrblocks' => 'ALL_USRBLOCK',
 'auditoria' => 'VW_AUDITORIA',
 'notif' => 'VW_VER_NOTIFICACIONES',
-'email_notif' => 'READ_EMAIL_NOTIF'
+'email_notif' => 'READ_EMAIL_NOTIF',
+'detalles' => 'VW_VER_DDC',
+'email_ddc' => 'READ_EMAIL_DDC'
 );
 
 $STR = $Ejec->prepare('SELECT * FROM '.$tabla[$_GET['tabla']]);

@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 <meta charset="UTF-8">
 <meta name="author" content="RAMON E. LEBRON">
-<title><?php echo APP_NAME ?></title>
+<title><?php echo APP_NAME ?> | Inicio</title>
 <!--- Fin Meta -------------->
 
 <!--- Links -------------->
@@ -19,11 +19,28 @@ require '../Controllers/datos.php';
 
 require '../Controllers/ControllersBlocks.php';
 
-if(is_null(GetInfo('ID_USUARIO')) || isset($_SESSION['LOG'])){ header("Location:".APP_URL);}
+if(isset($_SESSION['LOG'])){ header("Location:".APP_URL);}
 
-if (VALIDARBLOCK() === 'T') {
+elseif (VALIDARBLOCK() !== 'T') {
+ $url = APP_URL.'Error/index.php?Error=001';
+ $html = file_get_contents($url);
+ echo $html; 
+}
 
-if(GetInfo('ID_USUARIO') > 0){
+elseif(GetInfo('ID_USUARIO') == 0)
+{
+ $url = APP_URL.'Error/index.php?Error=002';
+ $html = file_get_contents($url);
+ echo $html;
+}
+
+else {
+
+if (isset($_GET['Notificacion']))
+{echo "<script type='text/javascript'>window.onload = function() {
+res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
+}
+
 ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" type="text/css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet" type="text/css">
@@ -128,6 +145,17 @@ if(GetInfo('ID_USUARIO') > 0){
 
   <?php if(GetInfo('PRIVILEGIOS') === 'EJECUTIVO') { ?>
 
+  <li class="nav-heading">Tablas</li>
+
+  <li class="nav-item">
+  <a class="nav-link collapsed b1" onclick="tablasejec('notif');">
+  <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
+
+  <li class="nav-item">
+  <a class="nav-link collapsed b1" onclick="tablasejec('detalles');">
+  <i class="bi bi-envelope-exclamation"></i></i>Detalle de Citacion</a></li>
+
+
   <li class="nav-heading">Protocolos</li>
 
   <!-- Notificaciones de inconsistencia --><li class="nav-item">
@@ -168,7 +196,7 @@ if(GetInfo('ID_USUARIO') > 0){
 
   <li class="dropdown-item">
   <hr class="divioer">
-  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
+  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltddc">
   <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
   </ul></li><!-- End Detalle de Citacion -->
 
@@ -270,6 +298,10 @@ if(GetInfo('ID_USUARIO') > 0){
   <li class="nav-item">
     <a class="nav-link collapsed b1" onclick="tablasejec('email_notif')">
   <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
+
+  <li class="nav-item">
+  <a class="nav-link collapsed b1" onclick="tablasejec('email_ddc');">
+  <i class="bi bi-envelope-exclamation"></i></i>Detalle de Citacion</a></li>
 
 
 
@@ -413,31 +445,10 @@ else {  ?>
 <!-----------------------------------------------------MODAL DETALLE CITACION---------------------------------------------->
 <?php include_once './ModalesEjec/MdetalleC.php'; ?>
 <!---------------------------------------------------FIN MODAL DETALLE CITACION---------------------------------------------->
-
-
 <!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/detallecitacion.js" type="text/javascript"></script> 
-<?php } ?> </body></html> <?php
-
-if (isset($_GET['Notificacion']))
-{echo "<script type='text/javascript'>window.onload = function() {
-res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
-}}
-
-else 
-{ $url = APP_URL.'Error/index.php?Error=002';
-  $html = file_get_contents($url);
-  echo $html; 
-} 
-
-}
-
-else 
-{ $url = APP_URL.'Error/index.php?Error=001';
-  $html = file_get_contents($url);
-  echo $html; 
-} 
+<?php } ?> </body></html> <?php }

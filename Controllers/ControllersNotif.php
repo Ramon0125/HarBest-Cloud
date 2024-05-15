@@ -40,7 +40,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
             {
             $this->response['success'] = true;
             AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UNA NOTIFICACION DE INCONSISTENCIA');
-            EMAILS($NON);
+            EMAILS($NON,1);
             }
 
             else 

@@ -18,12 +18,6 @@
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
 <?php
 
-if (isset($_GET['hcerrar']) || isset($_GET['hcerrar1']) ) 
-{
-CerrarSesion();
-echo isset($_GET['hcerrar']) ? "<script type='text/javascript'>document.addEventListener('DOMContentLoaded', function () {res('Sesión cerrada correctamente','success',1200);});</script>" : "";
-}
-
 require './Controllers/ControllersBlocks.php';
 
 if (!is_null(GetInfo('ID_USUARIO')) && !isset($_GET['hcerrar']) && !isset($_SESSION['LOG'])) 
@@ -98,7 +92,25 @@ if (VALIDARBLOCK() === 'T') { ?>
 </div>
 </body>
 </html>
-<?php }
+<?php
+
+if (isset($_GET['hcerrar']) || isset($_GET['hcerrar1']) ) 
+{
+CerrarSesion();
+echo isset($_GET['hcerrar']) ? "<script type='text/javascript'>document.addEventListener('DOMContentLoaded', function () {res('Sesión cerrada correctamente','success',1200);});</script>" : "<script>
+function removeParamsFromUrl() 
+{
+ var url = window.location.href;
+ if (url.indexOf('?') !== -1) {
+ var baseUrl = url.split('?')[0];
+ window.history.replaceState({}, document.title, baseUrl);}
+}
+
+removeParamsFromUrl();</script>";
+}
+
+}
+
 
 else 
 {
@@ -106,3 +118,4 @@ $url = APP_URL.'Error/index.php?Error=001';
 $html = file_get_contents($url);
 echo $html;
 } 
+

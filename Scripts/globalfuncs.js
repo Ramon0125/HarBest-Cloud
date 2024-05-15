@@ -47,7 +47,7 @@ const tabledata = {
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron registros",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
-  "lengthMenu": [10,40,50,100]
+  "lengthMenu": [15,40,50,100]
   };
 
   
@@ -106,7 +106,9 @@ EEN: 'Error al eliminar la notificacion',
 EDCE: 'Este detalle de citación existe',
 DIC: 'Detalle de citación insertado correctamente',
 EID: 'Error al insertar detalle de citación',
-INCV: 'Ingrese un numero de caso valido'
+INCV: 'Ingrese un numero de caso valido',
+EED: 'Error al eliminar detalle de citacion',
+DEC: 'Detalle eliminado correctamente'
 };
 
 
@@ -217,3 +219,6 @@ else {$(input).val('');}}
 
 
 const eventlisten = (obj,event,func) => {$(obj).on(event,func);}
+
+
+

@@ -18,12 +18,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
     
     $verificar = new ControllerDettalles();
 
-    if ($_POST['tipo'] === 'addddc' && isset($_POST['INIDNOT'],$_POST['INNOCAS'],$_POST['INCON'],$_POST['PERIODO'],$_POST['VALOR'],$_POST['INFECHA'],$_FILES['INDETALL'])) 
+    if ($_POST['tipo'] == 'addddc' && isset($_POST['INIDNOT'],$_POST['INNOCAS'],$_POST['INCON'],$_POST['INFECHA'],$_FILES['INDETALL'])) 
     {
-    $response = $verificar->InsertDetalle($_POST['INIDNOT'],$_POST['INNOCAS'],json_encode($_POST['INCON']),json_encode($_POST['PERIODO']),json_encode($_POST['VALOR']),$_POST['INFECHA'],$_FILES['INDETALL']);
+    $response = $verificar->InsertDetalle($_POST['INIDNOT'],$_POST['INNOCAS'],json_encode($_POST['INCON']),$_POST['INFECHA'],$_FILES['INDETALL']);
     }
 
-    else {$response['error'] = true; SUMBLOCKUSER();}
+    elseif ($_POST['tipo'] == 'dltddc' && isset($_POST['IDD'],$_POST['NOC'])) 
+    {
+    $response = $verificar->DeleteDetalle($_POST['IDD'],$_POST['NOC']);
+    }
+
+    elseif ($_POST['tipo'] == 'vddc' && isset($_POST['IDD'])) 
+    {
+    $response = $verificar->varchivos($_POST['IDD']);
+    }
+
+    else {$response['error12'] = true;}
   
     }
   

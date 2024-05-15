@@ -173,7 +173,7 @@ function sendmail(nop){
       beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
       complete: function () { load(2); }, //Ocultar pantalla de carga
       success: function (res) { responses(res);
-      if(res.success){updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('email_notif')}},
+      if(res.success){updatedatalists(4,['#dtledtnot','#dtldltnot']); updatedatalists(5,['#dtlagrddc']);  tablasejec('email_notif')}},
       error: function(error){res(error,txt.W,2000);}
     });
   }

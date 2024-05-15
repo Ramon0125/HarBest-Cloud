@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['FUNC'])  && isset($_S
 require "../Controllers/Conexion.php";
 require '../Controllers/ControllersBlocks.php';
 require '../Controllers/Functions.php';
-require '../Emails/notifinconsis.php';
+require '../Controllers/ControllerEmails.php';
 
 
 if(VALIDARBLOCK() === 'T'){
@@ -23,6 +23,10 @@ $SENDMAIL = new EmailSender();
 if($_POST['FUNC'] == 'NOTIF.' && isset($_POST['ENTITY']))
 {
  $data = $SENDMAIL->sendmailnotif($_POST['ENTITY']);
+}
+elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY']))
+{
+ $data = $SENDMAIL->sendmailddc($_POST['ENTITY']);
 }
 else {$data['error'] = true;}
 

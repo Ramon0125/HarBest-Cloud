@@ -59,7 +59,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Madms.php') === false) { ?>
 <input type="hidden" id="admedt1" name="admedt1">
 
 <datalist id="Datalistagradm" role="listbox">
-<?php $agradms = ADM(); // Obtener usuarios
+<?php $agradms = Datos(3); // Obtener usuarios
 
 if ($agradms !== false && count($agradms) > 0) {
 foreach ($agradms as $agradms1): ?>

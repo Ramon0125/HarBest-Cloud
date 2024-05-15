@@ -20,18 +20,26 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
           } 
           
           else { // Si el valor no es un array, aplicamos la validación normalmente
-              if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚÑñ#()[\]\@._\/\s\-]+$/", $string)) { return false; }
+              if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚÑñ#()[\]@$.,{}_\/\s\-]+$/", $string)) { return false; }
           }
       }
       return true;
   }
 
-  function EMAILS(string $IDN){
+  function EMAILS(string $ID,INT $V){
     $CONDB1 = NEW ConexionDB();
     $CONDB = $CONDB1->obtenerConexion();
-    $query = "CALL SP_INSERT_EMAIL_NOTIF(?)";
+    switch ($V) {
+        case 1:
+        $query = "CALL SP_INSERT_EMAIL_NOTIF(?)";
+        break;
+        
+        case 2:
+        $query = "CALL SP_INSERT_EMAIL_DDC(?)";
+        break;
+    }
     $val = $CONDB->prepare($query);
-    $val->bindParam(1,$IDN,PDO::PARAM_STR);
+    $val->bindParam(1,$ID,PDO::PARAM_STR);
     $val->execute();
   }
 

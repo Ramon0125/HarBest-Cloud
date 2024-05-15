@@ -35,7 +35,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
 <input type="hidden" id="admclt1" name="admclt1">
 
 <datalist id="browseradmclt" role="listbox">
-<?php $adms = ADM(); // Obtener usuarios
+<?php $adms = Datos(3); // Obtener usuarios
 
 if ($adms !== false && count($adms) > 0) {
 foreach ($adms as $adm): ?>
@@ -75,7 +75,7 @@ foreach ($adms as $adm): ?>
 
 
 <datalist id="browseredtclt" role="listbox">
-<?php $cliente = CLT(); // Obtener clientes
+<?php $cliente = Datos(2); // Obtener clientes
 
 if ($cliente !== false && count($cliente) > 0) {
 foreach ($cliente as $clientes){ ?>
@@ -110,7 +110,7 @@ foreach ($cliente as $clientes){ ?>
 <input type="hidden" id="admedtclt1" name="admedtclt1">
 
 <datalist id="browseradmedtclt" role="listbox">
-<?php $adms1 = ADM(); // Obtener usuarios
+<?php $adms1 = Datos(3); // Obtener usuarios
 
 if ($adms1 !== false && count($adms1) > 0) {
 foreach ($adms1 as $adm1): ?>
@@ -146,7 +146,7 @@ foreach ($adms1 as $adm1): ?>
 <input type="hidden" id="slcdltclt1" name="slcdltclt1">
 
 <datalist id="browserdltclt" role="listbox">
-<?php $cliente1 = CLT(); // Obtener clientes
+<?php $cliente1 = Datos(2); // Obtener clientes
 
 if ($cliente1 !== false && count($cliente1) > 0) {
 foreach ($cliente1 as $clientes1){ ?>
