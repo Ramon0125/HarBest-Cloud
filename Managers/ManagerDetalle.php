@@ -20,7 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
 
     if ($_POST['tipo'] == 'addddc' && isset($_POST['INIDNOT'],$_POST['INNOCAS'],$_POST['INCON'],$_POST['INFECHA'],$_FILES['INDETALL'])) 
     {
+    foreach ($_FILES['INDETALL']['name'] as $key => $nombreArchivo) {
+        
+    $tipoArchivo = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+  
+    if (!validarCarta($tipoArchivo)) { $validacionArchivos = false; break;} }
+
+    if(!isset($validacionArchivos))
+    {
     $response = $verificar->InsertDetalle($_POST['INIDNOT'],$_POST['INNOCAS'],json_encode($_POST['INCON']),$_POST['INFECHA'],$_FILES['INDETALL']);
+    }
+    else {$response['EANV'] = true; SUMBLOCKUSER();}  
     }
 
     elseif ($_POST['tipo'] == 'dltddc' && isset($_POST['IDD'],$_POST['NOC'])) 

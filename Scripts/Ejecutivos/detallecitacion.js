@@ -76,8 +76,9 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON)
       incon.forEach(element => {
       formData.append('INCON[]', element.trim());});
 
-      INDETALL.forEach(element => {
-      formData.append('INDETALL[]', element);});
+      for (let i = 0; i < INDETALL.length; i++) {
+      formData.append('INDETALL[]', INDETALL[i]);
+      }
 
       $.ajax({
         type: "POST",

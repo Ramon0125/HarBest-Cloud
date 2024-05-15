@@ -69,7 +69,8 @@ public function DeleteDetalle(int $IDD, string $NOC): array
         $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
         $ejecucion->closeCursor();
 
-        if($resultado['MENSAJE'] === 'DEC'){ $this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UN DETALLE DE CITACION');}
+        if($resultado['MENSAJE'] === 'DEC'){ $this->response['success'] = true; 
+        AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UN DETALLE DE CITACION');}
         else {$this->response['success'] = false; SUMBLOCKUSER();}
 
         $this->response['message'] = $resultado['MENSAJE'];}

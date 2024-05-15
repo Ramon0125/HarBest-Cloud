@@ -2,10 +2,16 @@
 
 if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) { 
 
-  function validarCarta($string) : bool 
-  {$permitidos = ['pdf', 'jpg', 'png','docx'];
-  return in_array(strtolower($string), $permitidos);
-  }///FUNCION QUE VERIFICA EL TIPO DE ARCHIVO
+    function validarCarta($string) : bool {
+        $permitidos = ['pdf', 'jpg', 'png', 'docx'];
+        
+        if (is_array($string)) {
+            return empty(array_diff(array_map('strtolower', $string), $permitidos));
+        } else {
+            return in_array(strtolower($string), $permitidos);
+        }
+    }
+    
 
 
   function Validarcadena1(...$strings) : bool 

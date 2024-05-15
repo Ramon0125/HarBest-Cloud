@@ -22,7 +22,7 @@ class EmailSender extends ConexionDB{
     $this->mail->SMTPSecure = 'tls'; // tls o ssl
     $this->mail->Port = 587; // Puerto de SMTP
     $this->mail->setFrom('ramonemili15@gmail.com', 'LR Consultoria');
-    $this->mail->addCC('juanlebron@harbest.net', 'JUAN LEBRON');
+    //$this->mail->addCC('juanlebron@harbest.net', 'JUAN LEBRON');
     $this->mail->CharSet = 'UTF-8';
     $this->mail->isHTML(true);
     }
