@@ -16,7 +16,7 @@ $select = array(
 3 => "ADM",
 4 => "ALL_NOTIF",
 5 => "ALL_NOTIF_FOR_DETALLE",
-6 => "VW_ALL_DETALLES");
+6 => "ALL_DETALLES");
 
 $ejecucion = $conexion->prepare("SELECT * FROM ".$select[$op]);
 $ejecucion->execute();

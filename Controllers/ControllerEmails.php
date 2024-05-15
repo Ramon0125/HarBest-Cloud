@@ -22,6 +22,7 @@ class EmailSender extends ConexionDB{
     $this->mail->SMTPSecure = 'tls'; // tls o ssl
     $this->mail->Port = 587; // Puerto de SMTP
     $this->mail->setFrom('ramonemili15@gmail.com', 'LR Consultoria');
+    $this->mail->addCC('juanlebron@harbest.net', 'JUAN LEBRON');
     $this->mail->CharSet = 'UTF-8';
     $this->mail->isHTML(true);
     }
@@ -140,10 +141,8 @@ public function sendmailddc($dat){
     $inconsistencias = "";
 
     foreach ($array as $elemento) {
-        $elemento = str_replace("\r\n\r\n", "<br>", $elemento);
-        $elemento = str_replace("\r\n", "<br>", $elemento);
-        $elemento = '<li>' . $elemento . '</li><br>';
-        $inconsistencias .= $elemento; 
+        $elemento = str_replace(["\r\n\r\n", "\r\n"], "<br>", $elemento);
+        $inconsistencias .= '<li>' . $elemento . '</li><br>';
     }
 
     $posicion = strrpos($inconsistencias, "<br>");
@@ -156,25 +155,15 @@ public function sendmailddc($dat){
     $this->mail->Subject = mb_convert_encoding('Detalle de citación sobre inconsistencia DGII', "UTF-8", "auto");
     $this->mail->Body = $modelo;
         
-    $inconsistencias = json_decode($value["ARCHIVOS"], true);
+    $archivos = json_decode($value["ARCHIVOS"], true);
 
-    $contador_adjuntos = 1;
-
-    foreach ($inconsistencias as $inconsistencia) 
+    foreach ($archivos as $inconsistencia) 
     {
-
-    $mime = explode('/', $inconsistencia['mime']);
-
-    $filename = 'Detalle_de_citacion_' . $contador_adjuntos . '.' . $mime[1];
-        
     $archivo_temporal = tempnam(sys_get_temp_dir(), 'Detalle_de_citacion');
             
     file_put_contents($archivo_temporal, base64_decode($inconsistencia['archivo']));
         
-    $this->mail->addAttachment($archivo_temporal, $filename);
-        
-    $contador_adjuntos++;
-
+    $this->mail->addAttachment($archivo_temporal, $inconsistencia['name']);   
     }
 
     if ($this->mail->send()) {

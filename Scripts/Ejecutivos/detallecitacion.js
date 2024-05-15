@@ -1,31 +1,25 @@
 
 var incon = [];
 
+
 function adddetail(i) {
-
-  if (validarparams(i)) {
+  if (validarparams(i)) 
+  {
     incon.push(i.trim());
-
-    updatedetalles();
-  
-    $('#spandetalle').text(`Detalles agregados${incon.length > 0 ? ': '+(incon.length) : ''}`);
-
+    $('#spandetalle').text(`${incon.length} Detalles agregados`);
+    updatedetalles();   $('#inconsisddc').val('');
     res(`${incon.length} detalles en total`,txt.S,false,true,'Detalle añadido');
-    $('#inconsisddc').val('');
-
   }
   else {res(txt.CTC,txt.W,2000);} 
-
 }
 
-const dropdetails = () => { incon.pop();
 
+const dropdetails = () => { incon.pop();
   updatedetalles();
 
-  $('#spandetalle').text(`Detalles agregados${incon.length > 0 ? ': '+(incon.length) : ''}`);
+  $('#spandetalle').text(`${incon.length} Detalles agregados`);
 
   res(`${incon.length} detalles en total`,txt.S,false,true,'Ultimo detalle eliminado'); 
-
 }
 
 
@@ -33,21 +27,18 @@ const updatedetalles = () => {
 
   let table = document.getElementById("detalles");
 
-  while (table.firstChild) { table.removeChild(table.firstChild);
-  }
+  while (table.firstChild) { table.removeChild(table.firstChild);}
 
   for (let i = 0; i < incon.length; i++) {
   let newRow = document.createElement("tr");
 
   let newCell = document.createElement("td");
-  newCell.innerHTML = incon[i].replace(/\n/g, "<br>"); // Cambia el contenido según necesites
+  newCell.innerHTML = incon[i].replace(/\n/g, "<br>");
   newRow.appendChild(newCell);
   
   table.appendChild(newRow);
   }
   
-  // Insertar la nueva fila en la tabla
-
 } 
 
 function closedetails()
@@ -58,7 +49,7 @@ updatedetalles();
 
 $('#archivosddc').val('');
 $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);
-$('#spandetalle').text(`Detalles agregados${incon.length > 0 ? ': '+(incon.length) : ''}`);
+$('#spandetalle').text(`${incon.length} Detalles agregados`);
 $('#fispanddc').text(' Buscar archivos');
 $('#fiiconddc').removeClass('bi-x-circle');
 $('#fiiconddc').addClass('bi-arrow-up-circle');
@@ -67,9 +58,10 @@ LimpiarModal('#slcntfddc1',false,'#formagrddc');
 }
 
 
-function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL)
+function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON)
 {
-  
+  if (validarparams(INCON)) {incon.push(INCON.trim());}
+
   if (validarparams(INFECHA) && incon.length > 0 && INDETALL.length > 0) {
 
     if (validarint(INIDNOT,INNOCAS)) {
@@ -81,13 +73,11 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL)
       formData.append('INFECHA', INFECHA);
       formData.append('tipo', 'addddc');
 
-      for (let e = 0; e < INDETALL.length; e++) {
-      formData.append('INCON[]', incon[e]);
-      }
+      incon.forEach(element => {
+      formData.append('INCON[]', element.trim());});
 
-      for (let i = 0; i < INDETALL.length; i++) {
-      formData.append('INDETALL[]', INDETALL[i]);
-      }
+      INDETALL.forEach(element => {
+      formData.append('INDETALL[]', element);});
 
       $.ajax({
         type: "POST",
@@ -97,7 +87,9 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL)
         processData: false,
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA){ if(DATA.success){closedetails();} responses(DATA);},
+        success: function (DATA){ if(DATA.success){
+        closedetails(); updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
+        tablasejec('detalles');} responses(DATA);},
         error: function(){txt.EELS,txt.E,2000}
         });
 
@@ -120,7 +112,9 @@ function dltddc(idd,noc)
         data: {IDD: idd,NOC: noc,tipo: 'dltddc'},
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA){ if(DATA.success){LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); tablasejec('notif');} responses(DATA);},
+        success: function (DATA){ if(DATA.success){
+        LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); 
+        updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']); tablasejec('detalles');} responses(DATA);},
         error: function(){txt.EELS,txt.E,2000}
         });
      }
@@ -152,11 +146,9 @@ function vddc(IDD)
 
           for (let i = 0; i < binaryString.length; i++) { bytes[i] = binaryString.charCodeAt(i);}
         
-          let blob = new Blob([bytes], {type: archivos[v].mime}); // Cambiar el tipo MIME según corresponda
+          let blob = new Blob([bytes], {type: archivos[v].mime});
         
-          let url = URL.createObjectURL(blob);
-
-          window.open(url, '_blank');
+          window.open(URL.createObjectURL(blob), '_blank');
         }
       }
       else{responses(DATA);}
@@ -184,3 +176,25 @@ function sendmailddc(nop){
   }
   else {res(txt.EELS,txt.W,2000)}
   }
+
+
+  function vincon(IDD) 
+{
+  $.ajax({
+    type: "POST",
+    url: "../Managers/ManagerDetalle.php",
+    data: {tipo: 'viddc',IDD: IDD},
+    dataType: "JSON",
+    success: function (DATA) {
+
+    if(DATA.success && DATA.INCON){
+      Swal.fire({
+        html:`<p> ${DATA.INCON} </p>` ,
+        confirmButtonColor: '#28a745',
+        showConfirmButton: true,
+        width: 'auto'
+      });
+    }
+    else{responses(DATA);}
+    }});
+}

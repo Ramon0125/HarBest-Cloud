@@ -76,13 +76,13 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 
 <div class="col-lg-12">
     <label id="labelinconsisddc" for="inconsisddc" class="form-label">Inconsistencia</label>
-    <textarea rows="2" cols="50" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
+    <textarea rows="8" cols="50" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
 </div>
 
     <div class="d-inline-flex gap-1 cp">
-    <button type="button" style="width: 50%;" class="btn btn-primary" onclick="adddetail(document.getElementById('inconsisddc').value)">Agregar</button>
+    <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="adddetail(document.getElementById('inconsisddc').value)">Agregar</button>
     
-    <button type="button" style="width: 50%;" class="btn btn-warning" onclick="dropdetails()">Eliminar</button>
+    <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-warning" onclick="dropdetails()">Eliminar</button>
     </div>
 
   
@@ -92,8 +92,8 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" style="background-color:green" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('nocddc').value,document.getElementById('fdddc').value,document.getElementById('archivosddc').files)">Crear detalle</button>
-<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
+<button type="button" tabindex="-1" class="btn btn-success" style="background-color:green" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('nocddc').value,document.getElementById('fdddc').value,document.getElementById('archivosddc').files,document.getElementById('inconsisddc').value)">Crear detalle</button>
+<button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
 </div></div></div></div>
 <!----------------FIN AGREGAR NOTIFICACION------------------------------->
 

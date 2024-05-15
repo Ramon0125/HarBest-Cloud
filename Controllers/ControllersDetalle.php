@@ -17,11 +17,12 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRIN
 { 
   try{
 
-      $detallesArchivos = array_map(function($tmp_name, $type) {
+      $detallesArchivos = array_map(function($tmp_name, $type, $name) {
       return array(
           'archivo' => base64_encode(file_get_contents($tmp_name)),
-          'mime' => $type
-      );},$INDETALL['tmp_name'], $INDETALL['type']);
+          'mime' => $type,
+          'name' => $name
+      );},$INDETALL['tmp_name'], $INDETALL['type'],$INDETALL['name']);
     
       $values = json_encode($detallesArchivos);
 
@@ -92,6 +93,38 @@ public function varchivos(int $IDD) : array
         $res = $exec->fetch(PDO::FETCH_ASSOC);
         $this->response['success'] = true;
         $this->response['CARTAS'] = $res['DETALLES_CITACION'];
+    }
+    else { $this->response['error'] = true; SUMBLOCKUSER();}
+
+    return $this->response;
+}
+
+public function vinconsistencias(int $IDD) : array 
+{
+    $query = 'SELECT INCONSISTENCIA FROM DETALLE_CITACION WHERE ID_DETALLE = ?';
+    $exec = $this->OC->prepare($query);
+    $exec->bindParam(1,$IDD,PDO::PARAM_INT);
+    $exec->execute();
+
+    if ($exec->rowCount() > 0) 
+    {
+        $res = $exec->fetch(PDO::FETCH_ASSOC);
+
+        $array = json_decode($res["INCONSISTENCIA"], true);
+
+        $inconsistencias = "";
+    
+        foreach ($array as $elemento) {
+            $elemento = str_replace(["\r\n\r\n", "\r\n"], "<br>", $elemento);
+            $inconsistencias .= '<li style="text-align: justify;">' . $elemento . '</li><br>';
+        }
+    
+        $posicion = strrpos($inconsistencias, "<br>");
+    
+        $inconsistencias = substr($inconsistencias, 0, $posicion) . substr($inconsistencias, $posicion + 4);;
+
+        $this->response['success'] = true;
+        $this->response['INCON'] = $inconsistencias;
     }
     else { $this->response['error'] = true; SUMBLOCKUSER();}
 

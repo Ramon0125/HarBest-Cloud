@@ -149,11 +149,11 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 
   <li class="nav-item">
   <a class="nav-link collapsed b1" onclick="tablasejec('notif');">
-  <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
+  <i class="bi bi-envelope-exclamation"></i></i>Consulta de notificaciones de inconsistencias</a></li>
 
   <li class="nav-item">
   <a class="nav-link collapsed b1" onclick="tablasejec('detalles');">
-  <i class="bi bi-envelope-exclamation"></i></i>Detalle de Citacion</a></li>
+  <i class="bi bi-envelope-exclamation"></i></i>Consulta de detalles de citacion</a></li>
 
 
   <li class="nav-heading">Protocolos</li>

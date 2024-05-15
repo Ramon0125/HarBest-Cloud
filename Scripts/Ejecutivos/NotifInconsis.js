@@ -13,7 +13,6 @@ if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) && CARTA)
     formData.append('CARTA', CARTA);
     formData.append('AINCUMPLI', AINCUMPLI);
     formData.append('COMENTS', COMENTS ? COMENTS : 'SIN COMENTARIOS');
-    formData.append('MIME',CARTA.type);
     formData.append('tipo','agrnotif');
 
     $.ajax({
@@ -24,7 +23,8 @@ if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) && CARTA)
         processData: false,
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA) { if(DATA.success){LimpiarModal(['#slcnotif1','#cltedtnot1'],['#dtledtnot','#formedtnotif1','#btnedtnotif'],['#formedtnotif11','#formedtnotif']); updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('notif');} responses(DATA);},
+        success: function (DATA) { if(DATA.success){LimpiarModal(['#slcnotif1','#cltedtnot1'],['#dtledtnot','#formedtnotif1','#btnedtnotif'],['#formedtnotif11','#formedtnotif']);
+        updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('notif');} responses(DATA);},
         error: function(){txt.EELS,txt.E,2000}
     });
  }
@@ -122,7 +122,8 @@ function edtnotif(idn,non,nidcli,nfech,nnon,ntipno,nmotnot,naincu)
       processData: false,
       beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
       complete: function () { load(2); }, //Ocultar pantalla de carga
-      success: function (DATA){ if(DATA.success){LimpiarModal(['#slcnotif1','#cltedtnot1'],['#dtledtnot','#formedtnotif1','#btnedtnotif'],['#formedtnotif11','#formedtnotif']); updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('notif');} responses(DATA);},
+      success: function (DATA){ if(DATA.success){LimpiarModal(['#slcnotif1','#cltedtnot1'],['#dtledtnot','#formedtnotif1','#btnedtnotif'],['#formedtnotif11','#formedtnotif']); 
+      updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('notif');} responses(DATA);},
       error: function(){txt.EELS,txt.E,2000}
       });
    }
@@ -152,7 +153,8 @@ function dltnotif(idn,non)
         processData: false,
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA){ if(DATA.success){LimpiarModal('#slcdltnotif1',['#dtldltnot','#btndltnotif'],'#formdltnotif'); updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('notif');} responses(DATA);},
+        success: function (DATA){ if(DATA.success){LimpiarModal('#slcdltnotif1',['#dtldltnot','#btndltnotif'],'#formdltnotif'); 
+        updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('notif');} responses(DATA);},
         error: function(){txt.EELS,txt.E,2000}
         });
      }

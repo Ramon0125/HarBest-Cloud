@@ -59,18 +59,38 @@ function tablesresult(str,data){
           sendmail(NOTIF); });
         break;
 
-      case 'detalles': 
-      $('#tabla thead tr').append('<th>Archivos</th>');
-
-      $('#tabla').DataTable($.extend(true, {}, tabledata, {"columnDefs": [
-      {"targets": -1, "data": null,
-      "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver Archivos</button>"
-      }]}));
-      
-      $('#tabla tbody').on('click', '.btnverddc', function() 
-      {let ID = $(this).closest('tr').find('td:eq(0)').text();
-      vddc(ID); });
-      break;
+        case 'detalles': 
+        // Agregar otro botón al encabezado de la tabla
+        $('#tabla thead tr').append('<th>Inconsistencias</th>'); // Agregar encabezado para el otro botón
+        $('#tabla thead tr').append('<th>Archivos</th>');
+    
+        $('#tabla').DataTable($.extend(true, {}, tabledata, {
+            "columnDefs": [
+                {
+                    "targets": -1, // Índice de la columna para el primer botón (contando desde 0)
+                    "data": null,
+                    "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Abrir archivos</button>"
+                },
+                {
+                    "targets": -2, // Índice de la columna para el segundo botón (contando desde 0)
+                    "data": null,
+                    "defaultContent": "<button type='button' class='btn btn-success btnverinc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver inconsistencias</button>"
+                }
+            ]
+        }));
+        
+        // Manejador de eventos para el nuevo botón
+        $('#tabla tbody').on('click', '.btnverddc', function() {
+            let ID = $(this).closest('tr').find('td:eq(0)').text();
+            vddc(ID); 
+        });
+    
+        // Manejador de eventos para el nuevo botón
+        $('#tabla tbody').on('click', '.btnverinc', function() {
+          let ID = $(this).closest('tr').find('td:eq(0)').text();
+          vincon(ID);});
+        break;
+    
 
 
       case 'email_ddc':
@@ -84,17 +104,17 @@ function tablesresult(str,data){
                 "data": null,
                 "render": function (data, type, row) {
                     if (row[6] != 'CORREO ENVIADO') {
-                        return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
+                        return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px; margin-left: -10px;">Enviar</button>';
                     } else {
-                        return '<i class="bi bi-check2-circle" style="Dmargin-left: -10%;"></i>';
+                        return '<i class="bi bi-check2-circle" style="margin-left: -10%;"></i>';
                     }
                 }
             }]
         }));
     
         $('#tabla tbody').on('click', '.btnenviar', function() 
-        {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
-        sendmailddc(NOTIF); });
+        {let ddc = $(this).closest('tr').find('td:eq(0)').text();
+        sendmailddc(ddc); });
       break;
     }
 }
@@ -142,10 +162,10 @@ eventlisten('#Cartanotif','change',function (){
   
   eventlisten('#archivosddc','change',function (){
 
-    $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);    $('#fispanddc').text(' Quitar archivos' );
+    $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);    
+    $('#fispanddc').text(' Quitar archivos' );
     $('#fiiconddc').removeClass('bi-arrow-up-circle');
     $('#fiiconddc').addClass('bi-x-circle');
-  
 
     });
   

@@ -150,7 +150,7 @@ switch (resp)
 {
 case "10000": location.reload(); break;///Se ejecuta si el array contiene la propiedad bloqueo
 case "01000": const url = '../Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
-case "00100": $('.modal').modal('hide'); $('.modal-backdrop ').css('display', 'none'); res(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
+case "00100": $('.modal').modal('hide'); res(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
 case "00010": res(txt.MCI,txt.W,false,true,txt.CNV); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00001": res(txt.MCI1,txt.W,false,true,txt.EANV); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00000": res(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success

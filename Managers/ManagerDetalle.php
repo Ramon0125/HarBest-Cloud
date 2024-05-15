@@ -33,6 +33,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
     $response = $verificar->varchivos($_POST['IDD']);
     }
 
+    elseif ($_POST['tipo'] == 'viddc' && isset($_POST['IDD'])) 
+    {
+    $response = $verificar->vinconsistencias($_POST['IDD']);
+    }
+
     else {$response['error12'] = true;}
   
     }
