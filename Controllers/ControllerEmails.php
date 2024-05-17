@@ -8,10 +8,30 @@ class EmailSender extends ConexionDB{
     private $conectdb;
     private $mail;
     private $res;
+    private $days = array(
+    "january" => "enero",
+    "february" => "febrero",
+    "march" => "marzo",
+    "april" => "abril",
+    "may" => "Mayo",
+    "june" => "junio",
+    "july" => "julio",
+    "august" => "agosto",
+    "september" => "septiembre",
+    "october" => "octubre",
+    "november" => "noviembre",
+    "december" => "diciembre",
+    "Monday" => "Lunes",
+    "Tuesday" => "Martes",
+    "Wednesday" => "Miércoles",
+    "Thursday" => "Jueves",
+    "Friday" => "Viernes",
+    "Saturday" => "Sábado",
+    "Sunday" => "Domingo");
+
 
     public function __construct()
-    {
-    parent::__construct();
+    { parent::__construct();
     $this->conectdb = $this->obtenerConexion();
     $this->mail = new PHPMailer(true);
     $this->mail->isSMTP();
@@ -24,11 +44,10 @@ class EmailSender extends ConexionDB{
     $this->mail->setFrom('ramonemili15@gmail.com', 'LR Consultoria');
     //$this->mail->addCC('juanlebron@harbest.net', 'JUAN LEBRON');
     $this->mail->CharSet = 'UTF-8';
-    $this->mail->isHTML(true);
-    }
+    $this->mail->isHTML(); }
 
-    public function sendmailnotif($dat){
-
+    public function sendmailnotif($dat)
+    {
     $query = "CALL SENDMAIL_NOTIF(?)";
     $exec = $this->conectdb->prepare($query);
     $exec->bindParam(1, $dat, PDO::PARAM_INT);
@@ -38,25 +57,26 @@ class EmailSender extends ConexionDB{
     $value = $exec->fetch(PDO::FETCH_ASSOC);
     $exec->closeCursor();
 
-    $modelo = file_get_contents("../Data/modelos/notifinconsis.html");
-    $modelo = str_replace("[Nombre del Cliente]", $value["NOCLT"], $modelo);
-    $modelo = str_replace("[Número de Notificación]", $value["NONOTIF"], $modelo);
-    $modelo = str_replace("[Nombre del Impuesto]", $value["NOIMPU"], $modelo);
-    $modelo = str_replace("[Año]", $value["AIMPU"], $modelo);
-    $modelo = str_replace("[NOMBRE EJECUTIVO]", GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'), $modelo);
-    $modelo = str_replace("[EMAIL EJECUTIVO]",GetInfo('EMAIL'), $modelo); 
+    $replacements = array(
+    "[Nombre del Cliente]" => $value["NOCLT"],
+    "[Número de Notificación]" => $value["NONOTIF"],
+    "[Nombre del Impuesto]" => $value["NOIMPU"],
+    "[Año]" => $value["AIMPU"],
+    "[NOMBRE EJECUTIVO]" => GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'),
+    "[EMAIL EJECUTIVO]" => GetInfo('EMAIL')
+    );
+
+    $modelo = str_replace(array_keys($replacements), $replacements, file_get_contents("../Data/modelos/notifinconsis.html"));
 
     $this->mail->addAddress($value["EMCLT"], $value["NOCLT"]);
     $this->mail->Subject = mb_convert_encoding('Notificación de Impuestos Internos - Acción Requerida', "UTF-8", "auto");
     $this->mail->Body = $modelo;
     
-    $mime = explode('/',$value["MIME"]);
-
-    $filename = 'Carta de notificación de inconsistencia.'.$mime[1];
+    $filename = 'Carta de notificación de inconsistencia.' . explode('/', $value["MIME"])[1];
 
     $archivo_temporal = tempnam(sys_get_temp_dir(), 'Carta_de_notificación_de_inconsistencia');
     file_put_contents($archivo_temporal, base64_decode($value["CARTA"]));
-        
+
     $this->mail->addAttachment($archivo_temporal,$filename);
 
     if ($this->mail->send()) {
@@ -65,23 +85,20 @@ class EmailSender extends ConexionDB{
     $RES1->bindParam(1, $value["ID_NOTIF"], PDO::PARAM_INT);
     $RES1->execute();
     $this->res['success'] = true;
-    $this->res['message'] = 'EEC';
-    }
+    $this->res['message'] = 'EEC';}
     
-    else { 
-    $this->res['success'] = false;
+    else { $this->res['success'] = false;
     $this->res['message'] = 'EECE';
-    }
+    SUMBLOCKUSER(); }
 
-    } 
-    
-    else { $this->res['error'] = true; }
+    }
+    else { $this->res['error'] = true; SUMBLOCKUSER();}
 
     return $this->res;
     }
 
 
-public function sendmailddc($dat){
+    public function sendmailddc($dat){
 
     $query = "CALL SENDMAIL_DDC(?)";
     $exec = $this->conectdb->prepare($query);
@@ -95,61 +112,30 @@ public function sendmailddc($dat){
     $modelo = file_get_contents("../Data/modelos/detallescitacion.html");
 
     $fecha = new DateTime($value["FECHAVenci"]);
-
-    $dias_espanol = array(
-    'Monday' => 'lunes',
-    'Tuesday' => 'martes',
-    'Wednesday' => 'miércoles',
-    'Thursday' => 'jueves',
-    'Friday' => 'viernes'
-    );
-
-    $nombre_dia_ingles = $fecha->format('l');
-    $nombre_dia_espanol = $dias_espanol[$nombre_dia_ingles];
-
-    $meses_espanol = array(
-    'January' => 'enero',
-    'February' => 'febrero',
-    'March' => 'marzo',
-    'April' => 'abril',
-    'May' => 'mayo',
-    'June' => 'junio',
-    'July' => 'julio',
-    'August' => 'agosto',
-    'September' => 'septiembre',
-    'October' => 'octubre',
-    'November' => 'noviembre',
-    'December' => 'diciembre'
-    );
-
-    $nombre_mes_ingles = $fecha->format('F');
-    $nombre_mes_espanol = $meses_espanol[$nombre_mes_ingles];
-    $fecha_completa = ucfirst(strtolower($nombre_dia_espanol)) . " " . $fecha->format('j') . ' de ' . $nombre_mes_espanol . ' de ' . $fecha->format('Y');
-
-    $replacements = array(
-    "[NOMBRE CLIENTE]" => $value["NOMBRE_CLIENTE"],
-    "[NOTIFICACION INCONSISTENCIA]" => $value["NOTIFICACION"],
-    "[FECHA VENCIMIENTO]" => $fecha_completa,
-    "[NOMBRE EJECUTIVO]" => GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'),
-    "[EMAIL EJECUTIVO]" => GetInfo('EMAIL')
-    );
-
-    $modelo = str_replace(array_keys($replacements), $replacements, $modelo);
+    
+    $fecha_completa = str_replace(array_keys($this->days), $this->days, ucfirst(strtolower($fecha->format('l j \d\e F \d\e Y'))));
 
     $array = json_decode($value["INCONSISTENCIAS"], true);
 
     $inconsistencias = "";
 
     foreach ($array as $elemento) {
-        $elemento = str_replace(["\r\n\r\n", "\r\n"], "<br>", $elemento);
-        $inconsistencias .= '<li>' . $elemento . '</li><br>';
+    $elemento = str_replace(["\r\n\r\n", "\r\n"], "<br>", $elemento);
+    $inconsistencias .= '<li>' . $elemento . '</li><br>';
     }
 
-    $posicion = strrpos($inconsistencias, "<br>");
+    $inconsistencias = substr($inconsistencias, 0, strrpos($inconsistencias, "<br>"));
 
-    $inconsistencias = substr($inconsistencias, 0, $posicion) . substr($inconsistencias, $posicion + 4);;
-    
-    $modelo = str_replace("[DETALLES INCONSISTENCIAS]", $inconsistencias, $modelo);
+    $replacements = array(
+    "[NOMBRE CLIENTE]" => $value["NOMBRE_CLIENTE"],
+    "[NOTIFICACION INCONSISTENCIA]" => $value["NOTIFICACION"],
+    "[FECHA VENCIMIENTO]" => $fecha_completa,
+    "[NOMBRE EJECUTIVO]" => GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'),
+    "[EMAIL EJECUTIVO]" => GetInfo('EMAIL'),
+    "[DETALLES INCONSISTENCIAS]" => $inconsistencias
+    );
+
+    $modelo = str_replace(array_keys($replacements), $replacements, $modelo);
 
     $this->mail->addAddress($value["EMAIL_CLIENTE"], $value["NOMBRE_CLIENTE"]);
     $this->mail->Subject = mb_convert_encoding('Detalle de citación sobre inconsistencia DGII', "UTF-8", "auto");
@@ -178,10 +164,14 @@ public function sendmailddc($dat){
     else { 
     $this->res['success'] = false;
     $this->res['message'] = 'EECE';
+    SUMBLOCKUSER();
     }
     
     }     
-    else { $this->res['error'] = true; }
+    else { 
+    $this->res['error'] = true; 
+    SUMBLOCKUSER();
+    }
     
     return $this->res;
     }

@@ -38,7 +38,6 @@ class ControllerUser extends ConexionDB
       else { $this->response['error'] = true; SUMBLOCKUSER();}
 
     }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($sql,$ejecucion,$resultado,$id);}
 
     return $this->response;
 }
@@ -77,7 +76,6 @@ public function VerDatos($id, $token): array
       else { $this->response['error'] = true; SUMBLOCKUSER();}
 
   }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-  finally {unset($sqlv,$ejecucion,$resultado);}
 
   return $this->response;
 }
@@ -112,7 +110,6 @@ public function ModifyUser(int $id, string $name, string $email, string $nname, 
     else { $this->response['error'] = true; SUMBLOCKUSER();}
 
   }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-  finally {unset($sql,$ejecucion,$resultado);}
 
   return $this->response;
 }
@@ -124,7 +121,7 @@ public function DeleteUser(int $id, string $name): array
     try {
       $sql = "CALL SP_ELIMINAR_USUARIO(?,?)";
       $ejecucion = $this->OC->prepare($sql);
-      $ejecucion->bindParam(1,$id,PDO::PARAM_STR);
+      $ejecucion->bindParam(1,$id,PDO::PARAM_INT);
       $ejecucion->bindParam(2,$name,PDO::PARAM_STR);
       $ejecucion->execute();
 
@@ -139,9 +136,8 @@ public function DeleteUser(int $id, string $name): array
         $this->response['message'] = $resultado['MENSAJE'];}
 
 
-        else { $this->response['error'] = true; SUMBLOCKUSER();}
+      else { $this->response['error'] = true; SUMBLOCKUSER();}
       }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($sql,$ejecucion,$resultado);}
 
     return $this->response;
 }
@@ -150,10 +146,11 @@ public function DeleteUser(int $id, string $name): array
 public function DesblockUser(int $id): array
 {
     try {
-      $sql = "CALL DESBLOQUEAR_USER(?)";
-      $ejecucion = $this->OC->prepare($sql);
-      $ejecucion->bindParam(1,$id,PDO::PARAM_STR);
-      $ejecucion->execute();
+      
+    $sql = "CALL DESBLOQUEAR_USER(?)";
+    $ejecucion = $this->OC->prepare($sql);
+    $ejecucion->bindParam(1,$id,PDO::PARAM_INT);
+    $ejecucion->execute();
 
       if ($ejecucion->rowCount() > 0) 
       {
@@ -165,10 +162,9 @@ public function DesblockUser(int $id): array
 
         $this->response['message'] = $resultado['MENSAJE'];}
 
+      else { $this->response['error'] = true; SUMBLOCKUSER();}
 
-        else { $this->response['error'] = true; SUMBLOCKUSER();}
-      }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($sql,$ejecucion,$resultado);}
+    }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
 
     return $this->response;
 }

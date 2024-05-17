@@ -31,10 +31,7 @@ if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) && CARTA)
  else {res(txt.EELS,txt.W,2000)}
 }
 
-else 
-{
- res(txt.CTC,txt.W,2000);
-}
+else {res(txt.CTC,txt.W,2000);}
 }
 
 

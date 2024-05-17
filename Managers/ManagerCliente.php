@@ -11,7 +11,7 @@ if(VALIDARBLOCK() === 'T'){
 
 if (!is_null(GetInfo('ID_USUARIO')) && Validarcadena1($_COOKIE['IDENTITY']) )
 {
- 
+
 
 if (Validarcadena1($_POST)){
 

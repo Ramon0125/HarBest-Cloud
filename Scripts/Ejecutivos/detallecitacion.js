@@ -14,8 +14,8 @@ function adddetail(i) {
 }
 
 
-const dropdetails = () => { incon.pop();
-  updatedetalles();
+function dropdetails(){
+  incon.pop();  updatedetalles();
 
   $('#spandetalle').text(`${incon.length} Detalles agregados`);
 
@@ -23,7 +23,7 @@ const dropdetails = () => { incon.pop();
 }
 
 
-const updatedetalles = () => {
+function updatedetalles(){
 
   let table = document.getElementById("detalles");
 
@@ -99,7 +99,6 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON)
     }
     
     else {res(txt.CTC,txt.W,2000);} 
-
 }
 
 
@@ -113,9 +112,11 @@ function dltddc(idd,noc)
         data: {IDD: idd,NOC: noc,tipo: 'dltddc'},
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA){ if(DATA.success){
+        success: function (DATA){ 
+        if(DATA.success){
         LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); 
-        updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']); tablasejec('detalles');} responses(DATA);},
+        updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
+        tablasejec('detalles');} responses(DATA);},
         error: function(){txt.EELS,txt.E,2000}
         });
      }
@@ -125,7 +126,6 @@ function dltddc(idd,noc)
 
 function vddc(IDD)
 {
-
   if (validarint(IDD)) 
   {
     $.ajax({
@@ -172,11 +172,11 @@ function sendmailddc(nop){
       complete: function () { load(2); }, //Ocultar pantalla de carga
       success: function (res) { responses(res);
       if(res.success){tablasejec('email_notif')}},
-      error: function(error){res(error,txt.W,2000);}
+      error: function(){res(txt.EELS,txt.W,2000);}
     });
   }
   else {res(txt.EELS,txt.W,2000)}
-  }
+}
 
 
   function vincon(IDD) 
@@ -187,15 +187,16 @@ function sendmailddc(nop){
     data: {tipo: 'viddc',IDD: IDD},
     dataType: "JSON",
     success: function (DATA) {
-
-    if(DATA.success && DATA.INCON){
-      Swal.fire({
-        html:`<p> ${DATA.INCON} </p>` ,
-        confirmButtonColor: '#28a745',
-        showConfirmButton: true,
-        width: 'auto'
-      });
+    if(DATA.success && DATA.INCON)
+    {
+    Swal.fire({
+    html:`<p> ${DATA.INCON} </p>` ,
+    confirmButtonColor: '#28a745',
+    showConfirmButton: true,
+    width: 'auto'
+    });
     }
-    else{responses(DATA);}
-    }});
+    else{responses(DATA);}},
+    error: function(){res(txt.EELS,txt.W,2000)}
+  });
 }

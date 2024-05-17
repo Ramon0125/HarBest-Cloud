@@ -4,12 +4,16 @@
 <head>
 
 <!--- Meta -------------->
-<meta name="robots" content="noindex, nofollow">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<!--- Meta -------------->
+<meta name="robots" content="index, follow">
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+<meta name="keywords" content="<?php echo APP_NAME ?>, Contable,APP CONTABLE">
+<meta name="description" content="<?php echo APP_NAME ?> es una app web creada para automatizar servicios contables y procesos financieros, permitiendo gestionar las finanzas de manera efectiva.">
 <meta name="author" content="RAMON E. LEBRON">
-<title><?php echo APP_NAME ?> | Inicio</title>
 <!--- Fin Meta -------------->
+
+<title><?php echo APP_NAME ?> | Inicio</title>
 
 <!--- Links -------------->
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>

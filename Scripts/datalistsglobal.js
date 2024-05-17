@@ -1,8 +1,9 @@
 
-async function updatedatalists(tipo,datalists) {
+async function updatedatalists(tipo,datalists) 
+{
 
-    $(datalists).each(function(index, datalist) {$(datalist).empty();});
-
+  if (validarint(tipo) && validarparams(datalists)) {
+    
     $.ajax({
         type: 'POST',
         url: '../Controllers/datos.php',
@@ -11,26 +12,24 @@ async function updatedatalists(tipo,datalists) {
         success: function (data) {
 
         if (!data.error)
-        {
-
-        $(datalists).each(function(index, datalist) {
+        { $(datalists).each(function(index, datalist) {
  
+        $(datalist).empty();
+        
         $.each(data, function(index, valor) {
         var keys = Object.keys(valor);
     
         $('<option>', { value: valor[keys[0]], text: valor[keys[1]] }).appendTo(datalist);
             });
-        });
-      
-        }
+        }); }
         
         else {responses(data);}
       },
-        error: function () {res(txt.EELS, "error", 2000);}
+      error: function () {res(txt.EELS, "error", 2000);}
       });
+    }
+    else {res(txt.EELS, "error", 2000);}
 }
-
-
 
 
 function datalistcontrol(input, input2, object, datalist,func = '', st = false) 

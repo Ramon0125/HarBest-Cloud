@@ -36,13 +36,13 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
     $CONDB1 = NEW ConexionDB();
     $CONDB = $CONDB1->obtenerConexion();
     switch ($V) {
-        case 1:
-        $query = "CALL SP_INSERT_EMAIL_NOTIF(?)";
-        break;
-        
-        case 2:
-        $query = "CALL SP_INSERT_EMAIL_DDC(?)";
-        break;
+    case 1:
+    $query = "CALL SP_INSERT_EMAIL_NOTIF(?)";
+    break;
+       
+    case 2:
+    $query = "CALL SP_INSERT_EMAIL_DDC(?)";
+    break;
     }
     $val = $CONDB->prepare($query);
     $val->bindParam(1,$ID,PDO::PARAM_STR);

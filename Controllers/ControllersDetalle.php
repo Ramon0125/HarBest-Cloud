@@ -19,9 +19,9 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRIN
 
       $detallesArchivos = array_map(function($tmp_name, $type, $name) {
       return array(
-          'archivo' => base64_encode(file_get_contents($tmp_name)),
-          'mime' => $type,
-          'name' => $name
+      'archivo' => base64_encode(file_get_contents($tmp_name)),
+      'mime' => $type,
+      'name' => $name
       );},$INDETALL['tmp_name'], $INDETALL['type'],$INDETALL['name']);
     
       $values = json_encode($detallesArchivos);
@@ -50,7 +50,7 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRIN
       }
       else { $this->response['error'] = true; SUMBLOCKUSER();}  
 
-  }catch(Exception $E) { $this->response['error'] = true; SUMBLOCKUSER();}
+  }catch(Exception) {$this->response['error'] = true; SUMBLOCKUSER();}
     
   return $this->response;
 }
@@ -71,6 +71,7 @@ public function DeleteDetalle(int $IDD, string $NOC): array
 
         if($resultado['MENSAJE'] === 'DEC'){ $this->response['success'] = true; 
         AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UN DETALLE DE CITACION');}
+        
         else {$this->response['success'] = false; SUMBLOCKUSER();}
 
         $this->response['message'] = $resultado['MENSAJE'];}

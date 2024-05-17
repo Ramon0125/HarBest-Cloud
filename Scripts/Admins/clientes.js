@@ -19,13 +19,13 @@ if(validarparams(rnc,email,nombre,adm)){//Verifica que los inputs contengan valo
        updatedatalists(2,['#browseredtclt','#browserdltclt']);
        tablas('clts');
       }},
-      error: function(){res(txt.EELS,'error',2000)}});   
+      error: function(){res(txt.EELS, txt.E,2000)}});   
     }
-    else {res(txt.RNV, 'warning', 2000);}
+    else {res(txt.RNV, txt.W, 2000);}
   }
- else {res(txt.ICV,'warning',2000)}
+ else {res(txt.ICV, txt.W,2000)}
 }
-else {res(txt.CTC,'warning',2000)}
+else {res(txt.CTC, txt.W,2000)}
 }
 
 
@@ -48,7 +48,7 @@ function vdclt(id, token)
 $('#admedtclt').val(data.NOMBRE_ADM);
  modifystyle(['#formedtclt1','#btnedtclt'],'display','block');} // Mostrar el formulario de edición
  else {responses(data);}}, // Mostrar mensaje de error        
- error: function () {res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+ error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
 
 
@@ -71,16 +71,16 @@ if(validarparams(id,nc,rnc,email,nombre,adm)) //Funcion que valida que los input
         if (data.success) {LimpiarModal(['#slcclt1','#admedtclt1'],['#browseredtclt','#formedtclt1','#btnedtclt'],['#formedtclt','#formedtclt11']); updatedatalists(2,['#browseredtclt','#browserdltclt']);}
         responses(data);
         tablas('clts');}, // Mostrar mensaje de error
-        error: function (){res(txt.EELS,'error',2000)}});
+        error: function (){res(txt.EELS, txt.E,2000)}});
     }
     
-    else {res(txt.RNV, 'warning', 2000);}
+    else {res(txt.RNV, txt.W, 2000);}
  }
 
- else {res(txt.ICV,'warning',2000)}
+ else {res(txt.ICV, txt.W,2000)}
 }
 
-else {res(txt.CTC,'warning',2000)}
+else {res(txt.CTC, txt.W,2000)}
 }
 
 
@@ -98,8 +98,8 @@ function dltclt(id, name)
   success: function (data) {
   if (data.success) {LimpiarModal('#slcdltclt1',['#browserdltclt','#btndltclt'],'#formdltclt'); updatedatalists(2,['#browseredtclt','#browserdltclt']);}  // Mostrar mensaje de éxito
   responses(data); tablas('clts');}, // Mostrar mensaje de error
-  error: function () {res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+  error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
  } 
   
- else { res(txt.CTC, "warning", 1460);} // Mostrar advertencia si faltan parámetros
+ else { res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
 }

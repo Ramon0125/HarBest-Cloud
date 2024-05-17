@@ -24,7 +24,6 @@ function tablesresult(str,data){
     case 'notif':
       $('#tabla thead tr').append('<th>CARTA</th>');
       
-
       $('#tabla').DataTable($.extend(true, {}, tabledata, {"columnDefs": [
       {"targets": -1, "data": null,
       "defaultContent": "<button type='button' class='btn btn-success btnvercarta' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver carta</button>"
@@ -33,92 +32,77 @@ function tablesresult(str,data){
       $('#tabla tbody').on('click', '.btnvercarta', function() 
       {let ID = $(this).closest('tr').find('td:eq(0)').text();
       vcarta(ID); });
-      break;
+    break;
   
-      case 'email_notif':
-          $('#tabla thead tr').append('<th></th>');
+    case 'email_notif':
+      $('#tabla thead tr').append('<th></th>');
       
-          $('#tabla').DataTable($.extend(true, {}, tabledata, {
-            "order": [],
-              "columnDefs": [{
-                  "targets": -1,
-                  "orderable": false,
-                  "data": null,
-                  "render": function (data, type, row) {
-                      if (row[6] != 'CORREO ENVIADO') {
-                          return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
-                      } else {
-                          return '<i class="bi bi-check2-circle" style="Dmargin-left: -10%;"></i>';
-                      }
-                  }
-              }]
-          }));
+      $('#tabla').DataTable($.extend(true, {}, tabledata, {
+      "order": [],
+      "columnDefs": [{ "targets": -1,
+      "orderable": false,
+      "data": null,
+      "render": function (data, type, row) {
+      if (row[6] != 'CORREO ENVIADO') {
+      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
+      }
+      else {return '<i class="bi bi-check2-circle" style="Dmargin-left: -10%;"></i>';}}
+      }]}
+      ));
       
-          $('#tabla tbody').on('click', '.btnenviar', function() 
-          {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
-          sendmail(NOTIF); });
-        break;
+      $('#tabla tbody').on('click', '.btnenviar', function() 
+      {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
+      sendmail(NOTIF); });
+    break;
 
-        case 'detalles': 
-        // Agregar otro botón al encabezado de la tabla
-        $('#tabla thead tr').append('<th>Inconsistencias</th>'); // Agregar encabezado para el otro botón
-        $('#tabla thead tr').append('<th>Archivos</th>');
+    case 'detalles': 
+      $('#tabla thead tr').append('<th>Inconsistencias</th>'); // Agregar encabezado para el otro botón
+      $('#tabla thead tr').append('<th>Archivos</th>');
     
-        $('#tabla').DataTable($.extend(true, {}, tabledata, {
-            "columnDefs": [
-                {
-                    "targets": -1, // Índice de la columna para el primer botón (contando desde 0)
-                    "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Abrir archivos</button>"
-                },
-                {
-                    "targets": -2, // Índice de la columna para el segundo botón (contando desde 0)
-                    "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-success btnverinc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver inconsistencias</button>"
-                }
-            ]
-        }));
+      $('#tabla').DataTable($.extend(true, {}, tabledata, {
+      "columnDefs": [
+      {
+      "targets": -1, "data": null,
+      "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Abrir archivos</button>"
+      },
+      {
+      "targets": -2, "data": null,
+      "defaultContent": "<button type='button' class='btn btn-success btnverinc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver inconsistencias</button>"
+      }]
+      }));
         
-        // Manejador de eventos para el nuevo botón
-        $('#tabla tbody').on('click', '.btnverddc', function() {
-            let ID = $(this).closest('tr').find('td:eq(0)').text();
-            vddc(ID); 
-        });
+      $('#tabla tbody').on('click', '.btnverddc', function() {
+      let ID = $(this).closest('tr').find('td:eq(0)').text();
+      vddc(ID); 
+      });
     
-        // Manejador de eventos para el nuevo botón
-        $('#tabla tbody').on('click', '.btnverinc', function() {
-          let ID = $(this).closest('tr').find('td:eq(0)').text();
-          vincon(ID);});
-        break;
-    
+      $('#tabla tbody').on('click', '.btnverinc', function() {
+      let ID = $(this).closest('tr').find('td:eq(0)').text();
+      vincon(ID);});
+    break;
 
-
-      case 'email_ddc':
-        $('#tabla thead tr').append('<th></th>');
+    case 'email_ddc':
+      $('#tabla thead tr').append('<th></th>');
     
-        $('#tabla').DataTable($.extend(true, {}, tabledata, {
-          "order": [],
-            "columnDefs": [{
-                "targets": -1,
-                "orderable": false,
-                "data": null,
-                "render": function (data, type, row) {
-                    if (row[6] != 'CORREO ENVIADO') {
-                        return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px; margin-left: -10px;">Enviar</button>';
-                    } else {
-                        return '<i class="bi bi-check2-circle" style="margin-left: -10%;"></i>';
-                    }
-                }
-            }]
-        }));
+      $('#tabla').DataTable($.extend(true, {}, tabledata, {
+      "order": [],
+      "columnDefs": [{
+      "targets": -1,
+      "orderable": false,
+      "data": null,
+      "render": function (data, type, row) {
+      if (row[6] != 'CORREO ENVIADO') {
+      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px; margin-left: -10px;">Enviar</button>';
+      } 
+      else { return '<i class="bi bi-check2-circle" style="margin-left: -10%;"></i>'; }}}]
+      }));
     
-        $('#tabla tbody').on('click', '.btnenviar', function() 
-        {let ddc = $(this).closest('tr').find('td:eq(0)').text();
-        sendmailddc(ddc); });
-      break;
+      $('#tabla tbody').on('click', '.btnenviar', function() 
+      {let ddc = $(this).closest('tr').find('td:eq(0)').text();
+      sendmailddc(ddc); });
+    break;
     }
 }
-
 
 
 eventlisten('.fico','click',function (){ 
@@ -136,15 +120,15 @@ eventlisten('.fico','click',function (){
 });
 
 
-eventlisten('#Cartanotif','change',function (){
-
+eventlisten('#Cartanotif','change',function ()
+{
   $('#fispan').text(' Quitar carta' );
   $('#fiicon').removeClass('bi-arrow-up-circle');
   $('#fiicon').addClass('bi-x-circle');
+});
 
-  });
 
-  eventlisten('.fico1','click',function (){ 
+eventlisten('.fico1','click',function (){ 
   
     if ($('#fiiconddc').hasClass('bi-x-circle')) 
     { 
@@ -157,15 +141,14 @@ eventlisten('#Cartanotif','change',function (){
   
     else { $('#archivosddc').click(); } 
     
-  });
+});
   
   
-  eventlisten('#archivosddc','change',function (){
+eventlisten('#archivosddc','change',function (){
 
-    $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);    
-    $('#fispanddc').text(' Quitar archivos' );
-    $('#fiiconddc').removeClass('bi-arrow-up-circle');
-    $('#fiiconddc').addClass('bi-x-circle');
+  $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);    
+  $('#fispanddc').text(' Quitar archivos' );
+  $('#fiiconddc').removeClass('bi-arrow-up-circle');
+  $('#fiiconddc').addClass('bi-x-circle');
 
-    });
-  
+});

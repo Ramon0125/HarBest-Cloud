@@ -10,10 +10,8 @@ if (!isset($_COOKIE['identificador']))
 }
 else {$identificador = $_COOKIE['identificador'];}
 
-
 $CONDB1 = NEW ConexionDB();
 $CONDB = $CONDB1->obtenerConexion();
-
 
 function SUMBLOCKUSER()
 {
@@ -58,7 +56,6 @@ function VALIDARBLOCK() : string
 
     return $EJECUTAR1['MENSAJE'];
 }
-
 
 
 function AUDITORIA(string $ID, string $MOVIMIENTO) : void

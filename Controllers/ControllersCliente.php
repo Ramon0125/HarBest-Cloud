@@ -32,7 +32,9 @@ class ControllerCliente extends ConexionDB {
         {
             $resultado = $ejecutar->fetch(PDO::FETCH_ASSOC);
 
-            if($resultado['MENSAJE'] === 'CIC'){$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN CLIENTE');}
+            if($resultado['MENSAJE'] === 'CIC'){$this->response['success'] = true; 
+            AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN CLIENTE');}
+
             else{$this->response['success'] = false; SUMBLOCKUSER();}
 
             $this->response['message'] = $resultado['MENSAJE'];
@@ -41,7 +43,6 @@ class ControllerCliente extends ConexionDB {
         else { $this->response['error'] = true; SUMBLOCKUSER();}
 
     }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($query); unset($ejecutar); unset($resultado);}
     
     return $this->response;
     }
@@ -74,7 +75,6 @@ class ControllerCliente extends ConexionDB {
         else { $this->response['error'] = true; SUMBLOCKUSER();}
 
     }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($query); unset($ejecutar); unset($resultado);}    
     
     return $this->response;
     }
@@ -105,7 +105,6 @@ class ControllerCliente extends ConexionDB {
         else { $this->response['error'] = true; SUMBLOCKUSER(); }
  
     }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-    finally {unset($query); unset($ejecutar); unset($resultado);} 
 
     return $this->response;
     }
@@ -132,7 +131,6 @@ class ControllerCliente extends ConexionDB {
     else { $this->response['error'] = true; SUMBLOCKUSER();}
 
     }catch(Exception) { $this->response['error'] = true;}
-    finally {unset($query); unset($ejecutar); unset($resultado);}  
     
     return $this->response;
     }

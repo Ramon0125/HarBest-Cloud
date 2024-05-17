@@ -39,7 +39,6 @@ public function agradm(string $name,string $direc): array
     else { $this->response['error'] = true; SUMBLOCKUSER(); }
   }
   catch (Exception) { $this->response['error'] = true; SUMBLOCKUSER(); }
-  finally {unset($var,$query,$res);}  
 
 return $this->response;
 }
@@ -61,14 +60,17 @@ if($consulta->rowCount() > 0)
 {
 $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
 
-if($resultado['MENSAJE'] === 'AMC'){$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO UNA ADMINISTRACION');}
+if($resultado['MENSAJE'] === 'AMC'){
+$this->response['success'] = true; 
+AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO UNA ADMINISTRACION');}
+
 else{$this->response['success'] = false; SUMBLOCKUSER();}
 
 $this->response['message'] = $resultado['MENSAJE'];
 }
 else {  $this->response['error'] = true; SUMBLOCKUSER();}
+
 }catch (Exception) { $this->response['error'] = true; SUMBLOCKUSER(); }
-finally {unset($consulta); unset($query); unset($resultado);}  
 
 return $this->response;
 }

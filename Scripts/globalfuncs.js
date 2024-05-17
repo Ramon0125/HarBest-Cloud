@@ -9,9 +9,12 @@ $(document).ready(function(){
   if(toggval() == -300){$('#chk').click();}
 
 
-  eventlisten('.toggle-sidebar-btn','click',function () {  $('body').toggleClass('toggle-sidebar');  });
-  eventlisten('.hamburger-lines','click',function () {$('#chk').click(); $('body').toggleClass('toggle-sidebar');})
+  eventlisten('.toggle-sidebar-btn','click',function () {  
+  $('body').toggleClass('toggle-sidebar');  });
 
+  
+  eventlisten('.hamburger-lines','click',function () {
+  $('#chk').click(); $('body').toggleClass('toggle-sidebar');})
 
 
   // Obtener la fecha actual
@@ -123,7 +126,7 @@ function cerrar()
   cancelButtonColor: '#dc3545',
   confirmButtonText: 'Si',
   cancelButtonText: 'Cancelar',
-  preConfirm: () => { var url = '../?hcerrar';  window.location.href = url;}});
+  preConfirm: () => { let url = '../?hcerrar';  window.location.href = url;}});
 }
 
 
@@ -159,7 +162,11 @@ case "00000": res(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se
 
 
 //Funcion que verifica que los parametros no esten vacios
-function validarparams(...args) { return !args.some(parametro => parametro.trim().length === 0); }
+function validarparams(...args) {
+  return !args.some(parametro => 
+    typeof parametro !== 'string' || parametro.trim().length === 0
+  );
+}
 
 
 //Funcion que valida los emails
@@ -175,18 +182,8 @@ function validaremail(email)
 //Funcion que valida los numeros
 function validarint(...ints) {
   const tester1 = /^[0-9]+$/;
-  if (Array.isArray(ints)) {
-      for (const val of ints) {
-          if (!tester1.test(val)) {
-              return false;
-          }
-      }
-      return true;
-  } else {
-      return tester1.test(ints);
-  }
+  return !ints.some(val => !tester1.test(val));
 }
-
 
 
 function modifystyle(objects, property, value) 
@@ -219,6 +216,3 @@ else {$(input).val('');}}
 
 
 const eventlisten = (obj,event,func) => {$(obj).on(event,func);}
-
-
-

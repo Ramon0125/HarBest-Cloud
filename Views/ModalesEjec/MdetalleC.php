@@ -65,7 +65,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   <div id="divdetalle" class="collapse" style="width: 100%;">
         <table id="tabladetalle" class="table" style="width: 100%; table-layout: fixed;"> 
             <col style="width: 100%;"> <!-- Establecer el ancho de cada columna -->
-            <thead><th>Inconsistencia</th></thead>
+            <thead><th>Inconsistencias</th></thead>
             <tbody id="detalles"></tbody>
         </table>
 </div></li></ul>

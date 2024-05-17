@@ -2,7 +2,6 @@ function agrusr(email, name, lastn) //Función para agregar un usuario
 {
 if (validarparams(email,name,lastn)) 
 {//Esto verifica que los campos tengan contenidos 
-
 if (validaremail(email)) {//Esto valida el email
 
 $.ajax({// Realizar una solicitud AJAX para agregar el usuario
@@ -14,12 +13,11 @@ data: { tipo: "addusr", Email: email, Name: name, Lastn: lastn },//Datos que se 
 success: function (data){if(data.success){LimpiarModal(false,false,'#formagrusr'); updatedatalists(1,['#browser1','#browserdltusr'])}
 responses(data); tablas('usrs');
 },// Manejar la respuesta del servidor
-error: function (){res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+error: function (){res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
-else {res(txt.ICV, "warning", 2000);} // Mostrar advertencia si el correo electrónico no es válido
-
+else {res(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
 } 
-else { res(txt.CTC, "warning", 1460); } // Mostrar advertencia si faltan parámetros
+else { res(txt.CTC, txt.W, 1460); } // Mostrar advertencia si faltan parámetros
 }
 
 
@@ -44,9 +42,9 @@ if (validarparams(id,token) && validarint(id))
     modifystyle(['#formedt','#btnedtusr'],'display','block');
     }                    
     else {responses(data);}}, // Mostrar mensaje de error
-    error: function () {res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+    error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 } 
-else {res(txt.EELS, "error", 2000);}
+else {res(txt.EELS, txt.E, 2000);}
 }
 
 
@@ -68,10 +66,10 @@ if (validarparams(id,name,email,nname,lastn,pass))
     responses(data); tablas('usrs');}, // Mostrar mensaje de error
     error: function () {res(txt.EELS, "error", 2000);}});} // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
                 
-    else {res(txt.ICV, "warning", 2000);} // Mostrar advertencia si el correo electrónico no es válido
+    else {res(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
         
 }
-else { res(txt.CTC, "warning", 1460);} // Mostrar advertencia si faltan parámetros
+else { res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
 }
 
 
@@ -89,10 +87,10 @@ function dltusr(id, name)
     success: function (data) {
     if(data.success){LimpiarModal('#slcdltuser1',['#browserdltusr','#btndltusr'],'#formdltusr'); updatedatalists(1,['#browser1','#browserdltusr']);}
     responses(data); tablas('usrs');},
-    error: function () {res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
+    error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
     } 
     
-    else {res(txt.CTC, "warning", 1460);} // Mostrar advertencia si faltan parámetros
+    else {res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
 }
 
 
@@ -107,8 +105,8 @@ function desusr(id)
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
     success: function (data) {responses(data); tablas('usrblocks');},
-    error: function () {res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
+    error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
     } 
     
-    else {res(txt.CTC, "warning", 1460);} // Mostrar advertencia si faltan parámetros
+    else {res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
 }

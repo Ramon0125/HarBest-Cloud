@@ -11,7 +11,9 @@ $(document).ready(function(){
 
 
 // Función para mostrar/ocultar contraseña
-function visor(inputElement) { inputElement.type = inputElement.type == 'password' ? 'text' : 'password'; }
+function visor(inputElement) { 
+inputElement.type = inputElement.type == 'text' ? 'password' : 'text'; 
+}
 
 
 // Función para validar el inicio de sesion
@@ -30,17 +32,18 @@ if(validaremail(Email)) //Esto valida que el correo sea correcto
     if (data.success)
     {
     if(data.message === 'a')
-    { var url = './Views/?Notificacion=' + encodeURIComponent(txt.SIC);
+    { 
+	  var url = './Views/?Notificacion=' + encodeURIComponent(txt.SIC);
       window.location.href = url;
     }
     else {modifystyle('#modalpass','display','block');  modifystyle('#form','display','none'); load(2);}
 	} 
-    else {responses(data); load(2);}},
+    else {load(2); responses(data);}},
     error: function () {res(txt.EELS, 'error', 2000);}});
   }
-  else { res(txt.ICV, "warning", 2000, false, false); }
+  else { res(txt.ICV, txt.W, 2000); }
 }
-else { res(txt.CTC, "warning", 2000, false, false); }
+else { res(txt.CTC, txt.W, 2000); }
 }
 
 
@@ -58,11 +61,11 @@ function MdfPass(p, p2) {
 		  success: function (data) {
 		  if (data.success) {var url = './Views/?Notificacion=' + encodeURIComponent(txt.CMC);
 		  window.location.href = url;}
-		  else{responses(data); load(2);}},
-		  error: function () {res(txt.EELS, 'error', 2000);}});
+		  else{load(2); responses(data); }},
+		  error: function () {res(txt.EELS, txt.E, 2000);}});
 	  }
 	  
-	  else { res(txt.CTC, 'warning', 1450, false, false); }
+	  else { res(txt.CTC, txt.W, 1450); }
 	}
-	else { res(txt.LCC, 'error', 1450, false, false); }
+	else { res(txt.LCC, txt.E, 1450); }
   }

@@ -13,10 +13,10 @@ class ControllerInicioSesion extends ConexionDB
     $this->exec = $this->obtenerConexion();
    }
    
-public function ValidarLogin(string $Email, string $Password) : array 
-{
- try
- {
+   public function ValidarLogin(string $Email, string $Password) : array 
+   {
+    try
+    {
     $sql = "CALL SP_VALIDAR_LOGIN(?,?)";
     $ejecucion = $this->exec->prepare($sql);
     $ejecucion->bindParam(1,$Email,PDO::PARAM_STR);
@@ -37,17 +37,19 @@ public function ValidarLogin(string $Email, string $Password) : array
      
       else {$this->response['message'] = $resultado['MENSAJE'];  SUMBLOCKUSER(); }
     }
-    else {$this->response['error'] = true; SUMBLOCKUSER();}    
- } catch(Exception){ $this->response['error'] = true; SUMBLOCKUSER(); } 
- finally {unset($sql,$ejecucion,$resultado);}
+    else {$this->response['error'] = true; SUMBLOCKUSER();} 
 
-return $this->response; 
-}
+    } catch(Exception){ $this->response['error'] = true; SUMBLOCKUSER(); } 
+
+    return $this->response; 
+    }
 
 
-public function ModificarPassword(string $passwordn1) : array {
-try 
-{  $val = GetInfo('EMAIL');
+    public function ModificarPassword(string $passwordn1) : array 
+    {
+      
+    try 
+    {  $val = GetInfo('EMAIL');
     $sql = "CALL SP_MODIFICAR_CLAVES_USUARIOS (?, ?, ?)";
     $ejecucion = $this->exec->prepare($sql);
     $ejecucion->bindParam(1, $val, PDO::PARAM_STR);
@@ -60,10 +62,10 @@ try
     $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
     if($resultado['MENSAJE'] === 'CMC')
     {
-      $this->response['success'] = true;
-      AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO SU CONTRASEÑA'); 
-      unset($_SESSION['LOG']); 
-      setcookie('PASS', '', time() - 3600, '/', '', false, true);}
+    $this->response['success'] = true;
+    AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO SU CONTRASEÑA'); 
+    unset($_SESSION['LOG']); 
+    setcookie('PASS', '', time() - 3600, '/', '', false, true);}
     else {$this->response['success'] = false; SUMBLOCKUSER();}
     
     $this->response['message'] = $resultado['MENSAJE'];
@@ -71,11 +73,10 @@ try
 
     else {$this->response['error'] = true; SUMBLOCKUSER();}
 
-} catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
-finally{unset($sql,$ejecucion,$resultado,$val);}
+    } catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
 
-return $this->response;
-}
+    return $this->response;
+    }
 
 }}
 

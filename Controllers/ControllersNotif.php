@@ -26,7 +26,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
         $exec->bindParam(4,$FEN,pdo::PARAM_STR);
         $exec->bindParam(5,$TIN,pdo::PARAM_STR);
         $exec->bindParam(6,$MON,pdo::PARAM_STR);
-        $exec->bindParam(7,$CARTA,pdo::PARAM_STR);
+        $exec->bindValue(7,$CARTA,pdo::PARAM_LOB);
         $exec->bindParam(8,$AIN,pdo::PARAM_STR);
         $exec->bindParam(9,$COM,pdo::PARAM_STR);
         $exec->bindParam(10,$MIME,pdo::PARAM_STR);
@@ -54,7 +54,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
         else { $this->response['error'] = true; SUMBLOCKUSER();}
         
     }catch (Exception) { $this->response['error'] = true; SUMBLOCKUSER(); }
-    finally{unset($query,$exec,$res);}
     
     return $this->response;
     }
@@ -146,7 +145,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
         else { $this->response['error'] = true; SUMBLOCKUSER();}
         
     }catch (Exception) { $this->response['error'] = true; SUMBLOCKUSER(); }
-    finally{unset($query,$exec,$res);}
     
     return $this->response;
     }
@@ -184,7 +182,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
         else { $this->response['error'] = true; SUMBLOCKUSER();}
         
     }catch (Exception) { $this->response['error'] = true; SUMBLOCKUSER(); }
-    finally{unset($query,$exec,$res);}
     
     return $this->response;
     }
