@@ -58,19 +58,33 @@ LimpiarModal('#slcntfddc1',false,'#formagrddc');
 }
 
 
-function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON)
+
+function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON,CORAUD,NOMAUD,TELAUD)
 {
-  if (validarparams(INCON)) {incon.push(INCON.trim());}
 
-  if (validarparams(INFECHA) && incon.length > 0 && INDETALL.length > 0) {
+  let max = 0;
 
-    if (validarint(INIDNOT,INNOCAS)) {
+  for (let a = 0; a < INDETALL.length; a++) { max += INDETALL[a].size; }
 
+  if (!validarparams(INFECHA,CORAUD,NOMAUD,TELAUD) || INDETALL.length <= 0) {res(txt.CTC,txt.W,2000);}
+  else if(!validarint(INIDNOT)){res(txt.EELS,txt.E,2000)}
+  else if(!validarint(INNOCAS)){res(txt.INCV,txt.W,2000)}
+  else if(!validaremailcl(CORAUD)){res(txt.ICV,txt.W,2000)}
+  else if(!validarint(TELAUD)){res(txt.ITV,txt.W,2000)}
+  else if((max / (1024**2) )> maxfilesize){res(txt.AMGR1,txt.W,false,true,txt.AMG);}
+  
+  else {
+    if (validarparams(INCON)) {incon.push(INCON.trim());}
+
+    if(incon.length > 0){ 
       let formData = new FormData();
 
       formData.append('INIDNOT', INIDNOT);
       formData.append('INNOCAS', INNOCAS);
       formData.append('INFECHA', INFECHA);
+      formData.append('CORAUD', CORAUD);
+      formData.append('NOMAUD', NOMAUD);
+      formData.append('TELAUD', TELAUD);
       formData.append('tipo', 'addddc');
 
       incon.forEach(element => {
@@ -91,36 +105,35 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON)
         success: function (DATA){ if(DATA.success){
         closedetails(); updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
         tablasejec('detalles');} responses(DATA);},
-        error: function(){txt.EELS,txt.E,2000}
-        });
-
-     }
-     else {res(txt.INCV,txt.W,2000)}
+        error: function(){res(txt.EELS,txt.E,2000)}
+      }); 
     }
-    
-    else {res(txt.CTC,txt.W,2000);} 
+    else {res(txt.CTC,txt.W,2000);}
+  }
 }
+
 
 
 function dltddc(idd,noc)
 {
-     if (validarint(idd,noc)) 
-     {  
-        $.ajax({
-        method: "POST",
-        url: "../Managers/ManagerDetalle.php",
-        data: {IDD: idd,NOC: noc,tipo: 'dltddc'},
-        beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
-        complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA){ 
-        if(DATA.success){
-        LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); 
-        updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
-        tablasejec('detalles');} responses(DATA);},
-        error: function(){txt.EELS,txt.E,2000}
-        });
-     }
-     else {res(txt.EELS,txt.W,2000)}
+  if (validarint(idd,noc)) 
+  {  
+    $.ajax({
+     method: "POST",
+     url: "../Managers/ManagerDetalle.php",
+     data: {IDD: idd,NOC: noc,tipo: 'dltddc'},
+     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
+     complete: function () { load(2); }, //Ocultar pantalla de carga
+     success: function (DATA){ 
+     if(DATA.success){tablasejec('detalles');
+     LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); 
+     updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
+     } responses(DATA);},
+     error: function(){txt.EELS,txt.E,2000}
+    });
+  }
+  
+  else {res(txt.EELS,txt.W,2000)}
 }
 
 
@@ -171,7 +184,7 @@ function sendmailddc(nop){
       beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
       complete: function () { load(2); }, //Ocultar pantalla de carga
       success: function (res) { responses(res);
-      if(res.success){tablasejec('email_notif')}},
+      if(res.success){tablasejec('detalles')}},
       error: function(){res(txt.EELS,txt.W,2000);}
     });
   }

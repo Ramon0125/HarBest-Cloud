@@ -11,7 +11,7 @@ function tablasejec(str)
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
     success: function (data) {
-    data.error == true ? responses(data) : tablesresult(str,data);},
+    data.error ? responses(data) : tablesresult(str,data);},
     error: function () {res(txt.EELS, "error", 2000);}});   
 }
 
@@ -21,86 +21,77 @@ function tablesresult(str,data){
   $('#tabla').html(data);
 
   switch (str) {
+
+    case 'detalles': 
+      $('#tabla thead tr').append('<th>INCONSISTENCIAS</th>'); // Agregar encabezado para el otro botón
+      $('#tabla thead tr').append('<th>ARCHIVOS</th>');
+    
+      $('#tabla').DataTable($.extend(true, {}, tabledata, {
+      "order": [],
+      "columnDefs": [
+      {
+      "targets": 9, 
+      "orderable": false,
+      "data": null,
+      "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Abrir archivos</button>"
+      },
+      {
+      "targets": 8, 
+      "data": null,
+      "orderable": false,
+      "defaultContent": "<button type='button' class='btn btn-success btnverinc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver inconsistencias</button>"
+      },
+      {
+        "targets": 7,
+        "orderable": false,
+        "render": function (data, type, row) {
+        if (row[7] != 'T') {
+        return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px; margin-left: -10px;">Enviar</button>';
+        } 
+        else { return '<i class="bi bi-check2-circle center"></i>'; }}}]
+      }));
+        
+      $('#tabla tbody').on('click', '.btnverddc', function() 
+      {vddc($(this).closest('tr').find('td:eq(0)').text())});
+    
+      $('#tabla tbody').on('click', '.btnverinc', function() 
+      {vincon($(this).closest('tr').find('td:eq(0)').text())});
+
+      $('#tabla tbody').on('click', '.btnenviar', function() 
+      {sendmailddc($(this).closest('tr').find('td:eq(0)').text())});
+    break;
+
+
     case 'notif':
       $('#tabla thead tr').append('<th>CARTA</th>');
       
-      $('#tabla').DataTable($.extend(true, {}, tabledata, {"columnDefs": [
-      {"targets": -1, "data": null,
+      $('#tabla').DataTable($.extend(true, {}, tabledata, {
+      "order": [],
+      "columnDefs": [
+      {"targets": -1, 
+      "data": null,
       "defaultContent": "<button type='button' class='btn btn-success btnvercarta' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver carta</button>"
-      }]}));
+      },
+      { 
+      "targets": 10,
+      "orderable": false,
+      "render": function (data, type, row) {
+      if (row[10] != 'T') {
+      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
+      }
+      else {return '<i class="bi bi-check2-circle center"></i>';}}
+      }]
+      }));
       
       $('#tabla tbody').on('click', '.btnvercarta', function() 
       {let ID = $(this).closest('tr').find('td:eq(0)').text();
       vcarta(ID); });
-    break;
-  
-    case 'email_notif':
-      $('#tabla thead tr').append('<th></th>');
-      
-      $('#tabla').DataTable($.extend(true, {}, tabledata, {
-      "order": [],
-      "columnDefs": [{ "targets": -1,
-      "orderable": false,
-      "data": null,
-      "render": function (data, type, row) {
-      if (row[6] != 'CORREO ENVIADO') {
-      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
-      }
-      else {return '<i class="bi bi-check2-circle" style="Dmargin-left: -10%;"></i>';}}
-      }]}
-      ));
-      
+
       $('#tabla tbody').on('click', '.btnenviar', function() 
       {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
       sendmail(NOTIF); });
     break;
 
-    case 'detalles': 
-      $('#tabla thead tr').append('<th>Inconsistencias</th>'); // Agregar encabezado para el otro botón
-      $('#tabla thead tr').append('<th>Archivos</th>');
-    
-      $('#tabla').DataTable($.extend(true, {}, tabledata, {
-      "columnDefs": [
-      {
-      "targets": -1, "data": null,
-      "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Abrir archivos</button>"
-      },
-      {
-      "targets": -2, "data": null,
-      "defaultContent": "<button type='button' class='btn btn-success btnverinc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver inconsistencias</button>"
-      }]
-      }));
-        
-      $('#tabla tbody').on('click', '.btnverddc', function() {
-      let ID = $(this).closest('tr').find('td:eq(0)').text();
-      vddc(ID); 
-      });
-    
-      $('#tabla tbody').on('click', '.btnverinc', function() {
-      let ID = $(this).closest('tr').find('td:eq(0)').text();
-      vincon(ID);});
-    break;
-
-    case 'email_ddc':
-      $('#tabla thead tr').append('<th></th>');
-    
-      $('#tabla').DataTable($.extend(true, {}, tabledata, {
-      "order": [],
-      "columnDefs": [{
-      "targets": -1,
-      "orderable": false,
-      "data": null,
-      "render": function (data, type, row) {
-      if (row[6] != 'CORREO ENVIADO') {
-      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px; margin-left: -10px;">Enviar</button>';
-      } 
-      else { return '<i class="bi bi-check2-circle" style="margin-left: -10%;"></i>'; }}}]
-      }));
-    
-      $('#tabla tbody').on('click', '.btnenviar', function() 
-      {let ddc = $(this).closest('tr').find('td:eq(0)').text();
-      sendmailddc(ddc); });
-    break;
     }
 }
 

@@ -1,9 +1,15 @@
 function agrnotif(IDCLT,FECHANOT,NONOT,TIPNOT,MOTIVNOT,CARTA,AINCUMPLI,COMENTS = false)
 {
-if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) && CARTA) 
-{
- if (validarint(IDCLT)) 
- { 
+
+ if (!validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) || !CARTA) 
+ {res(txt.CTC,txt.W,2000)}
+
+ else if (CARTA && CARTA.size / (1024 * 1024) > (parseInt(maxfilesize/3.3))) {res(txt.AMGR,txt.W,false,true,txt.AMG);}
+
+ else if (!validarint(IDCLT)) {res(txt.EELS,txt.W,2000)}
+
+ else
+ {
     let formData = new FormData();
     formData.append('IDCLT', IDCLT);
     formData.append('FECHANOT', FECHANOT);
@@ -23,16 +29,14 @@ if (validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) && CARTA)
         processData: false,
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA) { if(DATA.success){LimpiarModal(['#slcnotif1','#cltedtnot1'],['#dtledtnot','#formedtnotif1','#btnedtnotif'],['#formedtnotif11','#formedtnotif']);
-        updatedatalists(4,['#dtledtnot','#dtldltnot']);  tablasejec('notif');} responses(DATA);},
+        success: function (DATA) { if(DATA.success){ updatedatalists(4,['#dtledtnot','#dtldltnot']);
+        LimpiarModal(['#slcnotif1','#cltedtnot1'],['#dtledtnot','#formedtnotif1','#btnedtnotif'],['#formedtnotif11','#formedtnotif']);
+        tablasejec('notif');} responses(DATA);},
         error: function(){txt.EELS,txt.E,2000}
     });
  }
- else {res(txt.EELS,txt.W,2000)}
 }
 
-else {res(txt.CTC,txt.W,2000);}
-}
 
 
 function vcarta(IDN)
@@ -172,7 +176,7 @@ function sendmail(nop){
       beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
       complete: function () { load(2); }, //Ocultar pantalla de carga
       success: function (res) { responses(res);
-      if(res.success){updatedatalists(4,['#dtledtnot','#dtldltnot']); updatedatalists(5,['#dtlagrddc']);  tablasejec('email_notif')}},
+      if(res.success){updatedatalists(4,['#dtledtnot','#dtldltnot']); updatedatalists(5,['#dtlagrddc']);  tablasejec('notif')}},
       error: function(error){res(error,txt.W,2000);}
     });
   }

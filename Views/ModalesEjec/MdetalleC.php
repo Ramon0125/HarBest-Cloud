@@ -54,45 +54,67 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
     </div>
     </div>
 
-<hr class="my-4" style="margin-bottom: 0rem !important; background-color: #53ce00 !important; color: #53ce00; height: 4px;">
 
-<ul class="sidebar-nav" id="sidebar-nav">
-<li class="nav-item">
-  <a class="nav-link collapsed b1" style="padding: 8px 0px;" data-bs-target="#divdetalle" data-bs-toggle="collapse" href="#">
-  <span id="spandetalle">Detalles agregados</span><i class="bi bi-chevron-down ms-auto"></i>
-  </a>
-
-  <div id="divdetalle" class="collapse" style="width: 100%;">
-        <table id="tabladetalle" class="table" style="width: 100%; table-layout: fixed;"> 
-            <col style="width: 100%;"> <!-- Establecer el ancho de cada columna -->
-            <thead><th>Inconsistencias</th></thead>
-            <tbody id="detalles"></tbody>
-        </table>
-</div></li></ul>
+    
+<div class="d-inline-flex gap-1">
+<div class="col-sm-3.5">
+   <label for="cdaddc" class="form-label">Correo del auditor</label>
+   <input type="email" class="form-control" id="cdaddc" name="cdaddc" required autocomplete="off" maxlength="30">
+  </div>
 
 
-<hr class="my-4" style="margin-top: 0rem !important; margin-bottom: 0rem !important; background-color: #53ce00 !important; color: #53ce00; height: 4px;">
+  <div class="col-sm-3.5">
+   <label for="ndaddc" class="form-label">Nombre del auditor</label>
+   <input type="text" class="form-control" id="ndaddc" name="ndaddc" required autocomplete="off" maxlength="30">
+  </div>
+          
+  <div class="col-sm-3.5">
+   <label for="telddc" class="form-label">telefono del auditor</label>
+   <input type="tel" class="form-control" id="telddc" name="telddc" required autocomplete="off" maxlength="30">
+  </div>
+  </div>
+
+  <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+    <li class="nav-item">
+
+    <a class="nav-link collapsed b1" style="padding: 8px 0px;" data-bs-target="#divdetalle" data-bs-toggle="collapse" href="#">
+      <span id="spandetalle" style="display: flex; width:100%; justify-content:center">Detalles agregados</span><i class="bi bi-chevron-down ms-auto"></i>
+    </a>
+
+    <div id="divdetalle" class="collapse" style="width: 100%;">
+      <table id="tabladetalle" class="table" style="width: 100%; table-layout: fixed;"> 
+        <col style="width: 100%;"> <!-- Establecer el ancho de cada columna -->
+        <tbody id="detalles"></tbody>
+      </table>
+    </div>
+
+    </li>
+  </ul>
+
 
 
 <div class="col-lg-12">
-    <label id="labelinconsisddc" for="inconsisddc" class="form-label">Inconsistencia</label>
-    <textarea rows="8" cols="50" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
+    <label id="labelinconsisddc" for="inconsisddc" class="form-label">Detalles de Inconsistencia</label>
+    <textarea rows="4" cols="30" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
 </div>
 
-    <div class="d-inline-flex gap-1 cp">
+<div class="d-inline-flex gap-1 cp">
     <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="adddetail(document.getElementById('inconsisddc').value)">Agregar</button>
-    
     <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-warning" onclick="dropdetails()">Eliminar</button>
-    </div>
+</div>
 
-  
+<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+
   </div></div>
 
 </form></div>
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 
 <div class="modal-footer justify-content-center">
-<button type="button" tabindex="-1" class="btn btn-success" style="background-color:green" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('nocddc').value,document.getElementById('fdddc').value,document.getElementById('archivosddc').files,document.getElementById('inconsisddc').value)">Crear detalle</button>
+<button type="button" tabindex="-1" class="btn btn-success" style="background-color:green" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('nocddc').value,document.getElementById('fdddc').value,document.getElementById('archivosddc').files,document.getElementById('inconsisddc').value,document.getElementById('cdaddc').value,document.getElementById('ndaddc').value,document.getElementById('telddc').value)">Crear detalle</button>
 <button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
 </div></div></div></div>
 <!----------------FIN AGREGAR NOTIFICACION------------------------------->

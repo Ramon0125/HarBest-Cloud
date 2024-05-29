@@ -8,6 +8,7 @@ class EmailSender extends ConexionDB{
     private $conectdb;
     private $mail;
     private $res;
+
     private $days = array(
     "january" => "enero",
     "february" => "febrero",
@@ -75,6 +76,7 @@ class EmailSender extends ConexionDB{
     $filename = 'Carta de notificación de inconsistencia.' . explode('/', $value["MIME"])[1];
 
     $archivo_temporal = tempnam(sys_get_temp_dir(), 'Carta_de_notificación_de_inconsistencia');
+    
     file_put_contents($archivo_temporal, base64_decode($value["CARTA"]));
 
     $this->mail->addAttachment($archivo_temporal,$filename);

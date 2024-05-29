@@ -492,3 +492,10 @@ div .form-control.cartadiv{
   text-align: left !important;
 white-space: normal;
 word-wrap: break-word;    }
+
+
+.center{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

@@ -13,26 +13,21 @@ public function __construct()
   $this->OC = $this->obtenerConexion(); 
 }
 
-public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRING $INFECHA, ARRAY $INDETALL): array
+public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRING $INFECHA, STRING $INDETALL, STRING $CORAUD, STRING $NOMAUD, STRING $TELAUD): array
 { 
+
+
   try{
-
-      $detallesArchivos = array_map(function($tmp_name, $type, $name) {
-      return array(
-      'archivo' => base64_encode(file_get_contents($tmp_name)),
-      'mime' => $type,
-      'name' => $name
-      );},$INDETALL['tmp_name'], $INDETALL['type'],$INDETALL['name']);
-    
-      $values = json_encode($detallesArchivos);
-
-      $sql = "CALL SP_INSERTAR_DETALLE (?,?,?,?,?)";
+      $sql = "CALL SP_INSERTAR_DETALLE (?,?,?,?,?,?,?,?)";
       $ejecucion = $this->OC->prepare($sql);
-      $ejecucion->bindParam(1,$INIDNOT,PDO::PARAM_INT);
-      $ejecucion->bindParam(2,$INNOCAS,PDO::PARAM_INT);
-      $ejecucion->bindParam(3,$ININCON,PDO::PARAM_STR);
-      $ejecucion->bindParam(4,$INFECHA,PDO::PARAM_STR);
-      $ejecucion->bindValue(5,$values,PDO::PARAM_LOB);
+      $ejecucion->bindValue(1,$INIDNOT,1);
+      $ejecucion->bindValue(2,$INNOCAS,1);
+      $ejecucion->bindValue(3,$ININCON,2);
+      $ejecucion->bindValue(4,$INFECHA,2);
+      $ejecucion->bindValue(5,$INDETALL,3);
+      $ejecucion->bindValue(6,$CORAUD,2);
+      $ejecucion->bindValue(7,$NOMAUD,2);
+      $ejecucion->bindValue(8,$TELAUD,1);
       $ejecucion->execute();
 
       if ($ejecucion->rowCount() > 0) 
@@ -43,7 +38,7 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRIN
       $this->response['success'] = true; 
       AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN DETALLE DE CITACION');
       EMAILS($INNOCAS,2);
-      } 
+      }
       else { $this->response['success'] = false; SUMBLOCKUSER();}
 
       $this->response['message'] = $resultado['MENSAJE'];         

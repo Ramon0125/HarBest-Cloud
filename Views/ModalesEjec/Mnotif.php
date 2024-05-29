@@ -15,7 +15,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
   <div class="row g-3">
   
   <div class="col-lg-12 cp">
-    <label for="Cartanotif" class="form-label">Carta Notif.</label>
+    <label for="Cartanotif" class="form-label">Carta de notificación</label>
     <div class="form-control cartadiv">
     <input type="file" id="Cartanotif" class="cartafiles" accept=".pdf,.jpg,.png,.docx">
     <div class="fileicon fico">
@@ -25,7 +25,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
     </div>
 
     <div class="col-sm-6">
-    <label for="cltagrnot" class="form-label">Seleccione el cliente</label>  
+    <label for="cltagrnot" class="form-label">Cliente</label>  
     <input class="form-control" autocomplete="off" role="combobox" list="" id="cltagrnot" name="cltagrnot" placeholder="">
     <input type="hidden" id="cltagrnot1" name="cltagrnot1">
     <datalist id="dtlcltargnot" role="listbox">
@@ -39,19 +39,19 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
   
   
     <div class="col-sm-6">
-    <label for="Datenotf" class="form-label">Fecha Notif.</label>
+    <label for="Datenotf" class="form-label">Fecha Notificación</label>
     <input type="DATE" class="form-control" id="Datenotf" name="Datenotf" required autocomplete="off">
     </div>
         
             
     <div class="col-sm-6">
-    <label for="Notfic" class="form-label">No. Notificación</label>
+    <label for="Notfic" class="form-label">Numero Notificación</label>
     <input type="text" class="form-control" id="Notfic" name="Notfic" required autocomplete="off" maxlength="30">
     </div>
           
           
     <div class="col-sm-6">
-    <label for="Tiponotf" class="form-label">Seleccione el tipo de notif.</label>  
+    <label for="Tiponotf" class="form-label">Tipo Notificación</label>  
     <select id="Tiponotf" name="Tiponotf" class="form-select" style="width: 100%;">
     <option disabled selected style="display:none;"></option>
     <option value="FISCALIZACION">Fiscalizaci&oacute;n</option>

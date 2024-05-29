@@ -12,13 +12,13 @@ if(validarparams(rnc,email,nombre,adm)){//Verifica que los inputs contengan valo
       data: {FUNC:'agrclt', rnc: rnc, email: email, nombre: nombre, adm: adm},//Datos que seran enviados
       beforeSend: function () { load(1);},//Mostrar pantalla de carga durante la solicitud
       complete: function () { load(2);},//Ocultar pantalla de carga
-      success: function (data) { responses(data);
+      success: function (data) {
       if(data.success)
       {
        LimpiarModal('#admclt1',false,'#formagrclt'); 
        updatedatalists(2,['#browseredtclt','#browserdltclt']);
        tablas('clts');
-      }},
+      } responses(data); },
       error: function(){res(txt.EELS, txt.E,2000)}});   
     }
     else {res(txt.RNV, txt.W, 2000);}

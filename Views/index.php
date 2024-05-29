@@ -4,7 +4,6 @@
 <head>
 
 <!--- Meta -------------->
-<!--- Meta -------------->
 <meta name="robots" content="index, follow">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -295,19 +294,6 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
   <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
   <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
   </ul></li><!--- End Resolución de Determinación -->
-
-
-  <li class="nav-heading">Consulta de envios</li>
-
-  <li class="nav-item">
-    <a class="nav-link collapsed b1" onclick="tablasejec('email_notif')">
-  <i class="bi bi-envelope-exclamation"></i></i>Notif. de inconsistencias</a></li>
-
-  <li class="nav-item">
-  <a class="nav-link collapsed b1" onclick="tablasejec('email_ddc');">
-  <i class="bi bi-envelope-exclamation"></i></i>Detalle de Citacion</a></li>
-
-
 
   <!-- Tablas -->
 

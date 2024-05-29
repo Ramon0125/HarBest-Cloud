@@ -60,7 +60,7 @@ if (VALIDARBLOCK() === 'T') { ?>
  <form id="form">
  
  <div class="logo">
-  <img src="<?php echo APP_URL ?>Data/logo.ico" id="im"  width="60%" height="60%" hei alt="<?php echo APP_NAME ?>">
+  <img src="<?php echo APP_URL ?>Data/logo.png" id="im"  width="60%" height="60%" hei alt="<?php echo APP_NAME ?>">
  </div>
 
  <div class="form-item fi1">

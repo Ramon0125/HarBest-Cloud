@@ -2,7 +2,7 @@
 async function updatedatalists(tipo,datalists) 
 {
 
-  if (validarint(tipo) && validarparams(datalists)) {
+  if (validarint(tipo)) {
     
     $.ajax({
         type: 'POST',
@@ -11,8 +11,13 @@ async function updatedatalists(tipo,datalists)
         dataType: 'json',
         success: function (data) {
 
+          
+
         if (!data.error)
         { $(datalists).each(function(index, datalist) {
+
+
+
  
         $(datalist).empty();
         
@@ -29,6 +34,7 @@ async function updatedatalists(tipo,datalists)
       });
     }
     else {res(txt.EELS, "error", 2000);}
+
 }
 
 

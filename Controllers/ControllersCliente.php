@@ -122,7 +122,7 @@ class ControllerCliente extends ConexionDB {
     if($ejecutar->rowCount() > 0)
     {
     $resultado = $ejecutar->fetch(PDO::FETCH_ASSOC);
-           
+
     if($resultado['MENSAJE'] === 'CEC'){$this->response['success'] = true; AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UN CLIENTE');}
     else{$this->response['success'] = false; SUMBLOCKUSER();}
 
@@ -131,7 +131,7 @@ class ControllerCliente extends ConexionDB {
     else { $this->response['error'] = true; SUMBLOCKUSER();}
 
     }catch(Exception) { $this->response['error'] = true;}
-    
+
     return $this->response;
     }
 }

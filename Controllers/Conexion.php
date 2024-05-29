@@ -1,5 +1,5 @@
 <?php 
-    
+
 const APP_NAME = 'HarBest Cloud';
 ///VARIABLE GLOBAL DEL NOMBRE DE LA APLICACION
 
@@ -7,6 +7,7 @@ const APP_URL = "http://127.0.0.1/PROGRAMAS/HarBest-Cloud/";
 ///VARIABLE GLOBAL DE LA URL DE LA APLICACION
 
 const APP_HOST = '127.0.0.1';
+
 
 const APP_DBNAME = 'pfiducial';
 

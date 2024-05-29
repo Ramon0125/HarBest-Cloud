@@ -1,5 +1,7 @@
 const toggval = () => parseInt($('#sidebar').css('left'), 10); 
 
+const maxfilesize = 10;
+
 //Acciones que se cumpliran cuando se cargue por completo el DOM
 $(document).ready(function(){
 
@@ -111,7 +113,11 @@ DIC: 'Detalle de citación insertado correctamente',
 EID: 'Error al insertar detalle de citación',
 INCV: 'Ingrese un numero de caso valido',
 EED: 'Error al eliminar detalle de citacion',
-DEC: 'Detalle eliminado correctamente'
+DEC: 'Detalle eliminado correctamente',
+ITV: 'Ingrese un numero telefonico valido',
+AMG: 'Archivos muy grandes',
+AMGR: `El tamaño maximo permitido por archivo es ${parseInt(maxfilesize/3.3) } MB`,
+AMGR1: `El tamaño maximo permitido por archivo es ${maxfilesize} MB`
 };
 
 
