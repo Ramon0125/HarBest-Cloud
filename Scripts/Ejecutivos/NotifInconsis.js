@@ -1,6 +1,105 @@
+
+var nonotif = [];
+var tipnotif = [];
+var monotif = [];
+var annotif = [];
+
+
+function addnotificacion(n,t,m,a) {
+  if (!validarparams(n,t,m,a)) 
+  {res(txt.CTC,txt.W,2000);}
+  
+  else 
+  {  
+    nonotif.push(n);
+   tipnotif.push(t);
+    monotif.push(m);
+    annotif.push(a);
+
+    $('#spannotif').text(`${nonotif.length} Notificaciones Agregadas`);
+
+    $('#Notfic').val('');
+    $('#Tiponotf').val('');
+    $('#Motnotif').val('');
+    $('#Aincu').val('');
+
+    res(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Notificacion añadida');
+
+    updatenotificacion();   
+  }
+}
+
+
+
+function dropnotificacion(){
+
+  nonotif.pop();
+  tipnotif.pop();
+  monotif.pop();
+  annotif.pop();
+
+  updatenotificacion();
+
+  $('#spannotif').text(`${nonotif.length} Notificaciones agregadas`);
+
+  res(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Ultima notificacion eliminada'); 
+}
+
+
+function updatenotificacion(){
+
+  let table = document.getElementById("tablanotif");
+
+  while (table.firstChild) { table.removeChild(table.firstChild);}
+
+  for (let i = 0; i < nonotif.length; i++) {
+  let newRow = document.createElement("tr");
+
+  let newCell = document.createElement("td");
+  newCell.innerHTML = nonotif[i];
+  newRow.appendChild(newCell);
+
+  let newCell1 = document.createElement("td");
+  newCell1.innerHTML = tipnotif[i];
+  newRow.appendChild(newCell1);
+
+
+  let newCell2 = document.createElement("td");
+  newCell2.innerHTML = monotif[i];
+  newRow.appendChild(newCell2);
+
+
+  let newCell3 = document.createElement("td");
+  newCell3.innerHTML = annotif[i];
+  newRow.appendChild(newCell3);
+  
+  table.appendChild(newRow);
+  }
+  
+} 
+
+function closenotif()
+{
+nonotif = [];
+tipnotif = [];
+monotif = [];
+annotif = [];
+
+updatenotificacion();
+
+$('#Cartanotif').val('');
+$('#spannotif').text(`${incon.length} Notificaciones agregadas`);
+$('#fispan').text(' Buscar notificación');
+$('#fiicon').removeClass('bi-x-circle');
+$('#fiicon').addClass('bi-arrow-up-circle');
+
+LimpiarModal('#cltagrnot1',false,'#formagrnotif')
+}
+
+
+
 function agrnotif(IDCLT,FECHANOT,NONOT,TIPNOT,MOTIVNOT,CARTA,AINCUMPLI,COMENTS = false)
 {
-
  if (!validarparams(FECHANOT,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI) || !CARTA) 
  {res(txt.CTC,txt.W,2000)}
 
@@ -74,6 +173,7 @@ function vcarta(IDN)
 }
 
 
+
 // Función para obtener los detalles de un cliente
 function vdntf(id, non) 
 {
@@ -96,6 +196,7 @@ function vdntf(id, non)
  else {responses(data);}}, // Mostrar mensaje de error        
  error: function () {res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
+
 
 
 function edtnotif(idn,non,nidcli,nfech,nnon,ntipno,nmotnot,naincu) 
@@ -133,6 +234,7 @@ function edtnotif(idn,non,nidcli,nfech,nnon,ntipno,nmotnot,naincu)
   
   else {res(txt.CTC,txt.W,2000);}
 }
+
 
 
 function dltnotif(idn,non)
@@ -182,4 +284,3 @@ function sendmail(nop){
   }
   else {res(txt.EELS,txt.W,2000)}
   }
-

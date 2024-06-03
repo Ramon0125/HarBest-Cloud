@@ -3,15 +3,16 @@
 if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 <!---- MODAL AGREGAR NOTIFICACION --------->
 <div class="modal fade" id="agrnot" data-bs-backdrop="static" aria-hidden="true">
-<div class="modal-dialog modal-dialog-scrollable"><div class="modal-content">
+<div class="modal-dialog modal-dialog-scrollable"><div class="modal-content" style="left: -12%; width: 127%; top:2%;">
 <div class="modal-body">
 <div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
 <h3 style="color: #6f6e73;" class="modal-title"><strong>Agregar una nueva notificación</strong></h3>
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 </div>
-<form id="formagrnotif" style="overflow-y: auto;">
+<form id="formagrnotif">
 
   <div class="container">
+
   <div class="row g-3">
   
   <div class="col-lg-12 cp">
@@ -22,67 +23,101 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
     <i id="fiicon" class="bi bi-arrow-up-circle"></i><span id="fispan"> Buscar carta de notificación</span>
     </div>
     </div>
-    </div>
+  </div>
 
-    <div class="col-sm-6">
+  <div class="col-sm-6">
     <label for="cltagrnot" class="form-label">Cliente</label>  
     <input class="form-control" autocomplete="off" role="combobox" list="" id="cltagrnot" name="cltagrnot" placeholder="">
     <input type="hidden" id="cltagrnot1" name="cltagrnot1">
-    <datalist id="dtlcltargnot" role="listbox">
+   <datalist id="dtlcltargnot" role="listbox">
     <?php $cliente = Datos(2); // Obtener clientes
     if ($cliente !== false && count($cliente) > 0) {
     foreach ($cliente as $clientes){ ?>
     <option value="<?php echo $clientes["ID_CLIENTE"]; ?>"><?php echo $clientes["NOMBRE_CLIENTE"]; ?></option>
     <?php }} ?>
-    </datalist>
-    </div>
+   </datalist>
+  </div>
   
   
-    <div class="col-sm-6">
+  <div class="col-sm-6">
     <label for="Datenotf" class="form-label">Fecha Notificación</label>
-    <input type="DATE" class="form-control" id="Datenotf" name="Datenotf" required autocomplete="off">
-    </div>
+    <input type="DATE" class="form-control" id="Datenotf" name="Datenotf" required autocomplete="off"  max="<?php echo date("Y-m-d")?>">
+  </div>
         
-            
-    <div class="col-sm-6">
-    <label for="Notfic" class="form-label">Numero Notificación</label>
-    <input type="text" class="form-control" id="Notfic" name="Notfic" required autocomplete="off" maxlength="30">
-    </div>
+  <hr class="my-4" style="margin-bottom: -0.5rem !important; background-color: #53ce00 !important; color: #53ce00; height: 4px;">
+
+  <div style="overflow-y: auto;">
+  <ul class="sidebar-nav" id="sidebar-nav">
+   <li class="nav-item">
+
+  <a class="nav-link collapsed b1" style="padding: 8px 0px;" data-bs-target="#divnotifi" data-bs-toggle="collapse">
+    <span id="spannotif" style="display: flex; width:88%; justify-content:center; position: absolute;">Notificaciones Agregadas</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+
+  <div id="divnotifi" class="collapse" style="width: 100%;">
+    <table id="tablenotif" class="table" style="width: 100%; overflow:auto; text-align:center;"> 
+
+      <col style="width: 25%;">
+      <col style="width: 25%;">
+      <col style="width: 25%;">
+      <col style="width: 25%;">
+      
+      <thead>
+       <th>No.</th>
+       <th>Tipo</th>
+       <th>Motivo</th>
+       <th>Año</th>
+      </thead>
+      
+      <tbody id="tablanotif">
+      </tbody>
+
+    </table>
+  </div>
+
+   </li>
+  </ul>
+  </div>
+
+  <div class="col-sm-6">
+  <label for="Notfic" class="form-label">Numero Notificación</label>
+  <input type="text" class="form-control" id="Notfic" name="Notfic" required autocomplete="off" maxlength="30">
+  </div>
           
-          
-    <div class="col-sm-6">
-    <label for="Tiponotf" class="form-label">Tipo Notificación</label>  
-    <select id="Tiponotf" name="Tiponotf" class="form-select" style="width: 100%;">
-    <option disabled selected style="display:none;"></option>
-    <option value="FISCALIZACION">Fiscalizaci&oacute;n</option>
-    <option value="CONTROL">Control</option>
-    <option value="DEBERES FORMALES">Deberes formales</option>
-    </select>
-    </div>
-          
+  <div class="col-sm-6">
+  <label for="Tiponotf" class="form-label">Tipo Notificación</label>  
+  <select id="Tiponotf" name="Tiponotf" class="form-select" style="width: 100%;">
+  <option disabled selected style="display:none;"></option>
+  <option value="FISCALIZACION">Fiscalizaci&oacute;n</option>
+  <option value="CONTROL">Control</option>
+  <option value="DEBERES FORMALES">Deberes formales</option>
+  </select>
+  </div>    
                    
-    <div class="col-sm-6">
-    <label for="Motnotif" class="form-label">Motivo Notif</label>
-    <input type="text" class="form-control" name="Motnotif" id="Motnotif">
-    </div>
+  <div class="col-sm-6">
+  <label for="Motnotif" class="form-label">Motivo Notif</label>
+  <input type="text" class="form-control" name="Motnotif" id="Motnotif">
+  </div>
           
-    <div class="col-sm-6">
-    <label for="Aincu" class="form-label">Año incumplimiento </label>
-    <input type="text" class="form-control" name="Aincu" id="Aincu">
-    </div>
-          
-    <div class="col-lg-12">
-    <label for="Coments" class="form-label">Comentarios</label>
-    <textarea rows="2" cols="50" class="form-control" id="Coments" name="Coments"></textarea>
-    </div>
-          
+  <div class="col-sm-6">
+  <label for="Aincu" class="form-label">Año incumplimiento </label>
+  <input type="text" class="form-control" name="Aincu" id="Aincu">
+  </div>
+
+
+<div class="d-inline-flex gap-1 cp">
+  <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="addnotificacion(document.getElementById('Notfic').value,document.getElementById('Tiponotf').value,document.getElementById('Motnotif').value,document.getElementById('Aincu').value)">Agregar</button>
+  <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-warning" onclick="dropnotificacion()">Eliminar</button>
+</div>
+
+      
   </div></div>
 
 </form></div>
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" style="background-color:green" onclick="agrnotif(document.getElementById('cltagrnot1').value,document.getElementById('Datenotf').value,document.getElementById('Notfic').value,document.getElementById('Tiponotf').value,document.getElementById('Motnotif').value,document.getElementById('Cartanotif').files[0],document.getElementById('Aincu').value,document.getElementById('Coments').value)">Agregar notif.</button>
-<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#cltagrnot1',false,'#formagrnotif')">Cancelar</button>
+<button type="button" class="btn btn-success" style="background-color:green" onclick="agrnotif(document.getElementById('cltagrnot1').value,document.getElementById('Datenotf').value,document.getElementById('Notfic').value,document.getElementById('Tiponotf').value,document.getElementById('Motnotif').value,document.getElementById('Cartanotif').files[0],document.getElementById('Aincu').value)">Agregar notif.</button>
+<button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closenotif()">Cancelar</button>
 </div></div></div></div>
 <!----------------FIN AGREGAR NOTIFICACION------------------------------->
 
@@ -137,7 +172,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
 <div class="col-sm-6">
   <label for="edtDatenotf" class="form-label">Fecha Notif.</label>
-  <input type="DATE" class="form-control" id="edtDatenotf" name="edtDatenotf" required autocomplete="off">
+  <input type="DATE" class="form-control" id="edtDatenotf" name="edtDatenotf" required autocomplete="off" max="<?php echo date("Y-m-d")?>">
   </div>
 
 
