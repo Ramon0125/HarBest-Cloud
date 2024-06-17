@@ -34,6 +34,10 @@ elseif($_POST['FUNC'] == 'dltclt' && isset($_POST['id']) && isset($_POST['name']
 { $data = $CC->DeleteCliente($_POST['id'], $_POST['name']); }
 
 
+elseif($_POST['FUNC'] == 'getccclt' && isset($_POST['id'])) 
+{ $data = $CC->GetCCCliente($_POST['id']); }
+
+
 else {$data['error'] = true;}
 }
 

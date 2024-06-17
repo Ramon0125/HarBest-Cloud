@@ -49,6 +49,14 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
     $val->execute();
   }
 
+  function ArrayFormat ($array) {
+    if (count($array) > 1) {
+      return implode(', ', array_slice($array, 0, -1)) . ' y ' . end($array);
+    } else {
+      return $array[0];
+    }
+  }
+
 
   
 }

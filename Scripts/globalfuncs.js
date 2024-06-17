@@ -103,7 +103,7 @@ EDU: 'Error al desbloquear el usuario',
 ENE: 'Esta Notificacion Existe',
 NIC: 'Notificacion Insertada correctamente',
 EIN: 'Error al insertar notificaion',
-EEC: 'Email enviado correctamente',
+EEC1: 'Email enviado correctamente',
 EECE: 'Error al enviar email',
 NMC: 'Notificacion modificada correctamente',
 NEC: 'Notificacion eliminada correctamente',
@@ -117,7 +117,9 @@ DEC: 'Detalle eliminado correctamente',
 ITV: 'Ingrese un numero telefonico valido',
 AMG: 'Archivos muy grandes',
 AMGR: `El tamaño maximo permitido por archivo es ${parseInt(maxfilesize/3.3) } MB`,
-AMGR1: `El tamaño maximo permitido por archivo es ${maxfilesize} MB`
+AMGR1: `El tamaño maximo permitido por archivo es ${maxfilesize} MB`,
+CTDN: 'Debe agregar o eliminar los datos en los campos de notificacion para continuar',
+ENYEA: 'Esta notificación ya esta agregada'
 };
 
 

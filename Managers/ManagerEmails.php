@@ -19,9 +19,9 @@ require '../vendor/autoload.php';
 
 $SENDMAIL = new EmailSender();
 
-if($_POST['FUNC'] == 'NOTIF.' && isset($_POST['ENTITY']))
+if($_POST['FUNC'] == 'NOTIF.' && isset($_POST['ENTITY'],$_POST['CC']))
 {
- $data = $SENDMAIL->sendmailnotif($_POST['ENTITY']);
+ $data = $SENDMAIL->sendmailnotif($_POST['ENTITY'],$_POST['CC']);
 }
 elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY']))
 {

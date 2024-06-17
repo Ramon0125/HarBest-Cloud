@@ -17,30 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
     {
         $func = NEW ControllersNotif();
 
-        if ($_POST['tipo'] == 'agrnotif' && isset($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOT'], $_POST['TIPNOT'], $_POST['MOTIVNOT'], $_POST['AINCUMPLI'], $_POST['COMENTS'], $_FILES['CARTA'])) 
+        if ($_POST["tipo"] === "agrnotif" && isset($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOTIF'], $_POST['TIPNOTIF'], $_POST['IMPUNOTIF'], $_FILES['CARTA'])) 
         {
-          if(validarCarta(pathinfo($_FILES['CARTA']['name'], 4)))
-          {
-          $CARTA = base64_encode(file_get_contents($_FILES['CARTA']["tmp_name"]));
+          foreach ($_FILES['CARTA']['name'] as $key => $nombreArchivo) {
+        
+            $tipoArchivo = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
           
-          $response = $func->AGRNotif($_POST['IDCLT'], $_POST['NONOT'], $_POST['FECHANOT'], $_POST['TIPNOT'], $_POST['MOTIVNOT'], $CARTA, $_POST['AINCUMPLI'],$_POST['COMENTS'],$_FILES['CARTA']['type']);
-          }
-          else {$response['EANV'] = true; SUMBLOCKUSER();}  
+            if (!validarCarta($tipoArchivo)) { $validacionArchivos = false; break;} }
+        
+            if(!isset($validacionArchivos))
+            {
+            $response = $func->AGRNotif($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOTIF'], $_POST['TIPNOTIF'],$_POST['IMPUNOTIF'], $_FILES['CARTA']);
+            }
+
+            else {$response['EANV'] = true; SUMBLOCKUSER();}  
         }
 
         else if ($_POST['tipo'] == 'vcarta' && isset($_POST['IDN'])) 
         {
           $response = $func->vcarta($_POST['IDN']);
-        }
-
-        else if ($_POST['tipo'] == 'vdatos' && isset($_POST['ID'],$_POST['NON']))
-        {
-          $response = $func->vdatosnotif($_POST['ID'],$_POST['NON']);
-        }
-
-        else if ($_POST['tipo'] == 'edtnotif' && isset($_POST['IDN'],$_POST['NON'],$_POST['NIDCLI'],$_POST['NFECH'],$_POST['NNON'],$_POST['NTIPNO'],$_POST['NMOTNOT'],$_POST['NAINCU']))
-        {
-          $response = $func->EDTNotif($_POST['IDN'],$_POST['NON'],$_POST['NIDCLI'],$_POST['NFECH'],$_POST['NNON'],$_POST['NTIPNO'],$_POST['NMOTNOT'],$_POST['NAINCU']);
         }
 
         else if ($_POST['tipo'] == 'dltnotif' && isset($_POST['IDN'],$_POST['NON']))

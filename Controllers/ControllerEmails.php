@@ -43,11 +43,21 @@ class EmailSender extends ConexionDB{
     $this->mail->SMTPSecure = 'tls'; // tls o ssl
     $this->mail->Port = 587; // Puerto de SMTP
     $this->mail->setFrom('ramonemili15@gmail.com', 'LR Consultoria');
-    //$this->mail->addCC('juanlebron@harbest.net', 'JUAN LEBRON');
     $this->mail->CharSet = 'UTF-8';
     $this->mail->isHTML(); }
 
-    public function sendmailnotif($dat)
+
+    private function MDFCC($idn,$cc) : void
+    {
+        $MDF = "CALL SP_ADD_CC(?,?)";
+        $RES1 = $this->conectdb->prepare($MDF);
+        $RES1->bindParam(1, $idn, PDO::PARAM_INT);
+        $RES1->bindParam(2, $cc, PDO::PARAM_STR);
+        $RES1->execute(); 
+    }
+    
+
+    public function sendmailnotif($dat,$cc)
     {
     $query = "CALL SENDMAIL_NOTIF(?)";
     $exec = $this->conectdb->prepare($query);
@@ -58,40 +68,59 @@ class EmailSender extends ConexionDB{
     $value = $exec->fetch(PDO::FETCH_ASSOC);
     $exec->closeCursor();
 
+    $Notif = ArrayFormat(json_decode($value["NONOTIF"]));
+
+    $Impu = ArrayFormat(json_decode($value["IMPU"]));
+    
     $replacements = array(
     "[Nombre del Cliente]" => $value["NOCLT"],
-    "[Número de Notificación]" => $value["NONOTIF"],
-    "[Nombre del Impuesto]" => $value["NOIMPU"],
-    "[Año]" => $value["AIMPU"],
+    "[Número de Notificación]" => $Notif,
+    "[Nombre del Impuesto]" => $Impu,
     "[NOMBRE EJECUTIVO]" => GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'),
     "[EMAIL EJECUTIVO]" => GetInfo('EMAIL')
     );
 
-    $modelo = str_replace(array_keys($replacements), $replacements, file_get_contents("../Data/modelos/notifinconsis.html"));
+    $arch = $value["SIZE"] == 1 ? file_get_contents("../Data/modelos/notifinconsis.html") : file_get_contents("../Data/modelos/notifinconsis2.html");
+    
+    $modelo = str_replace(array_keys($replacements), $replacements, $arch);
 
-    $this->mail->addAddress($value["EMCLT"], $value["NOCLT"]);
+    $this->mail->addAddress($cc[0], $value["NOCLT"]);
     $this->mail->Subject = mb_convert_encoding('Notificación de Impuestos Internos - Acción Requerida', "UTF-8", "auto");
     $this->mail->Body = $modelo;
-    
-    $filename = 'Carta de notificación de inconsistencia.' . explode('/', $value["MIME"])[1];
 
-    $archivo_temporal = tempnam(sys_get_temp_dir(), 'Carta_de_notificación_de_inconsistencia');
-    
-    file_put_contents($archivo_temporal, base64_decode($value["CARTA"]));
+    $archivos = json_decode($value["CARTA"], true);
 
-    $this->mail->addAttachment($archivo_temporal,$filename);
+    foreach ($archivos as $inconsistencia) 
+    {
+    $archivo_temporal = tempnam(sys_get_temp_dir(), 'Archivo');
+            
+    file_put_contents($archivo_temporal, base64_decode($inconsistencia['CARTA']));
+        
+    $this->mail->addAttachment($archivo_temporal, $inconsistencia['NOMBRE']);   
+    }
 
-    if ($this->mail->send()) {
+    if(count($cc) > 1)
+    {
+    $ccvalue = array_slice($cc,1);
+    foreach($ccvalue as $CC) { $this->mail->addCC($CC); }
+    $this->MDFCC($value["ID_NOTIF"],json_encode($ccvalue));
+    }
+
+    if ($this->mail->send()) 
+    {
     $RES = "UPDATE EMAILS_NOTIF SET ESTATUS = 'T' WHERE ID_NOTIF = ?";
     $RES1 = $this->conectdb->prepare($RES);
     $RES1->bindParam(1, $value["ID_NOTIF"], PDO::PARAM_INT);
     $RES1->execute();
     $this->res['success'] = true;
-    $this->res['message'] = 'EEC';}
+    $this->res['message'] = 'EEC1';
+    }
     
-    else { $this->res['success'] = false;
+    else { 
+    $this->res['success'] = false;
     $this->res['message'] = 'EECE';
-    SUMBLOCKUSER(); }
+    SUMBLOCKUSER(); 
+    }
 
     }
     else { $this->res['error'] = true; SUMBLOCKUSER();}
@@ -177,6 +206,8 @@ class EmailSender extends ConexionDB{
     
     return $this->res;
     }
+
+
 
     }}
 

@@ -76,7 +76,7 @@ if (VALIDARBLOCK() === 'T') { ?>
  </div>
 
  <div class="form-item">
-  <input type="button" class="login pull-right" value="Iniciar Sesión" onclick="InicioSesion(document.getElementById('email').value,document.getElementById('password').value)">    
+  <input type="submit" class="login pull-right" value="Iniciar Sesión" onclick="InicioSesion(event,document.getElementById('email').value,document.getElementById('password').value)">    
  </div> 
 
  </form>
@@ -100,7 +100,7 @@ if (VALIDARBLOCK() === 'T') { ?>
   </div>
 
   <div class="form-item">
-   <input type="button" class="login pull-right" value="Confirmar cambio" onclick="MdfPass(document.getElementById('npass').value,document.getElementById('cpass').value)">    
+   <input type="submit" class="login pull-right" value="Confirmar cambio" onclick="MdfPass(event,document.getElementById('npass').value,document.getElementById('cpass').value)">    
   </div>  
 
  </form>
@@ -115,5 +115,4 @@ else
 $url = APP_URL.'Error/index.php?Error=001';
 $html = file_get_contents($url);
 echo $html;
-} 
-
+}

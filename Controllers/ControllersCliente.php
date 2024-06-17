@@ -134,6 +134,27 @@ class ControllerCliente extends ConexionDB {
 
     return $this->response;
     }
+
+
+    public function GetCCCliente(int $id): array
+    {       
+    try{
+    $query = "CALL SP_GET_CC(?)";
+    $ejecutar = $this->CDB->prepare($query);
+    $ejecutar->bindParam(1,$id,PDO::PARAM_INT);
+    $ejecutar->execute();
+           
+    if($ejecutar->rowCount() > 0)
+    {
+    $this->response['success'] = true;
+    $this->response['message'] = $ejecutar->fetch(PDO::FETCH_ASSOC);
+    }
+    else { $this->response['message'] = array(); SUMBLOCKUSER();}
+
+    }catch(Exception) { $this->response['error'] = true;}
+
+    return $this->response;
+    }
 }
 }
 else { header("LOCATION: ./404"); }

@@ -64,21 +64,24 @@ datalistcontrol(input,input2,objects,datalist,func,st);
 }
 }
 
+var currentFocus = -1;
 
 function datalistinput(input,input2,objects,datalist)
 {
-$(input2).val(0);  let hasMatch = false;
+
+$(input2).val(0);  let hasMatch = false; currentFocus = -1;
 
 if(objects != null){modifystyle(objects,'display','none');}
 
-if($(input).val().toUpperCase() !== '') 
+if($(input).val().toUpperCase().trim() !== '') 
 {
  $(datalist).find('option').each(function() 
  {
+  $(this).removeClass('active');
  if ($(this).text().toUpperCase().indexOf($(input).val().toUpperCase()) > -1)
- { $(this).show();   hasMatch = true; }
+ { $(this).show(); $(this).addClass('option-active');   hasMatch = true; }
 
- else { $(this).hide(); }
+ else { $(this).hide(); $(this).removeClass('option-active'); }
  });
 }
 
@@ -114,9 +117,29 @@ function datalistclick2(event,input,input2,datalist)
 
 
 function datalistblur2(input, input2, datalist)
-{
+{ currentFocus = -1;
     setTimeout(() => {
     if($(input2).val() == 0){
     datalistcontrol2(input,input2,datalist)}
     }, 200);
 }
+
+
+function datalistkeydown(e, browser) {
+    const options = $(browser).find('.option-active');
+  
+    const addActive = (index) => options.eq(index).addClass('active');
+  
+    if (currentFocus >= -1 && currentFocus < options.length) {
+      e.preventDefault();
+      switch (e.keyCode) {
+        case 40:  currentFocus++;  break;
+        case 38:  currentFocus = Math.max(currentFocus - 1, 0); break;
+        case 13:  if (currentFocus > -1 && options.length > 0) { options.eq(currentFocus).click();} break;
+      }
+  
+      options.removeClass('active');
+      addActive(currentFocus);
+    }
+  }
+  

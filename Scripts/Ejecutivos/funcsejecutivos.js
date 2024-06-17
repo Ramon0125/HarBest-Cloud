@@ -73,10 +73,10 @@ function tablesresult(str,data){
       "defaultContent": "<button type='button' class='btn btn-success btnvercarta' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Ver carta</button>"
       },
       { 
-      "targets": 10,
+      "targets": 6,
       "orderable": false,
       "render": function (data, type, row) {
-      if (row[10] != 'T') {
+      if (row[6] != 'T') {
       return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
       }
       else {return '<i class="bi bi-check2-circle center"></i>';}}

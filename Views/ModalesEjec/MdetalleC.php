@@ -120,39 +120,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 <!----------------FIN AGREGAR NOTIFICACION------------------------------->
 
 
-<!----------------------- MODAL ELIMINAR NOTIFICACION -------------------->
-<div class="modal fade" id="dltddc" data-bs-backdrop="static" aria-hidden="true">
-<div class="modal-dialog modal-dialog"><div class="modal-content">
-<div class="modal-body">
-<div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
-<h3 style="color: #6f6e73;" class="modal-title"><strong>Eliminar un detalle de citación</strong></h3>
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
-</div>
-<div class="container">
-
-<div class="col-fluid col-lg-12">
-<form id="formdltddc">
-  <label for="slcdltddc" class="form-label labeledtmdf">Seleccione el numero de caso</label>  
-  <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltddc" name="slcdltddc" placeholder="">
-  <input type="hidden" id="slcdltddc1" name="slcdltddc1">
-  <datalist id="dtldltddc" role="listbox">
-  <?php $ddc1 = Datos(6);
-  if ($ddc1 !== false && count($ddc1) > 0) {
-  foreach ($ddc1 as $ddc1s){ ?>
-  <option value="<?php echo $ddc1s["ID_DETALLE"]; ?>"><?php echo $ddc1s["NO_CASO"]; ?></option>
-  <?php }} ?>
-  </datalist>
-</form>
-</div>
-
-</div>
-  <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
-  <div class="d-flex justify-content-center mx-auto">
-    <button type="button" id="btndltddc" class="btn btn-success" style="background-color:green; display:none;" onclick="dltddc(document.getElementById('slcdltddc1').value,document.getElementById('slcdltddc').value)">Eliminar detalle</button>
-   &nbsp; <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc')">Cancelar</button>
-</div>
-</div></div></div></div>
-<!----------------FIN ELIMINAR NOTIFICACION------------------------------->
 
 
 <?php }

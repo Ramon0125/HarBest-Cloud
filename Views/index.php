@@ -46,7 +46,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 
 ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" type="text/css">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" rel="stylesheet" crossorigin="anonymous" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js" type="text/javascript"></script>
@@ -151,7 +151,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
   <li class="nav-heading">Tablas</li>
 
   <li class="nav-item">
-  <a class="nav-link collapsed b1" onclick="tablasejec('notif');">
+  <a class="nav-link collapsed b1" onclick="tablasejec('notif')">
   <i class="bi bi-envelope-exclamation"></i></i>Consulta de notificaciones de inconsistencias</a></li>
 
   <li class="nav-item">
@@ -172,11 +172,6 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
   <li class="dropdown-item">
    <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
    <i class="bi-plus-square"></i>Adicionar</a>
-  </li>
-
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-  <i class="bi bi-pencil-square"></i>Modificar</a>
   </li>
   
   <li class="dropdown-item">
@@ -432,10 +427,6 @@ else {  ?>
 <?php include_once './ModalesEjec/Mnotif.php'; ?>
 <!---------------------------------------------------FIN MODAL NOTIF. INCONSIS---------------------------------------------->
 
-<!-----------------------------------------------------MODAL DETALLE CITACION---------------------------------------------->
-<?php include_once './ModalesEjec/MdetalleC.php'; ?>
-<!---------------------------------------------------FIN MODAL DETALLE CITACION---------------------------------------------->
-<!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 

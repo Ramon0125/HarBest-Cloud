@@ -308,32 +308,35 @@ background-color: var(--acolorhov);
 
 
 datalist {
-  position: absolute;
-  font-family: inherit;
-  overflow-x: hidden;
-  z-index: 99999;
-  appearance: none;
-  width: 88.5%;
-  min-width: 43.5%;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: var(--textcolor);
-  background-color:var(--background);
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-  font-weight: 400;
-  }
+    max-height: 40%;
+    height: auto;
+    overflow: auto;
+    position: absolute;
+    font-family: inherit;
+    z-index: 99999;
+    appearance: none;
+    width: 88.5%;
+    min-width: 43.5%;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--textcolor);
+    background-color: var(--background);
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    font-weight: 400;
+}
+  
 
 option {
-  width: 100%;
-  min-width: 100%;
+  overflow-x: visible;
+  width: max-content;
   background-color: var(--background);
   padding: 4px 9px;
   color: var(--textcolor);
   margin-bottom: 1px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -342,11 +345,15 @@ option:hover,  .active{
   color: var(--textligthcolor);
 }
 
-#browseradmclt,#browseradmedtclt,#dtlcltargnot,#dtlcltedtnot {
+#browseradmclt,#browseradmedtclt,#dtlcltedtnot {
   width: 42.5% !important;
   min-width: 40.5% !important;
 }
 
+#dtlcltargnot{
+  width: 44.5% !important;
+  min-width: 40.5% !important;
+}
 
 .loading {
   height: 100%;

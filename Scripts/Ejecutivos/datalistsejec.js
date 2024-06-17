@@ -11,6 +11,8 @@ eventlisten('#cltagrnot','input',function ()
 // Evento 'onblur' para realizar acciones cuando 'admclt' pierde el foco
 eventlisten('#cltagrnot','blur',function () 
 {datalistblur2('#cltagrnot','#cltagrnot1','#dtlcltargnot');});
+
+eventlisten('#cltagrnot','keydown',function (e){if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlcltargnot')}});
     
 /////////FIN DATALIST ADM EDITAR CLIENTE//////////////////////////////////////////////
 

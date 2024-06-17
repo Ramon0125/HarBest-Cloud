@@ -17,8 +17,8 @@ inputElement.type = inputElement.type == 'text' ? 'password' : 'text';
 
 
 // Función para validar el inicio de sesion
-function InicioSesion(Email, Password) 
-{
+function InicioSesion(event,Email, Password) 
+{ event.preventDefault();
 if (validarparams(Email, Password)) //Esto verifica si los inputs no estan vacios
 {
 if(validaremail(Email)) //Esto valida que el correo sea correcto
@@ -48,7 +48,7 @@ else { res(txt.CTC, txt.W, 2000); }
 
 
 // Función para modificar la contraseña
-function MdfPass(p, p2) {
+function MdfPass(event,p, p2) { event.preventDefault();
 	if (p === p2) //Esto verifica si las contraseñas son iguales 
 	{
 	  if (validarparams(p)) //Esto verifica si las contraseñas no estan vacias
