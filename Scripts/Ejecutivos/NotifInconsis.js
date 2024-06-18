@@ -371,7 +371,7 @@ async function sendmail(nop){
       });    
 
 
-      if (CC.length == 0)
+      if (CC == null || CC.length == 0)
       {
       addinput('juanlebron@harbest.net');
       addinput('marielebron@harbest.net');

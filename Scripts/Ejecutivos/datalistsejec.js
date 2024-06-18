@@ -1,20 +1,13 @@
-/* DATALIST FROM EDTCLTADM */
-eventlisten('#dtlcltargnot','click', function(event)
-{datalistclick2(event,'#cltagrnot','#cltagrnot1','#dtlcltargnot');});
+/* DATALIST FROM SLCCLTNTF */
+eventlisten('#dtlcltargnot','click',(event) => {datalistclick2(event,'#cltagrnot','#cltagrnot1','#dtlcltargnot');});
 
+eventlisten('#cltagrnot','input',() => {datalistinput('#cltagrnot','#cltagrnot1',null,'#dtlcltargnot');});
 
-// Evento 'oninput' para filtrar opciones según la entrada del usuario en 'admclt'
-eventlisten('#cltagrnot','input',function () 
-{datalistinput('#cltagrnot','#cltagrnot1',null,'#dtlcltargnot');});
+eventlisten('#cltagrnot','blur',() => {datalistblur2('#cltagrnot','#cltagrnot1','#dtlcltargnot');});
 
+eventlisten('#cltagrnot','keydown',(e) => {if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlcltargnot')}});
     
-// Evento 'onblur' para realizar acciones cuando 'admclt' pierde el foco
-eventlisten('#cltagrnot','blur',function () 
-{datalistblur2('#cltagrnot','#cltagrnot1','#dtlcltargnot');});
-
-eventlisten('#cltagrnot','keydown',function (e){if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlcltargnot')}});
-    
-/////////FIN DATALIST ADM EDITAR CLIENTE//////////////////////////////////////////////
+/////////FIN DATALIST NTF SELECCIONAR CLIENTE//////////////////////////////////////////////
 
 
 /* DATALIST FROM EDTNOTIF */

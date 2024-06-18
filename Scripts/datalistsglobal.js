@@ -1,7 +1,6 @@
 
 async function updatedatalists(tipo,datalists) 
 {
-
   if (validarint(tipo)) {
     
     $.ajax({
@@ -9,16 +8,11 @@ async function updatedatalists(tipo,datalists)
         url: '../Controllers/datos.php',
         data: { tipo: tipo },
         dataType: 'json',
-        success: function (data) {
-
-          
+        success: function (data) {  
 
         if (!data.error)
         { $(datalists).each(function(index, datalist) {
 
-
-
- 
         $(datalist).empty();
         
         $.each(data, function(index, valor) {
@@ -126,18 +120,19 @@ function datalistblur2(input, input2, datalist)
 
 
 function datalistkeydown(e, browser) {
-    const options = $(browser).find('.option-active');
+  const options = $(browser).find('.option-active');
   
-    const addActive = (index) => options.eq(index).addClass('active');
+  const addActive = (index) => options.eq(index).addClass('active');
   
-    if (currentFocus >= -1 && currentFocus < options.length) {
-      e.preventDefault();
-      switch (e.keyCode) {
-        case 40:  currentFocus++;  break;
-        case 38:  currentFocus = Math.max(currentFocus - 1, 0); break;
-        case 13:  if (currentFocus > -1 && options.length > 0) { options.eq(currentFocus).click();} break;
-      }
-  
+  if (currentFocus >= -1 && currentFocus < options.length) {
+    e.preventDefault();
+    
+    switch (e.keyCode) {
+      case 40:  currentFocus++;  break;
+      case 38:  currentFocus = Math.max(currentFocus - 1, 0); break;
+      case 13:  if (currentFocus > -1 && options.length > 0) { options.eq(currentFocus).click();} break;
+    }
+
       options.removeClass('active');
       addActive(currentFocus);
     }
