@@ -3,16 +3,13 @@
 if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) { 
 
     function validarCarta($string) : bool {
-        $permitidos = ['pdf', 'jpg', 'png', 'docx'];
+    $permitidos = ['pdf', 'jpg', 'png', 'docx', 'doc'];
         
-        if (is_array($string)) {
-            return empty(array_diff(array_map('strtolower', $string), $permitidos));
-        } else {
-            return in_array(strtolower($string), $permitidos);
-        }
+    if (is_array($string)) { return empty(array_diff(array_map('strtolower', $string), $permitidos));} 
+        
+    else { return in_array(strtolower($string), $permitidos); }
     }
     
-
 
   function Validarcadena1(...$strings) : bool 
   {
@@ -55,6 +52,13 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
     } else {
       return $array[0];
     }
+  }
+
+
+  function HandleError() 
+  {
+    SUMBLOCKUSER();
+    return array('error' => true);
   }
 
 

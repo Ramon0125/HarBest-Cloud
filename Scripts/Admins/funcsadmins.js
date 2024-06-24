@@ -28,7 +28,7 @@ function tablas(str)
   beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
   complete: function () { load(2); }, //Ocultar pantalla de carga
   success: function (data) {
-  data.error == true ? responses(data) : tables(data,str);},
+  data.error ? responses(data) : tables(data,str);},
   error: function () {res(txt.EELS, "error", 2000);}});   
 }
 
@@ -40,5 +40,10 @@ $('#tabla').html(respuesta);
 
 if (str === 'usrblocks') { datausrblocks(); }
 
-else { $('table').removeClass('tcu'); $('#tabla').DataTable(tabledata); }
+else 
+{ 
+  $('table').removeClass('tcu');      
+  
+  $('#tabla').DataTable($.extend(true, {}, tabledata, {"autoWidth": false  })); 
+}
 }

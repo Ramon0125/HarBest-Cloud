@@ -1,6 +1,10 @@
+const PageURL = 'http://127.0.0.1/PROGRAMAS/HarBest-Cloud/';
+
 const toggval = () => parseInt($('#sidebar').css('left'), 10); 
 
 const maxfilesize = 10;
+
+const currentYear = new Date().getFullYear();
 
 //Acciones que se cumpliran cuando se cargue por completo el DOM
 $(document).ready(function(){
@@ -40,6 +44,7 @@ $(window).resize(function () { $('#chk').prop('checked',toggval() == 0 ? true : 
 
 
 const tabledata = {
+  "autoWidth": false,
   "language": { "emptyTable":     "No hay datos disponibles en la tabla",
   "info":           "&nbsp; Mostrando _END_ de _TOTAL_ registros",
   "infoEmpty":      "&nbsp; No hay coincidencias",
@@ -119,7 +124,8 @@ AMG: 'Archivos muy grandes',
 AMGR: `El tamaño maximo permitido por archivo es ${parseInt(maxfilesize/3.3) } MB`,
 AMGR1: `El tamaño maximo permitido por archivo es ${maxfilesize} MB`,
 CTDN: 'Debe agregar o eliminar los datos en los campos de notificacion para continuar',
-ENYEA: 'Esta notificación ya esta agregada'
+ENYEA: 'Esta notificación ya esta agregada',
+IAV: 'Ingrese un año valido'
 };
 
 
@@ -134,7 +140,7 @@ function cerrar()
   cancelButtonColor: '#dc3545',
   confirmButtonText: 'Si',
   cancelButtonText: 'Cancelar',
-  preConfirm: () => { let url = '../?hcerrar';  window.location.href = url;}});
+  preConfirm: () => { let url = PageURL+'?hcerrar';  window.location.href = url;}});
 }
 
 
@@ -160,7 +166,7 @@ let resp = (respuesta.block ? "1" : "0") + (respuesta.error ? "1" : "0") + (resp
 switch (resp)
 {
 case "10000": location.reload(); break;///Se ejecuta si el array contiene la propiedad bloqueo
-case "01000": const url = '../Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
+case "01000": const url = PageURL+'Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
 case "00100": $('.modal').modal('hide'); res(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
 case "00010": res(txt.MCI,txt.W,false,true,txt.CNV); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00001": res(txt.MCI1,txt.W,false,true,txt.EANV); break; ///Se ejecuta si el array contiene la propiedad CNV
@@ -171,7 +177,7 @@ case "00000": res(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se
 
 //Funcion que verifica que los parametros no esten vacios
 function validarparams(...args) {
-  return !args.some(parametro => 
+  return !args.every(parametro => 
     typeof parametro !== 'string' || parametro.trim().length === 0
   );
 }
@@ -190,9 +196,15 @@ function validaremail(email)
 //Funcion que valida los numeros
 function validarint(...ints) {
   const tester1 = /^[0-9]+$/;
-  return !ints.some(val => !tester1.test(val));
+  return !ints.every(val => !tester1.test(val));
 }
 
+function validaraño(int) {
+const tester1 = validarint(int);
+
+return tester1 ? !(int < 2015 || int > currentYear) : false;
+
+}
 
 function modifystyle(objects, property, value) 
 { $(objects).each(function(index, object) {

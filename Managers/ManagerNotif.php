@@ -4,13 +4,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
 {
     require '../Controllers/Conexion.php';
     require '../Controllers/ControllersBlocks.php';
-    require '../Controllers/ControllersNotif.php';
     require '../Controllers/Functions.php';
+    require '../Controllers/ControllersNotif.php';
   
   if (VALIDARBLOCK() === 'T') 
   {
 
-    if (!is_null(GetInfo('ID_USUARIO')) && Validarcadena1($_COOKIE['IDENTITY']) )
+    if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0 && Validarcadena1($_COOKIE['IDENTITY']))
     {
 
     if(Validarcadena1($_POST))

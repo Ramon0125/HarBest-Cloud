@@ -63,7 +63,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Madms.php') === false) { ?>
 
 if ($agradms !== false && count($agradms) > 0) {
 foreach ($agradms as $agradms1): ?>
-<option value="<?php echo $agradms1["ID_ADM"]; ?>"><?php echo $agradms1["NOMBRE_ADM"]; ?></option>
+<option value="<?php echo $agradms1["IDADM"]; ?>"><?php echo $agradms1["NombreADM"]; ?></option>
 <?php endforeach; }?>
 </datalist>
 

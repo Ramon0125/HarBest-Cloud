@@ -23,36 +23,9 @@ font-family: "Open Sans", sans-serif;
 user-select: none;
 }
 
-table {
-  table-layout: auto;
-  width: auto; 
-border-collapse: collapse;
-}
-
-table thead th{ 
-font-family: Oswald, sans-serif !important; 
-font-size:1.0rem; 
-color:var(--tabletxt);
-}
-
-
-table tbody td{
-  font-family: Arial, Helvetica, sans-serif;
-  font-size:1.0rem;
-  color: var(--tabletxt) !important; 
-  /*font-weight: bolder;*/ 
-  text-align: center !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  }
-
-
 a { color: var(--acolor); text-decoration: none; }
 
-
 h1,h2,h3,h4,h5,h6 { font-family: "Nunito", sans-serif; }
-
 
 /*--------------------------------------------------------------
 # Main
@@ -310,7 +283,8 @@ background-color: var(--acolorhov);
 datalist {
     max-height: 40%;
     height: auto;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: absolute;
     font-family: inherit;
     z-index: 99999;
@@ -330,8 +304,7 @@ datalist {
   
 
 option {
-  overflow-x: visible;
-  width: max-content;
+  width: 100%;
   background-color: var(--background);
   padding: 4px 9px;
   color: var(--textcolor);

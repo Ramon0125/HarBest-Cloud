@@ -3,57 +3,54 @@ var nonotif = [];
 var tipnotif = [];
 var impunotif = [];
 
+const DivIncumpli =document.getElementById('Incumplimientos');
 
-function addnotificacion(n,t,f) 
+function addnotificacion(n,t) 
 {
-  if (!validarparams(n,t)) 
-  {res(txt.CTC,txt.W,2000);}
+  if (!validarparams(n,t)) {return res(txt.CTC,txt.W,2000);}
 
-  else if(nonotif.includes(n)){res(txt.ENYEA,txt.W,false,true);}
+  if(nonotif.includes(n)){return res(txt.ENYEA,txt.W,false,true);}
   
-  else 
-  {  
-    let i = '';
+   let i = '';
 
-    let inputs = f.getElementsByTagName('input');
+   let inputs = DivIncumpli.getElementsByTagName('input');
   
-    for (let c = 0; c < inputs.length; c += 2) 
-    {
+   for (let c = 0; c < inputs.length; c += 2) 
+   {
       if (c + 1 < inputs.length) 
       { 
-        if(!validarparams(inputs[c].value) || !validarparams(inputs[c+1].value)){ return res(txt.CTC,txt.W,2000);}
+        if(!validarparams(inputs[c].value,inputs[c+1].value)) {return res(txt.CTC,txt.W,2000);}
+        if(!validaraño(inputs[c+1].value)) {return res(txt.IAV,txt.W,2000);}
 
         i += `${inputs[c].value}/${inputs[c+1].value}`;
           
         if (c + 2 < inputs.length) { i += ', '; }
       }
-    }
-    
+   }
 
    nonotif.push(n);
    tipnotif.push(t);
    impunotif.push(i);
 
-    $('#Notfic').val('');
-    $('#Tiponotf').val('');
-    $('#Motnotif').val('');
-    $('#Aincu').val('');
+   $('#Notfic').val('');
+   $('#Tiponotf').val('');
+   $('#Motnotif').val('');
+   $('#Aincu').val('');
+
+    while (inputs.length != 2) { dltinc() }
+
+    updatenotificacion();  
 
     $('#spannotif').text(`${nonotif.length} Notificaciones agregadas`);
 
-    res(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Notificacion añadida');
-
-    updatenotificacion();   
-
-    while (inputs.length != 2) { dltinc() }
-  }
+    res(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Notificacion añadida'); 
 }
 
 
 function dropnotificacion()
 {
-  if (nonotif.length > 0)
-  {
+  if (nonotif.length == 0)  {return res(`No hay notificaciones agregadas`,txt.W,2000);}
+
   nonotif.pop();  tipnotif.pop();  impunotif.pop();
 
   updatenotificacion();
@@ -61,11 +58,6 @@ function dropnotificacion()
   $('#spannotif').text(`${nonotif.length} Notificaciones agregadas`);
 
   res(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Ultima notificacion eliminada');
-  }
-  else 
-  {
-    res(`No hay notificaciones agregadas`,txt.W,2000);
-  }
 }
 
 
@@ -101,14 +93,14 @@ function closenotif()
 {
 nonotif = [];  tipnotif = [];  impunotif = [];
 
-let form = document.getElementById('Incumplimientos');
-let inputs = form.getElementsByTagName('div');
+let inputs = DivIncumpli.getElementsByTagName('div');
 
 updatenotificacion();
 
 $('#Cartanotif').val('');
 $('#spannotif').text(`${incon.length} Notificaciones agregadas`);
-$('#fispan').text(' Buscar notificación');
+$('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
+$('#fispan').text(' Buscar archivos');
 $('#fiicon').removeClass('bi-x-circle');
 $('#fiicon').addClass('bi-arrow-up-circle');
 
@@ -118,25 +110,53 @@ while (inputs.length != 2) { dltinc() }
 }
 
 
+const addinc = () => {
+  const inputs = (DivIncumpli.getElementsByTagName('input').length / 2 ) + 1;
+
+  let div = document.createElement('div');
+  div.classList = `col-sm-6 ${inputs}`;
+  div.innerHTML = `
+  <label for="Motnotif-${inputs}" class="form-label">Motivo Notif #${inputs}</label>
+  <input type="text" class="form-control" id="Motnotif-${inputs}">`;
+  DivIncumpli.appendChild(div);
+
+  let div1 = document.createElement('div');
+  div1.classList = `col-sm-6 ${inputs}`;
+  div1.innerHTML = `
+  <label for="Aincu-${inputs}" class="form-label">Año incumplimiento ${inputs} </label>
+  <input type="text" class="form-control" name="Aincu-${inputs}" id="Aincu-${inputs}">`;
+  DivIncumpli.appendChild(div1);
+}// Constante que agrega campos de incumplimiento
+
+
+const dltinc = () => {
+let inputs = DivIncumpli.getElementsByTagName('div');
+
+if(inputs.length > 2)
+{
+  DivIncumpli.removeChild(inputs[inputs.length - 1]);
+  DivIncumpli.removeChild(inputs[inputs.length - 1]);
+}
+}
+
+
 function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 {
  let max = 0;
 
  for (let a = 0; a < CARTA.length; a++) { max += CARTA[a].size; }
 
- if (!validarparams(IDCLT,FECHANOT) || CARTA.length == 0 || nonotif.length == 0 || tipnotif.length == 0 || impunotif.length == 0) 
- {res(txt.CTC,txt.W,2000)}
+ if (!validarparams(FECHANOT) || CARTA.length == 0 || nonotif.length == 0 || tipnotif.length == 0 || impunotif.length == 0) 
+ {return res(txt.CTC,txt.W,2000);}
 
- else if((max / (1024**2) )> maxfilesize)
- {res(txt.AMGR1,txt.W,false,true,txt.AMG);}
+ if((max / (1024**2) ) > maxfilesize)
+ {return res(txt.AMGR1,txt.W,false,true,txt.AMG);}
 
- else if (validarparams(NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)) 
- {res(txt.CTDN,txt.W,false,true)}
+ if (!validarint(IDCLT)) {return res(txt.EELS,txt.W,2000)}
 
- else if (!validarint(IDCLT)) {res(txt.EELS,txt.W,2000)}
+ if (validarparams(NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)) 
+ {return res(txt.CTDN,txt.W,false,true);}
 
- else
- {
     let formData = new FormData();
     formData.append('IDCLT', IDCLT);
     formData.append('FECHANOT', FECHANOT);
@@ -156,49 +176,21 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 
     $.ajax({
         type: "POST",
-        url: "../Managers/ManagerNotif.php",
+        url: PageURL+"Managers/ManagerNotif.php",
         data: formData,
         contentType: false,
         processData: false,
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA) { if(DATA.success){ updatedatalists(4,['#dtldltnot']);
-        closenotif();  tablasejec('notif');} responses(DATA); },
+        success: function (DATA) { 
+        if(DATA.success){ 
+        updatedatalists(4,['#dtldltnot']);
+        closenotif(); 
+        tablasejec('notif');} 
+        responses(DATA); },
         error: function(){txt.EELS,txt.E,2000}
     });
- }
 }
-
-
-const addinc = () => {
-  let form = document.getElementById('Incumplimientos');
-  const inputs = (form.getElementsByTagName('input').length / 2 ) + 1;
-
-  let div = document.createElement('div');
-  div.classList = `col-sm-6 ${inputs}`;
-  div.innerHTML = `
-  <label for="Motnotif-${inputs}" class="form-label">Motivo Notif #${inputs}</label>
-  <input type="text" class="form-control" id="Motnotif-${inputs}">`;
-  form.appendChild(div);
-
-  let div1 = document.createElement('div');
-  div1.classList = `col-sm-6 ${inputs}`;
-  div1.innerHTML = `
-  <label for="Aincu-${inputs}" class="form-label">Año incumplimiento ${inputs} </label>
-  <input type="text" class="form-control" name="Aincu-${inputs}" id="Aincu-${inputs}">`;
-  form.appendChild(div1);
-}
-
-const dltinc = () => {
-  let form = document.getElementById('Incumplimientos');
-  let inputs = form.getElementsByTagName('div');
-
-if(inputs.length > 2){
-  form.removeChild(inputs[inputs.length - 1]);
-  form.removeChild(inputs[inputs.length - 1]);
-}
-}
-
 
 
 function vcarta(IDN)
@@ -286,7 +278,7 @@ async function sendmail(nop){
      success: function (res) {
      if(res.success) 
      {
-     CCLT = res.message.EMAIL_CLIENTE;  
+     CCLT = res.message.EmailCliente;  
      CC = JSON.parse(res.message.CC); 
      } },
      error: function(error){res(error,txt.W,2000);}
@@ -373,8 +365,7 @@ async function sendmail(nop){
 
       if (CC == null || CC.length == 0)
       {
-      addinput('juanlebron@harbest.net');
-      addinput('marielebron@harbest.net');
+      addinput('administracion@harbest.net');
       }
       else{CC.forEach((correo) => { addinput(correo) }); }
 

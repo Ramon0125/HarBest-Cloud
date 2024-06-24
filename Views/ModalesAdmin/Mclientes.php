@@ -39,7 +39,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
 
 if ($adms !== false && count($adms) > 0) {
 foreach ($adms as $adm): ?>
-<option value="<?php echo $adm["ID_ADM"]; ?>"><?php echo $adm["NOMBRE_ADM"]; ?></option>
+<option value="<?php echo $adm["IDADM"]; ?>"><?php echo $adm["NombreADM"]; ?></option>
 <?php endforeach; }?>
 </datalist>
 </div>
@@ -79,7 +79,7 @@ foreach ($adms as $adm): ?>
 
 if ($cliente !== false && count($cliente) > 0) {
 foreach ($cliente as $clientes){ ?>
-<option value="<?php echo $clientes["ID_CLIENTE"]; ?>"><?php echo $clientes["NOMBRE_CLIENTE"]; ?></option>
+<option value="<?php echo $clientes["IDCliente"]; ?>"><?php echo $clientes["NombreCliente"]; ?></option>
 <?php }} ?>
 </datalist></form></div>
 </div>
@@ -114,7 +114,7 @@ foreach ($cliente as $clientes){ ?>
 
 if ($adms1 !== false && count($adms1) > 0) {
 foreach ($adms1 as $adm1): ?>
-<option value="<?php echo $adm1["ID_ADM"]; ?>"><?php echo $adm1["NOMBRE_ADM"]; ?></option>
+<option value="<?php echo $adm1["IDADM"]; ?>"><?php echo $adm1["NombreADM"]; ?></option>
 <?php endforeach; }?>
 </datalist>
 </div>
@@ -150,7 +150,7 @@ foreach ($adms1 as $adm1): ?>
 
 if ($cliente1 !== false && count($cliente1) > 0) {
 foreach ($cliente1 as $clientes1){ ?>
-<option value="<?php echo $clientes1["ID_CLIENTE"]; ?>"><?php echo $clientes1["NOMBRE_CLIENTE"]; ?></option>
+<option value="<?php echo $clientes1["IDCliente"]; ?>"><?php echo $clientes1["NombreCliente"]; ?></option>
 <?php }} ?>
 </datalist></form></div>
 </div>

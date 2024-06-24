@@ -3,76 +3,62 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersAdm.php') === false) {
 
 CLASS ControllersAdm extends ConexionDB
 {
-private $Oconect;
-private $response;
-
+private $ConexionDB;
+private $Response;
 
 public function __construct()
 {
 parent::__construct();
-$this->Oconect = $this->obtenerConexion();
+$this->ConexionDB = $this->obtenerConexion();
 }
 
 public function agradm(string $name,string $direc): array
 {
   try 
   {   
-    $var = "CALL SP_INSERTAR_ADM(?,?)";
-    $query = $this->Oconect->prepare($var);
-    $query->bindParam(1, $name,PDO::PARAM_STR);
-    $query->bindParam(2, $direc,PDO::PARAM_STR);
-    $query->execute();
+    $Query = "CALL SP_INSERTAR_ADM(?,?)";
+    $QueryExecution = $this->ConexionDB->prepare($Query);
+    $QueryExecution->bindParam(1, $name,PDO::PARAM_STR);
+    $QueryExecution->bindParam(2, $direc,PDO::PARAM_STR);
+    $QueryExecution->execute();
     
-    if($query->rowCount() > 0)
-    {
-    $res = $query->fetch(PDO::FETCH_ASSOC);
+    if($QueryExecution->rowCount() == 0) { return HandleError();}
+    
+    $Data = $QueryExecution->fetch(PDO::FETCH_ASSOC);
 
-    if($res['MENSAJE'] === 'AIC')
-    {
-      $this->response['success'] = true; 
-      AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UNA ADMINISTRACION');
-    }
-    else{$this->response['success'] = false; SUMBLOCKUSER();}
+    $this->Response['success'] = $Data['MENSAJE'] === 'AIC';
+    $this->Response['message'] = $Data['MENSAJE'];
+    $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'INSERTO UNA ADMINISTRACION') : SUMBLOCKUSER();
 
-    $this->response['message'] = $res['MENSAJE'];
-    }
-    else { $this->response['error'] = true; SUMBLOCKUSER(); }
   }
-  catch (Exception) { $this->response['error'] = true; SUMBLOCKUSER(); }
+  catch (Exception) { return HandleError(); }
 
-return $this->response;
+return $this->Response;
 }
 
 
 public function edtadm(int $id, string $name, string $nname, string $ndirecc) : array 
 {
-
 try {
-$query = "CALL SP_MODIFICAR_ADM(?,?,?,?)";
-$consulta = $this->Oconect->prepare($query);
-$consulta->bindParam(1,$id,PDO::PARAM_INT);
-$consulta->bindParam(2,$name,PDO::PARAM_STR);
-$consulta->bindParam(3,$nname,PDO::PARAM_STR);
-$consulta->bindParam(4,$ndirecc,PDO::PARAM_STR);
-$consulta->execute();
+ $Query = "CALL SP_MODIFICAR_ADM(?,?,?,?)";
+ $QueryExecution = $this->ConexionDB->prepare($Query);
+ $QueryExecution->bindParam(1,$id,PDO::PARAM_INT);
+ $QueryExecution->bindParam(2,$name,PDO::PARAM_STR);
+ $QueryExecution->bindParam(3,$nname,PDO::PARAM_STR);
+ $QueryExecution->bindParam(4,$ndirecc,PDO::PARAM_STR);
+ $QueryExecution->execute();
 
-if($consulta->rowCount() > 0)
-{
-$resultado = $consulta->fetch(PDO::FETCH_ASSOC);
+ if($QueryExecution->rowCount() == 0) { return HandleError(); }
+ 
+  $Data = $QueryExecution->fetch(PDO::FETCH_ASSOC);
 
-if($resultado['MENSAJE'] === 'AMC'){
-$this->response['success'] = true; 
-AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO UNA ADMINISTRACION');}
-
-else{$this->response['success'] = false; SUMBLOCKUSER();}
-
-$this->response['message'] = $resultado['MENSAJE'];
+  $this->Response['success'] = $Data['MENSAJE'] === 'AMC';
+  $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'MODIFICO UNA ADMINISTRACION') : SUMBLOCKUSER();
+  $this->Response['message'] = $Data['MENSAJE'];
 }
-else {  $this->response['error'] = true; SUMBLOCKUSER();}
+catch (Exception) { { return HandleError(); } }
 
-}catch (Exception) { $this->response['error'] = true; SUMBLOCKUSER(); }
-
-return $this->response;
+return $this->Response;
 }
 
 }

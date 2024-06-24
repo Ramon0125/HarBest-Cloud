@@ -15,9 +15,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
 <div class="row g-3">
 
   <div class="col-sm-6">
-  <label for="privusr" class="form-label">Privilegios</label>  
+  <label for="privusr" class="form-label">Departamento</label>  
   <select id="privusr" name="privusr" class="form-select" style="width: 100%;">
-  <option selected value="EJECUTIVO">Ejecutivo</option>
+  <option selected value="CASOS FISCALES">CASOS FISCALES</option>
   </select>
   </div>
   
@@ -41,7 +41,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
 
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" style="background-color:green" onclick="agrusr(document.getElementById('usremail').value, document.getElementById('usrname').value, document.getElementById('usrlastname').value)">Agregar Usuario</button>
+<button type="button" class="btn btn-success" style="background-color:green" onclick="agrusr(document.getElementById('privusr').value, document.getElementById('usremail').value, document.getElementById('usrname').value, document.getElementById('usrlastname').value)">Agregar Usuario</button>
 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal(false,false,'#formagrusr')">Cancelar</button>
 </div></div></div></div>
 <!---------------FIN MODAL AGREGAR USUARIOS------------------->
@@ -72,7 +72,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
 
 if ($usuarios !== false && count($usuarios) > 0) {
 foreach ($usuarios as $user){ ?>
-<option value="<?php echo $user["ID_USUARIO"]; ?>"><?php echo $user["NOMBRE"]; ?></option>
+<option value="<?php echo $user["IDUsuario"]; ?>"><?php echo $user["NOMBRE"]; ?></option>
 <?php }} ?>
 </datalist></form></div>
 </div>
@@ -134,7 +134,7 @@ foreach ($usuarios as $user){ ?>
 
 if ($usuarios1 !== false && count($usuarios1) > 0) {
 foreach ($usuarios1 as $user1): ?>
-<option value="<?php echo $user1["ID_USUARIO"]; ?>"><?php echo $user1["NOMBRE"]; ?></option>
+<option value="<?php echo $user1["IDUsuario"]; ?>"><?php echo $user1["NOMBRE"]; ?></option>
 <?php endforeach; }?>
 </datalist></form></div>
 </div>

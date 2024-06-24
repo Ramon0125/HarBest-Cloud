@@ -2,21 +2,21 @@
 
 if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 <!---- MODAL AGREGAR DETALLE DE CITACION --------->
-<div class="modal fade" id="agrddc" data-bs-backdrop="static" aria-hidden="true">
-<div class="modal-dialog modal-dialog-scrollable" style="display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 35%;
-    max-width: none;"><div class="modal-content" style="max-width:none;">
-<div class="modal-body">
-<div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
-<h3 style="color: #6f6e73;" class="modal-title"><strong>Agregar un detalle de citación</strong></h3>
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
-</div>
-<form id="formagrddc" style="overflow-y: auto;">
 
-  <div class="container">
-  <div class="row g-3">
+<div class="modal fade" id="agrddc" data-bs-backdrop="static" aria-hidden="true">
+ <div class="modal-dialog modal-dialog-scrollable center">
+  <div class="modal-content">
+   
+  <div class="modal-body">
+   <div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
+     <h3 style="color: #6f6e73;" class="modal-title"><strong>Agregar un detalle de citación</strong></h3>
+     <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+   </div>
+
+   <form id="formagrddc" style="overflow-y: auto;">
+
+      <div class="container">
+      <div class="row g-3">
   
   <div class="col-fluid col-lg-12">
     <form id="formagrddc1">

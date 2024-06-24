@@ -7,12 +7,14 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
     private $con;
     private $response;
 
+
     public function __construct() 
     {
      parent::__construct();
      $this->con = $this->obtenerConexion();
     }
 
+    
     public function AGRNotif(int $IDC,string $FEN,array $NOT,array $TIP,array $IMPU, $CARTA) : array 
     {
     try {
@@ -104,20 +106,15 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
         if ($exec->rowCount() > 0) 
         {
             $res = $exec->fetch(PDO::FETCH_ASSOC);
+            $this->response['success'] = $res['MENSAJE'] === 'NEC';
+            $this->response['message'] = $res['MENSAJE'];
 
-            if ($res['MENSAJE'] === 'NEC') 
-            {
-            $this->response['success'] = true;
-            AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UNA NOTIFICACION DE INCONSISTENCIA');
-            }
+            if ($this->response['success']) 
+            {AUDITORIA(GetInfo('ID_USUARIO'),'ELIMINO UNA NOTIFICACION DE INCONSISTENCIA');}
 
             else 
-            {
-             $this->response['success'] = false;
-             SUMBLOCKUSER();
-            }
+            {SUMBLOCKUSER();}
 
-            $this->response['message'] = $res['MENSAJE'];
         }
         else { $this->response['error'] = true; SUMBLOCKUSER();}
         

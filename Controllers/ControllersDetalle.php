@@ -7,6 +7,7 @@ class ControllerDettalles extends ConexionDB
 private $response = array();
 private $OC;
 
+
 public function __construct() 
 { 
   parent::__construct(); 
@@ -15,8 +16,6 @@ public function __construct()
 
 public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRING $INFECHA, STRING $INDETALL, STRING $CORAUD, STRING $NOMAUD, STRING $TELAUD): array
 { 
-
-
   try{
       $sql = "CALL SP_INSERTAR_DETALLE (?,?,?,?,?,?,?,?)";
       $ejecucion = $this->OC->prepare($sql);
@@ -33,20 +32,20 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, string $ININCON, STRIN
       if ($ejecucion->rowCount() > 0) 
       {
       $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
-        
-      if($resultado['MENSAJE'] === 'DIC') {
-      $this->response['success'] = true; 
+    
+      $this->response['success'] = $resultado['MENSAJE'] === 'DIC';
+      $this->response['message'] = $resultado['MENSAJE'];         
+    
+      if($this->response['success']) {
       AUDITORIA(GetInfo('ID_USUARIO'),'INSERTO UN DETALLE DE CITACION');
       EMAILS($INNOCAS,2);
       }
-      else { $this->response['success'] = false; SUMBLOCKUSER();}
-
-      $this->response['message'] = $resultado['MENSAJE'];         
+      else {SUMBLOCKUSER();}
       }
-      else { $this->response['error'] = true; SUMBLOCKUSER();}  
+      else { $this->response['error'] = true; SUMBLOCKUSER(); } 
 
   }catch(Exception) {$this->response['error'] = true; SUMBLOCKUSER();}
-    
+  
   return $this->response;
 }
 
@@ -69,10 +68,10 @@ public function DeleteDetalle(int $IDD, string $NOC): array
         
         else {$this->response['success'] = false; SUMBLOCKUSER();}
 
-        $this->response['message'] = $resultado['MENSAJE'];}
+        $this->response['message'] = $resultado['MENSAJE'];
+      }
 
-
-        else { $this->response['error'] = true; SUMBLOCKUSER();}
+      else { $this->response['error'] = true; SUMBLOCKUSER();}
       }catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
 
     return $this->response;
@@ -95,6 +94,7 @@ public function varchivos(int $IDD) : array
 
     return $this->response;
 }
+
 
 public function vinconsistencias(int $IDD) : array 
 {

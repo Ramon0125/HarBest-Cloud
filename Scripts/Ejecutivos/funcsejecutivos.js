@@ -101,7 +101,8 @@ eventlisten('.fico','click',function (){
   if ($('#fiicon').hasClass('bi-x-circle')) 
   { 
     $('#Cartanotif').val('');
-    $('#fispan').text(' Buscar carta');
+    $('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
+    $('#fispan').text(' Buscar archivos');
     $('#fiicon').removeClass('bi-x-circle');
     $('#fiicon').addClass('bi-arrow-up-circle');
   }
@@ -113,9 +114,11 @@ eventlisten('.fico','click',function (){
 
 eventlisten('#Cartanotif','change',function ()
 {
-  $('#fispan').text(' Quitar carta' );
+  $('#fispan').text(' Quitar archivos' );
   $('#fiicon').removeClass('bi-arrow-up-circle');
   $('#fiicon').addClass('bi-x-circle');
+  $('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
+
 });
 
 

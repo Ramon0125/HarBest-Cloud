@@ -19,32 +19,30 @@ inputElement.type = inputElement.type == 'text' ? 'password' : 'text';
 // Función para validar el inicio de sesion
 function InicioSesion(event,Email, Password) 
 { event.preventDefault();
-if (validarparams(Email, Password)) //Esto verifica si los inputs no estan vacios
-{
-if(validaremail(Email)) //Esto valida que el correo sea correcto
-  {   
+if (!validarparams(Email, Password)) {return res(txt.CTC, txt.W, 2000);} //Esto verifica si los inputs no estan vacios
+
+if(!validaremail(Email))  {return res(txt.ICV, txt.W, 2000); } //Esto valida que el correo sea correcto
+
     $.ajax({
     type: 'POST',//Metodo en el que se enviaran los datos
-    url: './Managers/ManagerInicioSesion.php',//Direccion a la que se enviaran los datos
+    url: PageURL+'Managers/ManagerInicioSesion.php',//Direccion a la que se enviaran los datos
     data: { email: Email, password: Password, tipo: "iniusr" },//Datos que seran enviados
 	beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     success: function (data){ 
     if (data.success)
     {
-    if(data.message === 'a')
-    { 
-	  var url = './Views/?Notificacion=' + encodeURIComponent(txt.SIC);
+    if(data.CCLAVE === 'T')
+    {
+	  var url = PageURL+'Views/?Notificacion=' + encodeURIComponent(txt.SIC);
       window.location.href = url;
     }
     else {modifystyle('#modalpass','display','block');  modifystyle('#form','display','none'); load(2);}
 	} 
     else {load(2); responses(data);}},
     error: function () {res(txt.EELS, 'error', 2000);}});
-  }
-  else { res(txt.ICV, txt.W, 2000); }
 }
-else { res(txt.CTC, txt.W, 2000); }
-}
+
+
 
 
 // Función para modificar la contraseña

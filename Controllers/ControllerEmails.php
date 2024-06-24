@@ -32,19 +32,21 @@ class EmailSender extends ConexionDB{
 
 
     public function __construct()
-    { parent::__construct();
+    { 
+    parent::__construct();
     $this->conectdb = $this->obtenerConexion();
     $this->mail = new PHPMailer(true);
     $this->mail->isSMTP();
-    $this->mail->Host = 'smtp.gmail.com';
+    $this->mail->Host = 'smtp-mail.outlook.com';
     $this->mail->SMTPAuth = true;
-    $this->mail->Username = 'ramonemili15@gmail.com';
-    $this->mail->Password = 'ewla zixa twmy wkcf';
+    $this->mail->Username = 'impuestos@harbest.net';
+    $this->mail->Password = 'Juy65928';
     $this->mail->SMTPSecure = 'tls'; // tls o ssl
     $this->mail->Port = 587; // Puerto de SMTP
-    $this->mail->setFrom('ramonemili15@gmail.com', 'LR Consultoria');
+    $this->mail->setFrom('impuestos@harbest.net', 'LR CONSULTORIA INTEGRAL');
     $this->mail->CharSet = 'UTF-8';
-    $this->mail->isHTML(); }
+    $this->mail->isHTML(); 
+    }
 
 
     private function MDFCC($idn,$cc) : void
@@ -84,6 +86,7 @@ class EmailSender extends ConexionDB{
     
     $modelo = str_replace(array_keys($replacements), $replacements, $arch);
 
+    $this->mail->addReplyTo(GetInfo('EMAIL'), GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'));
     $this->mail->addAddress($cc[0], $value["NOCLT"]);
     $this->mail->Subject = mb_convert_encoding('Notificación de Impuestos Internos - Acción Requerida', "UTF-8", "auto");
     $this->mail->Body = $modelo;

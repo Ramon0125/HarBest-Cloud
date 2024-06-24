@@ -30,7 +30,7 @@ elseif (VALIDARBLOCK() !== 'T') {
  echo $html; 
 }
 
-elseif(GetInfo('ID_USUARIO') == 0)
+elseif(GetInfo('IDUsuario') == 0)
 {
  $url = APP_URL.'Error/index.php?Error=002';
  $html = file_get_contents($url);
@@ -146,7 +146,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 
   <ul class="sidebar-nav" id="sidebar-nav">
 
-  <?php if(GetInfo('PRIVILEGIOS') === 'EJECUTIVO') { ?>
+  <?php if(GetInfo('PRIVILEGIOS') === 'CASOS FISCALES') { ?>
 
   <li class="nav-heading">Tablas</li>
 
@@ -388,7 +388,8 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 <!-----------------------------------------------------TABLA---------------------------------------------->
 <main id="main" class="main">
 <div class="card info-card sales-card" style=" overflow: auto;">
-<table class="table table-hover" id="tabla" style="margin: 0; user-select:text; width:100%;"></table>
+<table class="table table-hover" id="tabla" style="margin: 0; user-select:text; width:100%;">
+</table>
 </div>
 </main>
 <!-----------------------------------------------------FIN TABLA---------------------------------------------->
@@ -426,6 +427,8 @@ else {  ?>
 <!-----------------------------------------------------MODAL NOTIF. INCONSIS---------------------------------------------->
 <?php include_once './ModalesEjec/Mnotif.php'; ?>
 <!---------------------------------------------------FIN MODAL NOTIF. INCONSIS---------------------------------------------->
+
+
 
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>

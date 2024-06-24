@@ -5,80 +5,85 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllerInicioSesion.php') === false) {
 class ControllerInicioSesion extends ConexionDB 
 {
     private $response = array();
-    private $exec;
+    private $ConexionDB;
  
-   public function __construct()
+  public function __construct()
    {
-    parent::__construct();
-    $this->exec = $this->obtenerConexion();
+    parent::__construct(); //Llamada al constructor de la clase padre en este caso conexion
+    $this->ConexionDB = $this->obtenerConexion(); // Asignar la conexión a la base de datos a la propiedad ConexionDB
    }
    
-   public function ValidarLogin(string $Email, string $Password) : array 
-   {
+  public function ValidarLogin(string $Email, string $Password) : array 
+  {
     try
     {
-    $sql = "CALL SP_VALIDAR_LOGIN(?,?)";
-    $ejecucion = $this->exec->prepare($sql);
-    $ejecucion->bindParam(1,$Email,PDO::PARAM_STR);
-    $ejecucion->bindParam(2,$Password,PDO::PARAM_STR);
-    $ejecucion->execute(); 
+    $Query = "CALL SP_VALIDAR_LOGIN(?,?)";
+    $QueryExecution = $this->ConexionDB->prepare($Query);
+    $QueryExecution->bindParam(1,$Email,2);
+    $QueryExecution->bindParam(2,$Password,2);
+    $QueryExecution->execute();
        
-    if ($ejecucion->rowCount() > 0) 
-    { $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC); 
-     
-      if (isset($resultado['CCLAVE'])) 
-      {
-        setcookie('IDENTITY', $resultado['TOKEN'], 0, '/', '', true, true);
-        $this->response['success'] = true;
+    if ($QueryExecution->rowCount() === 0){/* return HandleError(); */} //Si la consulta no trae datos dispara error
 
-        if($resultado['CCLAVE'] === 1){$this->response['message'] = 'a';}
-        else{$this->response['message'] = 'b'; $_SESSION['LOG'] = true;  setcookie('PASS', $Password, 0, '/', '', true, true); }
+      $UserData = $QueryExecution->fetch(2); //Se obtienen los resultados de la consulta en forma de un array asociativo
+     
+      $this->response['success'] = !isset($UserData['MENSAJE']); //Evalua si existe el mensaje de error
+
+      if (!$this->response['success']) {$this->response['message'] = $UserData['MENSAJE'];  SUMBLOCKUSER();} //Si existe el mensaje de error cancela la operacion
+     
+      else 
+      {        
+        setcookie('IDENTITY', $UserData['Token'], 0, '/', '', true, true); //Asigna la cookie que determina la identidad del usuario
+        
+        $this->response['CCLAVE'] = $UserData['CClave'];
+        
+        if($this->response['CCLAVE'] === 'F') //Aciones si es el primer login del usuario
+        {
+          $_SESSION['LOG'] = true;  
+          setcookie('PASS', $Password, 0, '/', '', true, true); 
+        }
       }
-     
-      else {$this->response['message'] = $resultado['MENSAJE'];  SUMBLOCKUSER(); }
-    }
-    else {$this->response['error'] = true; SUMBLOCKUSER();} 
 
-    } catch(Exception){ $this->response['error'] = true; SUMBLOCKUSER(); } 
+    } catch(Exception){return HandleError();} 
 
     return $this->response; 
-    }
+  }
 
 
-    public function ModificarPassword(string $passwordn1) : array 
-    {
-      
+  public function ModificarPassword(string $passwordn1) : array 
+  {     
     try 
-    {  $val = GetInfo('EMAIL');
-    $sql = "CALL SP_MODIFICAR_CLAVES_USUARIOS (?, ?, ?)";
-    $ejecucion = $this->exec->prepare($sql);
-    $ejecucion->bindParam(1, $val, PDO::PARAM_STR);
-    $ejecucion->bindParam(2, $_COOKIE['PASS'], PDO::PARAM_STR);
-    $ejecucion->bindParam(3, $passwordn1, PDO::PARAM_STR);
-    $ejecucion->execute();
+    {  
+    $val = GetInfo('EMAIL');
+    $Query = "CALL SP_MODIFICAR_CLAVES_USUARIOS (?, ?, ?)";
+    $QueryExecution = $this->ConexionDB->prepare($Query);
+    $QueryExecution->bindParam(1, $val, PDO::PARAM_STR);
+    $QueryExecution->bindParam(2, $_COOKIE['PASS'], PDO::PARAM_STR);
+    $QueryExecution->bindParam(3, $passwordn1, PDO::PARAM_STR);
+    $QueryExecution->execute();
 
-    if ($ejecucion->rowCount() > 0) 
+    if ($QueryExecution->rowCount() === 0) {return HandleError();}
+  
+    $UserData = $QueryExecution->fetch(PDO::FETCH_ASSOC);
+    $this->response['message'] = $UserData['MENSAJE'];
+    $this->response['success'] = $this->response['message'] === 'CMC';
+
+    if(!$this->response['success']){SUMBLOCKUSER();}
+    else     
     {
-    $resultado = $ejecucion->fetch(PDO::FETCH_ASSOC);
-    if($resultado['MENSAJE'] === 'CMC')
-    {
-    $this->response['success'] = true;
-    AUDITORIA(GetInfo('ID_USUARIO'),'MODIFICO SU CONTRASEÑA'); 
-    unset($_SESSION['LOG']); 
-    setcookie('PASS', '', time() - 3600, '/', '', false, true);}
-    else {$this->response['success'] = false; SUMBLOCKUSER();}
-    
-    $this->response['message'] = $resultado['MENSAJE'];
+      AUDITORIA(GetInfo('IDUsuario'),'MODIFICO SU CONTRASEÑA'); 
+      unset($_SESSION['LOG']); 
+      setcookie('PASS', '', time() - 3600, '/', '', false, true);
     }
-
-    else {$this->response['error'] = true; SUMBLOCKUSER();}
-
-    } catch(Exception) { $this->response['error'] = true; SUMBLOCKUSER();}
+    }
+    catch(Exception) {return HandleError();}
 
     return $this->response;
-    }
+  }
 
-}}
+}
+
+}
 
 else 
 {header('LOCATION: ./404');} 

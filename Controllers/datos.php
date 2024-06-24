@@ -1,5 +1,4 @@
 <?php
-
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest' || strpos($_SERVER['REQUEST_URI'], 'datos.php') === false) {
 
 if (!class_exists('ConexionDB')) { require __DIR__.'/Conexion.php'; }
@@ -25,7 +24,7 @@ return $rest ? $rest : [];
 }
 
 
-if (isset($_POST['tipo'])){
+if (isset($_POST['tipo'])) {
 echo json_encode(Validarcadena1($_POST['tipo']) == true ? Datos($_POST['tipo']) : array('error' => true));
 }
 

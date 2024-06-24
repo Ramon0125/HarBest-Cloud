@@ -67,7 +67,7 @@ $(input2).val(0);  let hasMatch = false; currentFocus = -1;
 
 if(objects != null){modifystyle(objects,'display','none');}
 
-if($(input).val().toUpperCase().trim() !== '') 
+if($(input).val().toUpperCase().trim() !== '')
 {
  $(datalist).find('option').each(function() 
  {
