@@ -21,7 +21,7 @@ array(
 array(
 'usrs' => 'ALL_USER',
 'clts' => 'ALL_CLTS',
-'adms' => 'ADM',
+'adms' => 'VW_ADM',
 'usrblocks' => 'ALL_USRBLOCK',
 'auditoria' => 'VW_AUDITORIA',
 );
@@ -52,7 +52,7 @@ $DATOS = array();
 <?php }
 else {
 header('Content-Type: application/json');  
-echo json_encode(array('error' => true));
+echo json_encode(HandleError());
 }
 
 }

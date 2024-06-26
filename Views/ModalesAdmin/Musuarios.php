@@ -2,21 +2,23 @@
 
 if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
 <!-----------------MODAL AGREGAR USUARIOS--------------------->
-<div class="modal modaladmin fade" id="agrusr" data-bs-backdrop="static" aria-hidden="true">
-<div class="modal-dialog modal-dialog-scrollable"><div class="modal-content">
+<div class="modal fade" id="agrusr" data-bs-backdrop="static" aria-hidden="true">
+<div class="modal-dialog"><div class="modal-content">
 
 <div class="modal-body">
-<div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
-<h3 style="color: #6f6e73;" class="modal-title"><strong>Agregar un nuevo usuario</strong></h3>
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+
+<div class="ModalTitle">
+<h3 class="modal-title"><strong>Agregar un nuevo usuario</strong></h3>
+<hr class="my-4 Divisor">
 </div>
+
 <form id="formagrusr">
-<div class="container">
+
 <div class="row g-3">
 
   <div class="col-sm-6">
   <label for="privusr" class="form-label">Departamento</label>  
-  <select id="privusr" name="privusr" class="form-select" style="width: 100%;">
+  <select id="privusr" name="privusr" class="form-select">
   <option selected value="CASOS FISCALES">CASOS FISCALES</option>
   </select>
   </div>
@@ -37,11 +39,12 @@ if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
   </div>
 
 </div>
-</div></form></div>
 
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+</form></div>
+
+<hr class="my-4 Divisor">
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" style="background-color:green" onclick="agrusr(document.getElementById('privusr').value, document.getElementById('usremail').value, document.getElementById('usrname').value, document.getElementById('usrlastname').value)">Agregar Usuario</button>
+<button type="button" class="btn btn-success" onclick="agrusr(document.getElementById('privusr').value, document.getElementById('usremail').value, document.getElementById('usrname').value, document.getElementById('usrlastname').value)"><i class="bi bi-floppy"></i> Agregar</button>
 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal(false,false,'#formagrusr')">Cancelar</button>
 </div></div></div></div>
 <!---------------FIN MODAL AGREGAR USUARIOS------------------->
@@ -49,21 +52,21 @@ if (strpos($_SERVER['REQUEST_URI'], 'Musuarios.php') === false) { ?>
 
 
 <!-----------------MODAL EDITAR USUARIOS--------------------->
-<div class="modal modaladmin fade" id="edtusr" data-bs-backdrop="static" aria-hidden="true">
+<div class="modal fade" id="edtusr" data-bs-backdrop="static" aria-hidden="true">
 <div class="modal-dialog"><div class="modal-content">
 
 <div class="modal-body">
-<div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
-<h3 style="color: #6f6e73;" class="modal-title"><strong>Editar un usuario</strong></h3>
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+<div class="ModalTitle">
+<h3 class="modal-title"><strong>Editar un usuario</strong></h3>
+<hr class="my-4 Divisor">
 </div>
-<div class="container">
+
 <div class="row g-3">
 
 <div class="col-fluid col-lg-12">
 <form id="formedtusr">
-<label for="slcuser" class="form-label labeledtmdf">Buscar el Usuario</label>  
-<input class="form-control" autocomplete="off" role="combobox" list="" id="slcuser" name="slcuser" placeholder="">
+<label for="slcuser" class="form-label labeledtmdf">Usuario</label>  
+<input class="form-control" autocomplete="off" role="combobox" list="" id="slcuser" name="slcuser" placeholder="Seleccione el usuario">
 <input type="hidden" id="slcuser1" name="slcuser1">
 
 
@@ -76,7 +79,7 @@ foreach ($usuarios as $user){ ?>
 <?php }} ?>
 </datalist></form></div>
 </div>
-</div>
+
 <div class="container" style="display: none;" id="formedt">
 <form id="formedt1">
 <br>
@@ -104,9 +107,9 @@ foreach ($usuarios as $user){ ?>
 
 </div></form></div></div>
 
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+<hr class="my-4 Divisor">
 <div class="modal-footer justify-content-center">
-<button type="button" id="btnedtusr" class="btn btn-success" style="background-color:green; display:none" onclick="edtusr(document.getElementById('slcuser1').value, document.getElementById('slcuser').value, document.getElementById('edtusremail').value, document.getElementById('edtusrname').value, document.getElementById('edtusrlastname').value, document.getElementById('edtpassword').value)">Editar Usuario</button>
+<button type="button" id="btnedtusr" class="btn btn-success" style="display:none;" onclick="edtusr(document.getElementById('slcuser1').value, document.getElementById('slcuser').value, document.getElementById('edtusremail').value, document.getElementById('edtusrname').value, document.getElementById('edtusrlastname').value, document.getElementById('edtpassword').value)"><i class="bi bi-pencil"></i> Confirmar</button>
 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcuser1',['#browser1','#formedt','#btnedtusr'],['#formedtusr','#formedt1'])" >Cancelar</button>
 </div></div></div></div>
 <!---------------FIN MODAL EDITAR USUARIOS------------------->
@@ -114,18 +117,21 @@ foreach ($usuarios as $user){ ?>
 
 
 <!-----------------MODAL ELIMINAR USUARIOS--------------------->
-<div class="modal modaladmin1 fade" id="dltusr" data-bs-backdrop="static" aria-hidden="true">
+<div class="modal fade" id="dltusr" data-bs-backdrop="static" aria-hidden="true">
 <div class="modal-dialog"><div class="modal-content">
 
 <div class="modal-body">
-<div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
-<h3 style="color: #6f6e73;" class="modal-title"><strong>Eliminar un usuario</strong></h3>
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
-</div><div class="container"><div class="row g-3">
+
+<div class="ModalTitle">
+<h3 class="modal-title"><strong>Eliminar un usuario</strong></h3>
+<hr class="my-4 Divisor">
+</div>
+
+<div class="row g-3">
 
 <div class="col-fluid col-lg-12">
 <form id="formdltusr">
-<label for="slcdltuser" class="form-label labeledtmdf">Buscar el Usuario</label>  
+<label for="slcdltuser" class="form-label labeledtmdf">Seleccione el Usuario</label>  
 <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltuser" name="slcdltuser" placeholder="">
 <input type="hidden" id="slcdltuser1" name="slcdltuser1">
 
@@ -138,14 +144,14 @@ foreach ($usuarios1 as $user1): ?>
 <?php endforeach; }?>
 </datalist></form></div>
 </div>
-</div>
+
 </div>
 
-<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+<hr class="my-4 Divisor">
 <div class="modal-footer justify-content-center">
-<button type="button" id="btndltusr" class="btn btn-success" style="background-color:green; display:none" onclick="dltusr(document.getElementById('slcdltuser1').value,document.getElementById('slcdltuser').value)">Eliminar Usuario</button>
+<button type="button" id="btndltusr" class="btn btn-success" style="display:none;" onclick="dltusr(document.getElementById('slcdltuser1').value,document.getElementById('slcdltuser').value)"><i class="bi bi-trash"></i> Confirmar</button>
 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltuser1',['#browserdltusr','#btndltusr'],'#formdltusr')">Cancelar</button>
-</div></div></div></div><Header></Header>
+</div></div></div></div>
 <!---------------FIN MODAL ELIMINAR USUARIOS------------------->
 <?php  } 
 

@@ -63,5 +63,4 @@ return $this->Response;
 
 }
 }
-
 else {header('LOCATION: ./404');}

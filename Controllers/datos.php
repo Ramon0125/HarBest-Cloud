@@ -23,9 +23,8 @@ $rest = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
 return $rest ? $rest : [];
 }
 
-
 if (isset($_POST['tipo'])) {
-echo json_encode(Validarcadena1($_POST['tipo']) == true ? Datos($_POST['tipo']) : array('error' => true));
+echo json_encode(Validarcadena1($_POST['tipo']) == true ? Datos($_POST['tipo']) : HandleError());
 }
 
 }

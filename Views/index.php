@@ -375,7 +375,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
   
   <li class="dropdown-item">
   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agradm">
-  <i class="bi-plus-square"></i>Adicionar</a></li>
+  <i class="bi-plus-square"></i>Agregar</a></li>
 
   <li class="dropdown-item">
   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtadm">

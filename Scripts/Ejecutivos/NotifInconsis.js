@@ -142,37 +142,37 @@ if(inputs.length > 2)
 
 function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 {
+
+ if (CARTA.length == 0 || nonotif.length == 0 || tipnotif.length == 0 || impunotif.length == 0) 
+ {return res(txt.CTC,txt.W,2000);}
+
+ if(!validaraño(FECHANOT.substring(0, 4))){return res(txt.IAV,txt.W,2000);}
+
+ if (!validarint(IDCLT)) {return res(txt.EELS,txt.W,2000)}
+
+ if (validarparams(NONOT) || validarparams(TIPNOT) || validarparams(MOTIVNOT) || validarparams(AINCUMPLI))
+  {return res(txt.CTDN,txt.W,false,true);}
+
  let max = 0;
 
  for (let a = 0; a < CARTA.length; a++) { max += CARTA[a].size; }
 
- if (!validarparams(FECHANOT) || CARTA.length == 0 || nonotif.length == 0 || tipnotif.length == 0 || impunotif.length == 0) 
- {return res(txt.CTC,txt.W,2000);}
-
  if((max / (1024**2) ) > maxfilesize)
  {return res(txt.AMGR1,txt.W,false,true,txt.AMG);}
 
- if (!validarint(IDCLT)) {return res(txt.EELS,txt.W,2000)}
-
- if (validarparams(NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)) 
- {return res(txt.CTDN,txt.W,false,true);}
 
     let formData = new FormData();
     formData.append('IDCLT', IDCLT);
     formData.append('FECHANOT', FECHANOT);
     formData.append('tipo','agrnotif');
 
-    for (let e = 0; e < CARTA.length; e++)
-    {
-      formData.append('CARTA[]', CARTA[e]);
-    }
+    for (const ARCHIVO of CARTA) { formData.append('CARTA[]', ARCHIVO); }
 
-    for (let i = 0; i < nonotif.length; i++) 
-    {
-     formData.append('NONOTIF[]', nonotif[i]);
-     formData.append('TIPNOTIF[]', tipnotif[i]);
-     formData.append('IMPUNOTIF[]', impunotif[i]);
-    }
+    nonotif.forEach((nonot, index) => {
+    formData.append('NONOTIF[]', nonot);
+    formData.append('TIPNOTIF[]', tipnotif[index]);
+    formData.append('IMPUNOTIF[]', impunotif[index]);
+    });
 
     $.ajax({
         type: "POST",
@@ -195,40 +195,15 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 
 function vcarta(IDN)
 {
-
-  if (validarparams(IDN) && validarint(IDN)) 
-  {
+  if (!validarint(IDN)){ return res(txt.EELS,txt.E,2000);}
+  
     $.ajax({
       type: "POST",
-      url: "../Managers/ManagerNotif.php",
+      url: PageURL+"Managers/ManagerNotif.php",
       data: {tipo: 'vcarta',IDN: IDN},
       dataType: "JSON",
-      success: function (DATA) { 
-        if(DATA.success && DATA.CARTA){
-
-        let ARCHIVO = JSON.parse(DATA.CARTA);
-      
-        for(let f = 0; f < ARCHIVO.length; f++)
-        {
-        let binaryString = atob(ARCHIVO[f].CARTA);
-
-        let len = binaryString.length;
-        let bytes = new Uint8Array(len);
-        
-        for (let i = 0; i < len; i++) { bytes[i] = binaryString.charCodeAt(i);}
-
-        let blob = new Blob([bytes], {type: ARCHIVO[f].MIME}); // Cambiar el tipo MIME según corresponda
-
-        let url = URL.createObjectURL(blob);
-
-        window.open(url, '_blank');
-      }
-     }
-      else{responses(DATA);}
-      }
+      success: function (DATA) {DATA.success && DATA.CARTA ? procesarCartas(DATA.CARTA) : responses(DATA);}
     });
-  }
-  else {res(txt.EELS,txt.E,2000)}
 }
 
 

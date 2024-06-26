@@ -10,7 +10,7 @@ require '../Controllers/ControllerEmails.php';
 
 if(VALIDARBLOCK() === 'T'){
 
-if (!is_null(GetInfo('ID_USUARIO')) && Validarcadena1($_COOKIE['IDENTITY']) )
+if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0 && Validarcadena1($_COOKIE['IDENTITY']))
 {
 
 if (Validarcadena1($_POST)){
@@ -27,7 +27,7 @@ elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY']))
 {
  $data = $SENDMAIL->sendmailddc($_POST['ENTITY']);
 }
-else {$data['error'] = true;}
+else {$data = HandleError();}
 
 }
 
@@ -35,6 +35,7 @@ else {$data['CNV'] = true;}
 }
 
 else {
+SUMBLOCKUSER();
 $url = "../Error/?Error=002";
 $html = file_get_contents($url);
 echo $html;

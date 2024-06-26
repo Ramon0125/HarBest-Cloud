@@ -26,7 +26,6 @@ else if ($_POST['FUNC'] === 'edtadm' && isset($_POST['id'],$_POST['name'],$_POST
 
 else {$data = HandleError();}
 }
-
   
 else {$data['CNV'] = true; SUMBLOCKUSER();}
 }

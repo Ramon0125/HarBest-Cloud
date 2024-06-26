@@ -66,7 +66,8 @@ class EmailSender extends ConexionDB{
     $exec->bindParam(1, $dat, PDO::PARAM_INT);
     $exec->execute();
 
-    if ($exec->rowCount() > 0) {
+    if ($exec->rowCount() === 0) {return HandleError();}
+    
     $value = $exec->fetch(PDO::FETCH_ASSOC);
     $exec->closeCursor();
 
@@ -78,16 +79,16 @@ class EmailSender extends ConexionDB{
     "[Nombre del Cliente]" => $value["NOCLT"],
     "[Número de Notificación]" => $Notif,
     "[Nombre del Impuesto]" => $Impu,
-    "[NOMBRE EJECUTIVO]" => GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'),
-    "[EMAIL EJECUTIVO]" => GetInfo('EMAIL')
+    "[NOMBRE EJECUTIVO]" => GetInfo('Nombres').' '.GetInfo('Apellidos'),
+    "[EMAIL EJECUTIVO]" => GetInfo('Email')
     );
 
     $arch = $value["SIZE"] == 1 ? file_get_contents("../Data/modelos/notifinconsis.html") : file_get_contents("../Data/modelos/notifinconsis2.html");
     
     $modelo = str_replace(array_keys($replacements), $replacements, $arch);
 
-    $this->mail->addReplyTo(GetInfo('EMAIL'), GetInfo('NOMBRES').' '.GetInfo('APELLIDOS'));
-    $this->mail->addAddress($cc[0], $value["NOCLT"]);
+    $this->mail->addReplyTo(GetInfo('Email'), GetInfo('Nombres').' '.GetInfo('Apellidos'));
+    $this->mail->addAddress($cc[0]);
     $this->mail->Subject = mb_convert_encoding('Notificación de Impuestos Internos - Acción Requerida', "UTF-8", "auto");
     $this->mail->Body = $modelo;
 
@@ -106,14 +107,14 @@ class EmailSender extends ConexionDB{
     {
     $ccvalue = array_slice($cc,1);
     foreach($ccvalue as $CC) { $this->mail->addCC($CC); }
-    $this->MDFCC($value["ID_NOTIF"],json_encode($ccvalue));
+    $this->MDFCC($value["IDNotif"],json_encode($ccvalue));
     }
 
     if ($this->mail->send()) 
     {
-    $RES = "UPDATE EMAILS_NOTIF SET ESTATUS = 'T' WHERE ID_NOTIF = ?";
+    $RES = "UPDATE EMAILS_NOTIF SET Estatus = 'T' WHERE IDNotif = ?";
     $RES1 = $this->conectdb->prepare($RES);
-    $RES1->bindParam(1, $value["ID_NOTIF"], PDO::PARAM_INT);
+    $RES1->bindParam(1, $value["IDNotif"], PDO::PARAM_INT);
     $RES1->execute();
     $this->res['success'] = true;
     $this->res['message'] = 'EEC1';
@@ -124,9 +125,6 @@ class EmailSender extends ConexionDB{
     $this->res['message'] = 'EECE';
     SUMBLOCKUSER(); 
     }
-
-    }
-    else { $this->res['error'] = true; SUMBLOCKUSER();}
 
     return $this->res;
     }

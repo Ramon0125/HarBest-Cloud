@@ -25,8 +25,8 @@ function agradm(name,direcc)
 
 function edtadm(id,name,nname,ndirecc) 
 {
- if (!validarparams(id,name,nname,ndirecc)) 
- {return res(txt.CTC, txt.W,2000);}
+ if (!validarparams(name,nname,ndirecc) || id === 0) {return res(txt.CTC, txt.W,2000);}
+ if (!validarint(id)){return res(txt.EELS, txt.W,3000);}
 
   $.ajax({
   type: "POST", // Metodo en el que se enviaran los datos

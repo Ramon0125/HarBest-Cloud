@@ -4,18 +4,16 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
 <!---- MODAL AGREGAR NOTIFICACION --------->
 <div class="modal fade" id="agrnot" data-bs-backdrop="static" aria-hidden="true">
-<div class="modal-dialog modal-dialog-scrollable">
+<div class="modal-dialog">
   <div class="modal-content" style="left: -12%; width: 127%; top:2%;">
 
     <div class="modal-body">
-      <div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
-      <h3 style="color: #6f6e73;" class="modal-title"><strong>Agregar una nueva notificación</strong></h3>
-      <hr class="my-4 hr4">
+      <div class="ModalTitle">
+      <h3 class="modal-title"><strong>Agregar una nueva notificación</strong></h3>
+      <hr class="my-4 Divisor">
     </div>
 
     <form id="formagrnotif">
-
-      <div class="container">
 
        <div class="row g-3">
 
@@ -134,11 +132,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
    <button tabindex="-1" type="button" class="btn btn-secondary" onclick="dltinc()"><i class="bi bi-trash"></i> Eliminar incumplimiento</button>
   </div>
 
-  </div></div>
+  </div>
 
 </form></div>
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" onclick="agrnotif(document.getElementById('cltagrnot1').value,document.getElementById('Datenotf').value,document.getElementById('Cartanotif').files,document.getElementById('Notfic').value,document.getElementById('Tiponotf').value,document.getElementById('Motnotif').value,document.getElementById('Aincu').value)"><i class="bi bi-plus-circle"></i> Crear</button>
+<button type="button" class="btn btn-success" onclick="agrnotif(document.getElementById('cltagrnot1').value,document.getElementById('Datenotf').value,document.getElementById('Cartanotif').files,document.getElementById('Notfic').value,document.getElementById('Tiponotf').value,document.getElementById('Motnotif').value,document.getElementById('Aincu').value)"><i class="bi bi-floppy"></i> Crear</button>
 <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closenotif()">Cancelar</button>
 </div></div></div></div>
 <!----------------FIN AGREGAR NOTIFICACION------------------------------->
@@ -164,7 +162,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
   <?php $notif = Datos(4);
   if ($notif !== false && count($notif) > 0) {
   foreach ($notif as $notifs){ ?>
-  <option value="<?php echo $notifs["IDNotificacion"]; ?>"><?php echo $notifs["NOTIFICACION"]; ?></option>
+  <option value="<?php echo $notifs["IDNotificacion"]; ?>"><?php echo $notifs["Notificacion"]; ?></option>
   <?php }} ?>
   </datalist>
 </form>

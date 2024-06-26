@@ -1,6 +1,6 @@
 function agrusr(privi,email, name, lastn) //Función para agregar un usuario
 {
-if (!validarparams(email,privi,name,lastn)) {return res(txt.CTC, txt.W, 1460); } // Mostrar advertencia si faltan parámetros
+if (!validarparams(privi,name,lastn)) {return res(txt.CTC, txt.W, 2000); } // Mostrar advertencia si faltan parámetros
 if (!validaremail(email)){return res(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
 
 $.ajax({// Realizar una solicitud AJAX para agregar el usuario
@@ -21,7 +21,7 @@ error: function (){res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error e
 
 function vd(id, token) // Función para obtener los detalles de un usuario
 {
-if (!validarparams(id,token) || !validarint(id)) {return res(txt.EELS, txt.E, 2000);}
+if (!validarparams(token) || !validarint(id) || id === 0) {return res(txt.EELS, txt.E, 2000);}
 
  $.ajax({
  type: 'POST', //Metodo en el que se enviaran los datos
@@ -46,12 +46,13 @@ if (!validarparams(id,token) || !validarint(id)) {return res(txt.EELS, txt.E, 20
 
 function edtusr(id, name, email, nname, lastn, pass) // Función para editar un usuario
 {
-if (!validarparams(id,name,email,nname,lastn,pass)) {return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
+if (!validarparams(name,nname,lastn,pass)) {return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
 if (!validaremail(email)) {return res(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
+if (!validarint(id)){return res(txt.EELS, txt.E, 2000);}
 
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
- url: '../Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
+ url: PageURL+'Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); },//Ocultar pantalla de carga
  data: {tipo: "edtusr", id: id, name: name, email: email, nname: nname, lastn: lastn, pass: pass},//Datos que se enviaran
@@ -69,11 +70,13 @@ if (!validaremail(email)) {return res(txt.ICV, txt.W, 2000);} // Mostrar adverte
 // Función para eliminar un usuario
 function dltusr(id, name) 
 {
- if (!validarparams(id,name)){ return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
+ if (!validarparams(name)){ return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
+ if (!validarint(id)){return res(txt.EELS, txt.E, 2000);}
+
 
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
- url: '../Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
+ url: PageURL+'Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
  data: { tipo: "dltusr", id: id, name: name },//Datos que seran enviados
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); }, //Ocultar pantalla de carga
@@ -90,11 +93,11 @@ function dltusr(id, name)
 
 function desusr(id) 
 {
- if (!validarparams(id)) {return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
-    
+ if (!validarint(id)){return res(txt.EELS, txt.E, 2000);}
+
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
- url: '../Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
+ url: PageURL+'Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
  data: { tipo: "desusr", id: id},//Datos que seran enviados
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); }, //Ocultar pantalla de carga

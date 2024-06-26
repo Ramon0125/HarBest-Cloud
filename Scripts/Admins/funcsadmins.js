@@ -3,7 +3,6 @@ $(document).ready(function(){tablas('usrs');});
 
 function datausrblocks()
 {
-    $('table').addClass('tcu');
     $('#tabla thead tr').append('<th>ACCIONES</th>');
   
     $('#tabla').DataTable($.extend(true, {}, tabledata, {"columnDefs": [
@@ -12,9 +11,8 @@ function datausrblocks()
     "defaultContent": "<button type='button' class='btn btn-success btnusrbloc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Desbloquear</button>"
     }]}));
   
-    $('#tabla tbody').on('click', '.btnusrbloc', function() {
-    let ID = $(this).closest('tr').find('td:eq(0)').text(); // Valor de la primera columna
-    desusr(ID);
+    $('#tabla tbody').on('click', '.btnusrbloc', ()=> {
+    desusr($(this).closest('tr').find('td:eq(0)').text());// Valor de la primera columna
   });
 }
 
@@ -28,22 +26,13 @@ function tablas(str)
   beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
   complete: function () { load(2); }, //Ocultar pantalla de carga
   success: function (data) {
-  data.error ? responses(data) : tables(data,str);},
-  error: function () {res(txt.EELS, "error", 2000);}});   
+
+  if(data.error){return responses(data);}
+
+  $('#tabla').DataTable().destroy();
+  $('#tabla').html(data);
+  str === 'usrblocks' ? datausrblocks() :  $('#tabla').DataTable(tabledata); 
+},
+  error: function () {res(txt.EELS, txt.E, 2000);}});   
 }
 
-
-function tables(respuesta,str) 
-{
-$('#tabla').DataTable().destroy();
-$('#tabla').html(respuesta);
-
-if (str === 'usrblocks') { datausrblocks(); }
-
-else 
-{ 
-  $('table').removeClass('tcu');      
-  
-  $('#tabla').DataTable($.extend(true, {}, tabledata, {"autoWidth": false  })); 
-}
-}

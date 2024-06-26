@@ -15,38 +15,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
 
     if(Validarcadena1($_POST))
     {
-        $func = NEW ControllersNotif();
+      $func = NEW ControllersNotif();
 
-        if ($_POST["tipo"] === "agrnotif" && isset($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOTIF'], $_POST['TIPNOTIF'], $_POST['IMPUNOTIF'], $_FILES['CARTA'])) 
-        {
-          foreach ($_FILES['CARTA']['name'] as $key => $nombreArchivo) {
+      if ($_POST["tipo"] === "agrnotif" && isset($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOTIF'], $_POST['TIPNOTIF'], $_POST['IMPUNOTIF'], $_FILES['CARTA'])) 
+      {
+      foreach ($_FILES['CARTA']['name'] as $filename) 
+      {
+        $Extension = pathinfo($filename, PATHINFO_EXTENSION);
+
+      if (!validarCarta($Extension)) { SUMBLOCKUSER(); $response['EANV'] = true; break;} 
+      }
         
-            $tipoArchivo = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-          
-            if (!validarCarta($tipoArchivo)) { $validacionArchivos = false; break;} }
-        
-            if(!isset($validacionArchivos))
-            {
-            $response = $func->AGRNotif($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOTIF'], $_POST['TIPNOTIF'],$_POST['IMPUNOTIF'], $_FILES['CARTA']);
-            }
+      if(!isset($response['EANV']))
+      {
+      $response = $func->AGRNotif($_POST['IDCLT'], $_POST['FECHANOT'], $_POST['NONOTIF'], $_POST['TIPNOTIF'],$_POST['IMPUNOTIF'], $_FILES['CARTA']);
+      }
+      }
 
-            else {$response['EANV'] = true; SUMBLOCKUSER();}  
-        }
+      else if ($_POST['tipo'] == 'vcarta' && isset($_POST['IDN'])) 
+      {$response = $func->vcarta($_POST['IDN']);}
 
-        else if ($_POST['tipo'] == 'vcarta' && isset($_POST['IDN'])) 
-        {
-          $response = $func->vcarta($_POST['IDN']);
-        }
+      else if ($_POST['tipo'] == 'dltnotif' && isset($_POST['IDN'],$_POST['NON']))
+      { $response = $func->DLTNotif($_POST['IDN'],$_POST['NON']); }
 
-        else if ($_POST['tipo'] == 'dltnotif' && isset($_POST['IDN'],$_POST['NON']))
-        { 
-          $response = $func->DLTNotif($_POST['IDN'],$_POST['NON']);
-        }
-
-        else {$response['error'] = true; SUMBLOCKUSER();}
-
+      else {$response = HandleError();}
     }
-    else {$response['CNV'] = true; SUMBLOCKUSER();}}
+    else {$response['CNV'] = true; SUMBLOCKUSER();}}  
 
     else {
     $url = "../Error/?Error=002";

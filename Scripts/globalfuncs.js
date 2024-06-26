@@ -45,6 +45,7 @@ $(window).resize(function () { $('#chk').prop('checked',toggval() == 0 ? true : 
 
 const tabledata = {
   "autoWidth": false,
+  "order": [],
   "language": { "emptyTable":     "No hay datos disponibles en la tabla",
   "info":           "&nbsp; Mostrando _END_ de _TOTAL_ registros",
   "infoEmpty":      "&nbsp; No hay coincidencias",
@@ -57,7 +58,7 @@ const tabledata = {
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron registros",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
-  "lengthMenu": [15,40,50,100]
+  "lengthMenu": [17,40,50,100]
   };
 
   
@@ -123,7 +124,7 @@ ITV: 'Ingrese un numero telefonico valido',
 AMG: 'Archivos muy grandes',
 AMGR: `El tamaño maximo permitido por archivo es ${parseInt(maxfilesize/3.3) } MB`,
 AMGR1: `El tamaño maximo permitido por archivo es ${maxfilesize} MB`,
-CTDN: 'Debe agregar o eliminar los datos en los campos de notificacion para continuar',
+CTDN: 'Para continuar los campos de notificación(Numero,Tipo,Motivo y Año) deben estar vacios',
 ENYEA: 'Esta notificación ya esta agregada',
 IAV: 'Ingrese un año valido'
 };
@@ -177,8 +178,7 @@ case "00000": res(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se
 
 //Funcion que verifica que los parametros no esten vacios
 function validarparams(...args) {
-  return !args.every(parametro => 
-    typeof parametro !== 'string' || parametro.trim().length === 0
+  return args.every(parametro => parametro.trim().length > 0
   );
 }
 
@@ -196,7 +196,7 @@ function validaremail(email)
 //Funcion que valida los numeros
 function validarint(...ints) {
   const tester1 = /^[0-9]+$/;
-  return !ints.every(val => !tester1.test(val));
+  return ints.every(val => typeof val == 'number' || tester1.test(val) === true);
 }
 
 function validaraño(int) {
@@ -236,3 +236,26 @@ else {$(input).val('');}}
 
 
 const eventlisten = (obj,event,func) => {$(obj).on(event,func);}
+
+
+function crearBlobDesdeBase64(base64, mimeType) {
+  const binaryString = atob(base64);
+  const len = binaryString.length;
+  const bytes = new Uint8Array(len);
+
+  for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  return new Blob([bytes], { type: mimeType });
+}
+
+function procesarCartas(cartaData) {
+  const archivos = JSON.parse(cartaData);
+
+  archivos.forEach((archivo) => {
+      const blob = crearBlobDesdeBase64(archivo.CARTA, archivo.MIME);
+      const url = URL.createObjectURL(blob);
+      window.open(url, '_blank');
+  });
+}

@@ -42,7 +42,7 @@ CREATE TABLE ADM
 (
  IDADM INT AUTO_INCREMENT PRIMARY KEY,
  NombreADM VARCHAR(50) NOT NULL UNIQUE,
- DireccionAdm VARCHAR(100) NOT NULL UNIQUE
+ DireccionADM VARCHAR(100) NOT NULL UNIQUE
 );
 
 
@@ -63,6 +63,11 @@ FOREIGN KEY (IDADM) REFERENCES ADM(IDADM);
 
 CREATE VIEW VW_CLIENTES
 AS SELECT IDCliente, upper(NombreCliente) AS NombreCliente FROM CLIENTES;
+
+
+CREATE VIEW VW_ADM AS
+SELECT A.IDADM AS ID, A.NombreADM AS ADMINISTRACION, A.DireccionADM AS DIRECCION,count(C.IDADM) AS CLIENTES FROM ADM AS A
+LEFT JOIN CLIENTES AS C ON A.IDADM = C.IDADM GROUP BY A.IDADM;
 /* FIN TABLA CLIENTES*/
 
 
@@ -94,13 +99,13 @@ ON DELETE RESTRICT;
 
 
 CREATE VIEW VW_AUDITORIA AS
-SELECT A.IDMovimiento,CONCAT(U.Nombres, ' ' , U.Apellidos) AS USUARIO,A.Movimiento,A.Fecha,A.Hora 
+SELECT A.IDMovimiento AS ID,CONCAT(U.Nombres, ' ' , U.Apellidos) AS USUARIO,A.Movimiento,A.Fecha,A.Hora 
 FROM AUDITORIA AS A
 JOIN USUARIOS AS U ON A.IDUsuario = U.IDUsuario ORDER BY A.IDMovimiento DESC;
 
 
 CREATE VIEW ALL_CLTS AS
-SELECT C.RNC,upper(C.NombreCliente) as CLIENTE,C.EmailCliente,A.NombreADM AS ADMINISTRACION FROM CLIENTES AS C
+SELECT C.RNC,upper(C.NombreCliente) as CLIENTE,C.EmailCliente AS EMAIL,A.NombreADM AS ADMINISTRACION FROM CLIENTES AS C
 JOIN ADM AS A ON C.IDADM = A.IDADM;
 
 
@@ -132,7 +137,7 @@ FOREIGN KEY (IDCliente) REFERENCES CLIENTES(IDCliente)
 ON DELETE CASCADE;
 
 
-CREATE TABLE EmailS_NOTIF
+CREATE TABLE EMAILS_NOTIF
 (
 IDENotif INT PRIMARY KEY AUTO_INCREMENT,
 IDNotif INT UNIQUE NOT NULL,
@@ -142,7 +147,7 @@ Estatus ENUM('T','F') DEFAULT 'F'
 );
 
 
-ALTER TABLE EmailS_NOTIF ADD CONSTRAINT FK_IDNOT_IDNOTIF
+ALTER TABLE EMAILS_NOTIF ADD CONSTRAINT FK_IDNOT_IDNOTIF
 FOREIGN KEY (IDNotif) REFERENCES NOTIF_INCONSISTENCIA(IDNotificacion)
 ON DELETE CASCADE;
 
@@ -152,7 +157,7 @@ AS
     SELECT 
 		N.IDNotificacion AS 'ID',
         C.NombreCliente AS 'CLIENTE',
-        REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].Notificacion')), '[', ''), ']', ''),'"','') AS 'NotificacionES',
+        REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION')), '[', ''), ']', ''),'"','') AS 'NOTIFICACIONES',
         REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].IMPUESTO')), '[', ''), ']', ''),'"','') AS 'IMPUESTO AFECTADO',
         date_format(N.FechaNotif, '%d/%m/%Y') AS 'FECHA',
         date_format(N.FechaVenci, '%d/%m/%Y') AS 'VENCIMIENTO',
@@ -161,14 +166,14 @@ AS
         NOTIF_INCONSISTENCIA AS N 
         JOIN USUARIOS AS U ON N.IDEncargado = U.IDUsuario
         JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
-        JOIN EmailS_NOTIF AS E ON N.IDNotificacion = E.IDNotif
+        JOIN EMAILS_NOTIF AS E ON N.IDNotificacion = E.IDNotif
 ORDER BY CASE E.Estatus WHEN 'F' THEN 1 ELSE 2 END,N.FechaVenci ASC;
 
 
 
 CREATE VIEW ALL_NOTIF AS
 select IDNotificacion,REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].Notificacion')), '[', ''), ']', ''),'"','') AS 'Notificacion' from notif_inconsistencia as n 
-left join EmailS_NOTIF as e on n.IDNotificacion = e.IDNotif
+left join EMAILS_NOTIF as e on n.IDNotificacion = e.IDNotif
 where e.Estatus = 'F';
 
 
@@ -505,8 +510,6 @@ BEGIN
 END$$
 
 
-
-DELIMITER $$
 CREATE PROCEDURE SP_MOVIMIENTOS
 (
 IN IN_IDUsuario INT,
@@ -547,7 +550,7 @@ BEGIN
     
   SELECT DIASLABORABLES(IN_FechaNotif,5) INTO FechaFinal;
 
-IF (IFNULL((SELECT SUM(JSON_CONTAINS(JSON_EXTRACT(Notificacion, '$[*].Notificacion'), JSON_EXTRACT(IN_Notificacion, '$[*].Notificacion'))) FROM notif_inconsistencia), 0) = 0) THEN
+IF (IFNULL((SELECT SUM(JSON_CONTAINS(JSON_EXTRACT(Notificacion, '$[*].NOTIFICACION'), JSON_EXTRACT(IN_Notificacion, '$[*].NOTIFICACION'))) FROM notif_inconsistencia), 0) = 0) THEN
 
 INSERT INTO NOTIF_INCONSISTENCIA(IDEncargado,IDCliente,FechaNotif,FechaVenci,Notificacion,CartaNotif)
 VALUES (IN_IDEncargado,IN_IDCliente,IN_FechaNotif,FechaFinal,IN_Notificacion,IN_CartaNotif);
@@ -562,17 +565,17 @@ END IF;
 END $$
 
 
-CREATE PROCEDURE SP_INSERT_Email_NOTIF
+CREATE PROCEDURE SP_INSERT_EMAIL_NOTIF
 (
 IN IN_NON JSON
 ) BEGIN
 
 DECLARE IN_IDN INT;
 
-SELECT IDNotificacion FROM notif_inconsistencia WHERE (SELECT SUM(JSON_CONTAINS(JSON_EXTRACT(Notificacion,'$[*].Notificacion'),IN_NON))) > 0 INTO IN_IDN;
+SELECT IDNotificacion FROM notif_inconsistencia WHERE (SELECT SUM(JSON_CONTAINS(JSON_EXTRACT(Notificacion,'$[*].NOTIFICACION'),IN_NON))) > 0 INTO IN_IDN;
 
-IF NOT EXISTS (SELECT * FROM EmailS_NOTIF WHERE IDNotif = IN_IDN) THEN
-INSERT INTO EmailS_NOTIF(IDNotif,HoraRegistro,HoraEnvio) VALUES(IN_IDN,now(),DATE_ADD(now(), INTERVAL 5 HOUR));
+IF NOT EXISTS (SELECT * FROM EMAILS_NOTIF WHERE IDNotif = IN_IDN) THEN
+INSERT INTO EMAILS_NOTIF(IDNotif,HoraRegistro,HoraEnvio) VALUES(IN_IDN,now(),DATE_ADD(now(), INTERVAL 5 HOUR));
 ELSE SELECT 'EELS' AS 'MENSAJE'; END IF;
 END $$
 
@@ -594,11 +597,11 @@ SELECT
 	E.IDNotif,
     C.EmailCliente AS EMCLT,
     C.NombreCliente AS NOCLT, 
-    JSON_EXTRACT(N.Notificacion, '$[*].Notificacion') AS NONOTIF,
+    JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NONOTIF,
     JSON_EXTRACT(N.Notificacion, '$[*].IMPUESTO') AS IMPU,
     N.CartaNotif AS CARTA,
     JSON_LENGTH(N.Notificacion) AS SIZE
-FROM EmailS_NOTIF AS E
+FROM EMAILS_NOTIF AS E
 JOIN NOTIF_INCONSISTENCIA AS N ON E.IDNotif = N.IDNotificacion
 JOIN CLIENTES AS C ON N.IDCliente = C.IDCliente
 WHERE E.Estatus = "F" AND N.IDNotificacion = SEARCH;
@@ -611,13 +614,14 @@ BEGIN
 
 IF EXISTS (
 SELECT IDNotificacion FROM NOTIF_INCONSISTENCIA
-WHERE (SELECT REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].Notificacion')), '[', ''), ']', ''),'"','') 
+WHERE (SELECT REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION')), '[', ''), ']', ''),'"','') 
 FROM NOTIF_INCONSISTENCIA AS N WHERE N.IDNotificacion = IN_IDN ) = IN_NONO)
 
 THEN DELETE FROM NOTIF_INCONSISTENCIA WHERE IDNotificacion = IN_IDN;
 
 IF ROW_COUNT() > 0 THEN
 SELECT 'NEC' AS MENSAJE;
+
 ELSE SELECT 'EEN' AS MENSAJE;
 END IF;
 
