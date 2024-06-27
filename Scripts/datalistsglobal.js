@@ -1,11 +1,11 @@
 
 async function updatedatalists(tipo,datalists) 
 {
-  if (validarint(tipo)) {
-    
+  if(!validarint(tipo)){res(txt.EELS, txt.E, 2000);}
+
     $.ajax({
         type: 'POST',
-        url: '../Controllers/datos.php',
+        url: PageURL+'Controllers/datos.php',
         data: { tipo: tipo },
         dataType: 'json',
         success: function (data) {  
@@ -24,10 +24,9 @@ async function updatedatalists(tipo,datalists)
         
         else {responses(data);}
       },
-      error: function () {res(txt.EELS, "error", 2000);}
+      error: function () {res(txt.EELS, txt.E, 2000);}
       });
-    }
-    else {res(txt.EELS, "error", 2000);}
+
 
 }
 

@@ -11,7 +11,7 @@ function datausrblocks()
     "defaultContent": "<button type='button' class='btn btn-success btnusrbloc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Desbloquear</button>"
     }]}));
   
-    $('#tabla tbody').on('click', '.btnusrbloc', ()=> {
+    $('#tabla tbody').on('click', '.btnusrbloc', function() {
     desusr($(this).closest('tr').find('td:eq(0)').text());// Valor de la primera columna
   });
 }
@@ -31,8 +31,8 @@ function tablas(str)
 
   $('#tabla').DataTable().destroy();
   $('#tabla').html(data);
-  str === 'usrblocks' ? datausrblocks() :  $('#tabla').DataTable(tabledata); 
+  str === 'usrblocks' ? datausrblocks() : $('#tabla').DataTable(tabledata); 
 },
-  error: function () {res(txt.EELS, txt.E, 2000);}});   
+  error: function () {Alerta(txt.EELS, txt.E, 2000);}});   
 }
 

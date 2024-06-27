@@ -9,6 +9,14 @@ const currentYear = new Date().getFullYear();
 //Acciones que se cumpliran cuando se cargue por completo el DOM
 $(document).ready(function(){
 
+  let params = new URLSearchParams(window.location.search);
+  if (params.has('Notificacion')) 
+  {
+    const mensaje = params.get('Notificacion');
+    Alerta(mensaje,txt.S,2000);
+    LimpiarParametros();
+  }
+
   load(2);
 
 
@@ -146,10 +154,8 @@ function cerrar()
 
 
 // Función para mostrar las alertas
-function res(result, icon, tim, sc, tit) 
+function Alerta(result, icon, tim, sc, tit) 
 {
-  history.replaceState({}, document.title, window.location.pathname);
-
   Swal.fire({
   confirmButtonColor: '#28a745',
   showConfirmButton: sc,
@@ -160,6 +166,9 @@ function res(result, icon, tim, sc, tit)
 }
 
 
+const LimpiarParametros = () => { history.replaceState({}, document.title, window.location.pathname); }
+
+
 function responses(respuesta)//Funcion que maneja las respuestas de las solicitudes AJAX
 {
 let resp = (respuesta.block ? "1" : "0") + (respuesta.error ? "1" : "0") + (respuesta.success ? "1" : "0") + (respuesta.CNV ? "1" : "0") + (respuesta.EANV ? "1" : "0");
@@ -167,19 +176,18 @@ let resp = (respuesta.block ? "1" : "0") + (respuesta.error ? "1" : "0") + (resp
 switch (resp)
 {
 case "10000": location.reload(); break;///Se ejecuta si el array contiene la propiedad bloqueo
-case "01000": const url = PageURL+'Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
-case "00100": $('.modal').modal('hide'); res(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
-case "00010": res(txt.MCI,txt.W,false,true,txt.CNV); break; ///Se ejecuta si el array contiene la propiedad CNV
-case "00001": res(txt.MCI1,txt.W,false,true,txt.EANV); break; ///Se ejecuta si el array contiene la propiedad CNV
-case "00000": res(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
+case "01000": let url = PageURL+'Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
+case "00100": $('.modal').modal('hide'); Alerta(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
+case "00010": Alerta(txt.MCI,txt.W,false,true,txt.CNV); break; ///Se ejecuta si el array contiene la propiedad CNV
+case "00001": Alerta(txt.MCI1,txt.W,false,true,txt.EANV); break; ///Se ejecuta si el array contiene la propiedad CNV
+case "00000": Alerta(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
 };
 }
 
 
 //Funcion que verifica que los parametros no esten vacios
 function validarparams(...args) {
-  return args.every(parametro => parametro.trim().length > 0
-  );
+  return args.every(parametro => parametro.trim().length > 0);
 }
 
 
@@ -187,6 +195,7 @@ function validarparams(...args) {
 function validaremailcl(email) 
 { const tester = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return tester.test(email);}
+
 
 //Funcion que valida los emails
 function validaremail(email) 
@@ -203,7 +212,6 @@ function validaraño(int) {
 const tester1 = validarint(int);
 
 return tester1 ? !(int < 2015 || int > currentYear) : false;
-
 }
 
 function modifystyle(objects, property, value) 

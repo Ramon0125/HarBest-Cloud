@@ -30,19 +30,9 @@ elseif (VALIDARBLOCK() !== 'T') {
  echo $html; 
 }
 
-elseif(GetInfo('IDUsuario') == 0)
-{
- $url = APP_URL.'Error/index.php?Error=002';
- $html = file_get_contents($url);
- echo $html;
-}
+elseif(GetInfo('IDUsuario') == 0){ echo HandleWarning();}
 
 else {
-
-if (isset($_GET['Notificacion']))
-{echo "<script type='text/javascript'>window.onload = function() {
-res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
-}
 
 ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" type="text/css">
@@ -92,7 +82,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 <!--Profile Image Icon -->
 <a class="nav-link nav-profile d-flex align-items-center pe-0 cpp cp" data-bs-toggle="dropdown">
  <i class="bi bi-person-circle rounded-circle"></i>
- <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo GetInfo('NOMBRES')." ".GetInfo('APELLIDOS'); ?></span>
+ <span class="d-none d-md-block dropdown-toggle ps-2"><?php echo GetInfo('Nombres')." ".GetInfo('APELLIDOS'); ?></span>
 </a><!-- End Profile Image Icon -->
 
 <!-- Profile Dropdown Items -->
@@ -100,7 +90,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 
 <!-- Name and Role -->
 <li class="dropdown-header logo">
- <h6><?php echo GetInfo('NOMBRES')." ".GetInfo('APELLIDOS') ?></h6>
+ <h6><?php echo GetInfo('Nombres')." ".GetInfo('Apellidos') ?></h6>
  <span><?php echo GetInfo('PRIVILEGIOS') ?></span>
 </li><!-- End Name and Role -->
  
@@ -146,7 +136,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 
   <ul class="sidebar-nav" id="sidebar-nav">
 
-  <?php if(GetInfo('PRIVILEGIOS') === 'CASOS FISCALES') { ?>
+  <?php if(GetInfo('Privilegios') === 'CASOS FISCALES') { ?>
 
   <li class="nav-heading">Tablas</li>
 
@@ -387,7 +377,7 @@ res('" . $_GET['Notificacion'] . "','success',1400)}</script>";
 
 <!-----------------------------------------------------TABLA---------------------------------------------->
 <main id="main" class="main">
-<div class="card info-card sales-card" style=" overflow: auto;">
+<div class="card info-card sales-card" style="overflow: auto;">
 <table class="table table-hover" id="tabla" style="margin: 0; user-select:text; width:100%;">
 </table>
 </div>
@@ -427,9 +417,10 @@ else {  ?>
 <!-----------------------------------------------------MODAL NOTIF. INCONSIS---------------------------------------------->
 <?php include_once './ModalesEjec/Mnotif.php'; ?>
 <!---------------------------------------------------FIN MODAL NOTIF. INCONSIS---------------------------------------------->
-
-
-
+<!-----------------------------------------------------MODAL DETALLE CITACION---------------------------------------------->
+<?php include_once './ModalesEjec/MdetalleC.php'; ?>
+<!---------------------------------------------------FIN MODAL DETALLE CITACION---------------------------------------------->
+<!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 

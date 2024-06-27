@@ -1,15 +1,15 @@
 
-var nonotif = [];
-var tipnotif = [];
-var impunotif = [];
+var nonotif = []; //Variable de los numeros de notificación
+var tipnotif = []; //Variable de los tipos de notificación
+var impunotif = []; //Variable de los impuestos de notificación
 
-const DivIncumpli =document.getElementById('Incumplimientos');
+const DivIncumpli = document.getElementById('Incumplimientos');
 
 function addnotificacion(n,t) 
 {
-  if (!validarparams(n,t)) {return res(txt.CTC,txt.W,2000);}
+  if (!validarparams(n,t)) {return Alerta(txt.CTC,txt.W,2000);}
 
-  if(nonotif.includes(n)){return res(txt.ENYEA,txt.W,false,true);}
+  if(nonotif.includes(n)){return Alerta(txt.ENYEA,txt.W,false,true);}
   
    let i = '';
 
@@ -19,8 +19,8 @@ function addnotificacion(n,t)
    {
       if (c + 1 < inputs.length) 
       { 
-        if(!validarparams(inputs[c].value,inputs[c+1].value)) {return res(txt.CTC,txt.W,2000);}
-        if(!validaraño(inputs[c+1].value)) {return res(txt.IAV,txt.W,2000);}
+        if(!validarparams(inputs[c].value,inputs[c+1].value)) {return Alerta(txt.CTC,txt.W,2000);}
+        if(!validaraño(inputs[c+1].value)) {return Alerta(txt.IAV,txt.W,2000);}
 
         i += `${inputs[c].value}/${inputs[c+1].value}`;
           
@@ -43,13 +43,13 @@ function addnotificacion(n,t)
 
     $('#spannotif').text(`${nonotif.length} Notificaciones agregadas`);
 
-    res(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Notificacion añadida'); 
+    Alerta(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Notificacion añadida'); 
 }
 
 
 function dropnotificacion()
 {
-  if (nonotif.length == 0)  {return res(`No hay notificaciones agregadas`,txt.W,2000);}
+  if (nonotif.length == 0)  {return Alerta(`No hay notificaciones agregadas`,txt.W,2000);}
 
   nonotif.pop();  tipnotif.pop();  impunotif.pop();
 
@@ -57,7 +57,7 @@ function dropnotificacion()
 
   $('#spannotif').text(`${nonotif.length} Notificaciones agregadas`);
 
-  res(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Ultima notificacion eliminada');
+  Alerta(`${nonotif.length} Notificaciones en total`,txt.S,false,true,'Ultima notificacion eliminada');
 }
 
 
@@ -144,21 +144,21 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 {
 
  if (CARTA.length == 0 || nonotif.length == 0 || tipnotif.length == 0 || impunotif.length == 0) 
- {return res(txt.CTC,txt.W,2000);}
+ {return Alerta(txt.CTC,txt.W,2000);}
 
- if(!validaraño(FECHANOT.substring(0, 4))){return res(txt.IAV,txt.W,2000);}
+ if(!validaraño(FECHANOT.substring(0, 4))){return Alerta(txt.IAV,txt.W,2000);}
 
- if (!validarint(IDCLT)) {return res(txt.EELS,txt.W,2000)}
+ if (!validarint(IDCLT)) {return Alerta(txt.EELS,txt.W,2000)}
 
  if (validarparams(NONOT) || validarparams(TIPNOT) || validarparams(MOTIVNOT) || validarparams(AINCUMPLI))
-  {return res(txt.CTDN,txt.W,false,true);}
+  {return Alerta(txt.CTDN,txt.W,false,true);}
 
  let max = 0;
 
  for (let a = 0; a < CARTA.length; a++) { max += CARTA[a].size; }
 
  if((max / (1024**2) ) > maxfilesize)
- {return res(txt.AMGR1,txt.W,false,true,txt.AMG);}
+ {return Alerta(txt.AMGR1,txt.W,false,true,txt.AMG);}
 
 
     let formData = new FormData();
@@ -195,11 +195,14 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 
 function vcarta(IDN)
 {
-  if (!validarint(IDN)){ return res(txt.EELS,txt.E,2000);}
-  
+  if (!validarint(IDN)){ return Alerta(txt.EELS,txt.E,2000);}
+
+
     $.ajax({
       type: "POST",
       url: PageURL+"Managers/ManagerNotif.php",
+      beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
+      complete: function () { load(2); }, //Ocultar pantalla de carga
       data: {tipo: 'vcarta',IDN: IDN},
       dataType: "JSON",
       success: function (DATA) {DATA.success && DATA.CARTA ? procesarCartas(DATA.CARTA) : responses(DATA);}
@@ -209,32 +212,30 @@ function vcarta(IDN)
 
 function dltnotif(idn,non)
 {
-  if (validarparams(non)) 
+  if (!validarparams(non)){return Alerta(txt.CTC,txt.W,2000);}
+    
+  if (!validarint(idn)) { return Alerta(txt.EELS,txt.W,2000);}
+
+    $.ajax({
+    type: "POST",
+    url: PageURL+"Managers/ManagerNotif.php",
+    data: {tipo:'dltnotif', IDN:idn, NON:non},
+    dataType: "JSON",
+    beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
+    complete: function () { load(2); }, //Ocultar pantalla de carga
+    success: function (DATA)
     {
-     if (validarint(idn)) 
-     {  
-        let formData = new FormData();
-        formData.append('IDN', idn);
-        formData.append('NON', non);
-        formData.append('tipo','dltnotif');
+      if(DATA.success)
+      {
+        LimpiarModal('#slcdltnotif1',['#dtldltnot','#btndltnotif'],'#formdltnotif'); 
+        updatedatalists(4,['#dtldltnot']);
+        tablasejec('notif');
+      } responses(DATA);
+    },
+    error: function(){txt.EELS,txt.E,2000}
+    });
+
     
-        $.ajax({
-        type: "POST",
-        url: "../Managers/ManagerNotif.php",
-        data: formData,
-        contentType: false,
-        processData: false,
-        beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
-        complete: function () { load(2); }, //Ocultar pantalla de carga
-        success: function (DATA){ if(DATA.success){LimpiarModal('#slcdltnotif1',['#dtldltnot','#btndltnotif'],'#formdltnotif'); 
-        updatedatalists(4,['#dtldltnot']);  tablasejec('notif');} responses(DATA);},
-        error: function(){txt.EELS,txt.E,2000}
-        });
-     }
-     else {res(txt.EELS,txt.W,2000)}
-    }
-    
-    else {res(txt.CTC,txt.W,2000);} 
 }
 
 
@@ -256,7 +257,7 @@ async function sendmail(nop){
      CCLT = res.message.EmailCliente;  
      CC = JSON.parse(res.message.CC); 
      } },
-     error: function(error){res(error,txt.W,2000);}
+     error: function(error){Alerta(error,txt.W,2000);}
      });
 
 
@@ -361,10 +362,10 @@ async function sendmail(nop){
           complete: function () { load(2); }, //Ocultar pantalla de carga
           success: function (res) {  responses(res);
           if(res.success){updatedatalists(4,['#dtldltnot']); /* updatedatalists(5,['#dtlagrddc']); */  tablasejec('notif')}},
-          error: function(error){res(error,txt.W,2000);}
+          error: function(error){Alerta(error,txt.W,2000);}
         });
       }
     
   }
-  else {res(txt.EELS,txt.W,2000)}
+  else {Alerta(txt.EELS,txt.W,2000)}
   }

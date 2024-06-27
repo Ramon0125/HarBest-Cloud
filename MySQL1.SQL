@@ -1,19 +1,20 @@
 CREATE TABLE DETALLE_CITACION (
-  ID_DETALLE int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  ID_NOTIFICACION int NOT NULL UNIQUE,
-  NO_CASO int NOT NULL UNIQUE,
-  INCONSISTENCIA json NOT NULL,
-  FECHA date NOT NULL,
-  FECHAVenci date NOT NULL,
-  DETALLES_CITACION json NOT NULL,
-  correoAuditor varchar(50),
-  nombreAuditor varchar(50),
-  telAuditor varchar(20)
+  IDDetalle int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  IDNotificacion int NOT NULL UNIQUE,
+  NOCaso int NOT NULL UNIQUE,
+  Inconsistencias json NOT NULL,
+  Fecha date NOT NULL,
+  FechaVenci date NOT NULL,
+  DetallesCitacion json NOT NULL,
+  CorreoAuditor varchar(50),
+  NombreAuditor varchar(50),
+  TelAuditor varchar(20)
 );
 
-ALTER TABLE DETALLE_CITACION ADD CONSTRAINT FK_IDNOT_IDNoti 
-FOREIGN KEY (`ID_NOTIFICACION`) REFERENCES NOTIF_INCONSISTENCIA (`IDNotificacion`);
+ALTER TABLE DETALLE_CITACION ADD CONSTRAINT FK_DETALLE_CITACION_NOTIF
+FOREIGN KEY (`IDNotificacion`) REFERENCES NOTIF_INCONSISTENCIA (`IDNotificacion`);
 
+///////
 
 CREATE VIEW ALL_NOTIF_FOR_DETALLE AS
 select IDNotificacion,NONotificacion from notif_inconsistencia as n 

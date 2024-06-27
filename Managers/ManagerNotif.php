@@ -42,11 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
     }
     else {$response['CNV'] = true; SUMBLOCKUSER();}}  
 
-    else {
-    $url = "../Error/?Error=002";
-    $html = file_get_contents($url);
-    echo $html;
-    }
+    else { echo HandleWarning();}
   }
         
   else { $response['block'] = true; }

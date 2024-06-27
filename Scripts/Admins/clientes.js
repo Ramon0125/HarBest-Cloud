@@ -1,13 +1,13 @@
 //Funcion para agregar clientes
 function agrclt(rnc,email,nombre,adm) 
 {
-if(!validarparams(nombre)) {return res(txt.CTC, txt.W,2000);}//Verifica que los inputs contengan valores
+if(!validarparams(nombre)) {return Alerta(txt.CTC, txt.W,2000);}//Verifica que los inputs contengan valores
  
-if(!validaremailcl(email)) {return res(txt.ICV, txt.W,2000);} // Verifica que sea un correo valido
+if(!validaremailcl(email)) {return Alerta(txt.ICV, txt.W,2000);} // Verifica que sea un correo valido
     
-if(!validarint(rnc)) {return res(txt.RNV, txt.W, 2000);}//Verifica que sea un rnc valido
+if(!validarint(rnc)) {return Alerta(txt.RNV, txt.W, 2000);}//Verifica que sea un rnc valido
 
-if(!validarint(adm)){return res(txt.EELS, txt.W,3000);}
+if(!validarint(adm)){return Alerta(txt.EELS, txt.W,3000);}
 
   $.ajax({
   type: 'POST',//Metodo en el que se enviaran los datos
@@ -22,15 +22,15 @@ if(!validarint(adm)){return res(txt.EELS, txt.W,3000);}
    updatedatalists(2,['#browseredtclt','#browserdltclt']);
    tablas('clts');
   } responses(data); },
-  error: function(){res(txt.EELS, txt.E,2000)}});
+  error: function(){Alerta(txt.EELS, txt.E,2000)}});
 }
 
 
 // Función para obtener los detalles de un cliente
 function vdclt(id,token) 
 {
-if(!validarparams(token)) {return res(txt.CTC, txt.W,2000);}
-if(!validarint(id)){return res(txt.EELS, txt.E,2000);}
+if(!validarparams(token)) {return Alerta(txt.CTC, txt.W,2000);}
+if(!validarint(id)){return Alerta(txt.EELS, txt.E,2000);}
 
  $.ajax({
  type: 'POST',
@@ -47,20 +47,20 @@ if(!validarint(id)){return res(txt.EELS, txt.E,2000);}
  $('#admedtclt').val(data.NombreADM);
  modifystyle(['#formedtclt1','#btnedtclt'],'display','block');} // Mostrar el formulario de edición
  else {responses(data);}}, // Mostrar mensaje de error        
- error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+ error: function () {Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
 
 
 //Funcion que edita clientes
 function edtclt(id,nc,rnc,email,nombre,adm) 
 {
-if(!validarparams(nc,nombre) || id === 0 || adm === 0){ return res(txt.CTC, txt.W,2000);} //Funcion que valida que los inputs contengan valores
+if(!validarparams(nc,nombre) || id === 0 || adm === 0){ return Alerta(txt.CTC, txt.W,2000);} //Funcion que valida que los inputs contengan valores
 
-if(!validaremailcl(email)){ return res(txt.ICV, txt.W,2000);} //Funcion que valida el email
+if(!validaremailcl(email)){ return Alerta(txt.ICV, txt.W,2000);} //Funcion que valida el email
     
-if(!validarint(rnc)){ return res(txt.RNV, txt.W, 2000);} //Funcion que valida el rnc
+if(!validarint(rnc)){ return Alerta(txt.RNV, txt.W, 2000);} //Funcion que valida el rnc
 
-if(!validarint(id,adm)){return res(txt.EELS, txt.W,3000);}
+if(!validarint(id,adm)){return Alerta(txt.EELS, txt.W,3000);}
         
  $.ajax({
  type: 'POST',//Metodo en el que seran enviados los datos
@@ -75,15 +75,15 @@ if(!validarint(id,adm)){return res(txt.EELS, txt.W,3000);}
  updatedatalists(2,['#browseredtclt','#browserdltclt']);
  tablas('clts');
  } responses(data); },
- error: function (){res(txt.EELS, txt.E,2000)}}); // Mostrar mensaje de error
+ error: function (){Alerta(txt.EELS, txt.E,2000)}}); // Mostrar mensaje de error
 }
 
 
 // Función para eliminar un usuario
 function dltclt(id, name) 
 {
- if(!validarparams(name)) {return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
- if(!validarint(id)){return res(txt.EELS, txt.E,2000);}
+ if(!validarparams(name)) {return Alerta(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
+ if(!validarint(id)){return Alerta(txt.EELS, txt.E,2000);}
 
   $.ajax({
   type: 'POST',//Metodo en el que seran enviados los datos
@@ -97,5 +97,5 @@ function dltclt(id, name)
   updatedatalists(2,['#browseredtclt','#browserdltclt']);
   tablas('clts');} responses(data);  // Mostrar mensaje de éxito
   },
-  error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+  error: function () {Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }

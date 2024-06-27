@@ -18,21 +18,6 @@
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
 <?php
 
-if (isset($_GET['hcerrar']) || isset($_GET['hcerrar1']) ) 
-{
-CerrarSesion();
-echo isset($_GET['hcerrar']) ? "<script type='text/javascript'>window.onload = function(){res('Sesión cerrada correctamente','success',1200);}</script>" : "<script>
-function removeParamsFromUrl() 
-{
- var url = window.location.href;    
- if (url.indexOf('?') !== -1) {
- var baseUrl = url.split('?')[0];
- window.history.replaceState({}, document.title, baseUrl);}
-}
-
-removeParamsFromUrl();</script>";
-}
-
 require './Controllers/ControllersBlocks.php';
 
 if (!is_null(GetInfo('IDUsuario')) && !isset($_GET['hcerrar']) && !isset($_SESSION['LOG'])) 
@@ -43,10 +28,10 @@ if (VALIDARBLOCK() === 'T') { ?>
 <!--- Fin Links -------------->
 
 <!--- Scripts -------------->
-<script defer src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>
-<script defer src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
-<script defer src="<?php echo APP_URL ?>Scripts/globalfuncs.js" type="text/javascript"></script>
-<script defer src="<?php echo APP_URL ?>Scripts/login.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>
+<script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="<?php echo APP_URL ?>Scripts/globalfuncs.js" type="text/javascript"></script>
+<script src="<?php echo APP_URL ?>Scripts/login.js" type="text/javascript"></script>
 <!--- Fin scripts -------------->
 </head>
 
@@ -108,6 +93,16 @@ if (VALIDARBLOCK() === 'T') { ?>
 </body>
 </html>
 <?php
+
+if (isset($_GET['hcerrar']) || isset($_GET['hcerrar1']) ) 
+{
+CerrarSesion();
+echo "<script type='text/javascript'>";
+if (isset($_GET['hcerrar'])) {
+    echo "Alerta('Sesión cerrada correctamente','success',1200);";
+}
+echo "LimpiarParametros(); </script>";
+}
 }
 
 else 
@@ -116,3 +111,4 @@ $url = APP_URL.'Error/index.php?Error=001';
 $html = file_get_contents($url);
 echo $html;
 }
+

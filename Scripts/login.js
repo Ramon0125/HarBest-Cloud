@@ -43,27 +43,22 @@ if(!validaremail(Email))  {return res(txt.ICV, txt.W, 2000); } //Esto valida que
 }
 
 
-
-
 // Función para modificar la contraseña
 function MdfPass(event,p, p2) { event.preventDefault();
-	if (p === p2) //Esto verifica si las contraseñas son iguales 
-	{
-	  if (validarparams(p)) //Esto verifica si las contraseñas no estan vacias
-	  {
-		$.ajax({
-		  type: 'POST',//Metodo en el que se enviaran los datos
-		  url: './Managers/ManagerInicioSesion.php',//Direccion a la que se enviaran los datos
-		  data: { tipo: "mdfpass", passwordn1: p },//Datos que seran enviados
-		  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
-		  success: function (data) {
-		  if (data.success) {var url = './Views/?Notificacion=' + encodeURIComponent(txt.CMC);
-		  window.location.href = url;}
-		  else{load(2); responses(data); }},
-		  error: function () {res(txt.EELS, txt.E, 2000);}});
-	  }
+	if (p !== p2){return res(txt.LCC, txt.E, 1450); }//Esto verifica si las contraseñas son iguales 
+	
+	if (!validarparams(p)) {return res(txt.CTC, txt.W, 1450); } //Esto verifica si las contraseñas no estan vacias
 	  
-	  else { res(txt.CTC, txt.W, 1450); }
-	}
-	else { res(txt.LCC, txt.E, 1450); }
+	$.ajax({
+	type: 'POST',//Metodo en el que se enviaran los datos
+	url: PageURL+'Managers/ManagerInicioSesion.php',//Direccion a la que se enviaran los datos
+	data: { tipo: "mdfpass", passwordn1: p },//Datos que seran enviados
+	beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
+	success: function (data) {
+	if (data.success) {var url = './Views/?Notificacion=' + encodeURIComponent(txt.CMC);
+	window.location.href = url;}
+	else{load(2); responses(data); }},
+	error: function () {res(txt.EELS, txt.E, 2000);}});
+
+
   }

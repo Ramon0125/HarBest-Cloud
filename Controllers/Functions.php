@@ -52,6 +52,15 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
   }
 
 
+  function HandleWarning()
+  {
+    SUMBLOCKUSER();
+    $url = APP_URL."Error/?Error=002";
+    $html = file_get_contents($url);
+    echo $html;
+  }
+
+
   function EMAILS(string $ID,INT $V)
   {
     $ConexionDB = NEW ConexionDB();

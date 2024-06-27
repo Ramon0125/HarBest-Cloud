@@ -8,9 +8,9 @@ function adddetail(i) {
     incon.push(i.trim());
     $('#spandetalle').text(`${incon.length} Detalles agregados`);
     updatedetalles();   $('#inconsisddc').val('');
-    res(`${incon.length} detalles en total`,txt.S,false,true,'Detalle añadido');
+    Alerta(`${incon.length} detalles en total`,txt.S,false,true,'Detalle añadido');
   }
-  else {res(txt.CTC,txt.W,2000);} 
+  else {Alerta(txt.CTC,txt.W,2000);} 
 }
 
 
@@ -19,7 +19,7 @@ function dropdetails(){
 
   $('#spandetalle').text(`${incon.length} Detalles agregados`);
 
-  res(`${incon.length} detalles en total`,txt.S,false,true,'Ultimo detalle eliminado'); 
+  Alerta(`${incon.length} detalles en total`,txt.S,false,true,'Ultimo detalle eliminado'); 
 }
 
 
@@ -66,12 +66,12 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON,CORAUD,NOMAUD,TELAUD)
 
   for (let a = 0; a < INDETALL.length; a++) { max += INDETALL[a].size; }
 
-  if (!validarparams(INFECHA,CORAUD,NOMAUD,TELAUD) || INDETALL.length <= 0) {res(txt.CTC,txt.W,2000);}
-  else if(!validarint(INIDNOT)){res(txt.EELS,txt.E,2000)}
-  else if(!validarint(INNOCAS)){res(txt.INCV,txt.W,2000)}
-  else if(!validaremailcl(CORAUD)){res(txt.ICV,txt.W,2000)}
-  else if(!validarint(TELAUD)){res(txt.ITV,txt.W,2000)}
-  else if((max / (1024**2) )> maxfilesize){res(txt.AMGR1,txt.W,false,true,txt.AMG);}
+  if (!validarparams(INFECHA,CORAUD,NOMAUD,TELAUD) || INDETALL.length <= 0) {Alerta(txt.CTC,txt.W,2000);}
+  else if(!validarint(INIDNOT)){Alerta(txt.EELS,txt.E,2000)}
+  else if(!validarint(INNOCAS)){Alerta(txt.INCV,txt.W,2000)}
+  else if(!validaremailcl(CORAUD)){Alerta(txt.ICV,txt.W,2000)}
+  else if(!validarint(TELAUD)){Alerta(txt.ITV,txt.W,2000)}
+  else if((max / (1024**2) )> maxfilesize){Alerta(txt.AMGR1,txt.W,false,true,txt.AMG);}
   
   else {
     if (validarparams(INCON)) {incon.push(INCON.trim());}
@@ -105,10 +105,10 @@ function addddc(INIDNOT,INNOCAS,INFECHA,INDETALL,INCON,CORAUD,NOMAUD,TELAUD)
         success: function (DATA){ if(DATA.success){
         closedetails(); updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
         tablasejec('detalles');} responses(DATA);},
-        error: function(){res(txt.EELS,txt.E,2000)}
+        error: function(){Alerta(txt.EELS,txt.E,2000)}
       }); 
     }
-    else {res(txt.CTC,txt.W,2000);}
+    else {Alerta(txt.CTC,txt.W,2000);}
   }
 }
 
@@ -133,7 +133,7 @@ function dltddc(idd,noc)
     });
   }
   
-  else {res(txt.EELS,txt.W,2000)}
+  else {Alerta(txt.EELS,txt.W,2000)}
 }
 
 
@@ -171,7 +171,7 @@ function vddc(IDD)
       
     });
   }
-  else {res(txt.EELS,txt.E,2000)}
+  else {Alerta(txt.EELS,txt.E,2000)}
 }
 
 function sendmailddc(nop){
@@ -185,10 +185,10 @@ function sendmailddc(nop){
       complete: function () { load(2); }, //Ocultar pantalla de carga
       success: function (res) { responses(res);
       if(res.success){tablasejec('detalles')}},
-      error: function(){res(txt.EELS,txt.W,2000);}
+      error: function(){Alerta(txt.EELS,txt.W,2000);}
     });
   }
-  else {res(txt.EELS,txt.W,2000)}
+  else {Alerta(txt.EELS,txt.W,2000)}
 }
 
 
@@ -210,6 +210,6 @@ function sendmailddc(nop){
     });
     }
     else{responses(DATA);}},
-    error: function(){res(txt.EELS,txt.W,2000)}
+    error: function(){Alerta(txt.EELS,txt.W,2000)}
   });
 }

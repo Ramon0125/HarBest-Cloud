@@ -1,7 +1,7 @@
 function agrusr(privi,email, name, lastn) //Función para agregar un usuario
 {
-if (!validarparams(privi,name,lastn)) {return res(txt.CTC, txt.W, 2000); } // Mostrar advertencia si faltan parámetros
-if (!validaremail(email)){return res(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
+if (!validarparams(privi,name,lastn)) {return Alerta(txt.CTC, txt.W, 2000); } // Mostrar advertencia si faltan parámetros
+if (!validaremail(email)){return Alerta(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
 
 $.ajax({// Realizar una solicitud AJAX para agregar el usuario
 type: 'POST',//Metodo en el que se enviaran los datos
@@ -15,13 +15,13 @@ LimpiarModal(false,false,'#formagrusr');
 updatedatalists(1,['#browser1','#browserdltusr'])
 tablas('usrs');} responses(data); 
 },// Manejar la respuesta del servidor
-error: function (){res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+error: function (){Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
 
 
 function vd(id, token) // Función para obtener los detalles de un usuario
 {
-if (!validarparams(token) || !validarint(id) || id === 0) {return res(txt.EELS, txt.E, 2000);}
+if (!validarparams(token) || !validarint(id) || id === 0) {return Alerta(txt.EELS, txt.E, 2000);}
 
  $.ajax({
  type: 'POST', //Metodo en el que se enviaran los datos
@@ -39,16 +39,16 @@ if (!validarparams(token) || !validarint(id) || id === 0) {return res(txt.EELS, 
  modifystyle(['#formedt','#btnedtusr'],'display','block');
  }
  else {responses(data);}}, // Mostrar mensaje de error
- error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+ error: function () {Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
 
 
 
 function edtusr(id, name, email, nname, lastn, pass) // Función para editar un usuario
 {
-if (!validarparams(name,nname,lastn,pass)) {return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
-if (!validaremail(email)) {return res(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
-if (!validarint(id)){return res(txt.EELS, txt.E, 2000);}
+if (!validarparams(name,nname,lastn,pass)) {return Alerta(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
+if (!validaremail(email)) {return Alerta(txt.ICV, txt.W, 2000);} // Mostrar advertencia si el correo electrónico no es válido
+if (!validarint(id)){return Alerta(txt.EELS, txt.E, 2000);}
 
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
@@ -63,15 +63,15 @@ if (!validarint(id)){return res(txt.EELS, txt.E, 2000);}
   updatedatalists(1,['#browser1','#browserdltusr']);
   tablas('usrs');
  } responses(data);}, // Mostrar mensaje de error
- error: function () {res(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
+ error: function () {Alerta(txt.EELS, "error", 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
 
 
 // Función para eliminar un usuario
 function dltusr(id, name) 
 {
- if (!validarparams(name)){ return res(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
- if (!validarint(id)){return res(txt.EELS, txt.E, 2000);}
+ if (!validarparams(name)){ return Alerta(txt.CTC, txt.W, 1460);} // Mostrar advertencia si faltan parámetros
+ if (!validarint(id)){return Alerta(txt.EELS, txt.E, 2000);}
 
 
  $.ajax({
@@ -87,13 +87,13 @@ function dltusr(id, name)
     updatedatalists(1,['#browser1','#browserdltusr']);
     tablas('usrs');
  } responses(data);},
- error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
+ error: function () {Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
 }
 
 
 function desusr(id) 
 {
- if (!validarint(id)){return res(txt.EELS, txt.E, 2000);}
+ if (!validarint(id)){return Alerta(txt.EELS, txt.E, 2000);}
 
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
@@ -102,5 +102,5 @@ function desusr(id)
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); }, //Ocultar pantalla de carga
  success: function (data) {responses(data); tablas('usrblocks');},
- error: function () {res(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
+ error: function () {Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX  
 }

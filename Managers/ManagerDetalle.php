@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo'],$_SERVER['HTTP
 
     if ($_POST['tipo'] == 'addddc' && isset($_POST['INIDNOT'],$_POST['INNOCAS'],$_POST['INCON'],$_POST['INFECHA'],$_FILES['INDETALL'],$_POST['CORAUD'],$_POST['NOMAUD'],$_POST['TELAUD'])) 
     {
-    foreach ($_FILES['INDETALL']['name'] as $key => $nombreArchivo) {
+    foreach ($_FILES['INDETALL']['name'] as $nombreArchivo) {
         
     $tipoArchivo = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
   

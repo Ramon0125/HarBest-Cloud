@@ -12,7 +12,7 @@ function tablasejec(str)
     complete: function () { load(2); }, //Ocultar pantalla de carga
     success: function (data) {
     data.error ? responses(data) : tablesresult(str,data);},
-    error: function () {res(txt.EELS, "error", 2000);}});   
+    error: function () {Alerta(txt.EELS, "error", 2000);}});   
 }
 
 function tablesresult(str,data){
@@ -50,7 +50,6 @@ function tablesresult(str,data){
         } 
         else { return '<i class="bi bi-check2-circle center"></i>'; }}}]
       }));
-        
       $('#tabla tbody').on('click', '.btnverddc', function() 
       {vddc($(this).closest('tr').find('td:eq(0)').text())});
     
@@ -77,19 +76,23 @@ function tablesresult(str,data){
       "orderable": false,
       "render": function (data, type, row) {
       if (row[6] != 'T') {
-      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
+      return '<button type="button" class="btn btn-success btnenviarntf" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;">Enviar</button>';
       }
       else {return '<i class="bi bi-check2-circle center"></i>';}}
       }]
       }));
-      
-      $('#tabla tbody').on('click', '.btnvercarta', function() 
-      {let ID = $(this).closest('tr').find('td:eq(0)').text();
-      vcarta(ID); });
 
-      $('#tabla tbody').on('click', '.btnenviar', function() 
-      {let NOTIF = $(this).closest('tr').find('td:eq(0)').text();
-      sendmail(NOTIF); });
+      $('#tabla tbody tr').on('click', function (event) 
+      {
+        const Boton = event.target.classList;
+
+        if(Boton.contains('btn')){
+
+        let ID = $(this).find('td:eq(0)').text().trim();
+
+        Boton[2] === 'btnenviarntf' ? sendmail(ID) : vcarta(ID);}
+      });
+
     break;
 
     }

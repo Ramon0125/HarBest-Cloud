@@ -41,12 +41,7 @@ else {$data = HandleError();}
 else {$data['CNV'] = true; SUMBLOCKUSER();}
 }
 
-else {
-SUMBLOCKUSER();
-$url = "../Error/?Error=002";
-$html = file_get_contents($url);
-echo $html;
-}
+else { echo HandleWarning();}
 
 }
 
