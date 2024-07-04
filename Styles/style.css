@@ -332,6 +332,10 @@ option:hover,  .active{
   width: 94% !important;
 }
 
+#dtlagrddc{
+  width: 96% !important;
+}
+
 .loading {
   height: 100%;
   width: 100%;
@@ -471,8 +475,7 @@ div .form-control.cartadiv{
 
 
 #detalles td {
-  vertical-align: middle;
-  text-align: left !important;
+vertical-align: middle;
 white-space: normal;
 word-wrap: break-word;    }
 
@@ -484,7 +487,7 @@ word-wrap: break-word;    }
 }
 
 
-.ModalTitle {
+.ModalTitle, .SMColumn {
   text-align: center; 
   flex-direction: column; 
   align-items: center; 
@@ -503,4 +506,15 @@ word-wrap: break-word;    }
 
 .modal-title {
   color: #6f6e73;
+}
+
+.DivTable{
+  margin-left: 1%;
+  width: 98%;
+  overflow-y: auto;
+  background: silver;
+}
+
+.trtable{
+  border-bottom: 5px black;
 }

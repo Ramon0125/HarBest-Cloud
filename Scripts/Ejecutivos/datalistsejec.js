@@ -31,19 +31,46 @@ if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e
 /* FIN DATALIST FROM DLTNOTIF */
 
 
-/* DATALIST FROM EDTCLTADM */
+/* DATALIST FROM AGRDDC */
 eventlisten('#dtlagrddc','click', function(event)
-{datalistclick2(event,'#slcntfddc','#slcntfddc1','#dtlagrddc');});
+{datalistclick(event,'#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc');
+
+incon = [];
+
+updatedetalles()
+
+const miSelect = document.getElementById('nontfddc');
+
+while (miSelect.options.length > 1) {
+    miSelect.remove(1);
+}
+
+let Notifs = ($('#slcntfddc').val()).split(",");
+
+Notifs.forEach(Option => {
+
+   let nuevoOption = document.createElement('option');
+
+   nuevoOption.value = Option.trim();
+   nuevoOption.text = Option.trim();
+
+   miSelect.appendChild(nuevoOption);
+    
+});
+
+
+});
 
 
 // Evento 'oninput' para filtrar opciones según la entrada del usuario en 'admclt'
 eventlisten('#slcntfddc','input',function () 
-{datalistinput('#slcntfddc','#slcntfddc1',null,'#dtlagrddc');});
+{datalistinput('#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc');});
 
     
 // Evento 'onblur' para realizar acciones cuando 'admclt' pierde el foco
 eventlisten('#slcntfddc','blur',function () 
-{datalistblur2('#slcntfddc','#slcntfddc1','#dtlagrddc');});
+{datalistblur('#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc');});
+
     
 /////////FIN DATALIST ADM EDITAR CLIENTE//////////////////////////////////////////////
 

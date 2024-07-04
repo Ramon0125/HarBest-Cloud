@@ -24,9 +24,9 @@ if($_POST['FUNC'] == 'NOTIF.' && isset($_POST['ENTITY'],$_POST['CC']))
 {
  $data = $SENDMAIL->sendmailnotif($_POST['ENTITY'],$_POST['CC']);
 }
-elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY']))
+elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY'],$_POST['CC']))
 {
- $data = $SENDMAIL->sendmailddc($_POST['ENTITY']);
+ $data = $SENDMAIL->sendmailddc($_POST['ENTITY'],$_POST['CC']);
 }
 else {$data = HandleError();}
 

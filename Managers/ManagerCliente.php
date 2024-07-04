@@ -32,7 +32,7 @@ elseif($_POST['FUNC'] == 'dltclt' && isset($_POST['id'],$_POST['name']))
 
 
 elseif($_POST['FUNC'] == 'getccclt' && isset($_POST['id'])) 
-{ $data = $CC->GetCCCliente($_POST['id']); }
+{ $data = $CC->GetCCCliente($_POST['id'],$_POST['type']); }
 
 
 else {$data = HandleError();}

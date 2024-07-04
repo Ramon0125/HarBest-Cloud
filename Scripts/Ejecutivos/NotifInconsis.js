@@ -183,7 +183,7 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
         beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
         complete: function () { load(2); }, //Ocultar pantalla de carga
         success: function (DATA) { 
-        if(DATA.success){ 
+        if(DATA.success){
         updatedatalists(4,['#dtldltnot']);
         closenotif(); 
         tablasejec('notif');} 
@@ -248,7 +248,7 @@ async function sendmail(nop){
     await $.ajax({
      type: "POST",
      url: "../Managers/ManagerCliente.php",
-     data: {FUNC: 'getccclt', id: nop},
+     data: {FUNC: 'getccclt', id: nop, type: 1},
      dataType: "JSON",
      beforeSend: function () { load(1); },
      success: function (res) {
@@ -334,8 +334,7 @@ async function sendmail(nop){
       const emailContainer = document.getElementById('email-container');
       const emailDivs = emailContainer.getElementsByTagName('div');
 
-      if (emailDivs.length > 0) 
-      {emailContainer.removeChild(emailDivs[emailDivs.length - 1]);}
+      if (emailDivs.length > 0) {emailContainer.removeChild(emailDivs[emailDivs.length - 1]);}
       });    
 
 
@@ -361,7 +360,7 @@ async function sendmail(nop){
           beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
           complete: function () { load(2); }, //Ocultar pantalla de carga
           success: function (res) {  responses(res);
-          if(res.success){updatedatalists(4,['#dtldltnot']); /* updatedatalists(5,['#dtlagrddc']); */  tablasejec('notif')}},
+          if(res.success){updatedatalists(4,['#dtldltnot']); updatedatalists(5,['#dtlagrddc']);  tablasejec('notif')}},
           error: function(error){Alerta(error,txt.W,2000);}
         });
       }

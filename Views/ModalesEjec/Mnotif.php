@@ -15,6 +15,8 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
     <form id="formagrnotif">
 
+
+<div class="container">
        <div class="row g-3">
 
         <div class="col-sm-6">
@@ -23,11 +25,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
           <input type="hidden" id="cltagrnot1" name="cltagrnot1">
 
           <datalist id="dtlcltargnot" role="listbox">
-            <?php $cliente = Datos(2); // Obtener clientes
-            if ($cliente !== false && count($cliente) > 0) {
-            foreach ($cliente as $clientes){ ?>
-            <option value="<?php echo $clientes["IDCliente"]; ?>"><?php echo $clientes["NombreCliente"]; ?></option>
-            <?php }} ?>
+            <?php $DataCliente = Datos(2); // Obtener clientes
+            if ($DataCliente !== false && count($DataCliente) > 0) 
+            {
+            foreach ($DataCliente as $DC){ ?> <option value="<?php echo $DC["IDCliente"]; ?>"><?php echo $DC["NombreCliente"]; ?></option><?php }
+            } ?>
           </datalist>
         </div>
   
@@ -52,7 +54,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
         </div>
 
-        <hr style="margin-top: 1.5rem !important; margin-bottom: -0.5rem !important;">      
+        <hr class="Divisor" style="margin-top: 1.5rem !important; margin-bottom: -0.5rem !important;">      
 
         <div class="col-sm-6">
 
@@ -89,9 +91,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
         </div>
 
-  <hr style="margin-bottom: -0.5rem !important;">      
+  <hr class="Divisor" style="margin-bottom: -0.5rem !important;">      
 
-<div style="overflow-y: auto;background: silver;">
+<div class="DivTable">
   
   <ul class="sidebar-nav" id="sidebar-nav" style="width: 100%; margin-bottom: 0%;">
    <li class="nav-item" style="margin-top: 1%;">
@@ -132,7 +134,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
    <button tabindex="-1" type="button" class="btn btn-secondary" onclick="dltinc()"><i class="bi bi-trash"></i> Eliminar incumplimiento</button>
   </div>
 
-  </div>
+  </div></div>
 
 </form></div>
 <div class="modal-footer justify-content-center">
@@ -159,9 +161,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
   <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltnotif" name="slcdltnotif" placeholder="">
   <input type="hidden" id="slcdltnotif1" name="slcdltnotif1">
   <datalist id="dtldltnot" role="listbox">
-  <?php $notif = Datos(4);
-  if ($notif !== false && count($notif) > 0) {
-  foreach ($notif as $notifs){ ?>
+  <?php $DataNotif = Datos(4);
+  if ($DataNotif !== false && count($DataNotif) > 0) {
+  foreach ($DataNotif as $notifs){ ?>
   <option value="<?php echo $notifs["IDNotificacion"]; ?>"><?php echo $notifs["Notificacion"]; ?></option>
   <?php }} ?>
   </datalist>

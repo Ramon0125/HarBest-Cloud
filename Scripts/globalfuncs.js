@@ -134,7 +134,9 @@ AMGR: `El tamaño maximo permitido por archivo es ${parseInt(maxfilesize/3.3) } 
 AMGR1: `El tamaño maximo permitido por archivo es ${maxfilesize} MB`,
 CTDN: 'Para continuar los campos de notificación(Numero,Tipo,Motivo y Año) deben estar vacios',
 ENYEA: 'Esta notificación ya esta agregada',
-IAV: 'Ingrese un año valido'
+IAV: 'Ingrese un año valido',
+EDYEA: 'Este detalle ya a esta agregado',
+CTDD: 'Para continuar los campos de detalle(No. inconsistencia, Detalle de inconsistencia) deben estar vacios',
 };
 
 
@@ -258,12 +260,22 @@ function crearBlobDesdeBase64(base64, mimeType) {
   return new Blob([bytes], { type: mimeType });
 }
 
-function procesarCartas(cartaData) {
-  const archivos = JSON.parse(cartaData);
+function procesarCartas(cartaData) 
+{
+  let archivos = JSON.parse(cartaData);
 
   archivos.forEach((archivo) => {
       const blob = crearBlobDesdeBase64(archivo.CARTA, archivo.MIME);
       const url = URL.createObjectURL(blob);
       window.open(url, '_blank');
+  });
+}
+
+function OnlyNumber(input){
+  eventlisten(input,'input', function (event) 
+  {
+    let value = event.target.value;
+
+    validarint(event.data) ? null : event.target.value = value.replace(/[^0-9]/g, '');
   });
 }

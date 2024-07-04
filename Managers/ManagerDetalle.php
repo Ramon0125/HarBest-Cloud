@@ -1,4 +1,4 @@
-<?php   header('Content-Type: application/json');
+<?php   
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo'],$_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest') 
 {
@@ -10,39 +10,37 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo'],$_SERVER['HTTP
   if (VALIDARBLOCK() === 'T') 
   {
 
-   if (!is_null(GetInfo('ID_USUARIO')) && Validarcadena1($_COOKIE['IDENTITY']) )
-   {
-  
+    if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0 && Validarcadena1($_COOKIE['IDENTITY']))
+    {
+
     if (Validarcadena1($_POST))
     {
-    
+      
     $verificar = new ControllerDettalles();
 
-    if ($_POST['tipo'] == 'addddc' && isset($_POST['INIDNOT'],$_POST['INNOCAS'],$_POST['INCON'],$_POST['INFECHA'],$_FILES['INDETALL'],$_POST['CORAUD'],$_POST['NOMAUD'],$_POST['TELAUD'])) 
+    if ($_POST['tipo'] == 'addddc' && isset($_POST['INIDNOT'],$_POST['INNOCAS'],$_POST['INCON'],$_POST['INFECHA'],$_FILES['ARCHIVOS'],$_POST['CORAUD'],$_POST['NOMAUD'],$_POST['TELAUD'])) 
     {
-    foreach ($_FILES['INDETALL']['name'] as $nombreArchivo) {
-        
-    $tipoArchivo = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
-  
-    if (!validarCarta($tipoArchivo)) { $validacionArchivos = false; break;} }
+      foreach ($_FILES['ARCHIVOS']['name'] as $filename) 
+      {
+        $Extension = pathinfo($filename, PATHINFO_EXTENSION);
 
-    if(!isset($validacionArchivos))
-    {
+        if (!validarCarta($Extension)) { SUMBLOCKUSER(); $response['EANV'] = true; break;} 
+      }
 
-    $detallesArchivos = array_map(function($tmp_name, $type, $name) {
-    return array(
-    'archivo' => base64_encode(file_get_contents($tmp_name)),
-    'mime' => $type,
-    'name' => $name
-    );},$_FILES['INDETALL']['tmp_name'], $_FILES['INDETALL']['type'],$_FILES['INDETALL']['name']);
+      if(!isset($response['EANV']))
+      {  
+        $response = $verificar->InsertDetalle(
+        $_POST['INIDNOT'],
+        $_POST['INNOCAS'],
+        $_POST['INCON'],
+        $_POST['INFECHA'],
+        $_FILES['ARCHIVOS'],
+        $_POST['CORAUD'],
+        $_POST['NOMAUD'],
+        $_POST['TELAUD']);
+      }
+    }
       
-    $values = json_encode($detallesArchivos);
-
-    $response = $verificar->InsertDetalle($_POST['INIDNOT'],$_POST['INNOCAS'],json_encode($_POST['INCON']),$_POST['INFECHA'],$values,$_POST['CORAUD'],$_POST['NOMAUD'],$_POST['TELAUD']);
-    }
-    else {$response['EANV'] = true; SUMBLOCKUSER();}  
-    }
-
     elseif ($_POST['tipo'] == 'dltddc' && isset($_POST['IDD'],$_POST['NOC'])) 
     {
     $response = $verificar->DeleteDetalle($_POST['IDD'],$_POST['NOC']);
@@ -58,26 +56,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo'],$_SERVER['HTTP
     $response = $verificar->vinconsistencias($_POST['IDD']);
     }
 
-    else {$response['error'] = true;}
-  
+    else {$response = HandleError();}
     }
+    else {$response['CNV'] = true; SUMBLOCKUSER();}}
+
+  else { echo HandleWarning();} }
+      
+else { $response['block'] = true; }
   
-  else {$response['CNV'] = true; SUMBLOCKUSER();}
-  }
-
-  else {
-  $url = APP_URL."Error/?Error=002";
-  $html = file_get_contents($url);
-  echo $html;
-  }
-
-  }
-
-  else 
-  {
-    $response['block'] = true;
-  }
-
+  header('Content-Type: application/json');
   echo json_encode($response);
 }
+
 else { header("LOCATION: ./404"); }

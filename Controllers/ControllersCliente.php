@@ -121,10 +121,10 @@ class ControllerCliente extends ConexionDB {
     }
 
 
-    public function GetCCCliente(int $id): array
+    public function GetCCCliente(int $id, int $type): array
     {
     try{
-    $Query = "CALL SP_GET_CC(?)";
+    $Query = $type === 1 ? "CALL SP_GET_CC(?)" : "CALL SP_GET_CC_DDC(?)";
     $QueryExecution = $this->ConexionDB->prepare($Query);
     $QueryExecution->bindParam(1,$id,PDO::PARAM_INT);
     $QueryExecution->execute();
