@@ -1,3 +1,4 @@
+$(document).ready(function () {  OnlyNumber('#Aincu'); });
 
 var nonotif = []; //Variable de los numeros de notificación
 var tipnotif = []; //Variable de los tipos de notificación
@@ -143,7 +144,7 @@ if(inputs.length > 2)
 function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 {
 
- if (CARTA.length == 0 || nonotif.length == 0 || tipnotif.length == 0 || impunotif.length == 0) 
+ if (CARTA.length === 0 || nonotif.length === 0 || tipnotif.length === 0 || impunotif.length === 0) 
  {return Alerta(txt.CTC,txt.W,2000);}
 
  if(!validaraño(FECHANOT.substring(0, 4))){return Alerta(txt.IAV,txt.W,2000);}
@@ -216,6 +217,7 @@ function dltnotif(idn,non)
     
   if (!validarint(idn)) { return Alerta(txt.EELS,txt.W,2000);}
 
+
     $.ajax({
     type: "POST",
     url: PageURL+"Managers/ManagerNotif.php",
@@ -234,137 +236,34 @@ function dltnotif(idn,non)
     },
     error: function(){txt.EELS,txt.E,2000}
     });
-
     
 }
 
-
-async function sendmail(nop){
-  if (validarparams(nop)) 
-  {
-    let CC;
-    let CCLT;
+  async function sendmail(nop) 
+{
+  if (!validarint(nop)) { return Alerta(txt.EELS,txt.W,2000);  }
     
-    await $.ajax({
-     type: "POST",
-     url: "../Managers/ManagerCliente.php",
-     data: {FUNC: 'getccclt', id: nop, type: 1},
-     dataType: "JSON",
-     beforeSend: function () { load(1); },
-     success: function (res) {
-     if(res.success) 
-     {
-     CCLT = res.message.EmailCliente;  
-     CC = JSON.parse(res.message.CC); 
-     } },
-     error: function(error){Alerta(error,txt.W,2000);}
-     });
+  try {
 
+   const { CC, CCLT } = await Getcc(nop, 1);
+  
+   if (!validaremailcl(CCLT) || typeof CC != 'object') {return Alerta(txt.EELS, txt.W, 2000);}
 
-     const { value: formValues } = await Swal.fire({
-     title: 'Agregar correos adicionales',
-     html: `
-     <div id="email-container">
-     <label for="email-1">Email del Cliente</label>
-     <input type="email" class="swal2-input" placeholder="Escriba el email del cliente" id="email-1" style="width: 74%; margin-top: 3%; margin-bottom: 4%;" value="${CCLT}">
-     </div>
+   const values = await ShowFormEmail(CC, CCLT);
+
+   if (!values || typeof values != 'object' ) {return Alerta(txt.EELS, txt.W, 2000)} 
+
+   $.ajax({
+    type: "POST",
+    url: PageURL + "Managers/ManagerEmails.php",
+    data: { FUNC: 'NOTIF.', ENTITY: nop, CC: values },
+    dataType: "JSON",
+    beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
+    complete: function () { load(2); }, // Ocultar pantalla de carga
+    success: function (res) {  responses(res);
+    if(res.success){updatedatalists(4,['#dtldltnot']); updatedatalists(5,['#dtlagrddc']);  tablasejec('notif')}},
+    error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
+   });  
  
-     <div id="alert-span" style="margin: 11px 0px 6px 0px; display:none;">  
-      <span style="color:red;" id="alert-span2">
-      <i class="bi bi-exclamation-circle"></i>
-      Hay un correo electronico invalido
-      </span>
-     </div>
-
-     <button type="button" id="add-email" class="swal2-confirm swal2-styled">Agregar correo</button>
-     <button type="button" id="remove-email" class="swal2-deny swal2-styled">Eliminar ultimo</button>`,
-     confirmButtonColor: '#28a745',
-     confirmButtonText:'Enviar correo',
-     showConfirmButton: true,
-     showCloseButton: true,
-     allowOutsideClick: false,
-     
-     preConfirm: () => {
-      const emailContainer = document.getElementById('email-container');
-      const inputs = emailContainer.getElementsByTagName('input');
-      let emails = [];
-
-      for (let input of inputs) 
-      {
-        if (validaremail(input.value) || validaremailcl(input.value)) 
-        { emails.push(input.value); }
-            
-        else 
-        { 
-        input.classList.add('swal2-inputerror');
-        document.getElementById('alert-span').style.display = 'block';
-
-        input.addEventListener('input',() => {
-        if(validaremail(input.value) || validaremailcl(input.value))
-        {
-        input.classList.remove('swal2-inputerror');
-        document.getElementById('alert-span').style.display = 'none';
-        }
-        });
-
-        return false;
-        }
-      }
-          
-     return emails
-    },
-
-     didOpen: () => {
-         
-      let addinput = (text = false) => 
-      {
-      let emailContainer = document.getElementById('email-container');
-      let newEmailIndex = emailContainer.getElementsByTagName('input').length + 1;
-      let emailDiv = document.createElement('div');
-      emailDiv.id = `email-div-${newEmailIndex}`;
-      emailDiv.innerHTML = `
-      <input type="email" class="swal2-input" placeholder="Escriba el email #${newEmailIndex}" id="email-${newEmailIndex}" style="width: 74%; margin-top: 3%;" ${typeof text == "string" ? "value="+text : null}>
-      `;
-      emailContainer.appendChild(emailDiv);
-      }
-
-      document.getElementById('add-email').addEventListener('click', addinput);
-    
-      document.getElementById('remove-email').addEventListener('click', () => {
-      const emailContainer = document.getElementById('email-container');
-      const emailDivs = emailContainer.getElementsByTagName('div');
-
-      if (emailDivs.length > 0) {emailContainer.removeChild(emailDivs[emailDivs.length - 1]);}
-      });    
-
-
-      if (CC == null || CC.length == 0)
-      {
-      addinput('administracion@harbest.net');
-      }
-      else{CC.forEach((correo) => { addinput(correo) }); }
-
-      load(2);
-        
-      }
-      });
-    
-
-      if (formValues) 
-      {
-        $.ajax({
-          type: "POST",
-          url: "../Managers/ManagerEmails.php",
-          data: {FUNC: 'NOTIF.',ENTITY: nop, CC: formValues},
-          dataType: "JSON",
-          beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
-          complete: function () { load(2); }, //Ocultar pantalla de carga
-          success: function (res) {  responses(res);
-          if(res.success){updatedatalists(4,['#dtldltnot']); updatedatalists(5,['#dtlagrddc']);  tablasejec('notif')}},
-          error: function(error){Alerta(error,txt.W,2000);}
-        });
-      }
-    
-  }
-  else {Alerta(txt.EELS,txt.W,2000)}
+  } catch (error) { return Alerta(error, txt.W, 2000); }
   }

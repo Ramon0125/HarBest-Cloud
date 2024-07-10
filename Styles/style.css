@@ -318,13 +318,15 @@ option:hover,  .active{
   color: var(--textligthcolor);
 }
 
-#browseradmclt,#browseradmedtclt,#dtlcltedtnot {
+#browseradmedtclt,#dtlcltedtnot {
   width: 42.5% !important;
   min-width: 40.5% !important;
 }
 
-#dtlcltargnot{
-  width: 46.5% !important;
+
+#browseradmclt,#dtlcltargnot
+{
+  width: 44.5% !important;
 }
 
 #Datalistagradm,#browseredtclt,#browserdltusr,#browser1

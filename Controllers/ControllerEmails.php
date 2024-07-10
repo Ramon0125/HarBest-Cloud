@@ -88,7 +88,7 @@ class EmailSender extends ConexionDB{
     "[FECHAMAXIMA]" => $fecha_completa
     );
 
-    $arch = $value["SIZE"] == 1 ? file_get_contents("../Data/modelos/notifinconsis.html") : file_get_contents("../Data/modelos/notifinconsis2.html");
+    $arch = file_get_contents("../Data/modelos/notifinconsis". ($value["SIZE"] == 1 ? "" : "2") .".html");
     
     $modelo = str_replace(array_keys($replacements), $replacements, $arch);
 
@@ -159,7 +159,7 @@ class EmailSender extends ConexionDB{
           foreach ($DataIncon["DETALLES"] as $DataDetalles) 
           { $inconsistencias .= $DataDetalles.'<br>'; }
           
-          $inconsistencias .= '<br></li>';
+          $inconsistencias .= '</li>';
         }
  
         $fecha = new DateTime($value["FECHAVenci"]);
@@ -176,7 +176,7 @@ class EmailSender extends ConexionDB{
         "[FECHA VENCIMIENTO]" => $fecha_completa
         );
     
-        $arch = file_get_contents("../Data/modelos/detallescitacion.html");
+        $arch = file_get_contents("../Data/modelos/detallescitacion". ($value["SIZE"] == 1 ? "" : "2") .".html");
         
         $modelo = str_replace(array_keys($replacements), $replacements, $arch);
     

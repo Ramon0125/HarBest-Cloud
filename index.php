@@ -57,7 +57,7 @@ if (VALIDARBLOCK() === 'T') { ?>
   <label for="password" class="formLabel">Contraseña</label>
   <input type="password" name="password" id="password" class="form-style" maxlength="15" autocomplete="current-password" readonly>        
   <input type="checkbox" name="mc" id="mc" onclick="visor(document.getElementById('password'))">
-  <label for="mc" class="rup-pass">Mostrar Contraseña</label>
+  <label for="mc" class="rup-pass">Mostrar contraseña</label>
  </div>
 
  <div class="form-item">
@@ -70,7 +70,7 @@ if (VALIDARBLOCK() === 'T') { ?>
 <div class="modal" id="modalpass">
  <form id="form1" class="mdfpass">
 
-  <p class="txtheading">La organizacion solicita cambiar la contraseña</p>
+  <p class="txtheading">La organización solicita cambiar la contraseña</p>
   
   <div class="form-item fi1">
    <p class="formLabel">Nueva contraseña</p>

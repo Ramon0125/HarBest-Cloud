@@ -146,7 +146,7 @@ else {
 
   <li class="nav-item">
   <a class="nav-link collapsed b1" onclick="tablasejec('detalles');">
-  <i class="bi bi-envelope-exclamation"></i></i>Consulta de detalles de citacion</a></li>
+  <i class="bi bi-envelope-exclamation"></i></i>Consulta de detalles de citación</a></li>
 
 
   <li class="nav-heading">Protocolos</li>
@@ -173,7 +173,7 @@ else {
   
   <!-- Detalle de Citacion --><li class="nav-item">
   <a class="nav-link collapsed b1" data-bs-target="#detcit" data-bs-toggle="collapse" href="#">
-  <i class="bi bi-journal-text"></i><span>Detalle de Citacion</span><i class="bi bi-chevron-down ms-auto"></i>
+  <i class="bi bi-journal-text"></i><span>Detalle de citación</span><i class="bi bi-chevron-down ms-auto"></i>
   </a>
 
   <ul id="detcit" class="nav-content collapse " data-bs-parent="#sidebar-nav">

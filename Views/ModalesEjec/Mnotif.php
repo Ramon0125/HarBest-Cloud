@@ -56,6 +56,40 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
         <hr class="Divisor" style="margin-top: 1.5rem !important; margin-bottom: -0.5rem !important;">      
 
+
+        <div class="DivTable">
+  
+  <ul class="sidebar-nav" id="sidebar-nav" style="width: 100%; margin-bottom: 0%;">
+   <li class="nav-item" style="margin-top: 1%;">
+
+  <a class="nav-link b1 collapsed" style="padding: 8px 0px;" data-bs-target="#divnotifi" data-bs-toggle="collapse" aria-expanded="false">
+    <span id="spannotif" style="display: flex; width:88%; justify-content:center; position: absolute;">Notificaciones Agregadas</span><i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+
+  <div id="divnotifi" class="collapse" style="width: 100%;">
+    <table id="tablenotif" class="table" style="width: 100%; overflow:auto; text-align:center; margin-bottom: 0%;"> 
+
+      <colgroup>
+      <col style="width: 33%;">
+      <col style="width: 33%;">
+      <col style="width: 33%;">
+      </colgroup>
+
+      <thead>
+       <tr><th>Numero</th> <th>Tipo</th> <th>Impuesto</th></tr>
+      </thead>
+      
+      <tbody id="tablanotif" style="user-select:text;">
+      </tbody>
+
+    </table>
+  </div>
+
+   </li>
+  </ul>
+  </div>
+
+
         <div class="col-sm-6">
 
           <label for="Notfic" class="form-label">Numero Notificación</label>
@@ -92,38 +126,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
         </div>
 
   <hr class="Divisor" style="margin-bottom: -0.5rem !important;">      
-
-<div class="DivTable">
-  
-  <ul class="sidebar-nav" id="sidebar-nav" style="width: 100%; margin-bottom: 0%;">
-   <li class="nav-item" style="margin-top: 1%;">
-
-  <a class="nav-link b1 collapsed" style="padding: 8px 0px;" data-bs-target="#divnotifi" data-bs-toggle="collapse" aria-expanded="false">
-    <span id="spannotif" style="display: flex; width:88%; justify-content:center; position: absolute;">Notificaciones Agregadas</span><i class="bi bi-chevron-down ms-auto"></i>
-  </a>
-
-  <div id="divnotifi" class="collapse" style="width: 100%;">
-    <table id="tablenotif" class="table" style="width: 100%; overflow:auto; text-align:center;"> 
-
-      <colgroup>
-      <col style="width: 33%;">
-      <col style="width: 33%;">
-      <col style="width: 33%;">
-      </colgroup>
-
-      <thead>
-       <tr><th>Numero</th> <th>Tipo</th> <th>Impuesto</th></tr>
-      </thead>
-      
-      <tbody id="tablanotif" style="user-select:text;">
-      </tbody>
-
-    </table>
-  </div>
-
-   </li>
-  </ul>
-  </div>
 
   <hr style="margin-bottom: -0.5rem !important;">      
 

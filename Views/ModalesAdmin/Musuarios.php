@@ -131,8 +131,8 @@ foreach ($usuarios as $user){ ?>
 
 <div class="col-fluid col-lg-12">
 <form id="formdltusr">
-<label for="slcdltuser" class="form-label labeledtmdf">Seleccione el Usuario</label>  
-<input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltuser" name="slcdltuser" placeholder="">
+<label for="slcdltuser" class="form-label labeledtmdf">Usuario</label>  
+<input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltuser" name="slcdltuser"  placeholder="Seleccione el usuario">
 <input type="hidden" id="slcdltuser1" name="slcdltuser1">
 
 <datalist id="browserdltusr" role="listbox">

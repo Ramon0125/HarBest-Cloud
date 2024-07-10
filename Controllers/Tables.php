@@ -45,7 +45,15 @@ $DATOS = array();
 <tbody>
 <?php if($DATOS){foreach ($DATOS as $REG) { ?>
 <tr>
-<?php foreach ($REG as $column_value) { echo "<td>".$column_value."</td>"; } ?>
+<?php foreach ($REG as $column_value) 
+{
+ $VAL = json_decode($column_value, true);
+ 
+ echo "<td>".(is_array($VAL) ?  ArrayFormat($VAL) : $column_value)."</td>"; 
+
+}
+?>
+
 </tr>
 <?php }} ?> 
 </tbody>

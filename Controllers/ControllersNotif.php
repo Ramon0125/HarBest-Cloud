@@ -62,7 +62,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
      }
      else {SUMBLOCKUSER();}
      
-    }catch (Exception) {return HandleError();}
+    }catch (Exception $E) {return HandleError();}
     
     return $this->Response;
     }

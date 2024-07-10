@@ -40,7 +40,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
     if (count($array) === 1) { return $array[0]; }
     //Si el array solo cuenta con un elemento retorna ese elemento
     
-    return implode(', ', array_slice($array, 0, -1)) . ' y ' . end($array);
+    return implode(', ', array_slice($array, 0, -1)) . (str_starts_with(end($array),'I') ? ' e ' : ' y ') . end($array);
     //Retorna los arrays separados por comas y el ultimo separado por "y"
   }
 

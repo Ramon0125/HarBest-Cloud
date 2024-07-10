@@ -90,10 +90,9 @@ public function vinconsistencias(int $IDD) : array
           $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.
           $values["NOTIFICACION"].'<br>';
           
-          foreach ($values["DETALLES"] as $value) {
-          $inconsistencias .= $value.'<br>';}
+          foreach ($values["DETALLES"] as $value) { $inconsistencias .= $value.'<br>';}
           
-          $inconsistencias .= '</li><br>';
+          $inconsistencias .= '</li>';
         }
 
         $this->response['success'] = true;

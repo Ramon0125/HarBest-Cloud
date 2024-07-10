@@ -45,20 +45,8 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 
     <hr class="Divisor">
 
-  <div class="col-sm-4 SMColumn center" >
-   <label for="nontfddc" class="form-label" style="margin-top: -4%;">No. Inconsistencia</label>
-   <select class="form-select" id="nontfddc" name="nontfddc" required>
-   <option value=""></option>
-   </select>
-  </div>
-
-  <div class="col-sm-8 SMColumn center">
-    <label id="labelinconsisddc" for="inconsisddc" class="form-label" style="margin-top: -2%;">Detalle de Inconsistencia</label>
-    <textarea rows="4" cols="30" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
-</div>
-
-
-<div class="DivTable">
+    
+<div class="DivTable" style="margin-top: 0%;">
   <ul class="sidebar-nav" id="sidebar-nav" style="width: 100%; margin-bottom: 0%;">
    <li class="nav-item" style="margin-top: 1%;">
 
@@ -67,7 +55,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   </a>
 
   <div id="divdetalle" class="collapse" style="width: 100%;">
-    <table id="tabladetalle" class="table table-hover" style="width: 100%; table-layout: fixed; text-align:center;"> 
+    <table id="tabladetalle" class="table table-hover" style="width: 100%; table-layout: fixed; text-align:center; margin-bottom: 0%;"> 
     
     <colgroup>
       <col style="width: 30%;">
@@ -87,6 +75,19 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
     </li>
   </ul>
 </div>
+
+  <div class="col-sm-4 SMColumn center" >
+   <label for="nontfddc" class="form-label" style="margin-top: -4%;">No. Inconsistencia</label>
+   <select class="form-select" id="nontfddc" name="nontfddc" required>
+   <option value=""></option>
+   </select>
+  </div>
+
+  <div class="col-sm-8 SMColumn center">
+    <label id="labelinconsisddc" for="inconsisddc" class="form-label" style="margin-top: -2%;">Detalle de Inconsistencia</label>
+    <textarea rows="4" cols="30" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
+</div>
+
 
 <div class="d-inline-flex gap-1 cp">
     <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="adddetail(document.getElementById('nontfddc').value,document.getElementById('inconsisddc').value)">Agregar</button>
@@ -130,7 +131,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 `<hr class="Divisor" style="margin-top: -3%;">
 
 <div class="modal-footer justify-content-center">
-<button type="button" tabindex="-1" class="btn btn-success" id="btnagrddc" style="display:none" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('nocddc').value,document.getElementById('fdddc').value,document.getElementById('nontfddc').value,document.getElementById('inconsisddc').value, document.getElementById('archivosddc').files,document.getElementById('cdaddc').value,document.getElementById('ndaddc').value,document.getElementById('telddc').value)">Crear detalle</button>
+<button type="button" tabindex="-1" class="btn btn-success" id="btnagrddc" style="display:none" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('nocddc').value,document.getElementById('fdddc').value,document.getElementById('nontfddc').value,document.getElementById('inconsisddc').value, document.getElementById('archivosddc').files,document.getElementById('cdaddc').value,document.getElementById('ndaddc').value,document.getElementById('telddc').value)"><i class="bi bi-floppy"></i> Crear</button>
 <button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
 </div></div></div></div>
 <!----------------FIN AGREGAR NOTIFICACION------------------------------->

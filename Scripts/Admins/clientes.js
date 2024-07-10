@@ -1,3 +1,5 @@
+$(document).ready(function () { OnlyNumber('#rncagrclt'); OnlyNumber('#telddc'); });
+
 //Funcion para agregar clientes
 function agrclt(rnc,email,nombre,adm) 
 {
