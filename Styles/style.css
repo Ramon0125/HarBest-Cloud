@@ -281,6 +281,7 @@ background-color: var(--acolorhov);
 
 
 datalist {
+    text-align: center;
     max-height: 40%;
     height: auto;
     overflow-y: auto;
