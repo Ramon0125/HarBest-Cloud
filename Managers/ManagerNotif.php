@@ -35,8 +35,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
       else if ($_POST['tipo'] == 'vcarta' && isset($_POST['IDN'])) 
       {$response = $func->vcarta($_POST['IDN']);}
 
-      else if ($_POST['tipo'] == 'dltnotif' && isset($_POST['IDN'],$_POST['NON']))
-      { $response = $func->DLTNotif($_POST['IDN'],$_POST['NON']); }
+      else if ($_POST['tipo'] == 'dltnotif' && isset($_POST['IDN'],$_POST['COD']))
+      { $response = $func->DLTNotif($_POST['IDN'],$_POST['COD']); }
 
       else {$response = HandleError();}
     }

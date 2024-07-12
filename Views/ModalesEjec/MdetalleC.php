@@ -15,7 +15,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   
   <div class="col-fluid col-lg-12">
     <form id="formagrddc1">
-    <label for="slcntfddc" class="form-label">Seleccione la notificacion</label>  
+    <label for="slcntfddc" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>  
     <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfddc" name="slcntfddc" placeholder="">
     <input type="hidden" id="slcntfddc1" name="slcntfddc1">
     <datalist id="dtlagrddc" role="listbox">
@@ -32,11 +32,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   <form id="formagrddc" style="display:contents;">
     <br>
   <div class="row g-3">
-
-  <div class="col-sm-6">
-   <label for="nocddc" class="form-label">No. Caso</label>
-   <input type="text" class="form-control" id="nocddc" name="nocddc" required autocomplete="off" maxlength="30">
-  </div>
           
   <div class="col-sm-6">
     <label for="fdddc" class="form-label">Fecha detalle</label>
@@ -76,17 +71,35 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   </ul>
 </div>
 
-  <div class="col-sm-4 SMColumn center" >
-   <label for="nontfddc" class="form-label" style="margin-top: -4%;">No. Inconsistencia</label>
+  <div class="col-sm-6 SMColumn center" >
+   <label for="nontfddc" class="form-label" style="margin-top: -4%;">Notificaciòn</label>
    <select class="form-select" id="nontfddc" name="nontfddc" required>
    <option value=""></option>
    </select>
+
+   <label for="nocddc" class="form-label">No. Caso</label>
+   <input type="text" class="form-control" id="nocddc" name="nocddc" required autocomplete="off" maxlength="30">
+
   </div>
 
-  <div class="col-sm-8 SMColumn center">
-    <label id="labelinconsisddc" for="inconsisddc" class="form-label" style="margin-top: -2%;">Detalle de Inconsistencia</label>
-    <textarea rows="4" cols="30" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
+  <div class="col-sm-6 SMColumn center" >
+   <label for="nontfddc" class="form-label" style="margin-top: -4%;">Notificaciòn</label>
+   <select class="form-select" id="nontfddc" name="nontfddc" required>
+   <option value=""></option>
+   </select>
+
+   <label for="nocddc" class="form-label">No. Caso</label>
+   <input type="text" class="form-control" id="nocddc" name="nocddc" required autocomplete="off" maxlength="30">
+
+  </div>
+
+
+  <div class="col-lg-12 SMColumn center">
+    <label id="labelinconsisddc" for="inconsisddc" class="form-label" style="margin-top: -2%;">Inconsistencia</label>
+    <textarea rows="2" cols="30" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
 </div>
+
+
 
 
 <div class="d-inline-flex gap-1 cp">
@@ -148,7 +161,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 
 <div class="col-fluid col-lg-12">
 <form id="formdltddc">
-  <label for="slcdltddc" class="form-label labeledtmdf">Seleccione el numero de caso</label>  
+  <label for="slcdltddc" class="form-label labeledtmdf">Seleccione el codigo de notificaciòn</label>  
   <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltddc" name="slcdltddc" placeholder="">
   <input type="hidden" id="slcdltddc1" name="slcdltddc1">
   <datalist id="dtldltddc" role="listbox">

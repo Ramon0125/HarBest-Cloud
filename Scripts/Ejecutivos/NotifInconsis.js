@@ -221,7 +221,7 @@ function dltnotif(idn,non)
     $.ajax({
     type: "POST",
     url: PageURL+"Managers/ManagerNotif.php",
-    data: {tipo:'dltnotif', IDN:idn, NON:non},
+    data: {tipo:'dltnotif', IDN:idn, COD:non},
     dataType: "JSON",
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga

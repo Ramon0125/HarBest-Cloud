@@ -149,13 +149,13 @@ ON DELETE CASCADE;
 CREATE VIEW VW_NOTIFICACIONES
 AS
     SELECT 
-		N.IDNotificacion AS 'ID',
-        C.NombreCliente AS 'CLIENTE',
-        JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS 'NOTIFICACIONES',
-        JSON_EXTRACT(N.Notificacion, '$[*].IMPUESTO') AS 'IMPUESTO AFECTADO',
-        date_format(N.FechaNotif, '%d/%m/%Y') AS 'FECHA',
-        date_format(N.FechaVenci, '%d/%m/%Y') AS 'VENCIMIENTO',
-        E.Estatus AS 'CORREO'
+		N.IDNotificacion AS ID,
+        C.NombreCliente AS CLIENTE,
+        N.CodigoNotif AS CODIGO,
+        JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NOTIFICACION,
+        date_format(N.FechaNotif, '%d/%m/%Y') AS FECHA,
+        date_format(N.FechaVenci, '%d/%m/%Y') AS VENCIMIENTO,
+        E.Estatus AS CORREO
     FROM NOTIF_INCONSISTENCIA AS N 
 	JOIN USUARIOS AS U ON N.IDEncargado = U.IDUsuario
 	JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
@@ -164,9 +164,9 @@ ORDER BY CASE E.Estatus WHEN 'F' THEN 1 ELSE 2 END,N.FechaVenci ASC;
 
 
 CREATE VIEW ALL_NOTIF AS
-select IDNotificacion,REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION')), '[', ''), ']', ''),'"','') AS 'Notificacion' 
-from NOTIF_INCONSISTENCIA as n 
-left join EMAILS_NOTIF as e on n.IDNotificacion = e.IDNotif
+select N.IDNotificacion,N.CodigoNotif AS 'Notificacion' 
+from NOTIF_INCONSISTENCIA as N 
+left join EMAILS_NOTIF as e on N.IDNotificacion = e.IDNotif
 where e.Estatus = 'F';
 
 
@@ -189,7 +189,7 @@ ON DELETE CASCADE;
 
 
 CREATE VIEW ALL_NOTIF_FOR_DETALLE AS
-SELECT N.IDNotificacion,REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION')), '[', ''), ']', ''),'"','') AS NONotificacion
+SELECT N.IDNotificacion,CodigoNotif AS NONotificacion
 FROM NOTIF_INCONSISTENCIA N 
 left join EMAILS_NOTIF as e on N.IDNotificacion = e.IDNotif
 left join DETALLE_CITACION as d on N.IDNotificacion = d.IDNotificacion
@@ -680,9 +680,8 @@ CREATE PROCEDURE SP_ELIMINAR_NOTIF
 BEGIN
 
 IF NOT EXISTS (
-SELECT IDNotificacion FROM NOTIF_INCONSISTENCIA AS N
-WHERE (SELECT REPLACE(REPLACE(REPLACE(JSON_UNQUOTE(JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION')), '[', ''), ']', ''),'"','') 
-WHERE N.IDNotificacion = IN_IDN ) = IN_NONO) THEN SELECT 'EELS' AS MENSAJE;
+SELECT * FROM NOTIF_INCONSISTENCIA AS N
+WHERE IDNotificacion = IN_IDN AND CodigoNotif = IN_NONO) THEN SELECT 'EELS' AS MENSAJE;
 
 ELSE 
 	DELETE FROM NOTIF_INCONSISTENCIA WHERE IDNotificacion = IN_IDN; 
@@ -844,5 +843,25 @@ IF EXISTS(SELECT * FROM DETALLE_CITACION WHERE IDDetalle = IN_IDD AND NOCaso = I
    
 ELSE SELECT 'EELS' AS MENSAJE; END IF;
 END $$
+
+
+CREATE TRIGGER TR_INSERT_NOTIF
+BEFORE INSERT ON NOTIF_INCONSISTENCIA
+FOR EACH ROW
+BEGIN
+    DECLARE current_year INT;
+    DECLARE next_id INT;
+    DECLARE codigo VARCHAR(20);
+
+    SET current_year = YEAR(NEW.FechaNotif);
+
+    SELECT IFNULL(MAX(CONVERT(SUBSTRING(CodigoNotif, 5, 4), UNSIGNED)), 0) + 1 INTO next_id
+    FROM NOTIF_INCONSISTENCIA;
+
+    SET codigo = CONCAT('FHCF', LPAD(next_id, 4, '0'), current_year);
+
+    SET NEW.CodigoNotif = codigo;
+END$$
+
 
 DELIMITER ; 
