@@ -107,6 +107,30 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
     return $this->Response;
     }
           
+
+    public function SearchNotif(string $Cod) : array 
+    {
+    try {
+
+        $query = 'CALL SP_SEARCH_NOTIF(?)';
+        $exec = $this->ConexionDB->prepare($query);
+        $exec->bindParam(1,$Cod,pdo::PARAM_STR);
+        $exec->execute();
+        
+        if ($exec->rowCount() === 0){return HandleError();}
+        
+            $res = $exec->fetch(PDO::FETCH_ASSOC);
+
+            $this->Response['message'] = $res['MENSAJE'];
+            $this->Response['success'] = $this->Response['message'] !== 'EELS';
+
+            if (!$this->Response['success']) {SUMBLOCKUSER();}
+        
+    }catch (Exception) {return HandleError();}
+    
+    return $this->Response;
+    }
+
     }
 }
 else { header("LOCATION: ./404"); }

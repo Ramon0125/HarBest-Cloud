@@ -152,24 +152,22 @@ class EmailSender extends ConexionDB{
 
         $inconsistencias = "";
 
-        foreach ($Detalles as $DataIncon) 
-        {
-          $inconsistencias .= '<li>Inconsistencia '.$DataIncon["NOTIFICACION"].'<br>';
+        foreach ($Detalles as $values) {
+
+          $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.$values["NOTIFICACION"].'<br>';
           
-          foreach ($DataIncon["DETALLES"] as $DataDetalles) 
-          { $inconsistencias .= $DataDetalles.'<br>'; }
+          foreach ($values["DETALLES"] as $values2) { $inconsistencias .= ($values2['Detalle'].', periodo '.substr($values2['Periodo'],0,4).'-'.substr($values2['Periodo'],4).' por valor de RD$'.$values2['Valor'].'<br>'); }
           
-          $inconsistencias .= '</li>';
+          $inconsistencias .= '</li><br>';
         }
- 
-        $fecha = new DateTime($value["FECHAVenci"]);
+
+        $fecha = new DateTime($value["FechaVenci"]);
         
         $fecha_completa = str_replace(array_keys($this->days), $this->days, ucfirst(strtolower($fecha->format('l j \d\e F \d\e Y'))));
         
-
         $replacements = array(
         "[NOMBRE CLIENTE]" => $value["NombreCliente"],
-        "[NOTIFICACION INCONSISTENCIA]" => ArrayFormat(json_decode($value["NOTIFICACION"])),
+        "[NOTIFICACION INCONSISTENCIA]" => ArrayFormat(array_column($Detalles,"NOTIFICACION")),
         "[DETALLES INCONSISTENCIAS]" => $inconsistencias,
         "[NOMBRE EJECUTIVO]" => GetInfo('Nombres').' '.GetInfo('Apellidos'),
         "[EMAIL EJECUTIVO]" => GetInfo('Email'),

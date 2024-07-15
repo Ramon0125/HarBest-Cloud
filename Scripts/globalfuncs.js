@@ -136,7 +136,9 @@ CTDN: 'Para continuar los campos de notificación(Numero,Tipo,Motivo y Año) deb
 ENYEA: 'Esta notificación ya esta agregada',
 IAV: 'Ingrese un año valido',
 EDYEA: 'Este detalle ya a esta agregado',
-CTDD: 'Para continuar los campos de detalle(No. inconsistencia, Detalle de inconsistencia) deben estar vacios',
+CTDD: 'Para continuar los campos de detalle (Notificacion, No. Caso, etc.) deben estar vacios',
+INV: 'Ingrese un numero valido',
+IPV: 'Ingrese un periodo valido'
 };
 
 
@@ -206,7 +208,7 @@ function validaremail(email)
 
 //Funcion que valida los numeros
 function validarint(...ints) {
-  const tester1 = /^[0-9]+$/;
+  const tester1 = /^[0-9.,]+$/;
   return ints.every(val => typeof val == 'number' || tester1.test(val) === true);
 }
 
@@ -276,6 +278,6 @@ function OnlyNumber(input){
   {
     let value = event.target.value;
 
-    validarint(event.data) ? null : event.target.value = value.replace(/[^0-9]/g, '');
+    validarint(event.data) ? null : event.target.value = value.replace(/[^0-9,.]/g, '');
   });
 }

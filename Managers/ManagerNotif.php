@@ -38,6 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
       else if ($_POST['tipo'] == 'dltnotif' && isset($_POST['IDN'],$_POST['COD']))
       { $response = $func->DLTNotif($_POST['IDN'],$_POST['COD']); }
 
+      else if ($_POST['tipo'] === 'vdnot' && isset($_POST['Codigo']))
+      {$response = $func->SearchNotif($_POST['Codigo']);}
+
       else {$response = HandleError();}
     }
     else {$response['CNV'] = true; SUMBLOCKUSER();}}  

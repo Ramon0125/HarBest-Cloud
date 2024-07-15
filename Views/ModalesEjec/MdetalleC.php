@@ -5,7 +5,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 
 <div class="modal fade" id="agrddc" data-bs-backdrop="static" aria-hidden="true" >
  <div class="modal-dialog center" style="max-width:none;" >
-  <div class="modal-content" style="width:39%;">
+  <div class="modal-content" style="width:45%;">
    
   <div class="modal-body">
     <div class="ModalTitle">
@@ -22,7 +22,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
     <?php $DataDC = Datos(5); // Obtener clientes
     if ($DataDC !== false && count($DataDC) > 0) {
     foreach ($DataDC as $DDC){ ?>
-    <option value="<?php echo $DDC["IDNotificacion"]; ?>"><?php echo $DDC["NONotificacion"]; ?></option>
+    <option value="<?php echo $DDC["NONotificacion"]; ?>"><?php echo $DDC["NONotificacion"]; ?></option>
     <?php }} ?>
     </datalist>
     </form>
@@ -38,10 +38,20 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
     <input type="DATE" class="form-control" id="fdddc" name="fdddc" required autocomplete="off">
   </div>
 
+  <div class="col-sm-6 cp">
+    <label for="archivosddc" id="labelarchivosddc" class="form-label">Archivos de detalle</label>
+    <div class="form-control cartadiv">
+    <input type="file" id="archivosddc" class="cartafiles" accept=".pdf,.jpg,.png,.docx,.doc" multiple>
+    <div class="fileicon fico1">
+    <i id="fiiconddc" class="bi bi-arrow-up-circle"></i><span id="fispanddc"> Buscar archivos</span>
+    </div>
+    </div>
+    </div>
+
     <hr class="Divisor">
 
     
-<div class="DivTable" style="margin-top: 0%;">
+<div class="DivTable" style="margin-top: 0%; margin-bottom:1%;">
   <ul class="sidebar-nav" id="sidebar-nav" style="width: 100%; margin-bottom: 0%;">
    <li class="nav-item" style="margin-top: 1%;">
 
@@ -53,12 +63,21 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
     <table id="tabladetalle" class="table table-hover" style="width: 100%; table-layout: fixed; text-align:center; margin-bottom: 0%;"> 
     
     <colgroup>
-      <col style="width: 30%;">
-      <col style="width: 70%;">
+    <col style="width: 20%;">
+    <col style="width: 41%;">
+    <col style="width: 13%;">
+    <col style="width: 13%;">
+    <col style="width: 13%;">
     </colgroup>
 
       <thead>
-        <tr><th scope="col">Inconsistencias</th> <th scope="col">Detalles</th></tr>
+        <tr>
+          <th scope="col">Notificaciòn</th> 
+          <th scope="col">Inconsistencia</th>
+          <th scope="col">Periodo</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Impuesto</th>
+        </tr>
       </thead>
 
       <tbody class="table-group-divider" id="detalles" style="user-select:text;">
@@ -71,69 +90,58 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   </ul>
 </div>
 
-  <div class="col-sm-6 SMColumn center" >
-   <label for="nontfddc" class="form-label" style="margin-top: -4%;">Notificaciòn</label>
+  <div class="col-sm-6" style="margin-top: 0%;">
+   <label for="nontfddc" class="form-label labeledtmdf">Notificaciòn</label>
    <select class="form-select" id="nontfddc" name="nontfddc" required>
    <option value=""></option>
    </select>
-
-   <label for="nocddc" class="form-label">No. Caso</label>
-   <input type="text" class="form-control" id="nocddc" name="nocddc" required autocomplete="off" maxlength="30">
-
   </div>
 
-  <div class="col-sm-6 SMColumn center" >
-   <label for="nontfddc" class="form-label" style="margin-top: -4%;">Notificaciòn</label>
-   <select class="form-select" id="nontfddc" name="nontfddc" required>
-   <option value=""></option>
-   </select>
-
-   <label for="nocddc" class="form-label">No. Caso</label>
+  <div class="col-sm-6" style="margin-top: 0%;">
+   <label for="nocddc" class="form-label labeledtmdf">No. Caso</label>
    <input type="text" class="form-control" id="nocddc" name="nocddc" required autocomplete="off" maxlength="30">
-
   </div>
 
+  <div class="col-lg-12">
+    <label id="labelinconsisddc" for="inconsisddc" class="form-label labeledtmdf">Inconsistencia</label>
+    <textarea rows="1" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
+  </div>
 
-  <div class="col-lg-12 SMColumn center">
-    <label id="labelinconsisddc" for="inconsisddc" class="form-label" style="margin-top: -2%;">Inconsistencia</label>
-    <textarea rows="2" cols="30" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
-</div>
+  <div class="col-sm-4">
+   <label for="perddc" class="form-label">Periodo</label>
+   <input type="text" class="form-control" id="perddc" name="perddc" required autocomplete="off" maxlength="30">
+  </div>
 
+  <div class="col-sm-4">
+   <label for="valddc" class="form-label">Valor</label>
+   <input type="text" class="form-control" id="valddc" name="valddc" required autocomplete="off" maxlength="30">
+  </div>
 
-
+  <div class="col-sm-4">
+   <label for="impddc" class="form-label">Impuesto Afectado</label>
+   <input type="text" class="form-control" id="impddc" name="impddc" required autocomplete="off" maxlength="30">
+  </div>
 
 <div class="d-inline-flex gap-1 cp">
-    <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="adddetail(document.getElementById('nontfddc').value,document.getElementById('inconsisddc').value)">Agregar</button>
+    <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="adddetail(document.getElementById('nontfddc').value,document.getElementById('nocddc').value,document.getElementById('inconsisddc').value,document.getElementById('perddc').value,document.getElementById('valddc').value,document.getElementById('impddc').value)">Agregar</button>
     <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-warning" onclick="dropdetails()">Eliminar</button>
 </div>
 
 <hr class="Divisor">
 
-
-  <div class="col-lg-12 cp">
-    <label for="archivosddc" id="labelarchivosddc" class="form-label">Archivos de detalle</label>
-    <div class="form-control cartadiv">
-    <input type="file" id="archivosddc" class="cartafiles" accept=".pdf,.jpg,.png,.docx,.doc" multiple>
-    <div class="fileicon fico1">
-    <i id="fiiconddc" class="bi bi-arrow-up-circle"></i><span id="fispanddc"> Buscar archivos</span>
-    </div>
-    </div>
-    </div>
-
-
-  <div class="d-inline-flex gap-1">
-<div class="col-sm-3.5">
+  <div class="d-inline-flex gap-1" style="margin-top: -1%;">
+<div class="col-sm-4">
    <label for="cdaddc" class="form-label">Correo del auditor</label>
    <input type="email" class="form-control" id="cdaddc" name="cdaddc" required autocomplete="off" maxlength="30">
   </div>
 
 
-  <div class="col-sm-3.5">
+  <div class="col-sm-4">
    <label for="ndaddc" class="form-label">Nombre del auditor</label>
    <input type="text" class="form-control" id="ndaddc" name="ndaddc" required autocomplete="off" maxlength="30">
   </div>
           
-  <div class="col-sm-3.5">
+  <div class="col-sm-4">
    <label for="telddc" class="form-label">Telefono del auditor</label>
    <input type="tel" class="form-control" id="telddc" name="telddc" required autocomplete="off" maxlength="30">
   </div>
@@ -144,10 +152,21 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 `<hr class="Divisor" style="margin-top: -3%;">
 
 <div class="modal-footer justify-content-center">
-<button type="button" tabindex="-1" class="btn btn-success" id="btnagrddc" style="display:none" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('nocddc').value,document.getElementById('fdddc').value,document.getElementById('nontfddc').value,document.getElementById('inconsisddc').value, document.getElementById('archivosddc').files,document.getElementById('cdaddc').value,document.getElementById('ndaddc').value,document.getElementById('telddc').value)"><i class="bi bi-floppy"></i> Crear</button>
+<button type="button" tabindex="-1" class="btn btn-success" id="btnagrddc" style="display:none" onclick="addddc(document.getElementById('slcntfddc1').value,
+document.getElementById('fdddc').value,
+document.getElementById('archivosddc').files,
+document.getElementById('nontfddc').value,
+document.getElementById('nocddc').value,
+document.getElementById('inconsisddc').value,
+document.getElementById('perddc').value,
+document.getElementById('valddc').value,
+document.getElementById('impddc').value,
+document.getElementById('cdaddc').value,
+document.getElementById('ndaddc').value,
+document.getElementById('telddc').value)"><i class="bi bi-floppy"></i> Crear</button>
 <button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
 </div></div></div></div>
-<!----------------FIN AGREGAR NOTIFICACION------------------------------->
+<!----------------FIN AGREGAR DETALLES------------------------------->
 
 <!----------------------- MODAL ELIMINAR NOTIFICACION -------------------->
 <div class="modal fade" id="dltddc" data-bs-backdrop="static" aria-hidden="true">
@@ -168,7 +187,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   <?php $ddc1 = Datos(6);
   if ($ddc1 !== false && count($ddc1) > 0) {
   foreach ($ddc1 as $ddc1s){ ?>
-  <option value="<?php echo $ddc1s["IDDetalle"]; ?>"><?php echo $ddc1s["NOCaso"]; ?></option>
+  <option value="<?php echo $ddc1s["IDDetalle"]; ?>"><?php echo $ddc1s["CodigoNotif"]; ?></option>
   <?php }} ?>
   </datalist>
 </form>

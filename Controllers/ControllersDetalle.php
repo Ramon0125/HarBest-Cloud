@@ -14,7 +14,7 @@ public function __construct()
   $this->OC = $this->obtenerConexion(); 
 }
 
-public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, $ININCON, STRING $INFECHA, $ARCHIVOS, STRING $CORAUD, STRING $NOMAUD, STRING $TELAUD)
+public function InsertDetalle(string $INCODNOT,$ININCON, STRING $INFECHA, $ARCHIVOS, STRING $CORAUD, STRING $NOMAUD, STRING $TELAUD)
 { 
   try{
     $CARTAS = json_encode(array_map(
@@ -27,9 +27,8 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, $ININCON, STRING $INFE
      $ARCHIVOS['type'],$ARCHIVOS['name'],$ARCHIVOS['tmp_name']));
 
 
-     $DETALLES = json_encode(array_map(
-      function($Array)
-      {
+     $DETALLES = json_encode(array_map(function($Array){
+      
       $values = json_decode($Array,true);
 
       return array(
@@ -38,16 +37,15 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, $ININCON, STRING $INFE
       }, $ININCON ));
 
 
-      $sql = "CALL SP_INSERTAR_DETALLE (?,?,?,?,?,?,?,?)";
+      $sql = "CALL SP_INSERTAR_DETALLE(?,?,?,?,?,?,?)";
       $ejecucion = $this->OC->prepare($sql);
-      $ejecucion->bindValue(1,$INIDNOT,1);
-      $ejecucion->bindValue(2,$INNOCAS,1);
-      $ejecucion->bindValue(3,$INFECHA,2);
-      $ejecucion->bindValue(4,$DETALLES,2);
-      $ejecucion->bindValue(5,$CARTAS,3);
-      $ejecucion->bindValue(6,$CORAUD,2);
-      $ejecucion->bindValue(7,$NOMAUD,2);
-      $ejecucion->bindValue(8,$TELAUD,1);
+      $ejecucion->bindValue(1,$INCODNOT,2);
+      $ejecucion->bindValue(2,$INFECHA,2);
+      $ejecucion->bindValue(3,$DETALLES,2);
+      $ejecucion->bindValue(4,$CARTAS,3);
+      $ejecucion->bindValue(5,$CORAUD,2);
+      $ejecucion->bindValue(6,$NOMAUD,2);
+      $ejecucion->bindValue(7,$TELAUD,1);
       $ejecucion->execute();
       
       if ($ejecucion->rowCount() === 0) {return HandleError();}
@@ -60,7 +58,7 @@ public function InsertDetalle(INT $INIDNOT, INT $INNOCAS, $ININCON, STRING $INFE
     
       if($this->response['success']) {
       AUDITORIA(GetInfo('IDUsuario'),'INSERTO UN DETALLE DE CITACION');
-      EMAILS($INNOCAS,2);
+       EMAILS($INCODNOT,2);
       }
       else {SUMBLOCKUSER();}
 
@@ -90,9 +88,9 @@ public function vinconsistencias(int $IDD) : array
           $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.
           $values["NOTIFICACION"].'<br>';
           
-          foreach ($values["DETALLES"] as $value) { $inconsistencias .= $value.'<br>';}
+          foreach ($values["DETALLES"] as $value) { $inconsistencias .= ($value['Detalle'].', periodo '.substr($value['Periodo'],0,4).'-'.substr($value['Periodo'],4).' por valor de RD$'.$value['Valor'].'<br>'); }
           
-          $inconsistencias .= '</li>';
+          $inconsistencias .= '</li><br>';
         }
 
         $this->response['success'] = true;
@@ -100,6 +98,7 @@ public function vinconsistencias(int $IDD) : array
 
     return $this->response;
 }
+
 
 public function DeleteDetalle(int $IDD, string $NOC): array
 {

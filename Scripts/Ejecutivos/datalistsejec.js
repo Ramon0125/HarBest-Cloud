@@ -33,31 +33,13 @@ if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e
 
 /* DATALIST FROM AGRDDC */
 eventlisten('#dtlagrddc','click', function(event)
-{datalistclick(event,'#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc');
+{datalistclick(event,'#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc','searchnotif');
 
-incon = [];
-
-updatedetalles()
+incon = []; updatedetalles();
 
 const miSelect = document.getElementById('nontfddc');
 
-while (miSelect.options.length > 1) {
-    miSelect.remove(1);
-}
-
-let Notifs = ($('#slcntfddc').val()).split(",");
-
-Notifs.forEach(Option => {
-
-   let nuevoOption = document.createElement('option');
-
-   nuevoOption.value = Option.trim();
-   nuevoOption.text = Option.trim();
-
-   miSelect.appendChild(nuevoOption);
-    
-});
-
+while (miSelect.options.length > 1) { miSelect.remove(1); }
 
 });
 
