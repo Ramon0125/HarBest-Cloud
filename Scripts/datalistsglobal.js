@@ -1,14 +1,14 @@
 
 async function updatedatalists(tipo,datalists) 
 {
-  if(!validarint(tipo)){res(txt.EELS, txt.E, 2000);}
+  if(!validarint(tipo)){return Alerta(txt.EELS, txt.E, 2000);}
 
     $.ajax({
         type: 'POST',
         url: PageURL+'Controllers/datos.php',
         data: { tipo: tipo },
         dataType: 'json',
-        success: function (data) {  
+        success: function (data) {
 
         if (!data.error)
         { $(datalists).each(function(index, datalist) {
@@ -24,10 +24,8 @@ async function updatedatalists(tipo,datalists)
         
         else {responses(data);}
       },
-      error: function () {res(txt.EELS, txt.E, 2000);}
+      error: function(){return Alerta(txt.EELS,txt.E,2000);}
       });
-
-
 }
 
 

@@ -23,12 +23,12 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
               
               <div class="col-sm-6">
                 <label for="emailagrclt" class="form-label">Email</label>
-                <input type="email" class="form-control" id="emailagrclt" name="emailagrclt" autocomplete="off" maxlength="50">
+                <input type="email" class="form-control" id="emailagrclt" name="emailagrclt" autocomplete="off" maxlength="100">
               </div>
               
               <div class="col-sm-6">
                 <label for="nameagrclt" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="nameagrclt" name="nameagrclt" autocomplete="off" maxlength="50">
+                <input type="text" class="form-control" id="nameagrclt" name="nameagrclt" autocomplete="off" maxlength="100">
               </div>
               
               <div class="col-sm-6">
@@ -106,11 +106,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
               </div>
               <div class="col-sm-6">
                 <label for="edtcltemail" class="form-label">Email</label>
-                <input type="text" class="form-control" id="edtcltemail" name="edtcltemail" autocomplete="off" maxlength="50">
+                <input type="text" class="form-control" id="edtcltemail" name="edtcltemail" autocomplete="off" maxlength="100">
               </div>
               <div class="col-sm-6">
                 <label for="edtcltname" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="edtcltname" name="edtcltname" autocomplete="off" maxlength="50">
+                <input type="text" class="form-control" id="edtcltname" name="edtcltname" autocomplete="off" maxlength="100">
               </div>
               <div class="col-sm-6">
                 <label for="admedtclt" class="form-label">Administración</label>

@@ -22,7 +22,7 @@ require '../Controllers/datos.php';
 
 require '../Controllers/ControllersBlocks.php';
 
-if(isset($_SESSION['LOG'])){ header("Location:".APP_URL);}
+if(isset($_SESSION['LOG']) || isset($_COOKIE['PASS'])){ header("Location:".APP_URL);}
 
 elseif (VALIDARBLOCK() !== 'T') {
  $url = APP_URL.'Error/index.php?Error=001';

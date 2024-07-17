@@ -20,7 +20,7 @@
 
 require './Controllers/ControllersBlocks.php';
 
-if (!is_null(GetInfo('IDUsuario')) && !isset($_GET['hcerrar']) && !isset($_SESSION['LOG'])) 
+if (!is_null(GetInfo('IDUsuario')) && !isset($_SESSION['LOG']) && !isset($_COOKIE['PASS']) && !isset($_GET['hcerrar'])) 
 {Header("Location:".APP_URL."Views/");}
 
 if (VALIDARBLOCK() === 'T') { ?>
@@ -103,6 +103,7 @@ if (isset($_GET['hcerrar'])) {
 }
 echo "LimpiarParametros(); </script>";
 }
+
 }
 
 else 

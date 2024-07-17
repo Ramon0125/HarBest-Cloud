@@ -9,7 +9,7 @@ const APP_URL = "http://127.0.0.1/PROGRAMAS/HarBest-Cloud/";
 const APP_HOST = '127.0.0.1';
 
 
-const APP_DBNAME = 'FIDUCIAL';
+const APP_DBNAME = 'DEMO_FIDUCIAL';
 
 
 const APP_DBUSER = 'root';

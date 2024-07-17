@@ -189,7 +189,7 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
         closenotif(); 
         tablasejec('notif');} 
         responses(DATA); },
-        error: function(){txt.EELS,txt.E,2000}
+    error: function(){return Alerta(txt.EELS,txt.E,2000);}
     });
 }
 
@@ -198,7 +198,6 @@ function vcarta(IDN)
 {
   if (!validarint(IDN)){ return Alerta(txt.EELS,txt.E,2000);}
 
-
     $.ajax({
       type: "POST",
       url: PageURL+"Managers/ManagerNotif.php",
@@ -206,7 +205,8 @@ function vcarta(IDN)
       complete: function () { load(2); }, //Ocultar pantalla de carga
       data: {tipo: 'vcarta',IDN: IDN},
       dataType: "JSON",
-      success: function (DATA) {DATA.success && DATA.CARTA ? procesarCartas(DATA.CARTA) : responses(DATA);}
+      success: function (DATA) {DATA.success && DATA.CARTA ? procesarCartas(DATA.CARTA) : responses(DATA);},
+      error: function(){return Alerta(txt.EELS,txt.E,2000);}
     });
 }
 
@@ -234,7 +234,7 @@ function dltnotif(idn,non)
         tablasejec('notif');
       } responses(DATA);
     },
-    error: function(){txt.EELS,txt.E,2000}
+    error: function(){return Alerta(txt.EELS,txt.E,2000);}
     });
     
 }

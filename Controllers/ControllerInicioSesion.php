@@ -1,6 +1,8 @@
 <?php
 
-if (strpos($_SERVER['REQUEST_URI'], 'ControllerInicioSesion.php') === false) { 
+if (strpos($_SERVER['REQUEST_URI'], 'ControllerInicioSesion.php') !== false) { header('LOCATION: ./404');} 
+
+else {
 
 class ControllerInicioSesion extends ConexionDB 
 {
@@ -23,7 +25,7 @@ class ControllerInicioSesion extends ConexionDB
     $QueryExecution->bindParam(2,$Password,2);
     $QueryExecution->execute();
        
-    if ($QueryExecution->rowCount() === 0){/* return HandleError(); */} //Si la consulta no trae datos dispara error
+    if ($QueryExecution->rowCount() === 0){return HandleError();} //Si la consulta no trae datos dispara error
 
       $UserData = $QueryExecution->fetch(2); //Se obtienen los resultados de la consulta en forma de un array asociativo
      
@@ -32,7 +34,7 @@ class ControllerInicioSesion extends ConexionDB
       if (!$this->response['success']) {$this->response['message'] = $UserData['MENSAJE'];  SUMBLOCKUSER();} //Si existe el mensaje de error cancela la operacion
      
       else 
-      {        
+      {   
         setcookie('IDENTITY', $UserData['Token'], 0, '/', '', true, true); //Asigna la cookie que determina la identidad del usuario
         
         $this->response['CCLAVE'] = $UserData['CClave'];
@@ -54,7 +56,7 @@ class ControllerInicioSesion extends ConexionDB
   {     
     try 
     {  
-    $val = GetInfo('EMAIL');
+    $val = GetInfo('Email');
     $Query = "CALL SP_MODIFICAR_CLAVES_USUARIOS (?, ?, ?)";
     $QueryExecution = $this->ConexionDB->prepare($Query);
     $QueryExecution->bindParam(1, $val, PDO::PARAM_STR);
@@ -69,6 +71,7 @@ class ControllerInicioSesion extends ConexionDB
     $this->response['success'] = $this->response['message'] === 'CMC';
 
     if(!$this->response['success']){SUMBLOCKUSER();}
+    
     else     
     {
       AUDITORIA(GetInfo('IDUsuario'),'MODIFICO SU CONTRASEÑA'); 
@@ -84,6 +87,3 @@ class ControllerInicioSesion extends ConexionDB
 }
 
 }
-
-else 
-{header('LOCATION: ./404');} 

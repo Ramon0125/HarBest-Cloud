@@ -10,6 +10,7 @@ const currentYear = new Date().getFullYear();
 $(document).ready(function(){
 
   let params = new URLSearchParams(window.location.search);
+  
   if (params.has('Notificacion')) 
   {
     const mensaje = params.get('Notificacion');
@@ -17,11 +18,9 @@ $(document).ready(function(){
     LimpiarParametros();
   }
 
-  load(2);
-
-
   if(toggval() == -300){$('#chk').click();}
 
+  load(2);
 
   eventlisten('.toggle-sidebar-btn','click',function () {  
   $('body').toggleClass('toggle-sidebar');  });
@@ -190,38 +189,30 @@ case "00000": Alerta(txt[respuesta.message],txt.W, 2000, false,false); break; //
 
 
 //Funcion que verifica que los parametros no esten vacios
-function validarparams(...args) {
-  return args.every(parametro => parametro.trim().length > 0);
-}
+function validarparams(...args) { return args.every(parametro => parametro.trim().length > 0); }
 
 
 //Funcion que valida los emails
 function validaremailcl(email) 
-{ const tester = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return tester.test(email);}
+{ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email); }
 
 
 //Funcion que valida los emails
 function validaremail(email) 
-{ const tester = /^[^\s@]+@harbest\.net$/;
-  return tester.test(email);}
+{ return /^[^\s@]+@harbest\.net$/.test(email); }
+
 
 //Funcion que valida los numeros
-function validarint(...ints) {
-  const tester1 = /^[0-9.,]+$/;
-  return ints.every(val => typeof val == 'number' || tester1.test(val) === true);
-}
+function validarint(...ints) 
+{ return ints.every(val => typeof val == 'number' || /^[0-9.,]+$/.test(val) === true); }
 
-function validaraño(int) {
-const tester1 = validarint(int);
 
-return tester1 ? !(int < 2015 || int > currentYear) : false;
-}
+function validaraño(int) 
+{ return validarint(int) ? !(int < 2015 || int > currentYear) : false; }
+
 
 function modifystyle(objects, property, value) 
-{ $(objects).each(function(index, object) {
-    $(object).css(property, value);
-  });}
+{ $(objects).each(function(index, object) {$(object).css(property, value);});}
 
 
 // Función para mostrar/ocultar indicador de carga
@@ -235,15 +226,20 @@ $('#carga').removeClass(str == 1 ? 'hide' : 'loading');
 
 function LimpiarModal(input = false,Objetos = false,forms = false)
 {
-if(Objetos){modifystyle(Objetos,'display','none');}
+if(Objetos)
+{modifystyle(Objetos,'display','none');}
 
-if(forms){
+if(forms)
+{
 if(Array.isArray(forms)){for (const form of forms){$(form).trigger('reset'); }}
-else {$(forms).trigger('reset');}}
+else {$(forms).trigger('reset');}
+}
 
-if(input){
+if(input)
+{
 if(Array.isArray(input)){for (const inp of input){$(inp).val(''); }}
-else {$(input).val('');}}
+else {$(input).val('');}
+}
 }
 
 
@@ -262,6 +258,7 @@ function crearBlobDesdeBase64(base64, mimeType) {
   return new Blob([bytes], { type: mimeType });
 }
 
+
 function procesarCartas(cartaData) 
 {
   let archivos = JSON.parse(cartaData);
@@ -273,7 +270,8 @@ function procesarCartas(cartaData)
   });
 }
 
-function OnlyNumber(input){
+function OnlyNumber(input)
+{
   eventlisten(input,'input', function (event) 
   {
     let value = event.target.value;
