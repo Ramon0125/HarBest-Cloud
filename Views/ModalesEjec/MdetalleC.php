@@ -5,7 +5,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 
 <div class="modal fade" id="agrddc" data-bs-backdrop="static" aria-hidden="true" >
  <div class="modal-dialog center" style="max-width:none;" >
-  <div class="modal-content" style="width:45%;">
+  <div class="modal-content" style="width:40%;">
    
   <div class="modal-body">
     <div class="ModalTitle">

@@ -22,11 +22,11 @@ $SENDMAIL = new EmailSender();
 
 if($_POST['FUNC'] == 'NOTIF.' && isset($_POST['ENTITY'],$_POST['CC']))
 {
- $data = $SENDMAIL->sendmailnotif($_POST['ENTITY'],$_POST['CC']);
+ $data = $SENDMAIL->SendMailNotif($_POST['ENTITY'],$_POST['CC']);
 }
 elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY'],$_POST['CC']))
 {
- $data = $SENDMAIL->sendmailddc($_POST['ENTITY'],$_POST['CC']);
+ $data = $SENDMAIL->SendMailDDC($_POST['ENTITY'],$_POST['CC']);
 }
 else {$data = HandleError();}
 

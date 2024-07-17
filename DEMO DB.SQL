@@ -23,7 +23,7 @@ Token TEXT NOT NULL
 
 
 insert into USUARIOS(IDUsuario,Email,Nombres,Apellidos,Clave,Privilegios,CClave,Estatus,Token)
-VALUES (1,'impuestos@harbest.net','ADMIN','HARBEST',aes_encrypt('24MO410W','impuestos@harbest.net'),'ADMINISTRADOR','T','T','1645538412857');
+VALUES (1,'prueba@harbest.net','ADMIN','HARBEST',aes_encrypt('24MO410W','prueba@harbest.net'),'ADMINISTRADOR','T','T','16F1245538412857');
 
 
 CREATE VIEW VW_USERS AS 
@@ -113,6 +113,7 @@ ORDER BY A.IDMovimiento DESC;
 CREATE TABLE NOTIF_INCONSISTENCIA
 (
 IDNotificacion INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+CodigoNotif VARCHAR(12) UNIQUE KEY,
 IDEncargado INT NOT NULL,
 IDCliente INT NOT NULL,
 FechaNotif DATE NOT NULL,
@@ -149,9 +150,9 @@ ON DELETE CASCADE;
 CREATE VIEW VW_NOTIFICACIONES
 AS
     SELECT 
-		N.IDNotificacion AS ID,
+		N.IDNotificacion AS '#',
+		N.CodigoNotif AS CODIGO,
         C.NombreCliente AS CLIENTE,
-        N.CodigoNotif AS CODIGO,
         JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NOTIFICACION,
         date_format(N.FechaNotif, '%d/%m/%Y') AS FECHA,
         date_format(N.FechaVenci, '%d/%m/%Y') AS VENCIMIENTO,
@@ -299,28 +300,30 @@ END $$
 
 
 CREATE PROCEDURE `SP_MODIFICAR_ADM`
-( IN in_IDADM INT,
-IN in_NombreADM VARCHAR(50),
-IN in_NNombreADM VARCHAR(50),
-IN in_NDIRECCION_ADM VARCHAR(100)
-) BEGIN
+(
+    IN in_IDADM INT,
+    IN in_NombreADM VARCHAR(50),
+    IN in_NNombreADM VARCHAR(50),
+    IN in_NDIRECCION_ADM VARCHAR(100)
+) 
+BEGIN
 
-IF NOT EXISTS(SELECT * FROM ADM WHERE IDADM = in_IDADM AND NombreADM = in_NombreADM) 
-THEN SELECT 'EELS' AS MENSAJE;
+    IF NOT EXISTS (SELECT * FROM ADM WHERE IDADM = in_IDADM AND NombreADM = in_NombreADM) THEN
+        SELECT 'EELS' AS MENSAJE;
+    ELSEIF EXISTS (SELECT * FROM ADM WHERE IDADM <> in_IDADM AND NombreADM = in_NNombreADM AND DireccionADM = in_NDIRECCION_ADM) THEN
+        SELECT 'EAE' AS MENSAJE;
+    ELSE
+        UPDATE ADM 
+        SET NombreADM = in_NNombreADM, DireccionADM = in_NDIRECCION_ADM 
+        WHERE IDADM = in_IDADM;
 
-ELSEIF EXISTS (SELECT * FROM ADM WHERE IDADM <> in_IDADM AND NombreADM = in_NNombreADM AND DireccionADM = in_NDIRECCION_ADM) 
-THEN SELECT 'EAE' AS MENSAJE;
+        IF ROW_COUNT() > 0 THEN
+            SELECT 'AMC' AS MENSAJE;
+        ELSE
+            SELECT 'EMA' AS MENSAJE;
+        END IF;
+    END IF;
 
-ELSE UPDATE ADM SET
-	NombreADM = in_NNombreADM, 
-	DireccionADM = in_NDIRECCION_ADM 
-WHERE IDADM = in_IDADM AND 
-	  NombreADM = in_NNombreADM;
-
-IF ROW_COUNT() > 0 THEN SELECT 'AMC' AS MENSAJE;
-ELSE SELECT 'EMA' AS MENSAJE; END IF;
-
-END IF;
 END $$
 
 
@@ -830,7 +833,7 @@ BEGIN
     SELECT IFNULL(MAX(CONVERT(SUBSTRING(CodigoNotif, 5, 4), UNSIGNED)), 0) + 1 INTO secuencia
     FROM NOTIF_INCONSISTENCIA;
 
-    SET codigo = CONCAT('FHCF',secuencia,aactual);
+    SET codigo = CONCAT('FHCF',LPAD(secuencia,4,'0'),aactual);
 
     SET NEW.CodigoNotif = codigo;
 END$$

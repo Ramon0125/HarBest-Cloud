@@ -110,7 +110,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
               </div>
               <div class="col-sm-6">
                 <label for="edtcltname" class="form-label">Nombres</label>
-                <input type="text" class="form-control" id="edtcltname" name="edtcltname" autocomplete="off" maxlength="20">
+                <input type="text" class="form-control" id="edtcltname" name="edtcltname" autocomplete="off" maxlength="50">
               </div>
               <div class="col-sm-6">
                 <label for="admedtclt" class="form-label">Administración</label>
