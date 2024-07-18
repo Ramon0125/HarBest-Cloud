@@ -163,7 +163,8 @@ document.getElementById('valddc').value,
 document.getElementById('impddc').value,
 document.getElementById('cdaddc').value,
 document.getElementById('ndaddc').value,
-document.getElementById('telddc').value)"><i class="bi bi-floppy"></i> Crear</button>
+document.getElementById('telddc').value)">
+<i class="bi bi-floppy"></i> Crear</button>
 <button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
 </div></div></div></div>
 <!----------------FIN AGREGAR DETALLES------------------------------->

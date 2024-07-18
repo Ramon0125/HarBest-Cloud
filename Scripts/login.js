@@ -27,16 +27,17 @@ type: 'POST',//Metodo en el que se enviaran los datos
 url: PageURL+'Managers/ManagerInicioSesion.php',//Direccion a la que se enviaran los datos
 data: { email: Email, password: Password, tipo: "iniusr" },//Datos que seran enviados
 beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
-success: function (data){ load(2);
-if (!data.success) {return responses(data);}
+success: function (data){ 
+if (!data.success) { load(2); return responses(data);}
 else
 {
 if(data.CCLAVE === 'T')
 { window.location.href = PageURL+'Views/?Notificacion=' + encodeURIComponent(txt.SIC); }
 else 
-{
+{ 
  modifystyle('#modalpass','display','block'); 
- modifystyle('#form','display','none');
+ modifystyle('#form','display','none'); 
+ load(2);
 }
 }},
 error: function () {Alerta(txt.EELS,txt.E, 2000);}
@@ -46,7 +47,7 @@ error: function () {Alerta(txt.EELS,txt.E, 2000);}
 
 // Función para modificar la contraseña
 function MdfPass(event,p, p2) 
-{ 
+{ event.preventDefault();
   if (!validarparams(p,p2)) {return Alerta(txt.CTC, txt.W, 1450); } //Esto verifica si las contraseñas no estan vacias
 
   if (p !== p2){return Alerta(txt.LCC, txt.E, 1450); }//Esto verifica si las contraseñas son iguales 

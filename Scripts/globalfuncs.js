@@ -199,13 +199,16 @@ function validaremailcl(email)
 
 //Funcion que valida los emails
 function validaremail(email) 
-{ return /^[^\s@]+@harbest\.net$/.test(email); }
+{ return /^[^\s@]+@harbest\.net$/.test(email.trim()); }
 
 
-//Funcion que valida los numeros
-function validarint(...ints) 
-{ return ints.every(val => typeof val == 'number' || /^[0-9.,]+$/.test(val) === true); }
-
+// Función que valida los números
+function validarint(...ints) {
+  return ints.every(val => 
+    typeof val === 'number' || 
+    (typeof val === 'string' && val.trim() !== '' && /^[0-9]+(\.[0-9]+)?(,[0-9]+)?$/.test(val))
+  );
+}
 
 function validaraño(int) 
 { return validarint(int) ? !(int < 2015 || int > currentYear) : false; }

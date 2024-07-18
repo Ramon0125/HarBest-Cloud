@@ -1,4 +1,5 @@
 <?php require './Controllers/Conexion.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,6 +17,7 @@
 <!--- Links -------------->
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
+
 <?php
 
 require './Controllers/ControllersBlocks.php';
@@ -23,7 +25,15 @@ require './Controllers/ControllersBlocks.php';
 if (!is_null(GetInfo('IDUsuario')) && !isset($_SESSION['LOG']) && !isset($_COOKIE['PASS']) && !isset($_GET['hcerrar'])) 
 {Header("Location:".APP_URL."Views/");}
 
-if (VALIDARBLOCK() === 'T') { ?>
+elseif (VALIDARBLOCK() !== 'T')
+{
+$url = APP_URL.'Error/index.php?Error=001';
+$html = file_get_contents($url);
+echo $html;
+}
+
+else { ?>
+
 <link rel="stylesheet" href="<?php echo APP_URL ?>Styles/styles.css" type="text/css">
 <!--- Fin Links -------------->
 
@@ -97,19 +107,15 @@ if (VALIDARBLOCK() === 'T') { ?>
 if (isset($_GET['hcerrar']) || isset($_GET['hcerrar1']) ) 
 {
 CerrarSesion();
+
 echo "<script type='text/javascript'>";
-if (isset($_GET['hcerrar'])) {
-    echo "Alerta('Sesión cerrada correctamente','success',1200);";
-}
+
+if (isset($_GET['hcerrar'])) { echo "Alerta('Sesión cerrada correctamente','success',1200);"; }
+
 echo "LimpiarParametros(); </script>";
 }
 
 }
 
-else 
-{
-$url = APP_URL.'Error/index.php?Error=001';
-$html = file_get_contents($url);
-echo $html;
-}
+
 

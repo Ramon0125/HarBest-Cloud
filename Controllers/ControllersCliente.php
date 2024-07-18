@@ -16,16 +16,17 @@ class ControllerCliente extends ConexionDB {
     }
 
 
-    public function InsertCliente(int $rnc, string $email, string $nombre, int $adm) : array 
+    public function InsertCliente(int $rnc, string $email, string $nombre, string $tpersona, int $adm) : array 
     {
 
     try{
-        $Query = "CALL SP_INSERTAR_CLIENTES(?,?,?,?)";
+        $Query = "CALL SP_INSERTAR_CLIENTES(?,?,?,?,?)";
         $QueryExecution = $this->ConexionDB->prepare($Query);
-        $QueryExecution->bindParam(1,$rnc,PDO::PARAM_INT);
+        $QueryExecution->bindParam(1,$rnc,PDO::PARAM_STR);
         $QueryExecution->bindParam(2,$email,PDO::PARAM_STR);
         $QueryExecution->bindParam(3,$nombre,PDO::PARAM_STR);
-        $QueryExecution->bindParam(4,$adm,PDO::PARAM_STR);
+        $QueryExecution->bindParam(4,$tpersona,PDO::PARAM_STR);
+        $QueryExecution->bindParam(5,$adm,PDO::PARAM_INT);
         $QueryExecution->execute();
 
         if($QueryExecution->rowCount() == 0) {return HandleError();}
@@ -71,17 +72,18 @@ class ControllerCliente extends ConexionDB {
     }
 
 
-    public function EditarCliente(int $id, string $nc, int $rnc, string $email, string $nombre, int $adm) : array 
+    public function EditarCliente(int $id, string $nc, int $rnc, string $email, string $nombre,string $Tpersona, int $adm)
     {
     try {
-        $Query = "CALL SP_MODIFICAR_CLIENTES(?,?,?,?,?,?)";
+        $Query = "CALL SP_MODIFICAR_CLIENTES(?,?,?,?,?,?,?)";
         $QueryExecution = $this->ConexionDB->prepare($Query);
         $QueryExecution->bindParam(1,$id,PDO::PARAM_INT);
         $QueryExecution->bindParam(2,$nc,PDO::PARAM_STR);
-        $QueryExecution->bindParam(3,$rnc,PDO::PARAM_INT);
+        $QueryExecution->bindParam(3,$rnc,PDO::PARAM_STR);
         $QueryExecution->bindParam(4,$email,PDO::PARAM_STR);
         $QueryExecution->bindParam(5,$nombre,PDO::PARAM_STR);
-        $QueryExecution->bindParam(6,$adm,PDO::PARAM_INT);
+        $QueryExecution->bindParam(6,$Tpersona,PDO::PARAM_STR);
+        $QueryExecution->bindParam(7,$adm,PDO::PARAM_INT);
         $QueryExecution->execute();
        
         if($QueryExecution->rowCount() == 0){ return HandleError(); }
@@ -92,7 +94,7 @@ class ControllerCliente extends ConexionDB {
         $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'MODIFICO UN CLIENTE') : SUMBLOCKUSER();
         $this->Response['message'] = $Data['MENSAJE']; 
          
-    }catch(Exception) { return HandleError();}
+    }catch(Exception $W) { return $W /* HandleError() */;}
 
     return $this->Response;
     }

@@ -230,7 +230,7 @@ async function ShowFormEmail(CC, CCLT) {
         });
 
         if (CC == null || CC.length === 0) {
-          addinput('administracion@harbest.net');
+          addinput('adm@harbest.net');
         } else {
           CC.forEach((correo) => {
             addinput(correo);

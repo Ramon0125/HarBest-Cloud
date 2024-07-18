@@ -125,7 +125,7 @@ function datalistkeydown(e, browser) {
     e.preventDefault();
     
     switch (e.keyCode) {
-      case 40:  currentFocus++;  break;
+      case 40:  if (currentFocus < options.length-1){ currentFocus++; }  break;
       case 38:  currentFocus = Math.max(currentFocus - 1, 0); break;
       case 13:  if (currentFocus > -1 && options.length > 0) { options.eq(currentFocus).click();} break;
     }

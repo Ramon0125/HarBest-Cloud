@@ -154,20 +154,17 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
  if (validarparams(NONOT) || validarparams(TIPNOT) || validarparams(MOTIVNOT) || validarparams(AINCUMPLI))
   {return Alerta(txt.CTDN,txt.W,false,true);}
 
- let max = 0;
-
- for (let a = 0; a < CARTA.length; a++) { max += CARTA[a].size; }
-
- if((max / (1024**2) ) > maxfilesize)
- {return Alerta(txt.AMGR1,txt.W,false,true,txt.AMG);}
-
-
+ if ((Array.from(CARTA).reduce((total, item) => total + item.size, 0) / (1024 ** 2)) > maxfilesize) 
+  {return Alerta(txt.AMGR1, txt.W, false, true, txt.AMG);}
+  
     let formData = new FormData();
     formData.append('IDCLT', IDCLT);
     formData.append('FECHANOT', FECHANOT);
     formData.append('tipo','agrnotif');
 
-    for (const ARCHIVO of CARTA) { formData.append('CARTA[]', ARCHIVO); }
+    Array.from( CARTA).forEach(document => {
+      formData.append('CARTA[]', document)
+    });
 
     nonotif.forEach((nonot, index) => {
     formData.append('NONOTIF[]', nonot);
@@ -239,7 +236,7 @@ function dltnotif(idn,non)
     
 }
 
-  async function sendmail(nop) 
+async function sendmail(nop) 
 {
   if (!validarint(nop)) { return Alerta(txt.EELS,txt.W,2000);  }
     

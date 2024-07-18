@@ -15,16 +15,16 @@ if (Validarcadena1($_POST)){
 $CC = new ControllerCliente();
 
 
-if($_POST['FUNC'] == 'agrclt' && isset($_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['adm'])) 
-{ $data = $CC->InsertCliente($_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['adm']); }
+if($_POST['FUNC'] == 'agrclt' && isset($_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['tipopersona'],$_POST['adm'])) 
+{ $data = $CC->InsertCliente($_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['tipopersona'],$_POST['adm']); }
  
 
 elseif($_POST['FUNC'] == 'vdclt' && isset($_POST['ID'],$_POST['TOKEN'])) 
 { $data = $CC->VerDatosCLT($_POST['ID'],$_POST['TOKEN']); }
 
 
-elseif($_POST['FUNC'] == 'edtclt' && isset($_POST['id'],$_POST['nc'],$_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['adm'])) 
-{ $data = $CC->EditarCliente($_POST['id'],$_POST['nc'],$_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['adm']); } 
+elseif($_POST['FUNC'] == 'edtclt' && isset($_POST['id'],$_POST['nc'],$_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['tipopersona'],$_POST['adm'])) 
+{ $data = $CC->EditarCliente($_POST['id'],$_POST['nc'],$_POST['rnc'],$_POST['email'],$_POST['nombre'],$_POST['tipopersona'],$_POST['adm']); } 
 
 
 elseif($_POST['FUNC'] == 'dltclt' && isset($_POST['id'],$_POST['name'])) 

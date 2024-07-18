@@ -1,4 +1,5 @@
 <?php require '../Controllers/Conexion.php'; ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -17,12 +18,14 @@
 <!--- Links -------------->
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
+
 <?php 
+
 require '../Controllers/datos.php';
 
 require '../Controllers/ControllersBlocks.php';
 
-if(isset($_SESSION['LOG']) || isset($_COOKIE['PASS'])){ header("Location:".APP_URL);}
+if(isset($_SESSION['LOG']) || isset($_COOKIE['PASS']) && !isset($_COOKIE['IDENTITY']) ){ header("Location:".APP_URL);}
 
 elseif (VALIDARBLOCK() !== 'T') {
  $url = APP_URL.'Error/index.php?Error=001';
@@ -30,7 +33,7 @@ elseif (VALIDARBLOCK() !== 'T') {
  echo $html; 
 }
 
-elseif(GetInfo('IDUsuario') == 0){ echo HandleWarning();}
+elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario'))){ echo HandleWarning();}
 
 else {
 
@@ -88,23 +91,23 @@ else {
 <!-- Profile Dropdown Items -->
 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
-<!-- Name and Role -->
-<li class="dropdown-header logo">
- <h6><?php echo GetInfo('Nombres')." ".GetInfo('Apellidos') ?></h6>
- <span><?php echo GetInfo('PRIVILEGIOS') ?></span>
-</li><!-- End Name and Role -->
+ <!-- Name and Role -->
+ <li class="dropdown-header logo">
+  <h6><?php echo GetInfo('Nombres')." ".GetInfo('Apellidos') ?></h6>
+  <span><?php echo GetInfo('PRIVILEGIOS') ?></span>
+ </li><!-- End Name and Role -->
  
-<li><hr class="dropdown-divider"></li>
+ <li><hr class="dropdown-divider"></li>
 
-<!-- Actions -->
-<li class="cna">
- <a class=" dropdown-item d-flex align-items-center disabled" aria-disabled="true" >
- <i class="bi bi-pencil-square"></i>
- <span>Cambiar contraseña</span>
- </a>
-</li>
+ <!-- Actions -->
+ <li class="cna">
+  <a class=" dropdown-item d-flex align-items-center disabled" aria-disabled="true">
+   <i class="bi bi-pencil-square"></i>
+   <span>Cambiar contraseña</span>
+  </a>
+ </li>
 
-<li><hr class="dropdown-divider"></li>
+ <li><hr class="dropdown-divider"></li>
 
 <li>
  <a class="dropdown-item d-flex align-items-center" href="#">
@@ -141,17 +144,26 @@ else {
   <li class="nav-heading">Tablas</li>
 
   <li class="nav-item">
-  <a class="nav-link collapsed b1" onclick="tablasejec('notif')">
-  <i class="bi bi-envelope-exclamation"></i></i>Consulta de notificaciones de inconsistencias</a></li>
+   <a class="nav-link collapsed b1" onclick="tablasejec('notif')">
+    <i class="bi bi-envelope-exclamation"></i>
+    Consulta de notificaciones de inconsistencias
+   </a>
+  </li>
 
   <li class="nav-item">
-  <a class="nav-link collapsed b1" onclick="tablasejec('detalles');">
-  <i class="bi bi-envelope-exclamation"></i></i>Consulta de detalles de citación</a></li>
+   <a class="nav-link collapsed b1" onclick="tablasejec('detalles');">
+    <i class="bi bi-envelope-exclamation"></i>
+    Consulta de detalles de citación
+   </a>
+  </li>
+
 
 
   <li class="nav-heading">Protocolos</li>
 
-  <!-- Notificaciones de inconsistencia --><li class="nav-item">
+  <!-- Notificaciones de inconsistencia -->
+  <li class="nav-item">
+
   <a class="nav-link collapsed b1" data-bs-target="#notif" data-bs-toggle="collapse">
    <i class="bi bi-file-text"></i><span>Notif. de inconsistencias</span>
    <i class="bi bi-chevron-down ms-auto"></i>
@@ -165,51 +177,83 @@ else {
   </li>
   
   <li class="dropdown-item">
-  <hr class="divioer">
-  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
-  <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
-  </ul></li><!-- End Notificaciones de inconsistencia -->
+   <hr class="divioer">
+    <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
+     <i class="dan bi bi-trash-fill"></i>Eliminar
+    </a>
+  </li>
+
+  </ul>
+
+  </li>
+  <!-- End Notificaciones de inconsistencia -->
+
 
   
-  <!-- Detalle de Citacion --><li class="nav-item">
-  <a class="nav-link collapsed b1" data-bs-target="#detcit" data-bs-toggle="collapse" href="#">
-  <i class="bi bi-journal-text"></i><span>Detalle de citación</span><i class="bi bi-chevron-down ms-auto"></i>
+  <!-- Detalle de Citacion -->
+  <li class="nav-item">
+  
+  <a class="nav-link collapsed b1" data-bs-target="#detcit" data-bs-toggle="collapse">
+   <i class="bi bi-journal-text"></i>
+   <span>Detalle de citación</span>
+   <i class="bi bi-chevron-down ms-auto"></i>
   </a>
 
-  <ul id="detcit" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+  <ul id="detcit" class="nav-content collapse" data-bs-parent="#sidebar-nav">
   
   <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrddc">
-  <i class="bi-plus-square"></i>Adicionar</a></li>
+   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrddc">
+   <i class="bi-plus-square"></i>Adicionar</a>
+  </li>
 
   <li class="dropdown-item">
-  <hr class="divioer">
-  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltddc">
-  <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
-  </ul></li><!-- End Detalle de Citacion -->
+   <hr class="divioer">
+    <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltddc">
+     <i class="dan bi bi-trash-fill"></i>Eliminar
+    </a>
+  </li>
+
+  </ul>
+
+  </li>
+  <!-- End Detalle de Citacion -->
 
 
 
-  <!--   Escrito de Descargo --><li class="nav-item">
-  <a class="nav-link collapsed b1" data-bs-target="#addnotif" data-bs-toggle="collapse" href="#">
-  <i class="bi bi-journal-text"></i><span>Escrito de Descargo</span><i class="bi bi-chevron-down ms-auto"></i>
+  <!--   Escrito de Descargo -->
+  <li class="nav-item">
+  
+  <a class="nav-link collapsed b1" data-bs-target="#addnotif" data-bs-toggle="collapse">
+   <i class="bi bi-journal-text"></i>
+   <span>Escrito de Descargo</span>
+   <i class="bi bi-chevron-down ms-auto"></i>
   </a>
 
-  <ul id="addnotif" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+  <ul id="addnotif" class="nav-content collapse" data-bs-parent="#sidebar-nav">
   
   <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
-  <i class="bi-plus-square"></i>Adicionar</a></li>
+   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
+    <i class="bi-plus-square"></i>Adicionar
+   </a>
+  </li>
 
   <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-  <i class="bi bi-pencil-square"></i>Modificar</a></li>
+   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
+    <i class="bi bi-pencil-square"></i>Modificar
+   </a>
+  </li>
   
   <li class="dropdown-item">
-  <hr class="divioer">
-  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
-  <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
-  </ul></li><!--   Escrito de Descargo -->
+   <hr class="divioer">
+   <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
+    <i class="dan bi bi-trash-fill"></i>Eliminar
+   </a>
+  </li>
+  
+  </ul>
+  
+  </li>
+  <!--   Escrito de Descargo -->
 
 
   
@@ -389,6 +433,7 @@ else {
 <script defer src="<?php echo APP_URL ?>Scripts/datalistsglobal.js" type="text/javascript"></script>
 
 <?php if (GetInfo('PRIVILEGIOS') === 'ADMINISTRADOR') { ?> 
+
 <script src="<?php echo APP_URL ?>Scripts/Admins/funcsadmins.js" type="text/javascript"></script>
 
 <!---------------------MODALES------- ------------------->

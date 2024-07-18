@@ -15,7 +15,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
         
         <form id="formagrclt">
             <div class="row g-3">
-              
+         
               <div class="col-sm-6">
                 <label for="rncagrclt" class="form-label">RNC</label>
                 <input type="text" class="form-control" id="rncagrclt" name="rncagrclt" autocomplete="off" maxlength="11">
@@ -45,6 +45,23 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
                   } ?>
                 </datalist>
               </div>
+
+              <div class="col-lg-12 center">
+
+              <span>Tipo de persona:</span>&nbsp;
+
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Tipclt">Fisica&nbsp;</label>
+                <input class="form-check-input" type="radio" name="Tipclt" id="Tipclt" value="Fisica">
+              </div>&nbsp;&nbsp;&nbsp;
+
+              <div class="form-check form-check-inline">
+                <label class="form-check-label" for="Tipclt1">Juridica</label>
+                <input class="form-check-input" type="radio" name="Tipclt" id="Tipclt1" value="Juridica">
+              </div>
+
+              </div>
+
               
             </div>
 
@@ -54,7 +71,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
       <hr class="my-4 Divisor">
       
       <div class="modal-footer justify-content-center">
-        <button type="button" class="btn btn-success" onclick="agrclt(document.getElementById('rncagrclt').value, document.getElementById('emailagrclt').value, document.getElementById('nameagrclt').value, document.getElementById('admclt1').value)"><i class="bi bi-floppy"></i> Agregar</button>
+        <button type="button" class="btn btn-success" onclick="agrclt(document.getElementById('rncagrclt').value, document.getElementById('emailagrclt').value, document.getElementById('nameagrclt').value, document.getElementById('Tipclt'), document.getElementById('Tipclt1'), document.getElementById('admclt1').value)"><i class="bi bi-floppy"></i> Agregar</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#admclt1', false, '#formagrclt')">Cancelar</button>
       </div>
       
@@ -112,6 +129,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
                 <label for="edtcltname" class="form-label">Nombres</label>
                 <input type="text" class="form-control" id="edtcltname" name="edtcltname" autocomplete="off" maxlength="100">
               </div>
+
               <div class="col-sm-6">
                 <label for="admedtclt" class="form-label">Administración</label>
                 <input class="form-control" autocomplete="off" role="combobox" list="" id="admedtclt" name="admedtclt">
@@ -126,6 +144,22 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
                   } ?>
                 </datalist>
               </div>
+
+              <div class="col-lg-12 center">
+
+                <span>Tipo de persona:</span>&nbsp;
+
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="Tipedtclt">Fisica&nbsp;</label>
+                  <input class="form-check-input" type="radio" name="Tipedtclt" id="Tipedtclt" value="Fisica">
+                </div>&nbsp;&nbsp;&nbsp;
+
+                <div class="form-check form-check-inline">
+                  <label class="form-check-label" for="Tipedtclt1">Juridica</label>
+                  <input class="form-check-input" type="radio" name="Tipedtclt" id="Tipedtclt1" value="Juridica">
+                </div>
+
+              </div>
             </div>
           </form>
         </div>
@@ -134,7 +168,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mclientes.php') === false) { ?>
       <hr class="my-4 Divisor">
 
       <div class="modal-footer justify-content-center">
-        <button type="button" id="btnedtclt" class="btn btn-success" style="display: none;" onclick="edtclt(document.getElementById('slcclt1').value, document.getElementById('slcclt').value, document.getElementById('rncedtclt').value, document.getElementById('edtcltemail').value, document.getElementById('edtcltname').value, document.getElementById('admedtclt1').value)"><i class="bi bi-pencil"></i> Confirmar</button>
+        <button type="button" id="btnedtclt" class="btn btn-success" style="display: none;" onclick="edtclt(document.getElementById('slcclt1').value, document.getElementById('slcclt').value, document.getElementById('rncedtclt').value, document.getElementById('edtcltemail').value, document.getElementById('edtcltname').value, document.getElementById('Tipedtclt'), document.getElementById('Tipedtclt1'), document.getElementById('admedtclt1').value)"><i class="bi bi-pencil"></i> Confirmar</button>
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal(['#slcclt1','#admedtclt1'],['#browseredtclt','#formedtclt1','#btnedtclt'],['#formedtclt','#formedtclt11'])">Cancelar</button>
       </div>
 

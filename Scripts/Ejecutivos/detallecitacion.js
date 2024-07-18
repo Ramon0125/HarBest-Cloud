@@ -124,19 +124,20 @@ LimpiarModal('#slcntfddc1',['#formDDC','#btnagrddc'],['#formagrddc','#formagrddc
 
 function addddc(INCODNOT,INFECHA,ARCHIVOS,NOTIF,NOCASO,INDETALL,PERIODO,VALOR,IMPUESTO,CORAUD,NOMAUD,TELAUD)
 {
+
+if(nontfddc.length - 1 != Object.keys(incon).length)
+{return Alerta('Debe detallar todas las inconsistencias para continuar',txt.W,false,true);}
+
+if (ARCHIVOS.length === 0 || Object.keys(incon).length === 0 || !validarparams(INCODNOT)) 
+  {return Alerta(txt.CTC,txt.W,2000);}
+  
 if(validarparams(NOTIF) || validarparams(NOCASO) || validarparams(INDETALL) || validarparams(PERIODO) || validarparams(VALOR) || validarparams(IMPUESTO))
 {return Alerta(txt.CTDD,txt.W,false,true);}
 
 if(!validaraño(INFECHA.substring(0, 4))) {return Alerta(txt.IAV,txt.W,2000);}
 
-if (ARCHIVOS.length === 0 || Object.keys(incon).length === 0 || !validarparams(INCODNOT)) 
-{return Alerta(txt.CTC,txt.W,2000);}
-
 if ((Array.from(ARCHIVOS).reduce((total, item) => total + item.size, 0) / (1024 ** 2)) > maxfilesize) 
 {return Alerta(txt.AMGR1, txt.W, false, true, txt.AMG);}
-
-if(nontfddc.length - 1 != Object.keys(incon).length)
-{return Alerta('Debe detallar todas las inconsistencias para continuar',txt.W,false,true);}
 
 
   let formData = new FormData();

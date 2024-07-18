@@ -1,4 +1,5 @@
-/* DATALIST FROM SLCCLTNTF */
+/////////DATALIST NOTIF. SELECCIONAR CLIENTE//////////////////////////////////////////////
+
 eventlisten('#dtlcltargnot','click',(event) => {datalistclick2(event,'#cltagrnot','#cltagrnot1','#dtlcltargnot');});
 
 eventlisten('#cltagrnot','input',() => {datalistinput('#cltagrnot','#cltagrnot1',null,'#dtlcltargnot');});
@@ -7,31 +8,30 @@ eventlisten('#cltagrnot','blur',() => {datalistblur2('#cltagrnot','#cltagrnot1',
 
 eventlisten('#cltagrnot','keydown',(e) => {if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlcltargnot')}});
     
-/////////FIN DATALIST NTF SELECCIONAR CLIENTE//////////////////////////////////////////////
+/////////FIN DATALIST NOTIF. SELECCIONAR CLIENTE//////////////////////////////////////////////
 
 
-/* DATALIST FROM DLTNOTIF */
+
+/////////DATALIST DLTNOTIF//////////////////////////////////////////////
+
 eventlisten('#dtldltnot','click', function(event) 
 {datalistclick(event,'#slcdltnotif','#slcdltnotif1','#btndltnotif','#dtldltnot',false,true);});
 
-
-// Evento 'oninput' para filtrar opciones según la entrada del usuario en 'slcdltuser'
-eventlisten('#slcdltnotif','input', function() 
+eventlisten('#slcdltnotif','input', function()
 {datalistinput('#slcdltnotif','#slcdltnotif1','#btndltnotif','#dtldltnot');});
 
-
-// Evento 'onblur' para realizar acciones cuando 'slcdltuser' pierde el foco
 eventlisten('#slcdltnotif','blur', function() 
 {datalistblur('#slcdltnotif','#slcdltnotif1','#btndltnotif','#dtldltnot');});
-
 
 eventlisten('#slcdltnotif','keydown',(e) => {
 if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtldltnot')}});
 
-/* FIN DATALIST FROM DLTNOTIF */
+/////////FIN DATALIST DLTNOTIF//////////////////////////////////////////////
 
 
-/* DATALIST FROM AGRDDC */
+
+/////////DATALIST AGRDDC//////////////////////////////////////////////
+
 eventlisten('#dtlagrddc','click', function(event)
 {datalistclick(event,'#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc','searchnotif');
 
@@ -40,34 +40,33 @@ incon = []; updatedetalles();
 const miSelect = document.getElementById('nontfddc');
 
 while (miSelect.options.length > 1) { miSelect.remove(1); }
-
 });
 
-
-// Evento 'oninput' para filtrar opciones según la entrada del usuario en 'admclt'
 eventlisten('#slcntfddc','input',function () 
 {datalistinput('#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc');});
 
-    
-// Evento 'onblur' para realizar acciones cuando 'admclt' pierde el foco
 eventlisten('#slcntfddc','blur',function () 
 {datalistblur('#slcntfddc','#slcntfddc1',['#formDDC','#btnagrddc'],'#dtlagrddc');});
 
+eventlisten('#slcntfddc','keydown',(e) => {
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlagrddc')}});
     
-/////////FIN DATALIST ADM EDITAR CLIENTE//////////////////////////////////////////////
+/////////FIN DATALIST AGRDDC//////////////////////////////////////////////
 
 
-/* DATALIST FROM DLTNOTIF */
+
+/////////DATALIST DLTDDC//////////////////////////////////////////////
+
 eventlisten('#dtldltddc','click', function(event) 
 {datalistclick(event,'#slcdltddc','#slcdltddc1','#btndltddc','#dtldltddc',false,true);});
 
-
-// Evento 'oninput' para filtrar opciones según la entrada del usuario en 'slcdltuser'
 eventlisten('#slcdltddc','input', function() 
 {datalistinput('#slcdltddc','#slcdltddc1','#btndltddc','#dtldltddc');});
 
-
-// Evento 'onblur' para realizar acciones cuando 'slcdltuser' pierde el foco
 eventlisten('#slcdltddc','blur', function() 
 {datalistblur('#slcdltddc','#slcdltddc1','#btndltddc','#dtldltddc');});
-/* FIN DATALIST FROM DLTUSER */
+
+eventlisten('#slcdltddc','keydown',(e) => { 
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtldltddc')}});
+
+/////////FIN DATALIST DLTDDC//////////////////////////////////////////////

@@ -136,7 +136,8 @@ class EmailSender extends ConexionDB
     "[Nombre del Impuesto]" => $Impu,
     "[NOMBRE EJECUTIVO]" => GetInfo('Nombres').' '.GetInfo('Apellidos'),
     "[EMAIL EJECUTIVO]" => GetInfo('Email'),
-    "[FECHAMAXIMA]" => $fecha_completa
+    "[FECHAMAXIMA]" => $fecha_completa,
+    "[TipoPersona]" => $value["TipoCliente"] == "Fisica" ? "" : "con el <u>sello</u> de la empresa "
     );
 
     $arch = file_get_contents("../Data/modelos/notifinconsis". ($value["SIZE"] == 1 ? "" : "2") .".html");

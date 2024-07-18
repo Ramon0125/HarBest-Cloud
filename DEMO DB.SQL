@@ -85,6 +85,7 @@ CantidadBlock INT DEFAULT 0,
 Estatus ENUM('L','B') NOT NULL DEFAULT 'B'
 );
 
+
 CREATE VIEW ALL_USRBLOCK AS
 SELECT IDBlock,IP,CONCAT( Tiempo,' HORAS') AS Tiempo,CantidadBlock,Estatus
 FROM USERS_BLOCKEDS WHERE Estatus <> 'L';
@@ -103,6 +104,7 @@ ALTER TABLE AUDITORIA ADD CONSTRAINT FK_AUDITORIA_USUARIOS
 FOREIGN KEY (IDUsuario) REFERENCES USUARIOS(IDUsuario)
 ON UPDATE CASCADE
 ON DELETE RESTRICT;
+
 
 CREATE VIEW VW_AUDITORIA AS
 SELECT A.IDMovimiento AS ID,CONCAT(U.Nombres, ' ' , U.Apellidos) AS USUARIO,A.Movimiento,A.Fecha,A.Hora 
@@ -240,7 +242,7 @@ DETERMINISTIC
 BEGIN
     DECLARE NEWSTR VARCHAR(100);
     
-    SET NEWSTR = REGEXP_REPLACE(UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(STR, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u')), '[^a-zA-Z,. -]', '');
+    SET NEWSTR = REGEXP_REPLACE(UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(STR, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u')), '[^a-zA-Z0-9,. -]', '');
 
     RETURN NEWSTR;
 END $$
@@ -414,7 +416,7 @@ BEGIN
 IF NOT EXISTS(SELECT * FROM USUARIOS WHERE CONCAT(Nombres, ' ' ,Apellidos) = in_VALUE AND IDUsuario = in_ID) THEN SELECT 'EELS' AS MENSAJE;
 
 ELSE
-	SELECT Email, Nombres, Apellidos, CAST(AES_DECRYPT(Clave, Email) AS CHAR(50)) AS Clave, Privilegios 
+	SELECT Email, Nombres, Apellidos, Privilegios 
     FROM USUARIOS WHERE CONCAT(Nombres, ' ' ,Apellidos) = in_VALUE and IDUsuario = in_ID;
 END IF;
 
@@ -680,6 +682,7 @@ SELECT
 	E.IDNotif,
     C.EmailCliente AS EMCLT,
     C.NombreCliente AS NOCLT, 
+    C.TipoCliente,
     N.FechaVenci AS VENCIMIENTO,
     JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NONOTIF,
     JSON_EXTRACT(N.Notificacion, '$[*].IMPUESTO') AS IMPU,
