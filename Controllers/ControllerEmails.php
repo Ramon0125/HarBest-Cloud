@@ -1,13 +1,15 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
 
-if (strpos($_SERVER['REQUEST_URI'], 'ControllerEmails.php') === false) { 
+if (strpos($_SERVER['REQUEST_URI'], 'ControllerEmails.php') !== false) { header('LOCATION: ./404'); }
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 class EmailSender extends ConexionDB
 {
     private $conectdb;
     private $mail;
     private $res;
+    private $user;
 
     public function __construct()
     { 
@@ -15,22 +17,29 @@ class EmailSender extends ConexionDB
     $this->conectdb = $this->obtenerConexion();
     $this->mail = new PHPMailer(true);
     $this->mail->isSMTP();
-    $this->mail->Host = 'smtp-mail.outlook.com';
+    $this->mail->Host = $_ENV['MAIL_HOST'];
     $this->mail->SMTPAuth = true;
-    $this->mail->Username = 'impuestos@harbest.net';
-    $this->mail->Password = 'Juy65928';
+    $this->mail->Username = $_ENV['MAIL_USERNAME'];
+    $this->mail->Password = $_ENV['MAIL_PASSWORD'];
     $this->mail->SMTPSecure = 'tls'; // tls o ssl
     $this->mail->Port = 587; // Puerto de SMTP
-    $this->mail->setFrom('impuestos@harbest.net', 'LR CONSULTORIA INTEGRAL');
+    $this->mail->setFrom($_ENV['MAIL_USERNAME'],$_ENV['COMPANY_NAME']);
     $this->mail->CharSet = 'UTF-8';
     $this->mail->isHTML(); 
+    $this->user = array(
+    'Nombre' => (GetInfo('Nombres').' '.GetInfo('Apellidos')),
+    'Email' => GetInfo('Email'));
+    $this->mail->addReplyTo($this->user['Email'], $this->user['Nombre']);
+
     }
 
 
     private function MDFCC($idn,$cc,$type) : void
     {
-        $MDF = "CALL SP_ADD_CC".($type === 1 ? "" : "_DDC")."(?,?)";
-        $RES1 = $this->conectdb->prepare($MDF);
+        $SPName = array(1 => 'NTF', 2 => 'DDC');
+
+        $SPCall = "CALL SP_ADD_CC_".$SPName[$type]."(?,?)";
+        $RES1 = $this->conectdb->prepare($SPCall);
         $RES1->bindParam(1, $idn, PDO::PARAM_INT);
         $RES1->bindParam(2, $cc, PDO::PARAM_STR);
         $RES1->execute(); 
@@ -63,7 +72,8 @@ class EmailSender extends ConexionDB
 
      return $DateWithDays;
     }
-    
+
+
     private function AddAtachmentToMail($Archivos)
     {
     foreach ($Archivos as $inconsistencia) 
@@ -72,7 +82,9 @@ class EmailSender extends ConexionDB
                 
      file_put_contents($archivo_temporal, base64_decode($inconsistencia['CARTA']));
             
-     $this->mail->addAttachment($archivo_temporal, $inconsistencia['NOMBRE']);   
+     $this->mail->addAttachment($archivo_temporal, $inconsistencia['NOMBRE']);  
+     
+     unlink($archivo_temporal);
     }
     }
 
@@ -123,28 +135,20 @@ class EmailSender extends ConexionDB
     
     $value = $exec->fetch(PDO::FETCH_ASSOC);
     $exec->closeCursor();
-
-    $Notif = ArrayFormat(json_decode($value["NONOTIF"]));
-
-    $Impu = ArrayFormat(json_decode($value["IMPU"]));
-
-    $fecha_completa = $this->DateFormat($value["VENCIMIENTO"]);;
     
     $replacements = array(
     "[Nombre del Cliente]" => $value["NOCLT"],
-    "[Número de Notificación]" => $Notif,
-    "[Nombre del Impuesto]" => $Impu,
-    "[NOMBRE EJECUTIVO]" => GetInfo('Nombres').' '.GetInfo('Apellidos'),
-    "[EMAIL EJECUTIVO]" => GetInfo('Email'),
-    "[FECHAMAXIMA]" => $fecha_completa,
+    "[Número de Notificación]" => ArrayFormat(json_decode($value["NONOTIF"])),
+    "[Nombre del Impuesto]" => ArrayFormat(json_decode($value["IMPU"])),
+    "[NOMBRE EJECUTIVO]" => $this->user['Nombre'],
+    "[EMAIL EJECUTIVO]" => $this->user['Email'],
+    "[FECHAMAXIMA]" => $this->DateFormat($value["VENCIMIENTO"]),
     "[TipoPersona]" => $value["TipoCliente"] == "Fisica" ? "" : "con el <u>sello</u> de la empresa "
     );
 
     $arch = file_get_contents("../Data/modelos/notifinconsis". ($value["SIZE"] == 1 ? "" : "2") .".html");
     
     $modelo = str_replace(array_keys($replacements), $replacements, $arch);
-
-    $this->mail->addReplyTo(GetInfo('Email'), GetInfo('Nombres').' '.GetInfo('Apellidos'));
 
     $this->mail->addAddress($cc[0]);
 
@@ -164,61 +168,58 @@ class EmailSender extends ConexionDB
 
     public function SendMailDDC($dat,$cc)
     {
-        $query = "CALL SENDMAIL_DETALLE(?)";
-        $exec = $this->conectdb->prepare($query);
-        $exec->bindParam(1, $dat, PDO::PARAM_INT);
-        $exec->execute();
+    $query = "CALL SENDMAIL_DETALLE(?)";
+    $exec = $this->conectdb->prepare($query);
+    $exec->bindParam(1, $dat, PDO::PARAM_INT);
+    $exec->execute();
     
-        if ($exec->rowCount() === 0){return HandleError();}
+    if ($exec->rowCount() === 0){return HandleError();}
         
-        $value = $exec->fetch(PDO::FETCH_ASSOC);
-        $exec->closeCursor();
+    $value = $exec->fetch();
+    $exec->closeCursor();
     
-        $Detalles = json_decode($value["INCONSISTENCIAS"], true);
+    $Detalles = json_decode($value["INCONSISTENCIAS"], true);
 
-        $inconsistencias = "";
+    $inconsistencias = "";
 
-        foreach ($Detalles as $values) 
-        {
-          $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.$values["NOTIFICACION"].'<br>';
+    foreach ($Detalles as $values) 
+    {
+      $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.$values["NOTIFICACION"].'<br>';
           
-          foreach ($values["DETALLES"] as $values2) 
-          { $inconsistencias .= ($values2['Detalle'].', periodo '.substr($values2['Periodo'],0,4).'-'.substr($values2['Periodo'],4).' por valor de RD$'.$values2['Valor'].'<br>'); }
+      foreach ($values["DETALLES"] as $values2) 
+      { 
+        $inconsistencias .= ($values2['Detalle'].', periodo '.substr($values2['Periodo'],0,4).'-'.substr($values2['Periodo'],4).' por valor de RD$'.$values2['Valor'].'<br>'); 
+      }
           
-          $inconsistencias .= '</li><br>';
-        }
-  
-        $fecha_completa = $this->DateFormat($value["FechaVenci"]); 
-        
-        $replacements = array(
-        "[NOMBRE CLIENTE]" => $value["NombreCliente"],
-        "[NOTIFICACION INCONSISTENCIA]" => ArrayFormat(array_column($Detalles,"NOTIFICACION")),
-        "[DETALLES INCONSISTENCIAS]" => $inconsistencias,
-        "[NOMBRE EJECUTIVO]" => GetInfo('Nombres').' '.GetInfo('Apellidos'),
-        "[EMAIL EJECUTIVO]" => GetInfo('Email'),
-        "[FECHA VENCIMIENTO]" => $fecha_completa
-        );
+      $inconsistencias .= '</li><br>';
+    }
     
-        $arch = file_get_contents("../Data/modelos/detallescitacion". ($value["SIZE"] == 1 ? "" : "2") .".html");
-        
-        $modelo = str_replace(array_keys($replacements), $replacements, $arch);
+    $replacements = array(
+    "[NOMBRE CLIENTE]" => $value["NombreCliente"],
+    "[NOTIFICACION INCONSISTENCIA]" => ArrayFormat(array_column($Detalles,"NOTIFICACION")),
+    "[DETALLES INCONSISTENCIAS]" => $inconsistencias,
+    "[NOMBRE EJECUTIVO]" => $this->user['Nombre'],
+    "[EMAIL EJECUTIVO]" => $this->user['Email'],
+    "[FECHA VENCIMIENTO]" => $this->DateFormat($value["FechaVenci"])
+    );
     
-        $this->mail->addReplyTo(GetInfo('Email'), GetInfo('Nombres').' '.GetInfo('Apellidos'));
-
-        $this->mail->addAddress($cc[0]);
-
-        $this->mail->Subject = mb_convert_encoding('Detalle de citación sobre inconsistencia DGII - '.$value["NombreCliente"], "UTF-8", "auto");
+    $Template = file_get_contents("../Data/modelos/detallescitacion". ($value["SIZE"] == 1 ? "" : "2") .".html");
         
-        $this->mail->Body = $modelo;
-
-        $this->AddAtachmentToMail(json_decode($value["ARCHIVOS"], true));
+    $modelo = str_replace(array_keys($replacements), $replacements, $Template);
     
-        $this->AddCCToMail($cc,$value["IDDetalle"],2);
+    $this->mail->addAddress($cc[0]);
 
-        $this->SendMail($value["IDDetalle"],2);
+    $this->mail->Subject = mb_convert_encoding('Detalle de citación sobre inconsistencia DGII - '.$value["NombreCliente"], "UTF-8", "auto");
+        
+    $this->mail->Body = $modelo;
+
+    $this->AddAtachmentToMail(json_decode($value["ARCHIVOS"], true));
+    
+    $this->AddCCToMail($cc,$value["IDDetalle"],2);
+
+    $this->SendMail($value["IDDetalle"],2);
     
     return $this->res;
     }
 }
-} else {header('LOCATION: ./404');}
 ?>

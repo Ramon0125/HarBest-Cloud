@@ -16,8 +16,6 @@ if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0 && Validarcadena1
 if (Validarcadena1($_POST))
 {
 
-require '../vendor/autoload.php';
-
 $SENDMAIL = new EmailSender();
 
 if($_POST['FUNC'] == 'NOTIF.' && isset($_POST['ENTITY'],$_POST['CC']))

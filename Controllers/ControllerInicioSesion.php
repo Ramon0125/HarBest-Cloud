@@ -2,11 +2,9 @@
 
 if (strpos($_SERVER['REQUEST_URI'], 'ControllerInicioSesion.php') !== false) { header('LOCATION: ./404');} 
 
-else {
-
 class ControllerInicioSesion extends ConexionDB 
 {
-    private $response = array();
+    private $response;
     private $ConexionDB;
  
   public function __construct()
@@ -27,7 +25,7 @@ class ControllerInicioSesion extends ConexionDB
        
     if ($QueryExecution->rowCount() === 0){return HandleError();} //Si la consulta no trae datos dispara error
 
-      $UserData = $QueryExecution->fetch(2); //Se obtienen los resultados de la consulta en forma de un array asociativo
+      $UserData = $QueryExecution->fetch(); //Se obtienen los resultados de la consulta en forma de un array asociativo
      
       $this->response['success'] = !isset($UserData['MENSAJE']); //Evalua si existe el mensaje de error
 
@@ -83,7 +81,5 @@ class ControllerInicioSesion extends ConexionDB
 
     return $this->response;
   }
-
-}
 
 }
