@@ -153,6 +153,26 @@ eventlisten('#archivosddc','change',function (){
 
 });
 
+eventlisten('#file-browser','click',function (){ 
+  
+  if ($('#file-browser').hasClass('delete')) 
+  { 
+    $('#FileEscrito').val('');
+    $('#file-browser').text('Buscar');
+    $('#file-browser').removeClass('delete');
+  }
+
+  else { $('#FileEscrito').click(); } 
+  
+});
+
+
+eventlisten('#FileEscrito','change',function (){
+
+  $('#file-browser').text('Quitar');
+  $('#file-browser').addClass('delete');
+
+});
 
 async function Getcc(id, type) {
 

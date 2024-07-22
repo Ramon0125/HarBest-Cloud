@@ -65,16 +65,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
   {
     $ConexionDB = NEW ConexionDB();
     $InstanciacionDB = $ConexionDB->obtenerConexion();
-    switch ($V) 
-    {
-    case 1:
-    $QueryStatement = "CALL SP_INSERT_EMAIL_NOTIF(?)";
-    break;
-       
-    case 2:
-    $QueryStatement = "CALL SP_INSERT_EMAIL_DDC(?)";
-    break;
-    }
+    
+    $SPName = array(1 => 'NOTIF', 2 => 'DDC', 3 => 'EDD');
+    
+    $QueryStatement = "CALL SP_INSERT_EMAIL_".$SPName[$V]."(?)";
+
     $QueryExecution = $InstanciacionDB->prepare($QueryStatement);
     $QueryExecution->bindParam(1,$ID,PDO::PARAM_STR);
     $QueryExecution->execute();

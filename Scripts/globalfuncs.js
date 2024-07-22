@@ -137,7 +137,12 @@ IAV: 'Ingrese un año valido',
 EDYEA: 'Este detalle ya a esta agregado',
 CTDD: 'Para continuar los campos de detalle (Notificacion, No. Caso, etc.) deben estar vacios',
 INV: 'Ingrese un numero valido',
-IPV: 'Ingrese un periodo valido'
+IPV: 'Ingrese un periodo valido',
+EEDDE: 'Este escrito de descargo existe',
+EDDIC: 'Escrito de descargo insertado correctamente',
+EIEDD: 'Error al insertar escrito de descargo',
+EDDEC: 'Escrito de descargo eliminado correctamente',
+EEEDD: 'Error al eliminar escrito de descargo'
 };
 
 
@@ -236,7 +241,7 @@ if(forms)
 {
 if(Array.isArray(forms)){for (const form of forms){$(form).trigger('reset'); }}
 else {$(forms).trigger('reset');}
-}
+} 
 
 if(input)
 {

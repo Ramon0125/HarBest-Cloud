@@ -83,8 +83,6 @@ class EmailSender extends ConexionDB
      file_put_contents($archivo_temporal, base64_decode($inconsistencia['CARTA']));
             
      $this->mail->addAttachment($archivo_temporal, $inconsistencia['NOMBRE']);  
-     
-     unlink($archivo_temporal);
     }
     }
 

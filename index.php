@@ -22,7 +22,7 @@
 
 require './Controllers/ControllersBlocks.php';
 
-if (!is_null(GetInfo('IDUsuario')) && !isset($_SESSION['LOG']) && !isset($_COOKIE['PASS']) && !isset($_GET['hcerrar'])) 
+if (!is_null(GetInfo('IDUsuario')) && !isset($_SESSION['LOG']) && !isset($_COOKIE['PASS']) && !isset($_GET['hcerrar']) && !isset($_GET['hcerrar1'])) 
 {Header("Location:".APP_URL."Views/");}
 
 elseif (VALIDARBLOCK() !== 'T')

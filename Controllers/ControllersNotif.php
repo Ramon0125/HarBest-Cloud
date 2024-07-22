@@ -15,7 +15,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
     }
 
     
-    public function AGRNotif(int $IDC,string $FEN,array $NOT,array $TIP,array $IMPU, $CARTA) : array 
+    public function AGRNotif(int $IDC,string $FEN,array $NOT,array $TIP,array $IMPU,array $CARTA) : array
     {
     try {
 
@@ -34,7 +34,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
      'MIME' => $m,
      'NOMBRE' => $n);
      },
-     $_FILES['CARTA']["tmp_name"],$_FILES['CARTA']["type"],$_FILES['CARTA']["name"]));
+     $CARTA["tmp_name"],$CARTA["type"],$CARTA["name"]));
         
 
      $query = 'CALL SP_INSERTAR_NOTIF(?,?,?,?,?)';
@@ -62,7 +62,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
      }
      else {SUMBLOCKUSER();}
      
-    }catch (Exception $E) {return HandleError();}
+    }catch (Exception $E) {return $E; HandleError();}
     
     return $this->Response;
     }

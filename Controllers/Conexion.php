@@ -2,7 +2,7 @@
 
 if (strpos($_SERVER['REQUEST_URI'], 'Conexion.php') !== false) { header('LOCATION: ./404'); }
 
-require_once (file_exists('../vendor/autoload.php') ? '..' : '.').'/vendor/autoload.php';
+require (file_exists('../vendor/autoload.php') ? '..' : '.').'/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 

@@ -33,7 +33,7 @@ elseif (VALIDARBLOCK() !== 'T') {
  echo $html; 
 }
 
-elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario'))){ echo HandleWarning();}
+elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario'))){ die(HandleWarning());}
 
 else {
 
@@ -223,29 +223,23 @@ else {
   <!--   Escrito de Descargo -->
   <li class="nav-item">
   
-  <a class="nav-link collapsed b1" data-bs-target="#addnotif" data-bs-toggle="collapse">
+  <a class="nav-link collapsed b1" data-bs-target="#escritodescargo" data-bs-toggle="collapse">
    <i class="bi bi-journal-text"></i>
    <span>Escrito de Descargo</span>
    <i class="bi bi-chevron-down ms-auto"></i>
   </a>
 
-  <ul id="addnotif" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+  <ul id="escritodescargo" class="nav-content collapse" data-bs-parent="#sidebar-nav">
   
   <li class="dropdown-item">
-   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
+   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agredd">
     <i class="bi-plus-square"></i>Adicionar
-   </a>
-  </li>
-
-  <li class="dropdown-item">
-   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-    <i class="bi bi-pencil-square"></i>Modificar
    </a>
   </li>
   
   <li class="dropdown-item">
    <hr class="divioer">
-   <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
+   <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltedd">
     <i class="dan bi bi-trash-fill"></i>Eliminar
    </a>
   </li>
@@ -465,10 +459,14 @@ else {  ?>
 <!-----------------------------------------------------MODAL DETALLE CITACION---------------------------------------------->
 <?php include_once './ModalesEjec/MdetalleC.php'; ?>
 <!---------------------------------------------------FIN MODAL DETALLE CITACION---------------------------------------------->
+<!-----------------------------------------------------MODAL ESCRITO DE DESCARGO---------------------------------------------->
+<?php include_once './ModalesEjec/Mescrito.php'; ?>
+<!---------------------------------------------------FIN MODAL ESCRITO DE DESCARGO---------------------------------------------->
 <!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/detallecitacion.js" type="text/javascript"></script> 
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/escritodescargo.js" type="text/javascript"></script> 
 <?php } ?> </body></html> <?php }

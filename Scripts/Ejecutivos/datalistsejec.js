@@ -70,3 +70,39 @@ eventlisten('#slcdltddc','keydown',(e) => {
 if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtldltddc')}});
 
 /////////FIN DATALIST DLTDDC//////////////////////////////////////////////
+
+
+
+/////////DATALIST AGREDD//////////////////////////////////////////////
+
+eventlisten('#dtlagredd','click', function(event)
+{datalistclick(event,'#slcntfedd','#slcntfedd1',['#formEDD','#btnagredd'],'#dtlagredd',false,true);});
+
+eventlisten('#slcntfedd','input',function () 
+{datalistinput('#slcntfedd','#slcntfedd1',['#formEDD','#btnagredd'],'#dtlagredd');});
+
+eventlisten('#slcntfedd','blur',function () 
+{datalistblur('#slcntfedd','#slcntfedd1',['#formEDD','#btnagredd'],'#dtlagredd');});
+
+eventlisten('#slcntfedd','keydown',(e) => {
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlagredd')}});
+    
+/////////FIN DATALIST AGREDD//////////////////////////////////////////////
+
+
+
+/////////DATALIST DLTEDD//////////////////////////////////////////////
+
+eventlisten('#dtldltedd','click', function(event) 
+{datalistclick(event,'#slcdltedd','#slcdltedd1','#btndltedd','#dtldltedd',false,true);});
+
+eventlisten('#slcdltedd','input', function() 
+{datalistinput('#slcdltedd','#slcdltedd1','#btndltedd','#dtldltedd');});
+
+eventlisten('#slcdltedd','blur', function() 
+{datalistblur('#slcdltedd','#slcdltedd1','#btndltedd','#dtldltedd');});
+
+eventlisten('#slcdltedd','keydown',(e) => { 
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtldltedd')}});
+
+/////////FIN DATALIST DLTEDD//////////////////////////////////////////////

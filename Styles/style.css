@@ -339,6 +339,8 @@ option:hover,  .active{
   width: 96% !important;
 }
 
+#dtlagredd{ width: 93.5%;}
+
 .loading {
   height: 100%;
   width: 100%;
@@ -520,4 +522,35 @@ word-wrap: break-word;    }
 
 .trtable{
   border-bottom: 5px black;
+}
+
+.upload-container {
+  width: 102.5%;
+  margin-top: 3%;
+  background-color: rgb(239, 239, 239);
+  border-radius: 6px;
+}
+
+.border-container {
+  border: 5px dashed rgba(198, 198, 198, 0.65);
+  padding: 20px;
+}
+
+.border-container p {
+  color: #130f40;
+  font-weight: 490;
+  font-size: 1.1em;
+  margin-top: 2%;
+  margin-bottom: -2%;
+}
+
+#file-browser {
+  text-decoration: none;
+  color:  var(--color);
+  border-bottom: 3px dotted var(--color);
+}
+
+#file-browser.delete{
+  color:  var(--acolordan);
+  border-bottom: 3px dotted var(--acolordan);
 }

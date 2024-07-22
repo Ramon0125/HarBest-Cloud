@@ -1,7 +1,8 @@
 <?php
-if (strpos($_SERVER['REQUEST_URI'], 'ControllersAdm.php') === false) { 
+if (strpos($_SERVER['REQUEST_URI'], 'ControllersAdm.php') !== false) { header('LOCATION: ./404'); }
 
-CLASS ControllersAdm extends ConexionDB
+
+class ControllersAdm extends ConexionDB
 {
 private $ConexionDB;
 private $Response;
@@ -62,5 +63,3 @@ return $this->Response;
 }
 
 }
-}
-else {header('LOCATION: ./404');}
