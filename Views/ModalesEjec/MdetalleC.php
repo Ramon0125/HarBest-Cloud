@@ -22,7 +22,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
     <?php $DataDC = Datos(5); // Obtener clientes
     if ($DataDC !== false && count($DataDC) > 0) {
     foreach ($DataDC as $DDC){ ?>
-    <option value="<?php echo $DDC["NONotificacion"]; ?>"><?php echo $DDC["NONotificacion"]; ?></option>
+    <option value="<?php echo $DDC["CodigoNotif"]; ?>"><?php echo $DDC["CodigoNotif"]; ?></option>
     <?php }} ?>
     </datalist>
     </form>
@@ -104,27 +104,32 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 
   <div class="col-lg-12">
     <label id="labelinconsisddc" for="inconsisddc" class="form-label labeledtmdf">Inconsistencia</label>
-    <textarea rows="1" class="form-control" id="inconsisddc" name="inconsisddc"></textarea>
+    <textarea rows="1" class="form-control" id="inconsisddc" name="inconsisddc" autocapitalize="on" autocomplete="on"></textarea>
   </div>
 
   <div class="col-sm-4">
    <label for="perddc" class="form-label">Periodo</label>
-   <input type="text" class="form-control" id="perddc" name="perddc" required autocomplete="off" maxlength="30">
+   <input type="text" class="form-control" id="perddc" name="perddc" required autocomplete="off" maxlength="6">
   </div>
 
   <div class="col-sm-4">
    <label for="valddc" class="form-label">Valor</label>
-   <input type="text" class="form-control" id="valddc" name="valddc" required autocomplete="off" maxlength="30">
+   <input type="text" class="form-control" id="valddc" name="valddc" required autocomplete="off">
   </div>
 
   <div class="col-sm-4">
    <label for="impddc" class="form-label">Impuesto Afectado</label>
-   <input type="text" class="form-control" id="impddc" name="impddc" required autocomplete="off" maxlength="30">
+   <select class="form-select" id="impddc" name="impddc" required>
+     <option value=""></option>
+     <option value="ITB">ITB</option>
+     <option value="IR1">IR1</option>
+     <option value="IR2">IR2</option>
+   </select>
   </div>
 
 <div class="d-inline-flex gap-1 cp">
     <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="adddetail(document.getElementById('nontfddc').value,document.getElementById('nocddc').value,document.getElementById('inconsisddc').value,document.getElementById('perddc').value,document.getElementById('valddc').value,document.getElementById('impddc').value)">Agregar</button>
-    <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-warning" onclick="dropdetails()">Eliminar</button>
+    <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-warning" onclick="dropdetails()">Eliminar ultimo detalle</button>
 </div>
 
 <hr class="Divisor">
@@ -147,9 +152,9 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
   </div>
   </div></div>
 
-  </form></div></div>
+  </form></div>
 
-`<hr class="Divisor" style="margin-top: -3%;">
+<hr class="Divisor">
 
 <div class="modal-footer justify-content-center">
 <button type="button" tabindex="-1" class="btn btn-success" id="btnagrddc" style="display:none" onclick="addddc(document.getElementById('slcntfddc1').value,
@@ -166,7 +171,7 @@ document.getElementById('ndaddc').value,
 document.getElementById('telddc').value)">
 <i class="bi bi-floppy"></i> Crear</button>
 <button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
-</div></div></div></div>
+</div></div></div></div></div>
 <!----------------FIN AGREGAR DETALLES------------------------------->
 
 <!----------------------- MODAL ELIMINAR NOTIFICACION -------------------->
@@ -196,9 +201,10 @@ document.getElementById('telddc').value)">
 
 </div>
   <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
-  <div class="d-flex justify-content-center mx-auto">
-    <button type="button" id="btndltddc" class="btn btn-success" style="background-color:green; display:none;" onclick="dltddc(document.getElementById('slcdltddc1').value,document.getElementById('slcdltddc').value)">Eliminar detalle</button>
-   &nbsp; <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc')">Cancelar</button>
+  <div class="modal-footer justify-content-center">
+    <button type="button" id="btndltddc" class="btn btn-success" style="background-color:green; display:none;" onclick="dltddc(document.getElementById('slcdltddc1').value,document.getElementById('slcdltddc').value)">
+    <i class="bi bi-trash"></i>Eliminar</button>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc')">Cancelar</button>
 </div>
 </div></div></div></div>
 <!----------------FIN ELIMINAR NOTIFICACION------------------------------->

@@ -16,24 +16,32 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
   //in_array evaluara si el contenido se encuentra entre las extensiones permitidas
   }
     
-    
-  function Validarcadena1(...$strings) : bool 
+  
+  function Validarcadena1(...$strings) 
   {
-    foreach ($strings as $string) 
-    {
-      if (is_array($string)) 
-      {// Si el valor es un array, llamamos recursivamente a Validarcadena1
-        if (!Validarcadena1(...$string)) { return false; }
-      } 
-          
-      else 
-      { // Si el valor no es un array, aplicamos la validación normalmente
-      if (!preg_match("/^[a-zA-Z0-9áéíóúÁÉÍÓÚÑñ#()[\]@$.,{}_\/\s\-…:\"\"]+$/", $string)) { return false; }
+      $pattern = '/(;\s*|\'.*?\'|--.*?$|\/\*.*?\*\/|\bxp_\w+\b|[\$%<>~=])/m';
+  
+      foreach ($strings as $value) 
+      {
+         
+          if (is_array($value)) 
+          {
+              foreach ($value as $Clave => $Valor) 
+              {
+                  if (preg_match($pattern, $Clave)) { return false; }
+                  
+                  if (!Validarcadena1($Valor)) { return false; }
+              }
+          } 
+  
+          else 
+          {
+              if (preg_match($pattern, $value)) { return false; }
+          }
       }
-    }
-    return true;
+  
+      return true;
   }
-
 
   function ArrayFormat ($array) 
   {

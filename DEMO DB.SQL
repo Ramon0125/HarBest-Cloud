@@ -7,7 +7,6 @@ SET GLOBAL event_scheduler = ON;
 SET SQL_SAFE_UPDATES = 0;
 
 
-
 /*TABLA USUARIOS*/
 CREATE TABLE USUARIOS
 (
@@ -154,13 +153,13 @@ ON DELETE CASCADE;
 CREATE VIEW VW_NOTIFICACIONES
 AS
     SELECT 
-		N.IDNotificacion AS '#',
-		N.CodigoNotif AS CODIGO,
-        C.NombreCliente AS CLIENTE,
-        JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NOTIFICACION,
-        date_format(N.FechaNotif, '%d/%m/%Y') AS FECHA,
-        date_format(N.FechaVenci, '%d/%m/%Y') AS VENCIMIENTO,
-        E.Estatus AS CORREO
+	 N.IDNotificacion AS '#',
+	 N.CodigoNotif AS CODIGO,
+     C.NombreCliente AS CLIENTE,
+     JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NOTIFICACION,
+     date_format(N.FechaNotif, '%d/%m/%Y') AS FECHA,
+     date_format(N.FechaVenci, '%d/%m/%Y') AS VENCIMIENTO,
+     E.Estatus AS CORREO
     FROM NOTIF_INCONSISTENCIA AS N 
 	JOIN USUARIOS AS U ON N.IDEncargado = U.IDUsuario
 	JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
@@ -193,7 +192,7 @@ ON DELETE CASCADE;
 
 
 CREATE VIEW ALL_NOTIF_FOR_DETALLE AS
-SELECT N.CodigoNotif AS NONotificacion
+SELECT N.CodigoNotif,N.CodigoNotif as NONotif
 FROM NOTIF_INCONSISTENCIA AS N 
 left join EMAILS_NOTIF as e on N.IDNotificacion = e.IDNotif
 left join DETALLE_CITACION as d on N.CodigoNotif = d.CodigoNotif
@@ -247,7 +246,7 @@ ON DELETE CASCADE;
 
 
 CREATE VIEW ALL_NOTIF_FOR_ESCRITO AS
-SELECT D.CodigoNotif FROM DETALLE_CITACION AS D
+SELECT D.CodigoNotif,D.CodigoNotif AS NONOTIF FROM DETALLE_CITACION AS D
 LEFT JOIN EMAILS_DETALLE AS E ON D.IDDetalle = E.IDDetalle
 LEFT JOIN ESCRITO_DESCARGO AS ED ON D.CodigoNotif = ED.CodigoNotif
 WHERE E.Estatus = 'T' AND ED.CodigoNotif IS NULL;
@@ -523,9 +522,6 @@ IF EXISTS (SELECT * FROM CLIENTES WHERE NombreCliente = NOMBREC AND IDCliente !=
  
 ELSEIF EXISTS (SELECT * FROM CLIENTES WHERE RNC = in_RNC AND IDCliente != in_ID) THEN 
  SELECT 'ERE' AS MENSAJE;
- 
-ELSEIF EXISTS (SELECT * FROM CLIENTES WHERE EmailCliente = in_Email AND IDCliente != in_ID) THEN
- SELECT 'EEE' AS MENSAJE;
 
 ELSEIF NOT EXISTS (SELECT * FROM CLIENTES WHERE IDCliente = in_ID AND NombreCliente = in_NAME) THEN
  SELECT 'EELS' AS MENSAJE;
@@ -883,15 +879,15 @@ FOR EACH ROW
 BEGIN
 
     DECLARE codigo VARCHAR(20);
-    DECLARE secuencia int;
-    DECLARE aactual int;
-    
+    DECLARE secuencia INT;
+    DECLARE aactual INT;
+
     SET aactual = YEAR(NEW.FechaNotif);
     
-    SELECT IFNULL(MAX(CONVERT(SUBSTRING(CodigoNotif, 5, 4), UNSIGNED)), 0) + 1 INTO secuencia
+    SELECT COALESCE(MAX(CONVERT(SUBSTRING(CodigoNotif, 5, 4), UNSIGNED)), 0) + 1 INTO secuencia
     FROM NOTIF_INCONSISTENCIA;
 
-    SET codigo = CONCAT('FHCF',LPAD(secuencia,4,'0'),aactual);
+    SET codigo = CONCAT('FHCF', LPAD(secuencia, 4, '0'), aactual);
 
     SET NEW.CodigoNotif = codigo;
 END$$

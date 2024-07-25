@@ -1,7 +1,13 @@
-$(document).ready(function () { OnlyNumber('#nocddc'); OnlyNumber('#telddc');  OnlyNumber('#valddc');  OnlyNumber('#perddc');});
+$(document).ready(function () {
+  
+OnlyNumber('#nocddc'); OnlyNumber('#telddc');  OnlyNumber('#valddc');  OnlyNumber('#perddc');
+OnlyValor('#valddc');
+});
 
 var incon = [];
 
+eventlisten('#nontfddc','change',function () 
+{$('#nocddc').val('');})
 
 function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto) 
 {
@@ -10,7 +16,7 @@ function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)
 
   if (!validarint(NOCaso)){return Alerta(txt.INCV,txt.W,2000);}
 
-  if (!validarint(Valor)){return Alerta(txt.INV,txt.W,2000);}
+  if (!validarvalor(Valor)){return Alerta(txt.IVV,txt.W,2000);}
 
   if(!validaraño(Periodo.substring(0, 4)) || Periodo.substring(4) < 1 || Periodo.substring(4) > 12) 
   {return Alerta(txt.IPV,txt.W,2000);}
@@ -34,7 +40,7 @@ function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)
   
   else { incon[NONotif] = [Informacion]; }
 
-  Alerta(`${Object.keys(incon).length} Inconsistencias detalladas en total`,txt.S,false,true,'Detalle añadido'); 
+  Alerta('Detalle añadido',txt.S,false,true); 
   updatedetalles();   $('#inconsisddc').val('');  $('#perddc').val(''); $('#valddc').val(''); $('#impddc').val('');
 }
 
@@ -131,7 +137,7 @@ if(nontfddc.length - 1 != Object.keys(incon).length)
 if (ARCHIVOS.length === 0 || Object.keys(incon).length === 0 || !validarparams(INCODNOT)) 
   {return Alerta(txt.CTC,txt.W,2000);}
   
-if(validarparams(NOTIF) || validarparams(NOCASO) || validarparams(INDETALL) || validarparams(PERIODO) || validarparams(VALOR) || validarparams(IMPUESTO))
+if(validarparams(INDETALL) || validarparams(PERIODO) || validarparams(VALOR) || validarparams(IMPUESTO))
 {return Alerta(txt.CTDD,txt.W,false,true);}
 
 if(!validaraño(INFECHA.substring(0, 4))) {return Alerta(txt.IAV,txt.W,2000);}
@@ -242,7 +248,12 @@ async function sendmailddc(nop)
     success: function (res) 
      {
       responses(res);
-      if (res.success) { tablasejec('detalles'); updatedatalists(6, ['#dtldltddc']); }
+      if (res.success) 
+        {
+           tablasejec('detalles'); 
+           updatedatalists(6, ['#dtldltddc']);
+           updatedatalists(7,['#dtlagredd']);
+        }
      },
      error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
    });  

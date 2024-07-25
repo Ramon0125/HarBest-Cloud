@@ -87,6 +87,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
    </li>
   </ul>
   </div>
+  <hr class="Divisor" style="margin-bottom: -1%; margin-top: 1.5%;">
 
 
         <div class="col-sm-6">
@@ -110,27 +111,35 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
         </div>   
 
-        <div id="Incumplimientos" class="row g-3">  
+        <div id="Incumplimientos" class="row g-3" style="display: contents;">  
 
           <div class="col-sm-6">
             <label for="Motnotif" class="form-label">Motivo Notif</label>
-            <input type="text" class="form-control" name="Motnotif" id="Motnotif">
+            <select class="form-select" name="Motnotif" id="Motnotif">
+             <option value=""></option>
+             <option value="ITB">ITB</option>
+             <option value="IR1">IR1</option>
+             <option value="IR2">IR2</option>
+            </select>
           </div>
           
           <div class="col-sm-6">
             <label for="Aincu" class="form-label">Año incumplimiento </label>
-            <input type="text" class="form-control" name="Aincu" id="Aincu">
+            <input type="text" class="form-control Aincu" name="Aincu" id="Aincu" maxlength="4">
           </div>
 
         </div>
 
-  <hr class="Divisor" style="margin-bottom: -0.5rem !important;">      
+        <div class="d-inline-flex gap-1 cp">
+          <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-secondary" onclick="addinc()"><i class="bi bi-file-plus"></i> Añadir incumplimiento</button>
+          <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-secondary" onclick="dltinc()"><i class="bi bi-trash"></i> Eliminar incumplimiento</button>
+        </div>
+
+  <hr class="Divisor" style="margin-top: 1%; margin-bottom: -1%;">      
   
-  <div class="d-inline-flex gap-2 cp">
+  <div class="d-inline-flex gap-1 cp">
   <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-primary" onclick="addnotificacion(document.getElementById('Notfic').value,document.getElementById('Tiponotf').value)"><i class="bi bi-floppy"></i> Guardar inconsistencia</button>
    <button tabindex="-1" type="button" style="width: 50%;" class="btn btn-warning" onclick="dropnotificacion()"><i class="bi bi-trash"></i> Eliminar inconsistencia</button>
-  <button tabindex="-1" type="button" class="btn btn-secondary" onclick="addinc()"><i class="bi bi-file-plus"></i> Añadir incumplimiento</button>
-   <button tabindex="-1" type="button" class="btn btn-secondary" onclick="dltinc()"><i class="bi bi-trash"></i> Eliminar incumplimiento</button>
   </div>
 
   </div></div>
@@ -152,6 +161,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 <h3 style="color: #6f6e73;" class="modal-title"><strong>Eliminar una notificación</strong></h3>
 <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
 </div>
+
 <div class="container">
 
 <div class="col-fluid col-lg-12">
@@ -170,11 +180,14 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 </div>
 
 </div>
+
   <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
-  <div class="d-flex justify-content-center mx-auto">
-    <button type="button" id="btndltnotif" class="btn btn-success" style="background-color:green; display:none;" onclick="dltnotif(document.getElementById('slcdltnotif1').value,document.getElementById('slcdltnotif').value)">Eliminar notif.</button>
-   &nbsp; <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltnotif1',['#dtldltnot','#btndltnotif'],'#formdltnotif')">Cancelar</button>
+<div class="modal-footer justify-content-center">
+  <button type="button" id="btndltnotif" class="btn btn-success" style="background-color:green; display:none;" onclick="dltnotif(document.getElementById('slcdltnotif1').value,document.getElementById('slcdltnotif').value)">
+  <i class="bi bi-trash"></i>Eliminar</button>
+  <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltnotif1',['#dtldltnot','#btndltnotif'],'#formdltnotif')">Cancelar</button>
 </div>
+
 </div></div></div></div>
 <!----------------FIN ELIMINAR NOTIFICACION------------------------------->
 

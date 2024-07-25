@@ -1,5 +1,10 @@
 const PageURL = 'http://127.0.0.1/PROGRAMAS/HarBest-Cloud/';
 
+const Directivos = ['ericvalerio@harbest.net','aldyperalta@harbest.net',
+'marielebron@harbest.net','mariamoreno@harbest.net','magdalenaortega@harbest.net',
+'jennyfermejia@harbest.net','franciscososa@harbest.net','cristinalugo@harbest.net',
+'yessicasosa@harbest.net','estefanymontero@harbest.net','ysabelnolasco@harbest.net'];
+
 const toggval = () => parseInt($('#sidebar').css('left'), 10); 
 
 const maxfilesize = 10;
@@ -135,8 +140,8 @@ CTDN: 'Para continuar los campos de notificación(Numero,Tipo,Motivo y Año) deb
 ENYEA: 'Esta notificación ya esta agregada',
 IAV: 'Ingrese un año valido',
 EDYEA: 'Este detalle ya a esta agregado',
-CTDD: 'Para continuar los campos de detalle (Notificacion, No. Caso, etc.) deben estar vacios',
-INV: 'Ingrese un numero valido',
+CTDD: 'Para continuar los campos de detalle (Inconsistencia, Periodo, etc.) deben estar vacios',
+IVV: 'Ingrese un valor valido',
 IPV: 'Ingrese un periodo valido',
 EEDDE: 'Este escrito de descargo existe',
 EDDIC: 'Escrito de descargo insertado correctamente',
@@ -215,6 +220,14 @@ function validarint(...ints) {
   );
 }
 
+function validarvalor(...ints) {
+  return ints.every(val => 
+    typeof val === 'number' || 
+    (typeof val === 'string' && val.trim() !== '' && /^(\d{1,3})(,\d{3})*(\.\d+)?$/.test(val))
+  );
+}
+
+
 function validaraño(int) 
 { return validarint(int) ? !(int < 2015 || int > currentYear) : false; }
 
@@ -284,6 +297,16 @@ function OnlyNumber(input)
   {
     let value = event.target.value;
 
-    validarint(event.data) ? null : event.target.value = value.replace(/[^0-9,.]/g, '');
+    validarint(event.data) ? null : event.target.value = value.replace(/[^0-9.]/g, '');
+  });
+}
+
+function OnlyValor(input) {
+  eventlisten(input, 'blur', function(event) {
+    let value = event.target.value;
+
+    let num = parseFloat(value.replace(/,/g, ''));
+    
+    if (!isNaN(num)) { event.target.value = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });}
   });
 }

@@ -53,4 +53,29 @@ return $this->Response;
 }
 
 
+public function dltedd(int $CodEsc, string $CodNot): array
+{
+  try 
+  {  
+    $Query = "CALL SP_DELETE_EDD(?,?)";
+    $QueryExecution = $this->ConexionDB->prepare($Query);
+    $QueryExecution->bindParam(1, $CodEsc,1);
+    $QueryExecution->bindValue(2, $CodNot);
+    $QueryExecution->execute();
+    
+    if($QueryExecution->rowCount() === 0) { return HandleError(); }
+
+    $Data = $QueryExecution->fetch();
+
+    $this->Response['success'] = $Data['MENSAJE'] === 'EDDEC';
+    $this->Response['message'] = $Data['MENSAJE'];
+
+    $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'INSERTO UN ESCRITO DE DESCARGO') : SUMBLOCKUSER();
+  }
+  catch (Exception) { return HandleError(); }
+
+return $this->Response;
+}
+
+
 }

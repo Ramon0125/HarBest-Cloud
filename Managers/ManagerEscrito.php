@@ -21,7 +21,10 @@ $CA = new ControllersDescargo();
 if ($_POST['FUNC'] === 'agredd' && isset($_POST['CodNot'],$_FILES['Archivo'])) 
 { $data = $CA->agredd($_POST['CodNot'],$_FILES['Archivo']); }
 
-else {$data = 'hola'; HandleError();}
+elseif ($_POST['FUNC'] === 'dltedd' && isset($_POST['CodEsc'],$_POST['CodNot'])) 
+{ $data = $CA->dltedd($_POST['CodEsc'],$_POST['CodNot']); }
+
+else {$data = HandleError();}
 }
   
 else {$data['CNV'] = true; SUMBLOCKUSER();}

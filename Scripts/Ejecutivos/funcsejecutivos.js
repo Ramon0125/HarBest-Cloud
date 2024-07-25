@@ -209,7 +209,7 @@ async function ShowFormEmail(CC, CCLT) {
       html: `
         <div id="email-container">
           <label for="email-1">Email del Cliente</label>
-          <input type="email" class="swal2-input" placeholder="Escriba el email del cliente" id="email-1" style="width: 74%; margin-top: 3%; margin-bottom: 4%;" value="${CCLT}">
+          <input type="email" class="swal2-input" list="dtlemails" placeholder="Escriba el email del cliente" id="email-1" style="width: 74%; margin-top: 3%; margin-bottom: 4%;" value="${CCLT}">
         </div>
   
         <div id="alert-span" style="margin: 11px 0px 6px 0px; display:none;">  
@@ -227,35 +227,46 @@ async function ShowFormEmail(CC, CCLT) {
       showCloseButton: true,
       allowOutsideClick: false,
       didOpen: () => {
+
+        let emailContainer = document.getElementById('email-container');
+
+        let datalist = document.createElement('datalist');
+        datalist.id = 'dtlemails';
+
+        Directivos.forEach(optionValue => {
+          let option = document.createElement('option');
+          option.value = optionValue;
+          datalist.appendChild(option);
+        });
+
+        emailContainer.appendChild(datalist);
+
         let addinput = (text = false) => {
-          let emailContainer = document.getElementById('email-container');
+
           let newEmailIndex = emailContainer.getElementsByTagName('input').length + 1;
+
           let emailDiv = document.createElement('div');
           emailDiv.id = `email-div-${newEmailIndex}`;
           emailDiv.innerHTML = `
             <input type="email" class="swal2-input" placeholder="Escriba el email #${newEmailIndex}" id="email-${newEmailIndex}" style="width: 74%; margin-top: 3%;" ${text ? `value="${text}"` : ''}>
           `;
           emailContainer.appendChild(emailDiv);
+
+          $(`#email-${newEmailIndex}`).attr('list', `dtlemails`);
         };
+
 
         document.getElementById('add-email').addEventListener('click', () => {addinput()});
 
         document.getElementById('remove-email').addEventListener('click', () => {
-          const emailContainer = document.getElementById('email-container');
-          const emailDivs = emailContainer.getElementsByTagName('div');
 
-          if (emailDivs.length > 0) {
-            emailContainer.removeChild(emailDivs[emailDivs.length - 1]);
-          }
+          let emailDivs = emailContainer.getElementsByTagName('div');
+
+          if (emailDivs.length > 0) { emailContainer.removeChild(emailDivs[emailDivs.length - 1]);}
         });
 
-        if (CC == null || CC.length === 0) {
-          addinput('adm@harbest.net');
-        } else {
-          CC.forEach((correo) => {
-            addinput(correo);
-          });
-        }
+        if (CC == null || CC.length === 0) { addinput('adm@harbest.net');} 
+        else { CC.forEach((correo) => { addinput(correo); }); }
 
         load(2);
       },

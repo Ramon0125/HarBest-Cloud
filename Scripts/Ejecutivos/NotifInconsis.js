@@ -115,18 +115,20 @@ const addinc = () => {
   const inputs = (DivIncumpli.getElementsByTagName('input').length / 2 ) + 1;
 
   let div = document.createElement('div');
-  div.classList = `col-sm-6 ${inputs}`;
+  div.classList = `col-sm-6`;
   div.innerHTML = `
-  <label for="Motnotif-${inputs}" class="form-label">Motivo Notif #${inputs}</label>
+  <label for="Motnotif-${inputs}" class="form-label">Motivo Notif. #${inputs}</label>
   <input type="text" class="form-control" id="Motnotif-${inputs}">`;
   DivIncumpli.appendChild(div);
 
   let div1 = document.createElement('div');
   div1.classList = `col-sm-6 ${inputs}`;
   div1.innerHTML = `
-  <label for="Aincu-${inputs}" class="form-label">Año incumplimiento ${inputs} </label>
-  <input type="text" class="form-control" name="Aincu-${inputs}" id="Aincu-${inputs}">`;
+  <label for="Aincu-${inputs}" class="form-label">Año incumplimiento #${inputs} </label>
+  <input type="text" class="form-control Aincu" name="Aincu-${inputs}" id="Aincu-${inputs}">`;
   DivIncumpli.appendChild(div1);
+
+  OnlyNumber(`#Aincu-${inputs}`);
 }// Constante que agrega campos de incumplimiento
 
 

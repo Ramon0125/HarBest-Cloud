@@ -2,9 +2,9 @@
 
 if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
 {
-require './Functions.php';
 require './Conexion.php';
 require './ControllersBlocks.php';
+require './Functions.php';
 
 if(isset($_GET['tabla']) && Validarcadena1($_GET['tabla']) && GetInfo('IDUsuario') != 0){
 

@@ -16,7 +16,7 @@ $CONDB = $CONDB1->obtenerConexion();
 function SUMBLOCKUSER()
 {
     global $identificador;
-    if( isset($_COOKIE['ERRORS']) && $_COOKIE['ERRORS'] >= 6) 
+    if( isset($_COOKIE['ERRORS']) && $_COOKIE['ERRORS'] >= 16) 
     {BLOCKUSER($identificador);}
     
     elseif(!isset($_COOKIE['ERRORS'])) 
