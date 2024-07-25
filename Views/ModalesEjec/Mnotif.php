@@ -115,12 +115,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'Mnotif.php') === false) { ?>
 
           <div class="col-sm-6">
             <label for="Motnotif" class="form-label">Motivo Notif</label>
-            <select class="form-select" name="Motnotif" id="Motnotif">
-             <option value=""></option>
-             <option value="ITB">ITB</option>
-             <option value="IR1">IR1</option>
-             <option value="IR2">IR2</option>
-            </select>
+            <input type="text" class="form-control" name="Motnotif" id="Motnotif">
           </div>
           
           <div class="col-sm-6">

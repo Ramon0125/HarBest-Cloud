@@ -38,7 +38,7 @@ function addnotificacion(n,t)
    $('#Motnotif').val('');
    $('#Aincu').val('');
 
-    while (inputs.length != 2) { dltinc() }
+    while (inputs.length > 2) { dltinc() }
 
     updatenotificacion();  
 
