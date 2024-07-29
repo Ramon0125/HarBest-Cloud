@@ -310,3 +310,7 @@ function OnlyValor(input) {
     if (!isNaN(num)) { event.target.value = num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });}
   });
 }
+
+const emptyTable = (table) => {
+  while(table.firstChild){ table.removeChild(table.firstChild); }
+}

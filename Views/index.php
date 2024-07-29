@@ -144,20 +144,11 @@ else {
   <li class="nav-heading">Tablas</li>
 
   <li class="nav-item">
-   <a class="nav-link collapsed b1" onclick="tablasejec('notif')">
+   <a class="nav-link collapsed b1" onclick="tablasejec('casos')">
     <i class="bi bi-envelope-exclamation"></i>
-    Consulta de notificaciones de inconsistencias
+    Consulta de casos
    </a>
   </li>
-
-  <li class="nav-item">
-   <a class="nav-link collapsed b1" onclick="tablasejec('detalles');">
-    <i class="bi bi-envelope-exclamation"></i>
-    Consulta de detalles de citación
-   </a>
-  </li>
-
-
 
   <li class="nav-heading">Protocolos</li>
 
@@ -456,11 +447,17 @@ else {  ?>
 <!-----------------------------------------------------MODAL NOTIF. INCONSIS---------------------------------------------->
 <?php include_once './ModalesEjec/Mnotif.php'; ?>
 <!---------------------------------------------------FIN MODAL NOTIF. INCONSIS---------------------------------------------->
+
 <!-----------------------------------------------------MODAL DETALLE CITACION---------------------------------------------->
 <?php include_once './ModalesEjec/MdetalleC.php'; ?>
 <!---------------------------------------------------FIN MODAL DETALLE CITACION---------------------------------------------->
+
 <!-----------------------------------------------------MODAL ESCRITO DE DESCARGO---------------------------------------------->
 <?php include_once './ModalesEjec/Mescrito.php'; ?>
+<!---------------------------------------------------FIN MODAL ESCRITO DE DESCARGO---------------------------------------------->
+
+<!-----------------------------------------------------MODAL ESCRITO DE DESCARGO---------------------------------------------->
+<?php include_once './ModalesEjec/MDetalleCompleto.php'; ?>
 <!---------------------------------------------------FIN MODAL ESCRITO DE DESCARGO---------------------------------------------->
 <!---------------------FIN MODALES------- ------------------->
 

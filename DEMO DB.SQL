@@ -150,18 +150,15 @@ FOREIGN KEY (IDNotif) REFERENCES NOTIF_INCONSISTENCIA(IDNotificacion)
 ON DELETE CASCADE;
 
 
-CREATE VIEW VW_NOTIFICACIONES
+CREATE VIEW VW_CASOS
 AS
     SELECT 
-	 N.IDNotificacion AS '#',
-	 N.CodigoNotif AS CODIGO,
-     C.NombreCliente AS CLIENTE,
-     JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NOTIFICACION,
-     date_format(N.FechaNotif, '%d/%m/%Y') AS FECHA,
-     date_format(N.FechaVenci, '%d/%m/%Y') AS VENCIMIENTO,
-     E.Estatus AS CORREO
+	 N.CodigoNotif AS `CODIGO`,
+     C.NombreCliente AS `CLIENTE`,
+     C.EmailCliente AS `EMAIL CLIENTE`,
+     JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS `NOTIFICACIONES`,
+     date_format(N.FechaNotif, '%d/%m/%Y') AS `FECHA`
     FROM NOTIF_INCONSISTENCIA AS N 
-	JOIN USUARIOS AS U ON N.IDEncargado = U.IDUsuario
 	JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
 	JOIN EMAILS_NOTIF AS E ON N.IDNotificacion = E.IDNotif
 ORDER BY CASE E.Estatus WHEN 'F' THEN 1 ELSE 2 END,N.FechaVenci ASC;
@@ -209,22 +206,6 @@ Estatus enum('T','F') DEFAULT 'F'
 
 ALTER TABLE EMAILS_DETALLE ADD CONSTRAINT `FK_EDETALLE_DETALLE` FOREIGN KEY (`IDDetalle`) 
 REFERENCES DETALLE_CITACION (`IDDetalle`) ON DELETE CASCADE;
-
-
-CREATE VIEW VW_DDC
-AS SELECT 
-D.IDDetalle AS `ID`,
-C.NombreCliente AS `CLIENTE`,
-C.EmailCliente AS `EMAIL CLIENTE`,
-D.CodigoNotif AS `CODIGO`,
-date_format(D.Fecha, '%d/%m/%Y') AS `FECHA`,
-date_format(D.FechaVenci, '%d/%m/%Y') AS `VENCIMIENTO`,
-E.Estatus AS `CORREO` FROM  
-DETALLE_CITACION AS D
-JOIN NOTIF_INCONSISTENCIA AS N ON D.CodigoNotif = N.CodigoNotif
-JOIN CLIENTES AS C ON N.IDCliente = C.IDCliente
-JOIN EMAILS_DETALLE AS E ON D.IDDetalle = E.IDDetalle
-ORDER BY CASE E.Estatus WHEN 'F' THEN 1 ELSE 2 END,D.FECHAVenci ASC;
 
 
 CREATE VIEW ALL_DETALLES AS
@@ -973,5 +954,39 @@ IF ROW_COUNT() > 0 THEN SELECT 'EDDEC' AS MENSAJE;
  ELSE SELECT 'EEEDD' AS MENSAJE; END IF;
 END IF;
 END $$
+
+
+CREATE PROCEDURE SP_DETALLES_CASOS
+(IN IN_CODIGONOTIF CHAR(12))
+BEGIN
+
+IF NOT EXISTS(SELECT * FROM NOTIF_INCONSISTENCIA WHERE CodigoNotif = IN_CODIGONOTIF)
+THEN SELECT 'EELS' AS MENSAJE;
+
+ELSE 
+SELECT 
+	  N.IDNotificacion,
+	  N.CodigoNotif,
+      C.NombreCliente,
+      C.EmailCliente,
+      N.FechaNotif,
+      N.Fechavenci,
+      N.Notificacion,
+      EN.Estatus,
+      D.IDDetalle,
+      D.Fecha AS FechaDC,
+      D.FechaVenci AS FechaVenciDC,
+      ED.Estatus AS EstatusDC,
+      D.DetallesCitacion FROM
+NOTIF_INCONSISTENCIA AS N
+JOIN CLIENTES AS C ON N.IDCliente = C.IDCliente
+JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif  
+LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
+WHERE N.CodigoNotif = IN_CODIGONOTIF;
+END IF;
+
+END$$
+
 
 DELIMITER ;

@@ -13,10 +13,7 @@ $Ejec = $conexion->obtenerConexion();
 
 $tabla = GetInfo('PRIVILEGIOS') === 'CASOS FISCALES' ? 
 
-array(
-'notif' => 'VW_NOTIFICACIONES',
-'detalles' => 'VW_DDC'
-) 
+array('casos' => 'VW_CASOS') 
  : 
 array(
 'usrs' => 'ALL_USER',

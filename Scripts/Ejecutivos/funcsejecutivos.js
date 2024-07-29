@@ -1,104 +1,39 @@
 //Acciones que se cumpliran cuando se cargue por completo el DOM
-$(document).ready(function(){ tablasejec('notif'); });
+$(document).ready(function(){ tablasejec('casos'); });
 
 
 function tablasejec(str) 
 {
     $.ajax({
     type: 'GET',//Metodo en el que se enviaran los datos
-    url: '../Controllers/Tables.php',//Direccion a la que se enviaran los datos
+    url: PageURL+'Controllers/Tables.php',//Direccion a la que se enviaran los datos
     data: {tabla: str},//Datos que seran enviados
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
     success: function (data) {
-    data.error ? responses(data) : tablesresult(str,data);},
-    error: function () {Alerta(txt.EELS, "error", 2000);}});   
-}
+    if (!data.error) 
+    {
+      $('#tabla').DataTable().destroy();
+      $('#tabla').html(data);
 
-function tablesresult(str,data){
-
-  $('#tabla').DataTable().destroy();
-  $('#tabla').html(data);
-
-  switch (str) {
-
-    case 'detalles': 
       $('#tabla thead tr').append('<th>DETALLES</th>'); // Agregar encabezado para el otro botón
-      $('#tabla thead tr').append('<th>ARCHIVOS</th>');
     
       $('#tabla').DataTable($.extend(true, {}, tabledata, {
       "order": [],
       "columnDefs": [{
-      "targets": 8, 
+      "targets": 5, 
       "orderable": false,
       "data": null,
-      "defaultContent": "<button type='button' class='btn btn-success btnverddc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'><i class='bi bi-folder2-open btnverddc'></i> Abrir</button>"
-      },
-      {
-      "targets": 7, 
-      "data": null,
-      "orderable": false,
-      "defaultContent": "<button type='button' class='btn btn-success btnverinc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'><i class='bi bi-eye-fill btnverinc'></i> Ver</button>"
-      },
-      {
-      "targets": 6,
-      "orderable": false,
-      "render": function (data, type, row) {
-      if (row[6] != 'T') {
-      return '<button type="button" class="btn btn-success btnenviar" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px; margin-left: -10px;"><i class="bi bi-send btnenviar"></i> Enviar</button>';
-      }
-      else { return '<i class="bi bi-check2-circle center"></i>'; }}}]
-      }));
-
-    break;
-
-    case 'notif':
-      $('#tabla thead tr').append('<th>CARTA</th>');
-      
-      $('#tabla').DataTable($.extend(true, {}, tabledata, {
-      "order": [],
-      "columnDefs": [{
-      "targets": -1, 
-      "data": null,
-      "defaultContent": "<button type='button' class='btn btn-success btnvercarta' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'><i class='bi bi-eye-fill btnvercarta'></i> Ver</button>"
-      },
-      { 
-      "targets": 6,
-      "orderable": false,
-      "render": function (data, type, row) {
-      if (row[6] != 'T') {
-      return '<button type="button" class="btn btn-success btnenviarntf" style="background-color:green; height: 31px; --bs-btn-padding-y: 0px;"><i class="bi bi-send btnenviarntf"></i> Enviar</button>';
-      }
-      else {return '<i class="bi bi-check2-circle center"></i>';}}
+      "defaultContent": "<button type='button' class='btn btn-success btnverdetalles' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'><i class='bi bi-folder2-open btnverddc'></i> Abrir</button>"
       }]
       }));
 
-    break;
-
-  }
-
-    $('#tabla tbody tr').on('click', function (event) 
-    {
-      let Boton = event.target.classList;
-
-      if(Boton.contains('btn') || Boton.contains('bi'))
-      {
-      let ID = $(this).find('td:eq(0)').text().trim();
-
-      switch (Boton[2]) 
-      {
-        case 'btnverddc': AbrirDocumentosDetalles(ID); break;
-
-        case 'btnverinc': vincon(ID); break;
-
-        case 'btnenviar': sendmailddc(ID); break;
-
-        case 'btnenviarntf': sendmail(ID); break;
-
-        case 'btnvercarta': vcarta(ID); break;
-      }
-      }
-    });
+      $('#tabla tbody').on('click', 'button.btnverdetalles', function () 
+      { DetailsNotif($(this).closest('tr').find('td:eq(0)').text().trim());});      
+    } 
+    else { return responses(data); }
+    },
+    error: function () {Alerta(txt.EELS, "error", 2000);}});   
 }
 
 
@@ -299,4 +234,133 @@ async function ShowFormEmail(CC, CCLT) {
     .then((result) => { if (result.isConfirmed) { resolve(result.value); } })
     .catch(() => { reject(txt.EELS); });
   });
+}
+
+
+const ModNotif = (DATA) => {
+document.getElementById('TitleNotifDC').innerText = DATA.CodigoNotif;
+document.getElementById('NombreCLienteDC').innerText = DATA.NombreCliente;
+document.getElementById('EmailCLienteDC').innerText = DATA.EmailCliente;
+document.getElementById('FechaNotifDC').innerText = DATA.FechaNotif;
+document.getElementById('FechaVenciNotifDC').innerText = DATA.Fechavenci;
+document.getElementById('ArchivosNotifDC').setAttribute('onclick',`vcarta(${DATA.IDNotificacion})`);
+
+let tabla = document.getElementById('tablanotifDC');
+        
+emptyTable(tabla);
+
+// Itera sobre los registros y crea las filas
+JSON.parse(DATA.Notificacion).forEach(registro => {
+let fila = document.createElement('tr');
+
+fila.innerHTML = `<td>${registro.NOTIFICACION}</td>
+                  <td>${registro.TIPO}</td>
+                  <td>${registro.IMPUESTO}</td>`;
+
+tabla.appendChild(fila);
+});
+
+let EmailDiv = document.getElementById('EstadoEmailNotifDC');
+        
+if(DATA.Estatus === 'F')
+{
+EmailDiv.classList.add('cp');
+EmailDiv.setAttribute('onclick',`sendmail(${DATA.IDNotificacion})`);
+EmailDiv.innerHTML = '<i class="bi bi-send"></i> Enviar';
+}
+else
+{ 
+EmailDiv.classList.remove('cp');
+EmailDiv.removeAttribute('onclick');
+EmailDiv.innerHTML = '<i class="bi bi-check2-circle"></i> Enviado'; 
+}
+}
+
+
+const ModDetalle = (DATA) => {
+
+  document.getElementById('FechaDetalleDC').innerText = DATA.FechaDC;
+  document.getElementById('FechaVenciDC').innerText = DATA.FechaVenciDC;
+  document.getElementById('ArchivosDC').setAttribute('onclick',`AbrirDocumentosDetalles(${DATA.IDDetalle})`);
+
+  let EmailDetallesDiv = document.getElementById('EstadoEmailDetalleDC');
+ 
+  if(DATA.EstatusDC === 'F')
+  {
+  EmailDetallesDiv.classList.add('cp');
+  EmailDetallesDiv.setAttribute('onclick',`sendmailddc(${DATA.IDNotificacion})`);
+  EmailDetallesDiv.innerHTML = '<i class="bi bi-send"></i> Enviar';
+  }
+  else
+  { 
+  EmailDetallesDiv.classList.remove('cp');
+  EmailDetallesDiv.removeAttribute('onclick');
+  EmailDetallesDiv.innerHTML = '<i class="bi bi-check2-circle"></i> Enviado'; 
+  }
+
+  // Selecciona la tabla
+ let tablaDC = document.getElementById('tabladetallesDC');
+
+ emptyTable(tablaDC);
+
+ let detalles = JSON.parse(DATA.DetallesCitacion);
+
+ for (let key in detalles)
+ {
+   let newRow = document.createElement("tr");
+   newRow.classList = "trtable";
+
+   let Inconsistencia = document.createElement("td");
+   Inconsistencia.innerHTML = detalles[key].NOTIFICACION;
+   Inconsistencia.rowSpan = (Object.keys(detalles[key].DETALLES).length + 1);
+   Inconsistencia.style.verticalAlign = 'middle';
+   newRow.appendChild(Inconsistencia);
+
+   tablaDC.appendChild(newRow); 
+
+   detalles[key].DETALLES.forEach( (element,index) => {
+
+   let Rowincon = document.createElement("tr");
+   Rowincon.classList = "trtable";
+
+   Rowincon.innerHTML = `
+   <td>${element.Detalle}</td>
+   <td>${element.Periodo}</td>
+   <td>${element.Valor}</td>
+   <td>${element.Impuesto}</td>
+   `;
+
+   tablaDC.appendChild(Rowincon);
+   });
+    
+ }
+ modifystyle('#ContainerDetalleDC','display','flex');
+
+}
+
+
+function DetailsNotif(IDD) 
+{
+  if (!validarparams(IDD)) {return Alerta(txt.EELS,txt.E,2000);}
+  
+  $.ajax({
+   type: "POST",
+   url: PageURL+"Managers/ManagerNotif.php",
+   beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
+   complete: function () { load(2); }, //Ocultar pantalla de carga
+   data: {tipo: 'vdcaso',IDD: IDD},
+   dataType: "JSON",
+   success: function (DATA) {
+   if(DATA.success)
+   {        
+    ModNotif(DATA);
+        
+    DATA.FechaDC ? ModDetalle(DATA) : modifystyle('#ContainerDetalleDC','display','none');        
+   }
+   else{ return responses(DATA);}},
+   error: function(){return Alerta(txt.EELS,txt.W,2000);}
+  });
+
+let Modal = new bootstrap.Modal(document.getElementById('DetailNotif'));
+Modal.show();
 }

@@ -131,6 +131,34 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
     return $this->Response;
     }
 
+
+    public function DetallesCaso(string $Cod) : array 
+    {
+    try {
+
+        $query = 'CALL SP_DETALLES_CASOS(?)';
+        $exec = $this->ConexionDB->prepare($query);
+        $exec->bindParam(1,$Cod,pdo::PARAM_STR);
+        $exec->execute();
+        
+        if ($exec->rowCount() === 0){return HandleError();}
+        
+            $res = $exec->fetch(PDO::FETCH_ASSOC);
+            
+            $this->Response['success'] = !isset($res['MENSAJE']);
+
+            if (!$this->Response['success']) { $this->Response['message'] = $res['MENSAJE']; SUMBLOCKUSER();}
+            else 
+            {        
+              foreach ($res as $column => $value) 
+              { $this->Response[$column] = $value; }
+            }
+        
+    }catch (Exception) {return HandleError();}
+    
+    return $this->Response;
+    }
+
     }
 }
 else { header("LOCATION: ./404"); }

@@ -41,6 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo']) && isset($_SE
       else if ($_POST['tipo'] === 'vdnot' && isset($_POST['Codigo']))
       {$response = $func->SearchNotif($_POST['Codigo']);}
 
+      else if ($_POST['tipo'] === 'vdcaso' && isset($_POST['IDD']))
+      {$response = $func->DetallesCaso($_POST['IDD']);}
+
+
       else {$response = HandleError();}
     }
     else {$response['CNV'] = true; SUMBLOCKUSER();}}  

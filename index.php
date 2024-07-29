@@ -65,7 +65,7 @@ else { ?>
 		
  <div class="form-item">
   <label for="password" class="formLabel">Contraseña</label>
-  <input type="password" name="password" id="password" class="form-style" maxlength="15" autocomplete="current-password" readonly>        
+  <input type="password" name="password" id="password" class="form-style" maxlength="15" autocomplete="password" readonly>        
   <input type="checkbox" name="mc" id="mc" onclick="visor(document.getElementById('password'))">
   <label for="mc" class="rup-pass">Mostrar contraseña</label>
  </div>

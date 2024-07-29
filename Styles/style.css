@@ -552,3 +552,8 @@ word-wrap: break-word;    }
   color:  var(--acolordan);
   border-bottom: 3px dotted var(--acolordan);
 }
+
+
+.fb{
+  font-weight: bold;
+}

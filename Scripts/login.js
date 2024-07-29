@@ -1,12 +1,12 @@
 $(document).ready(function(){
-	var formInputs = $('input[type="email"],input[type="password"]');
+	
+	let formInputs = $('input[type="email"],input[type="password"]');
 	
 	formInputs.focus(function() { $(this).removeAttr('readonly'); $(this).parent().children('label.formLabel').addClass('formTop'); });
 
 	formInputs.blur(function() { if ($.trim($(this).val()).length == 0){ $(this).parent().children('label.formLabel').removeClass('formTop'); }});
 	
 	$('label.formLabel').click(function(){ $(this).parent().children('.form-style').focus();});
-
 });
 
 
@@ -56,7 +56,7 @@ function MdfPass(event,p, p2)
   {
 	return Swal.fire({
 		icon: 'error',
-		title: 'Error de Validación de Contraseña',
+		title: 'Contraseña no valida',
 		html: `Por favor, asegúrate de que tu contraseña:
 			   <ul style="text-align: left;">
 				 <li>Contenga al menos 8 caracteres.</li>
