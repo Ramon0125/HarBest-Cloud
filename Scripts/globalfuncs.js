@@ -85,13 +85,6 @@ SIC: 'Sesión iniciada correctamente',
 EELS: 'Error en la solicitud',
 CNV: 'Caracteres no válidos',
 EANV: 'Extencion de archivo no valida',
-MCI: "Por favor, evita ingresar los siguientes caracteres:\n\n" +
-      "- Punto y coma (;)\n\n" +
-      "- Comillas simples ('texto')\n\n" +
-      "- Comentarios de una sola línea con '--'\n\n" +
-      "- Comentarios multilíneas en estilo C (/* comentario */)\n\n" +
-      "- Prefijo 'xp_' \n\n" +
-      "- Caracteres especiales como: $, %, <, >, =",
 MCI1: 'Solo se pueden agregar archivos con formato: ".PDF, .JPG, .PNG Y .DOCX"',
 LCC: 'Las contraseñas no coinciden',
 CIC: '¡Cliente insertado correctamente!',
@@ -197,7 +190,22 @@ switch (resp)
 case "10000": location.reload(); break;///Se ejecuta si el array contiene la propiedad bloqueo
 case "01000": let url = PageURL+'Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
 case "00100": $('.modal').modal('hide'); Alerta(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
-case "00010": Alerta(txt.MCI,txt.W,false,true,txt.CNV); break; ///Se ejecuta si el array contiene la propiedad CNV
+case "00010": Swal.fire({
+  title: 'Caracteres No Validos',
+  html: `    Por favor, evita ingresar los siguientes caracteres:<br><br>
+    <ul style="text-align:left;">
+      <li>Punto y coma (;)</li>
+      <li>Comillas ('-")</li>
+      <li>Comentarios de una sola línea con '--'</li>
+      <li>Comentarios multilíneas (/* comentario */)</li>
+      <li>Prefijo 'xp_'</li>
+      <li>Caracteres especiales como: $, %, <, >, =</li>
+    </ul>
+  `,
+  icon: 'warning',
+  confirmButtonText: 'Aceptar',
+  confirmButtonColor: 'green'
+}); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00001": Alerta(txt.MCI1,txt.W,false,true,txt.EANV); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00000": Alerta(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
 };

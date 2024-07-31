@@ -31,14 +31,14 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
          </div>
 
          <div class="col-sm-4">
-          <span>Administracion: </span>
+          <span>Administración: </span>
           <span id="AdmCLienteDC" class="fb"></span> 
          </div>
     
-         <hr class="Divisor" style="margin-bottom: 1%;">   
+         <hr class="Divisor" style="margin-bottom: 0%;">   
          
          <div class="class-lg-12">
-          <span class="center fb">Notificacion de inconsistencia</span>
+          <span class="center ftitle">Notificación de inconsistencia</span>
         </div>
 
          <div class="col-sm-6">
@@ -97,10 +97,10 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
          <div class="row g-3 " id="ContainerDetalleDC" style="display: none; text-align: center;">
          
 
-         <hr class="Divisor" style="margin-bottom: 0%; margin-top: 6%;">
+         <hr class="Divisor" style="margin-bottom: 0%; margin-top: 4%;">
 
          <div class="class-lg-12">
-          <span class="center fb">Detalle de citaciòn</span>
+          <span class="center ftitle">Detalle de citación</span>
         </div>
 
          <div class="col-sm-6">
@@ -169,12 +169,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
 
          <div class="row g-3 " id="ContainerEscritoDC" style="display:none; text-align: center;">
          
-
-         <hr class="Divisor" style="margin-bottom: 0%; margin-top: 6%;">
+         <hr class="Divisor" style="margin-bottom: 0%; margin-top: 4%;">
 
          <div class="class-lg-12">
-          <span class="center fb">Escrito de descargo</span>
-        </div>
+          <span class="center ftitle">Escrito de descargo</span>
+         </div>
 
          <div class="col-sm-6">
           <span>Fecha Escrito: </span>
@@ -193,8 +192,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
 
          <div class="col-sm-6">
           <span>Correo Escrito: </span>
-          <a id="EstadoEmailEscritoDC" class="fb">
-          </a> 
+          <a id="EstadoEmailEscritoDC" class="fb">  </a> 
          </div>
         
          <hr class="Divisor" style="margin-bottom: -3%;">   
@@ -203,5 +201,5 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
 
 </form></div>
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Aceptar</button>
+<button type="button" class="btn btn-success"  data-bs-dismiss="modal">Aceptar</button>
 </div></div></div></div>

@@ -59,6 +59,7 @@ $.ajax({
 });
 }
 
+
 function AbrirDocumentosEscrito(IDD)
 {
   if (!validarint(IDD)) {return Alerta(txt.EELS,txt.E,2000);}

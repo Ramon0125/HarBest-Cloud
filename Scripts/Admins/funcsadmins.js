@@ -21,7 +21,7 @@ function tablas(str)
 {
   $.ajax({
   type: 'GET',//Metodo en el que se enviaran los datos
-  url: '../Controllers/Tables.php',//Direccion a la que se enviaran los datos
+  url: PageURL+'Controllers/Tables',//Direccion a la que se enviaran los datos
   data: {tabla: str},//Datos que seran enviados
   beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
   complete: function () { load(2); }, //Ocultar pantalla de carga
