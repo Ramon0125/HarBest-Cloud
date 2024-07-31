@@ -11,8 +11,9 @@ function tablasejec(str)
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
     success: function (data) {
-    if (!data.error) 
-    {
+      
+      if (data.error){ return responses(data); }
+
       $('#tabla').DataTable().destroy();
       $('#tabla').html(data);
 
@@ -30,8 +31,6 @@ function tablasejec(str)
 
       $('#tabla tbody').on('click', 'button.btnverdetalles', function () 
       { DetailsNotif($(this).closest('tr').find('td:eq(0)').text().trim());});      
-    } 
-    else { return responses(data); }
     },
     error: function () {Alerta(txt.EELS, "error", 2000);}});   
 }

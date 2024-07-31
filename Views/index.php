@@ -419,7 +419,7 @@ else {
 
 <?php if (GetInfo('PRIVILEGIOS') === 'ADMINISTRADOR') { ?> 
 
-<script src="<?php echo APP_URL ?>Scripts/Admins/funcsadmins.js" type="text/javascript"></script>
+<script defer src="<?php echo APP_URL ?>Scripts/Admins/funcsadmins.js" type="text/javascript"></script>
 
 <!---------------------MODALES------- ------------------->
 <!-----------------------------------------------------MODAL USUARIOS---------------------------------------------->
@@ -443,6 +443,8 @@ else {
 
 else {  ?>
 
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
+
 <!---------------------MODALES------- ------------------->
 <!-----------------------------------------------------MODAL NOTIF. INCONSIS---------------------------------------------->
 <?php include_once './ModalesEjec/Mnotif.php'; ?>
@@ -456,12 +458,11 @@ else {  ?>
 <?php include_once './ModalesEjec/Mescrito.php'; ?>
 <!---------------------------------------------------FIN MODAL ESCRITO DE DESCARGO---------------------------------------------->
 
-<!-----------------------------------------------------MODAL ESCRITO DE DESCARGO---------------------------------------------->
+<!-----------------------------------------------------MODAL DETALLES COMPLETOS---------------------------------------------->
 <?php include_once './ModalesEjec/MDetalleCompleto.php'; ?>
-<!---------------------------------------------------FIN MODAL ESCRITO DE DESCARGO---------------------------------------------->
+<!---------------------------------------------------FIN MODAL DETALLES COMPLETOS---------------------------------------------->
 <!---------------------FIN MODALES------- ------------------->
 
-<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/detallecitacion.js" type="text/javascript"></script> 
