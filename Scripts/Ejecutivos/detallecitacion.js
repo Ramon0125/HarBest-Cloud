@@ -1,13 +1,11 @@
 $(document).ready(function () {
-  
-OnlyNumber('#nocddc'); OnlyNumber('#telddc');  OnlyNumber('#valddc');  OnlyNumber('#perddc');
-OnlyValor('#valddc');
+OnlyNumber('#nocddc'); OnlyNumber('#telddc');  OnlyNumber('#valddc');  OnlyNumber('#perddc'); OnlyValor('#valddc');
 });
 
 var incon = [];
 
-eventlisten('#nontfddc','change',function () 
-{$('#nocddc').val('');})
+eventlisten('#nontfddc','change',function() {$('#nocddc').val('');})
+
 
 function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto) 
 {
@@ -40,7 +38,7 @@ function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)
   
   else { incon[NONotif] = [Informacion]; }
 
-  Alerta('Detalle añadido',txt.S,false,true); 
+  Alerta('Detalle añadido',txt.S,2000); 
   updatedetalles();   $('#inconsisddc').val('');  $('#perddc').val(''); $('#valddc').val(''); $('#impddc').val('');
 }
 
@@ -67,17 +65,14 @@ function updatedetalles()
 {
   let table = document.getElementById("detalles");
 
-  while (table.firstChild) { table.removeChild(table.firstChild);}
+  emptyTable(table);
 
   for (let key in incon) 
   {
     let newRow = document.createElement("tr");
     newRow.classList = "trtable";
-
-    let Inconsistencia = document.createElement("td");
-    Inconsistencia.innerHTML = key;
-    Inconsistencia.rowSpan = (Object.keys(incon[key]).length + 1)
-    newRow.appendChild(Inconsistencia);
+      
+    $('<td>', { html: key, rowspan: (Object.keys(incon[key]).length + 1)}).appendTo(newRow);
 
     table.appendChild(newRow); 
 
@@ -85,26 +80,14 @@ function updatedetalles()
 
     let Rowincon = document.createElement("tr");
     Rowincon.classList = "trtable";
-  
-    let ColDetalles = document.createElement("td");
-    ColDetalles.innerHTML = element.Detalle;
-    Rowincon.appendChild(ColDetalles);
 
-    let RowPeriodo = document.createElement("td");
-    RowPeriodo.innerHTML = element.Periodo;
-    Rowincon.appendChild(RowPeriodo);
-
-    let RowValor = document.createElement("td");
-    RowValor.innerHTML = element.Valor;
-    Rowincon.appendChild(RowValor);
-
-    let RowImpuesto = document.createElement("td");
-    RowImpuesto.innerHTML = element.Impuesto;
-    Rowincon.appendChild(RowImpuesto);
+    $('<td>', { html: element.Detalle }).appendTo(Rowincon);
+    $('<td>', { html: element.Periodo }).appendTo(Rowincon);
+    $('<td>', { html: element.Valor }).appendTo(Rowincon);
+    $('<td>', { html: element.Impuesto }).appendTo(Rowincon);
 
     table.appendChild(Rowincon);
     });
-     
   }
 
 $('#spandetalle').text(`${Object.keys(incon).length} Inconsistencias detalladas`);
@@ -147,6 +130,7 @@ if ((Array.from(ARCHIVOS).reduce((total, item) => total + item.size, 0) / (1024 
 
 
   let formData = new FormData();
+
   formData.append('INCODNOT', INCODNOT);
   formData.append('INFECHA', INFECHA);
   formData.append('CORAUD', validaremailcl(CORAUD) ? CORAUD : 'N/A');
@@ -155,7 +139,8 @@ if ((Array.from(ARCHIVOS).reduce((total, item) => total + item.size, 0) / (1024 
   formData.append('tipo', 'addddc');
 
   for (const key in incon) {
-    if (incon.hasOwnProperty.call(incon, key)) {
+    if (incon.hasOwnProperty.call(incon, key)) 
+    {
       formData.append('INCON[]', JSON.stringify({INCONSISTENCIA: key,  DETALLES: incon[key]}));
     }
   }
@@ -172,10 +157,17 @@ if ((Array.from(ARCHIVOS).reduce((total, item) => total + item.size, 0) / (1024 
     processData: false,
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, //Ocultar pantalla de carga
-    success: function (DATA){ if(DATA.success){ responses(DATA);
-    closedetails(); updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
-    tablasejec('detalles');}},
-    error: function(){Alerta(txt.EELS,txt.E,2000)}
+    success: function (DATA)
+    { 
+      if(DATA.success)
+      { 
+      closedetails(); 
+      updatedatalists(5,['#dtlagrddc']); 
+      updatedatalists(6,['#dtldltddc']);
+      tablasejec('casos');
+      } responses(DATA);
+    },
+    error: function(){return Alerta(txt.EELS,txt.E,2000)}
   }); 
 
 }
@@ -192,35 +184,12 @@ function AbrirDocumentosDetalles(IDD)
       complete: function () { load(2); }, //Ocultar pantalla de carga  
       data: {tipo: 'vddc',IDD: IDD},
       dataType: "JSON",
-      success: function (DATA) { DATA.success && DATA.CARTAS ? procesarCartas(DATA.CARTAS) : responses(DATA); }
+      success: function (DATA) 
+      { 
+        DATA.success && DATA.CARTAS ? procesarCartas(DATA.CARTAS) : responses(DATA); 
+      },
+      error: function(){return Alerta(txt.EELS,txt.E,2000)}
     });
-}
-
-
-function vincon(IDD) 
-{
-  if (!validarint(IDD)) {return Alerta(txt.EELS,txt.E,2000);}
-
-  $.ajax({
-    type: "POST",
-    url: PageURL+"Managers/ManagerDetalle.php",
-    beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
-    complete: function () { load(2); }, //Ocultar pantalla de carga
-    data: {tipo: 'viddc',IDD: IDD},
-    dataType: "JSON",
-    success: function (DATA) {
-    if(DATA.success && DATA.INCON)
-    {
-    Swal.fire({
-    html:`${DATA.INCON}` ,
-    confirmButtonColor: '#28a745',
-    showConfirmButton: true,
-    width: 'auto'
-    });
-    }
-    else{responses(DATA);}},
-    error: function(){return Alerta(txt.EELS,txt.W,2000);}
-  });
 }
 
 
@@ -246,16 +215,16 @@ async function sendmailddc(nop)
     beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, // Ocultar pantalla de carga
     success: function (res) 
-     {
+    {
       responses(res);
       if (res.success) 
-        {
-           tablasejec('detalles'); 
-           updatedatalists(6, ['#dtldltddc']);
-           updatedatalists(7,['#dtlagredd']);
-        }
-     },
-     error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
+      {
+        tablasejec('casos'); 
+        updatedatalists(6, ['#dtldltddc']);
+        updatedatalists(7,['#dtlagredd']);
+      }
+    },
+    error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
    });  
  
   } catch (error) { return Alerta(error, txt.W, 2000); }
@@ -277,12 +246,12 @@ function searchnotif(Cod)
      {
       if (res.success && res.message) 
       { 
-        JSON.parse(res.message).forEach(opcion => {
-        let optionElement = document.createElement("option");
-        optionElement.textContent = opcion;
-        optionElement.value = opcion;
-        nontfddc.appendChild(optionElement);
-        }); 
+        let SelectNotif = document.getElementById('nontfddc');
+
+        $.each(JSON.parse(res.message), function(index, valor) 
+        {
+          $('<option>', { value: valor, text: valor}).appendTo(SelectNotif);
+        });
 
         modifystyle(['#formDDC','#btnagrddc'],'display','block');
       }
@@ -303,12 +272,17 @@ function dltddc(idd,noc)
      data: {IDD: idd,NOC: noc,tipo: 'dltddc'},
      beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
      complete: function () { load(2); }, //Ocultar pantalla de carga
-     success: function (DATA){ 
-     if(DATA.success){tablasejec('detalles');
-     LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); 
-     updatedatalists(5,['#dtlagrddc']); updatedatalists(6,['#dtldltddc']);
-     } responses(DATA);},
-     error: function(){txt.EELS,txt.E,2000}
+     success: function (DATA)
+     { 
+     if(DATA.success)
+     {
+      tablasejec('casos');
+      LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); 
+      updatedatalists(5,['#dtlagrddc']); 
+      updatedatalists(6,['#dtldltddc']);
+     } responses(DATA);
+    },
+     error: function(){return Alerta(txt.EELS, txt.W, 2000);}
     });
 }
 

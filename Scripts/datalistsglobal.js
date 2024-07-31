@@ -16,7 +16,7 @@ async function updatedatalists(tipo,datalists)
         $(datalist).empty();
         
         $.each(data, function(index, valor) {
-        var keys = Object.keys(valor);
+        let keys = Object.keys(valor);
     
         $('<option>', { value: valor[keys[0]], text: valor[keys[1]] }).appendTo(datalist);
             });

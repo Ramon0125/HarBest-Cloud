@@ -50,11 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['tipo'],$_SERVER['HTTP
     $response = $verificar->varchivos($_POST['IDD']);
     }
 
-    elseif ($_POST['tipo'] == 'viddc' && isset($_POST['IDD'])) 
-    {
-    $response = $verificar->vinconsistencias($_POST['IDD']);
-    }
-
     else {$response = HandleError();}
     }
     else {$response['CNV'] = true; SUMBLOCKUSER();}}

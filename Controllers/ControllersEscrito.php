@@ -1,5 +1,5 @@
 <?php
-if (strpos($_SERVER['REQUEST_URI'], 'ControllersDescargo.php') !== false) { header('LOCATION: ./404');}
+if (strpos($_SERVER['REQUEST_URI'], 'ControllersEscrito.php') !== false) { header('LOCATION: ./404');}
 
 
 class ControllersDescargo extends ConexionDB
@@ -13,7 +13,7 @@ parent::__construct();
 $this->ConexionDB = $this->obtenerConexion();
 }
 
-public function agredd(string $cod,array $archivo): array
+public function agredd(string $cod,string $Fecha, array $archivo): array
 {
   try 
   {  
@@ -27,10 +27,11 @@ public function agredd(string $cod,array $archivo): array
     $archivo["tmp_name"],$archivo["type"],$archivo["name"]));
 
 
-    $Query = "CALL SP_INSERT_EDD(?,?)";
+    $Query = "CALL SP_INSERT_EDD(?,?,?)";
     $QueryExecution = $this->ConexionDB->prepare($Query);
     $QueryExecution->bindParam(1, $cod,PDO::PARAM_STR);
-    $QueryExecution->bindValue(2, $ArchivoDetalle,PDO::PARAM_LOB);
+    $QueryExecution->bindParam(2, $Fecha,PDO::PARAM_STR);
+    $QueryExecution->bindValue(3, $ArchivoDetalle, PDO::PARAM_LOB);
     $QueryExecution->execute();
     
     if($QueryExecution->rowCount() === 0) { return HandleError(); }
@@ -60,7 +61,7 @@ public function dltedd(int $CodEsc, string $CodNot): array
     $Query = "CALL SP_DELETE_EDD(?,?)";
     $QueryExecution = $this->ConexionDB->prepare($Query);
     $QueryExecution->bindParam(1, $CodEsc,1);
-    $QueryExecution->bindValue(2, $CodNot);
+    $QueryExecution->bindParam(2, $CodNot);
     $QueryExecution->execute();
     
     if($QueryExecution->rowCount() === 0) { return HandleError(); }
@@ -75,6 +76,25 @@ public function dltedd(int $CodEsc, string $CodNot): array
   catch (Exception) { return HandleError(); }
 
 return $this->Response;
+}
+
+
+public function varchivos(int $IDD) : array 
+{
+  try{
+    $query = 'SELECT ArchivoEscrito FROM ESCRITO_DESCARGO WHERE IDEscrito = ?';
+    $exec = $this->ConexionDB->prepare($query);
+    $exec->bindParam(1,$IDD,PDO::PARAM_INT);
+    $exec->execute();
+
+    if ($exec->rowCount() === 0) {return HandleError();}
+    
+      $res = $exec->fetch(PDO::FETCH_ASSOC);
+      $this->Response['success'] = true;
+      $this->Response['CARTAS'] = $res['ArchivoEscrito'];
+  }catch(Exception) {return HandleError();}
+
+  return $this->Response;
 }
 
 

@@ -6,7 +6,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['FUNC'],$_SERVER['HTT
 require '../Controllers/Conexion.php';
 require '../Controllers/ControllersBlocks.php';
 require '../Controllers/Functions.php';
-require '../Controllers/ControllersDescargo.php';
+require '../Controllers/ControllersEscrito.php';
 
 if(VALIDARBLOCK() === 'T')
 {
@@ -18,11 +18,16 @@ if (Validarcadena1($_POST))
 {
 $CA = new ControllersDescargo();
 
-if ($_POST['FUNC'] === 'agredd' && isset($_POST['CodNot'],$_FILES['Archivo'])) 
-{ $data = $CA->agredd($_POST['CodNot'],$_FILES['Archivo']); }
+if ($_POST['FUNC'] === 'agredd' && isset($_POST['CodNot'],$_POST['Fecha'],$_FILES['Archivo'])) 
+{ $data = $CA->agredd($_POST['CodNot'],$_POST['Fecha'],$_FILES['Archivo']); }
 
 elseif ($_POST['FUNC'] === 'dltedd' && isset($_POST['CodEsc'],$_POST['CodNot'])) 
 { $data = $CA->dltedd($_POST['CodEsc'],$_POST['CodNot']); }
+
+elseif ($_POST['FUNC'] == 'vescrito' && isset($_POST['IDD'])) 
+{
+  $data = $CA->varchivos($_POST['IDD']);
+}
 
 else {$data = HandleError();}
 }

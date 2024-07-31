@@ -66,25 +66,16 @@ function updatenotificacion()
 {
   let table = document.getElementById("tablanotif");
 
-  while (table.firstChild) { table.removeChild(table.firstChild);}
+  emptyTable(table);
 
   for (let i = 0; i < nonotif.length; i++) 
   {
   let newRow = document.createElement("tr");
 
-  let newCell = document.createElement("td");
-  newCell.innerHTML = nonotif[i];
-  newRow.appendChild(newCell);
-
-  let newCell1 = document.createElement("td");
-  newCell1.innerHTML = tipnotif[i];
-  newRow.appendChild(newCell1);
-
-
-  let newCell2 = document.createElement("td");
-  newCell2.innerHTML = impunotif[i] ;
-  newRow.appendChild(newCell2);
-
+  $('<td>', { html: nonotif[i] }).appendTo(newRow);
+  $('<td>', { html: tipnotif[i] }).appendTo(newRow);
+  $('<td>', { html: impunotif[i] }).appendTo(newRow);
+  
   table.appendChild(newRow);
   }
 } 
@@ -186,7 +177,7 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
         if(DATA.success){
         updatedatalists(4,['#dtldltnot']);
         closenotif(); 
-        tablasejec('notif');} 
+        tablasejec('casos');} 
         responses(DATA); },
     error: function(){return Alerta(txt.EELS,txt.E,2000);}
     });
@@ -230,7 +221,7 @@ function dltnotif(idn,non)
       {
         LimpiarModal('#slcdltnotif1',['#dtldltnot','#btndltnotif'],'#formdltnotif'); 
         updatedatalists(4,['#dtldltnot']);
-        tablasejec('notif');
+        tablasejec('casos');
       } responses(DATA);
     },
     error: function(){return Alerta(txt.EELS,txt.E,2000);}
@@ -259,8 +250,14 @@ async function sendmail(nop)
     dataType: "JSON",
     beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, // Ocultar pantalla de carga
-    success: function (res) {  responses(res);
-    if(res.success){updatedatalists(4,['#dtldltnot']); updatedatalists(5,['#dtlagrddc']);  tablasejec('notif')}},
+    success: function (res) {  
+    if(res.success)
+    {
+      updatedatalists(4,['#dtldltnot']); 
+      updatedatalists(5,['#dtlagrddc']);  
+      tablasejec('casos')
+    } responses(res);
+    },
     error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
    });  
  

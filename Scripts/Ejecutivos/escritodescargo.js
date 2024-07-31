@@ -7,11 +7,13 @@ function closeescrito()
 }
 
 
-function addedd(CODNOT,ARCHIVOSEDD)
+function addedd(CODNOT,FECHA,ARCHIVOSEDD)
 {
-if(!validarparams(CODNOT) || !ARCHIVOSEDD) {return Alerta(txt.CTC,txt.W,2000);}
+if(!validarparams(CODNOT,FECHA) || !ARCHIVOSEDD) {return Alerta(txt.CTC,txt.W,2000);}
 
-if ((ARCHIVOSEDD.size / (1024 ** 2)) > maxfilesize){return Alerta(txt.AMGR1, txt.W, false, true, txt.AMG);}
+if((ARCHIVOSEDD.size / (1024 ** 2)) > maxfilesize){return Alerta(txt.AMGR1, txt.W, false, true, txt.AMG);}
+
+if(!validaraño(FECHA.substring(0, 4))){return Alerta(txt.IAV,txt.W,2000)}
 
 let formData = new FormData();
 
@@ -20,6 +22,8 @@ formData.append('FUNC','agredd')
 formData.append('CodNot',CODNOT);
 
 formData.append('Archivo[]',ARCHIVOSEDD);
+
+formData.append('Fecha',FECHA);
 
 $.ajax({
  type: "POST",
@@ -53,4 +57,23 @@ $.ajax({
  responses(DATA); },
  error: function(){return Alerta(txt.EELS,txt.E,2000);}
 });
+}
+
+function AbrirDocumentosEscrito(IDD)
+{
+  if (!validarint(IDD)) {return Alerta(txt.EELS,txt.E,2000);}
+  
+    $.ajax({
+      type: "POST",
+      url: PageURL+"Managers/ManagerEscrito.php",
+      beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
+      complete: function () { load(2); }, //Ocultar pantalla de carga  
+      data: {FUNC: 'vescrito',IDD: IDD},
+      dataType: "JSON",
+      success: function (DATA) 
+      { 
+        DATA.success && DATA.CARTAS ? procesarCartas(DATA.CARTAS) : responses(DATA); 
+      },
+      error: function(){return Alerta(txt.EELS,txt.E,2000)}
+    });
 }

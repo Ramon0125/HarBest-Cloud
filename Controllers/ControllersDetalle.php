@@ -68,38 +68,6 @@ public function InsertDetalle(string $INCODNOT,$ININCON, STRING $INFECHA, $ARCHI
 }
 
 
-public function vinconsistencias(int $IDD) : array 
-{
-    $query = 'SELECT DetallesCitacion FROM DETALLE_CITACION WHERE IDDetalle = ?';
-    $exec = $this->OC->prepare($query);
-    $exec->bindParam(1,$IDD,PDO::PARAM_INT);
-    $exec->execute();
-
-    if ($exec->rowCount() === 0) {return HandleError();}
-    
-        $res = $exec->fetch(PDO::FETCH_ASSOC);
-
-        $Detalles = json_decode($res["DetallesCitacion"], true);
-
-        $inconsistencias = "";
-
-        foreach ($Detalles as $values) {
-
-          $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.
-          $values["NOTIFICACION"].'<br>';
-          
-          foreach ($values["DETALLES"] as $value) { $inconsistencias .= ($value['Detalle'].', periodo '.substr($value['Periodo'],0,4).'-'.substr($value['Periodo'],4).' por valor de RD$'.$value['Valor'].'<br>'); }
-          
-          $inconsistencias .= '</li><br>';
-        }
-
-        $this->response['success'] = true;
-        $this->response['INCON'] = $inconsistencias;
-
-    return $this->response;
-}
-
-
 public function DeleteDetalle(int $IDD, string $NOC): array
 {
     try {
@@ -139,8 +107,6 @@ public function varchivos(int $IDD) : array
   return $this->response;
 }
 
-
- 
 }
 
 }

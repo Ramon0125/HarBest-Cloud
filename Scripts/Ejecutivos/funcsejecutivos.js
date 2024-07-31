@@ -168,9 +168,8 @@ async function ShowFormEmail(CC, CCLT) {
         datalist.id = 'dtlemails';
 
         Directivos.forEach(optionValue => {
-          let option = document.createElement('option');
-          option.value = optionValue;
-          datalist.appendChild(option);
+
+          $('<option>', { value: optionValue }).appendTo(datalist);
         });
 
         emailContainer.appendChild(datalist);
@@ -236,20 +235,18 @@ async function ShowFormEmail(CC, CCLT) {
 }
 
 
-const ModNotif = (DATA) => {
-document.getElementById('TitleNotifDC').innerText = DATA.CodigoNotif;
-document.getElementById('NombreCLienteDC').innerText = DATA.NombreCliente;
-document.getElementById('EmailCLienteDC').innerText = DATA.EmailCliente;
-document.getElementById('FechaNotifDC').innerText = DATA.FechaNotif;
-document.getElementById('FechaVenciNotifDC').innerText = DATA.Fechavenci;
-document.getElementById('ArchivosNotifDC').setAttribute('onclick',`vcarta(${DATA.IDNotificacion})`);
+const ModNotif = ({FechaNotif, Fechavenci, IDNotificacion, Notificacion, Estatus}) => {
+
+document.getElementById('FechaNotifDC').innerText = FechaNotif;
+document.getElementById('FechaVenciNotifDC').innerText = Fechavenci;
+document.getElementById('ArchivosNotifDC').setAttribute('onclick',`vcarta(${IDNotificacion})`);
 
 let tabla = document.getElementById('tablanotifDC');
         
 emptyTable(tabla);
 
 // Itera sobre los registros y crea las filas
-JSON.parse(DATA.Notificacion).forEach(registro => {
+JSON.parse(Notificacion).forEach(registro => {
 let fila = document.createElement('tr');
 
 fila.innerHTML = `<td>${registro.NOTIFICACION}</td>
@@ -261,10 +258,10 @@ tabla.appendChild(fila);
 
 let EmailDiv = document.getElementById('EstadoEmailNotifDC');
         
-if(DATA.Estatus === 'F')
+if(Estatus === 'F')
 {
 EmailDiv.classList.add('cp');
-EmailDiv.setAttribute('onclick',`sendmail(${DATA.IDNotificacion})`);
+EmailDiv.setAttribute('onclick',`sendmail(${IDNotificacion})`);
 EmailDiv.innerHTML = '<i class="bi bi-send"></i> Enviar';
 }
 else
@@ -276,18 +273,18 @@ EmailDiv.innerHTML = '<i class="bi bi-check2-circle"></i> Enviado';
 }
 
 
-const ModDetalle = (DATA) => {
+const ModDetalle = ({FechaDC,FechaVenciDC,IDDetalle,EstatusDC,DetallesCitacion}) => {
 
-  document.getElementById('FechaDetalleDC').innerText = DATA.FechaDC;
-  document.getElementById('FechaVenciDC').innerText = DATA.FechaVenciDC;
-  document.getElementById('ArchivosDC').setAttribute('onclick',`AbrirDocumentosDetalles(${DATA.IDDetalle})`);
+  document.getElementById('FechaDetalleDC').innerText = FechaDC;
+  document.getElementById('FechaVenciDC').innerText = FechaVenciDC;
+  document.getElementById('ArchivosDC').setAttribute('onclick',`AbrirDocumentosDetalles(${IDDetalle})`);
 
   let EmailDetallesDiv = document.getElementById('EstadoEmailDetalleDC');
  
-  if(DATA.EstatusDC === 'F')
+  if(EstatusDC === 'F')
   {
   EmailDetallesDiv.classList.add('cp');
-  EmailDetallesDiv.setAttribute('onclick',`sendmailddc(${DATA.IDNotificacion})`);
+  EmailDetallesDiv.setAttribute('onclick',`sendmailddc(${IDDetalle})`);
   EmailDetallesDiv.innerHTML = '<i class="bi bi-send"></i> Enviar';
   }
   else
@@ -302,18 +299,17 @@ const ModDetalle = (DATA) => {
 
  emptyTable(tablaDC);
 
- let detalles = JSON.parse(DATA.DetallesCitacion);
+ let detalles = JSON.parse(DetallesCitacion);
 
  for (let key in detalles)
  {
    let newRow = document.createElement("tr");
    newRow.classList = "trtable";
 
-   let Inconsistencia = document.createElement("td");
-   Inconsistencia.innerHTML = detalles[key].NOTIFICACION;
-   Inconsistencia.rowSpan = (Object.keys(detalles[key].DETALLES).length + 1);
-   Inconsistencia.style.verticalAlign = 'middle';
-   newRow.appendChild(Inconsistencia);
+    $('<td>', {
+    html: detalles[key].NOTIFICACION,
+    rowspan: Object.keys(detalles[key].DETALLES).length + 1,
+    css: { verticalAlign: 'middle' }}).appendTo(newRow);
 
    tablaDC.appendChild(newRow); 
 
@@ -338,6 +334,31 @@ const ModDetalle = (DATA) => {
 }
 
 
+const ModEscrito = ({FechaEscrito,FechaVenciED,EstatusED,IDEscrito}) => {
+  document.getElementById('FechaEscritoDC').innerText = FechaEscrito;
+  document.getElementById('FechaVenciEscritoDC').innerText = FechaVenciED;
+  document.getElementById('ArchivosEscritoDC').setAttribute('onclick',`AbrirDocumentosEscrito(${IDEscrito})`);
+
+  let EmailDetallesDiv = document.getElementById('EstadoEmailEscritoDC');
+ 
+  if(EstatusED === 'F')
+  {
+  EmailDetallesDiv.classList.add('cp');
+  EmailDetallesDiv.setAttribute('onclick',`AbrirDocumentosEscrito(${IDEscrito})`);
+  EmailDetallesDiv.innerHTML = '<i class="bi bi-send"></i> Enviar';
+  }
+  else
+  { 
+  EmailDetallesDiv.classList.remove('cp');
+  EmailDetallesDiv.removeAttribute('onclick');
+  EmailDetallesDiv.innerHTML = '<i class="bi bi-check2-circle"></i> Enviado'; 
+  }
+
+  modifystyle('#ContainerEscritoDC','display','flex');
+
+}
+
+
 function DetailsNotif(IDD) 
 {
   if (!validarparams(IDD)) {return Alerta(txt.EELS,txt.E,2000);}
@@ -351,10 +372,16 @@ function DetailsNotif(IDD)
    dataType: "JSON",
    success: function (DATA) {
    if(DATA.success)
-   {        
+   {
+    document.getElementById('TitleNotifDC').innerText = DATA.CodigoNotif;
+    document.getElementById('NombreCLienteDC').innerText = DATA.NombreCliente;
+    document.getElementById('EmailCLienteDC').innerText = DATA.EmailCliente;
+    document.getElementById('AdmCLienteDC').innerText = DATA.NombreAdm;     
+
     ModNotif(DATA);
         
     DATA.FechaDC ? ModDetalle(DATA) : modifystyle('#ContainerDetalleDC','display','none');        
+    DATA.FechaEscrito ? ModEscrito(DATA) : modifystyle('#ContainerEscritoDC','display','none');
    }
    else{ return responses(DATA);}},
    error: function(){return Alerta(txt.EELS,txt.W,2000);}

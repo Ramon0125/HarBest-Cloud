@@ -3,7 +3,6 @@
 if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header('LOCATION: ./404'); }?>
 
 
-<!---- MODAL AGREGAR NOTIFICACION --------->
 <div class="modal fade" id="DetailNotif" data-bs-backdrop="static" aria-hidden="true">
  <div class="modal-dialog">
   <div class="modal-content" style="transform: translate(-50%, 0%); width: 159%; left: 50%;">
@@ -19,16 +18,21 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
 
      <form id="formagrnotif">
       
-        <div class="row g-3 " style="text-align: center;">
+        <div class="row g-3 " style="text-align: center; overflow-y: auto;">
 
-         <div class="col-sm-6">
+         <div class="col-sm-4">
           <span>Cliente: </span>
           <span id="NombreCLienteDC" class="fb"></span> 
          </div>
 
-         <div class="col-sm-6">
+         <div class="col-sm-4">
           <span>Email: </span>
           <span id="EmailCLienteDC" class="fb"></span> 
+         </div>
+
+         <div class="col-sm-4">
+          <span>Administracion: </span>
+          <span id="AdmCLienteDC" class="fb"></span> 
          </div>
     
          <hr class="Divisor" style="margin-bottom: 1%;">   
@@ -54,8 +58,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
 
          <div class="col-sm-6">
           <span>Correo Notificación: </span>
-          <a id="EstadoEmailNotifDC" class="fb">
-          </a> 
+          <a id="EstadoEmailNotifDC" class="fb"></a> 
          </div>
         
          <div class="DivTable">
@@ -160,6 +163,40 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
   </ul>
 </div>
 
+         </div>   
+
+                  <!---------- FIN ESCRITO ------------------>
+
+         <div class="row g-3 " id="ContainerEscritoDC" style="display:none; text-align: center;">
+         
+
+         <hr class="Divisor" style="margin-bottom: 0%; margin-top: 6%;">
+
+         <div class="class-lg-12">
+          <span class="center fb">Escrito de descargo</span>
+        </div>
+
+         <div class="col-sm-6">
+          <span>Fecha Escrito: </span>
+          <span id="FechaEscritoDC" class="fb"></span> 
+         </div>
+
+         <div class="col-sm-6">
+          <span>Fecha Vencimiento: </span>
+          <span id="FechaVenciEscritoDC" class="fb"></span> 
+         </div>
+    
+         <div class="col-sm-6">
+          <span>Escrito Descargo: </span>
+          <a id="ArchivosEscritoDC" class="fb cp"><i class="bi bi-folder2-open"></i> Abrir archivos</a> 
+         </div>
+
+         <div class="col-sm-6">
+          <span>Correo Escrito: </span>
+          <a id="EstadoEmailEscritoDC" class="fb">
+          </a> 
+         </div>
+        
          <hr class="Divisor" style="margin-bottom: -3%;">   
          </div>   
 
@@ -168,4 +205,3 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
 <div class="modal-footer justify-content-center">
 <button type="button" class="btn btn-primary"  data-bs-dismiss="modal">Aceptar</button>
 </div></div></div></div>
-<!----------------FIN AGREGAR NOTIFICACION------------------------------->

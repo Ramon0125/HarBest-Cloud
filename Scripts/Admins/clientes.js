@@ -7,7 +7,7 @@ if(!validarparams(nombre,adm) || !tipo.checked && !tipo2.checked) {return Alerta
  
 if(!validaremailcl(email)) {return Alerta(txt.ICV, txt.W,2000);} // Verifica que sea un correo valido
     
-if(!validarint(rnc)) {return Alerta(txt.RNV, txt.W, 2000);}//Verifica que sea un rnc valido
+if(!validarint(rnc) || rnc.length < 10) {return Alerta(txt.RNV, txt.W, 2000);}//Verifica que sea un rnc valido
 
 if(!validarint(adm)){return Alerta(txt.EELS, txt.W,3000);}
 

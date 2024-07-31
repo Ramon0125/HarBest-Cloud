@@ -19,7 +19,7 @@ if (Validarcadena1($_POST))
 $CA = new ControllersAdm();
 
 if ($_POST['FUNC'] === 'agradm' && isset($_POST['Name'],$_POST['Dire'])) 
-{ $data = $CA->agradm($_POST['Name'],$_POST['Dire']); }
+{ $data = $CA->agradm(($_POST['Name']),$_POST['Dire']); }
 
 else if ($_POST['FUNC'] === 'edtadm' && isset($_POST['id'],$_POST['name'],$_POST['nname'],$_POST['ndirec'])) 
 { $data = $CA->edtadm($_POST['id'], $_POST['name'], $_POST['nname'],$_POST['ndirec']); }

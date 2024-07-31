@@ -85,7 +85,13 @@ SIC: 'Sesión iniciada correctamente',
 EELS: 'Error en la solicitud',
 CNV: 'Caracteres no válidos',
 EANV: 'Extencion de archivo no valida',
-MCI: 'Solo se pueden agregar letras, números y caracteres como: "@, ., _, -, #, ()"',
+MCI: "Por favor, evita ingresar los siguientes caracteres:\n\n" +
+      "- Punto y coma (;)\n\n" +
+      "- Comillas simples ('texto')\n\n" +
+      "- Comentarios de una sola línea con '--'\n\n" +
+      "- Comentarios multilíneas en estilo C (/* comentario */)\n\n" +
+      "- Prefijo 'xp_' \n\n" +
+      "- Caracteres especiales como: $, %, <, >, =",
 MCI1: 'Solo se pueden agregar archivos con formato: ".PDF, .JPG, .PNG Y .DOCX"',
 LCC: 'Las contraseñas no coinciden',
 CIC: '¡Cliente insertado correctamente!',

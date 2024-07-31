@@ -28,6 +28,13 @@
 
   <div class="container" id="formEDD" style="display: none; padding-left: unset;">
 
+  <hr class="Divisor" style="margin-top: -3%;">
+  
+  <div class="col-lg-12">
+    <label for="fdddc" class="form-label center" style="margin-top: 3%;">Fecha escrito</label>
+    <input type="DATE" class="form-control" id="FechaEscrito" name="fdddc" required autocomplete="off">
+  </div>
+
     <div class="upload-container">
 
       <div class="border-container">
@@ -49,6 +56,7 @@
       
     </div>
 
+
   </div>
  </div>
 
@@ -56,7 +64,7 @@
 
 <div class="modal-footer justify-content-center">
 <button type="button" class="btn btn-success" id="btnagredd" style="display:none" 
-onclick="addedd(document.getElementById('slcntfedd1').value,document.getElementById('FileEscrito').files[0])">
+onclick="addedd(document.getElementById('slcntfedd1').value,document.getElementById('FechaEscrito').value,document.getElementById('FileEscrito').files[0])">
 <i class="bi bi-floppy"></i> Crear</button>
 <button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeescrito()">Cancelar</button>
 </div></div></div></div>

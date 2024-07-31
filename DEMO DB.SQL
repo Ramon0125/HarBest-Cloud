@@ -218,7 +218,9 @@ CREATE TABLE ESCRITO_DESCARGO
 (
 IDEscrito INT AUTO_INCREMENT PRIMARY KEY,
 CodigoNotif VARCHAR(12) NOT NULL UNIQUE,
-ArchivoEscrito longtext NOT NULL
+FechaEscrito DATE NOT NULL,
+FechaVenci DATE NOT NULL,
+ArchivoEscrito JSON NOT NULL
 );
 
 ALTER TABLE ESCRITO_DESCARGO ADD CONSTRAINT FK_ESCRITO_NOTIF
@@ -901,17 +903,63 @@ WHERE E.Estatus = "F" AND D.IDDetalle = SEARCH;
 END $$
 
 
+CREATE PROCEDURE SP_DETALLES_CASOS
+(IN IN_CODIGONOTIF CHAR(12))
+BEGIN
+
+IF NOT EXISTS(SELECT * FROM NOTIF_INCONSISTENCIA WHERE CodigoNotif = IN_CODIGONOTIF)
+THEN SELECT 'EELS' AS MENSAJE;
+
+ELSE 
+SELECT 
+	  N.IDNotificacion,
+	  N.CodigoNotif,
+      C.NombreCliente,
+      A.NombreAdm,
+      C.EmailCliente,
+      N.FechaNotif,
+      N.Fechavenci,
+      N.Notificacion,
+      EN.Estatus,
+      D.IDDetalle,
+      D.Fecha AS FechaDC,
+      D.FechaVenci AS FechaVenciDC,
+      ED.Estatus AS EstatusDC,
+      D.DetallesCitacion,
+      E.FechaEscrito,
+      E.FechaVenci AS FechaVenciED,
+      EE.Estatus AS EstatusED FROM
+NOTIF_INCONSISTENCIA AS N
+JOIN CLIENTES AS C ON N.IDCliente = C.IDCliente
+JOIN ADM AS A ON C.IDADM = A.IDADM
+LEFT JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif  
+LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
+LEFT JOIN ESCRITO_DESCARGO AS E ON N.CodigoNotif = E.CodigoNotif
+LEFT JOIN EMAILS_ESCRITO AS EE ON E.IDEscrito = EE.IDEscrito
+WHERE N.CodigoNotif = IN_CODIGONOTIF;
+END IF;
+
+END$$
+
+
+
 CREATE PROCEDURE SP_INSERT_EDD
 (
 IN INCODNOT VARCHAR(12),
+IN INFECHA DATE,
 IN INESCRITO longtext
 )BEGIN
+
+DECLARE INFECVEN DATE;
+
+SELECT DIASLABORABLES(INFECHA,90) INTO INFECVEN;
 
 IF EXISTS (SELECT * FROM ESCRITO_DESCARGO WHERE CodigoNotif = INCODNOT) THEN 
 SELECT 'EEDDE' AS MENSAJE;
 
 ELSE 
- INSERT INTO ESCRITO_DESCARGO(CodigoNotif,ArchivoEscrito) VALUES(INCODNOT,INESCRITO);
+ INSERT INTO ESCRITO_DESCARGO(CodigoNotif,ArchivoEscrito,FechaEscrito,FechaVenci) VALUES(INCODNOT,INESCRITO,INFECHA,INFECVEN);
  
  IF ROW_COUNT() > 0 THEN
  SELECT 'EDDIC' AS MENSAJE;
@@ -955,38 +1003,6 @@ IF ROW_COUNT() > 0 THEN SELECT 'EDDEC' AS MENSAJE;
 END IF;
 END $$
 
-
-CREATE PROCEDURE SP_DETALLES_CASOS
-(IN IN_CODIGONOTIF CHAR(12))
-BEGIN
-
-IF NOT EXISTS(SELECT * FROM NOTIF_INCONSISTENCIA WHERE CodigoNotif = IN_CODIGONOTIF)
-THEN SELECT 'EELS' AS MENSAJE;
-
-ELSE 
-SELECT 
-	  N.IDNotificacion,
-	  N.CodigoNotif,
-      C.NombreCliente,
-      C.EmailCliente,
-      N.FechaNotif,
-      N.Fechavenci,
-      N.Notificacion,
-      EN.Estatus,
-      D.IDDetalle,
-      D.Fecha AS FechaDC,
-      D.FechaVenci AS FechaVenciDC,
-      ED.Estatus AS EstatusDC,
-      D.DetallesCitacion FROM
-NOTIF_INCONSISTENCIA AS N
-JOIN CLIENTES AS C ON N.IDCliente = C.IDCliente
-JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif  
-LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
-LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
-WHERE N.CodigoNotif = IN_CODIGONOTIF;
-END IF;
-
-END$$
 
 
 DELIMITER ;
