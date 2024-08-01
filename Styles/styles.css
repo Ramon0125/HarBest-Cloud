@@ -104,40 +104,67 @@ input.form-style {
 
 #password, #cpass {margin-bottom: 12px;}
 
-#mc, #mc1 {margin-bottom: 28px;display: none;}
-
-.rup-pass {
-  padding-bottom: 131PX;
-  position: relative;
-  cursor: pointer;
-  padding-left: 21px;
-}
-
-.rup-pass:hover { color: var(--color);}
-
-.rup-pass::before {
-  margin-bottom: 91px;
-  content: '';
-  position: absolute;
-  left: 0;
-  top: -1px;
-  width: 13px;
-  height: 12px;
-  background-color: #fff;
-  border: 2px solid #ccc;
-}
-
-
-#mc:checked + .rup-pass::before {
-content: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23ffffff" class="bi bi-check2" viewBox="0 0 16 16"%3E%3Cpath d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0" /%3E%3C/svg%3E');
-background-color: var(--color);
-background-position: center;
-}
+#mc1 {margin-bottom: 28px;display: none;}
 
 #mc1:checked + .rup-pass::before {
   content: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="%23ffffff" class="bi bi-check2" viewBox="0 0 16 16"%3E%3Cpath d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0" /%3E%3C/svg%3E');
   background-color: var(--color);
   background-position: center;
+  }
+
+  
+  .checkbox-wrapper-18 {
+    display: flex;
+    align-items: center;
+    gap: 8px; 
+
+  }
+  .rp:hover { cursor: pointer; color: var(--color);}
+
+  .checkbox-wrapper-18 .square {
+    position: relative;
+  }
+
+  .checkbox-wrapper-18 .square label {
+    border: 1px solid #ccc;
+    cursor: pointer;
+    height: 13px;
+    width: 16px;
+    display: block;
+  }
+
+  .checkbox-wrapper-18 .square label:after {
+    border: 2px solid #fff;
+    border-top: none;
+    border-right: none;
+    content: "";
+    height: 6px;
+    left: 3px;
+    opacity: 0;
+    position: absolute;
+    top: 2px;
+    transform: rotate(-45deg);
+    width: 10px;
+  }
+
+  .checkbox-wrapper-18 .square input[type="checkbox"] {
+    visibility: hidden;
+    display: none;
+    opacity: 0;
+  }
+
+  .checkbox-wrapper-18 .square input[type="checkbox"]:checked + label {
+    background-color: #66bb6a;
+    border-color: #66bb6a;
+  }
+
+  .checkbox-wrapper-18 .square input[type="checkbox"]:checked + label:after {
+    opacity: 1;
+  }
+
+  .rup-pass {
+    font-size: 14px;
+    cursor: pointer;
   }
   
 
@@ -257,3 +284,6 @@ a.login:focus {
   margin-bottom: -0.5rem !important;
   height: 7px !important;
 }
+
+
+

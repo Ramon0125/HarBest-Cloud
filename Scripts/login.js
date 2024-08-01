@@ -24,7 +24,7 @@ if(!validaremail(Email))  {return Alerta(txt.ICV, txt.W, 2000); } //Esto valida 
 
 $.ajax({
 type: 'POST',//Metodo en el que se enviaran los datos
-url: PageURL+'Managers/ManagerInicioSesion.php',//Direccion a la que se enviaran los datos
+url: PageURL+'Managers/ManagerInicioSesion',//Direccion a la que se enviaran los datos
 data: { email: Email, password: Password, tipo: "iniusr" },//Datos que seran enviados
 beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
 success: function (data){ 
@@ -71,7 +71,7 @@ function MdfPass(event,p, p2)
 	
   $.ajax({
   type: 'POST',//Metodo en el que se enviaran los datos
-  url: PageURL+'Managers/ManagerInicioSesion.php',//Direccion a la que se enviaran los datos
+  url: PageURL+'Managers/ManagerInicioSesion',//Direccion a la que se enviaran los datos
   data: { tipo: "mdfpass", passwordn1: p },//Datos que seran enviados
   beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
   success: function (data) {

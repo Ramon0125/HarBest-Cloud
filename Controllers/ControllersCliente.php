@@ -1,13 +1,10 @@
 <?php 
 
-if (strpos($_SERVER['REQUEST_URI'], 'ControllersCliente.php') === false) { 
-
-
+if (strpos($_SERVER['REQUEST_URI'], 'ControllersCliente.php') !== false) { header("LOCATION: ./404"); }
 
 class ControllerCliente extends ConexionDB {
     private $ConexionDB;
     private $Response = array();
-
 
     public function __construct() 
     {
@@ -60,8 +57,7 @@ class ControllerCliente extends ConexionDB {
     
         if($this->Response['success'])
         {
-        foreach ($Data as $column => $value) 
-        { $this->Response[$column] = $value; }
+        foreach ($Data as $column => $value) { $this->Response[$column] = $value; }
         }
 
         else {$this->Response['message'] = $Data['MENSAJE']; SUMBLOCKUSER();}
@@ -94,7 +90,7 @@ class ControllerCliente extends ConexionDB {
         $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'MODIFICO UN CLIENTE') : SUMBLOCKUSER();
         $this->Response['message'] = $Data['MENSAJE']; 
          
-    }catch(Exception $W) { return $W /* HandleError() */;}
+    }catch(Exception) { return HandleError();}
 
     return $this->Response;
     }
@@ -126,20 +122,19 @@ class ControllerCliente extends ConexionDB {
     public function GetCCCliente(int $id, int $type): array
     {
     try{
-    $Query = $type === 1 ? "CALL SP_GET_CC(?)" : "CALL SP_GET_CC_DDC(?)";
+    $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD');
+    $Query = "CALL SP_GET_CC_".$SPName[$type]."(?)";
     $QueryExecution = $this->ConexionDB->prepare($Query);
     $QueryExecution->bindParam(1,$id,PDO::PARAM_INT);
     $QueryExecution->execute();
            
-    if($QueryExecution->rowCount() > 0)
-    {
+    if($QueryExecution->rowCount() === 0) { return HandleError(); }
+
     $this->Response['success'] = true;
     $this->Response['message'] = $QueryExecution->fetch(PDO::FETCH_ASSOC);
-    }
-    }catch(Exception) { return HandleError();}
+
+    }catch(Exception) { return HandleError(); }
 
     return $this->Response;
     }
 }
-}
-else { header("LOCATION: ./404"); }

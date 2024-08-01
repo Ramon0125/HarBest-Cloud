@@ -116,7 +116,7 @@ async function Getcc(id, type) {
 
       $.ajax({
           type: "POST",
-          url: PageURL + "Managers/ManagerCliente.php",
+          url: PageURL + "Managers/ManagerCliente",
           data: { FUNC: 'getccclt', id: id, type: type },
           dataType: "JSON",
           beforeSend: function () { load(1); },
@@ -344,7 +344,7 @@ const ModEscrito = ({FechaEscrito,FechaVenciED,EstatusED,IDEscrito}) => {
   if(EstatusED === 'F')
   {
   EmailDetallesDiv.classList.add('cp');
-  EmailDetallesDiv.setAttribute('onclick',`AbrirDocumentosEscrito(${IDEscrito})`);
+  EmailDetallesDiv.setAttribute('onclick',`SendmailEscrito(${IDEscrito})`);
   EmailDetallesDiv.innerHTML = '<i class="bi bi-send"></i> Enviar';
   }
   else

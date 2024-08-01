@@ -26,6 +26,10 @@ elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY'],$_POST['CC']))
 {
  $data = $SENDMAIL->SendMailDDC($_POST['ENTITY'],$_POST['CC']);
 }
+elseif($_POST['FUNC'] == 'EDD' && isset($_POST['ENTITY'],$_POST['CC']))
+{
+ $data = $SENDMAIL->SendMailEscrito($_POST['ENTITY'],$_POST['CC']);
+}
 else {$data = HandleError();}
 
 }

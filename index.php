@@ -17,6 +17,8 @@
 <!--- Links -------------->
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" href="<?php echo APP_URL ?>Styles/styles.css" type="text/css">
+<!--- Fin Links -------------->
 
 <?php
 
@@ -25,18 +27,9 @@ require './Controllers/ControllersBlocks.php';
 if (!is_null(GetInfo('IDUsuario')) && !isset($_SESSION['LOG']) && !isset($_COOKIE['PASS']) && !isset($_GET['hcerrar']) && !isset($_GET['hcerrar1'])) 
 {Header("Location:".APP_URL."Views/");}
 
-elseif (VALIDARBLOCK() !== 'T')
-{
-$url = APP_URL.'Error/index.php?Error=001';
-$html = file_get_contents($url);
-echo $html;
-}
+elseif (VALIDARBLOCK() !== 'T') { die(file_get_contents(APP_URL.'Error/index.php?Error=001')); }
 
-else { ?>
-
-<link rel="stylesheet" href="<?php echo APP_URL ?>Styles/styles.css" type="text/css">
-<!--- Fin Links -------------->
-
+?>
 <!--- Scripts -------------->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
@@ -48,7 +41,7 @@ else { ?>
 <body>
 
 <div id="carga" class="hide" style="z-index: 99999;">
-<div class="spin"></div>
+ <div class="spin"></div>
 </div>
 
 <div id="formWrapper" class="shadow-lg">
@@ -65,11 +58,20 @@ else { ?>
 		
  <div class="form-item">
   <label for="password" class="formLabel">Contraseña</label>
-  <input type="password" name="password" id="password" class="form-style" maxlength="15" autocomplete="password" readonly>        
-  <input type="checkbox" name="mc" id="mc" onclick="visor(document.getElementById('password'))">
-  <label for="mc" class="rup-pass">Mostrar contraseña</label>
+  <input type="password" name="password" id="password" class="form-style" autocomplete="password" readonly>
  </div>
 
+ <div class="form-item"> 
+ <div class="checkbox-wrapper-18">
+  <div class="square">
+    <input type="checkbox" id="checkbox-18" onclick="visor(document.getElementById('password'))" />
+    <label for="checkbox-18"></label>
+  </div>
+  <label for="checkbox-18" class="rp" >Mostrar contraseña</label>
+</div>
+ </div>
+
+ 
  <div class="form-item">
   <input type="submit" class="login pull-right" value="Iniciar Sesión" onclick="InicioSesion(event,document.getElementById('email').value,document.getElementById('password').value)">    
  </div> 
@@ -115,7 +117,7 @@ if (isset($_GET['hcerrar'])) { echo "Alerta('Sesión cerrada correctamente','suc
 echo "LimpiarParametros(); </script>";
 }
 
-}
+
 
 
 

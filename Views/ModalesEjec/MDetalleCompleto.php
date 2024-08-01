@@ -1,7 +1,11 @@
 <?php 
 
-if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header('LOCATION: ./404'); }?>
-
+if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{
+  header('Location: ./404');
+  exit;
+}
+?>
 
 <div class="modal fade" id="DetailNotif" data-bs-backdrop="static" aria-hidden="true">
  <div class="modal-dialog">
@@ -10,7 +14,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
     <div class="modal-body">
 
      <div class="ModalTitle">
-         <h3 class="modal-title fb"> 
+         <h3 class="modal-title fb" style="font-size: xx-large;"> 
            Caso: <span id="TitleNotifDC"></span>  
          </h3>
          <hr class="my-4 Divisor">
@@ -66,7 +70,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
           <li class="nav-item" style="margin-top: 1%;">
 
           <a class="nav-link b1 collapsed" style="padding: 8px 0px;" data-bs-target="#divnotifi" data-bs-toggle="collapse" aria-expanded="false">
-           <span id="spannotif" style="display: flex; width:88%; justify-content:center; position: absolute;">Notificaciones de inconsistencia</span><i class="bi bi-chevron-down ms-auto"></i>
+           <span id="spannotif" class="center fb" style="width:100%;">Notificaciones de inconsistencia</span><i class="bi bi-chevron-down ms-auto"></i>
           </a>
 
           <div id="divnotifi" class="collapse" style="width: 100%;">
@@ -78,10 +82,10 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
              </colgroup>
 
              <thead>
-              <tr><th>Numero</th> <th>Tipo</th> <th>Impuesto</th></tr>
+              <tr class="ftitle"><th>Numero</th> <th>Tipo</th> <th>Impuesto</th></tr>
              </thead>
       
-             <tbody id="tablanotifDC" style="user-select:text;"></tbody>
+             <tbody id="tablanotifDC" class="fb" style="user-select:text;"></tbody>
             </table>
           </div>
 
@@ -129,11 +133,11 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
    <li class="nav-item" style="margin-top: 1%;">
 
   <a class="nav-link b1 collapsed" style="padding: 8px 0px;" data-bs-target="#divdetalle" data-bs-toggle="collapse" aria-expanded="false">
-  <span id="spandetalle" class="center" style="width:100%;">Inconsistencias detalladas</span><i class="bi bi-chevron-down ms-auto"></i>
+  <span id="spandetalle" class="center fb" style="width:100%;">Inconsistencias detalladas</span><i class="bi bi-chevron-down ms-auto"></i>
   </a>
 
   <div id="divdetalle" class="collapse" style="width: 100%;">
-    <table class="table table-hover" style="width: 100%; table-layout: fixed; text-align:center; margin-bottom: 0%;"> 
+    <table class="table table-hover " style="width: 100%; table-layout: fixed; text-align:center; margin-bottom: 0%;"> 
     
     <colgroup>
     <col style="width: 20%;">
@@ -144,7 +148,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
     </colgroup>
 
       <thead>
-        <tr>
+        <tr class="ftitle">
           <th scope="col">Notificaciòn</th> 
           <th scope="col">Inconsistencia</th>
           <th scope="col">Periodo</th>
@@ -153,7 +157,7 @@ if (strpos($_SERVER['REQUEST_URI'], 'MDetalleCompleto.php') !== false) { header(
         </tr>
       </thead>
 
-      <tbody class="table-group-divider" id="tabladetallesDC" style="user-select:text;">
+      <tbody class="table-group-divider fb" id="tabladetallesDC" style="user-select:text;">
 
       </tbody>
     </table>

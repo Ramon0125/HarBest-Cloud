@@ -36,7 +36,7 @@ class EmailSender extends ConexionDB
 
     private function MDFCC($idn,$cc,$type) : void
     {
-        $SPName = array(1 => 'NTF', 2 => 'DDC');
+        $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD');
 
         $SPCall = "CALL SP_ADD_CC_".$SPName[$type]."(?,?)";
         $RES1 = $this->conectdb->prepare($SPCall);
@@ -97,11 +97,22 @@ class EmailSender extends ConexionDB
      }
     }
 
+    private function MailHead(string $NombreCliente) : string
+    {
+      return str_replace('[NOMBRE_CLIENTE]',$NombreCliente,file_get_contents(APP_URL.'Data/modelos/HeadEmail.html'));
+    }
+
+    private function MailFoot()
+    {
+      $Replacement = array('[NOMBRE_EJECUTIVO]' => $this->user['Nombre'],'[EMAIL_EJECUTIVO]' => $this->user['Email']);
+      return str_replace(array_keys($Replacement),$Replacement,file_get_contents(APP_URL.'Data/modelos/FootEmail.html'));
+    }
+
 
     private function SendMail(int $IDReg, int $Type)
     {
-    $Table = array(1 => 'EMAILS_NOTIF', 2 => 'EMAILS_DETALLE');
-    $Col = array(1 => 'IDNotif', 2 => 'IDDetalle');
+    $Table = array(1 => 'EMAILS_NOTIF', 2 => 'EMAILS_DETALLE', 3 => 'EMAILS_ESCRITO');
+    $Col = array(1 => 'IDNotif', 2 => 'IDDetalle', 3 => 'IDEscrito');
 
     if ($this->mail->send()) 
     {
@@ -219,5 +230,51 @@ class EmailSender extends ConexionDB
     
     return $this->res;
     }
+
+
+    function SendMailEscrito(int $IDEscrito, array $cc): array
+    {
+        // Llamada al procedimiento almacenado para obtener los datos del escrito
+        $query = "CALL SENDMAIL_ESCRITO(?)";
+        $exec = $this->conectdb->prepare($query);
+        $exec->bindParam(1, $IDEscrito, PDO::PARAM_INT);
+        $exec->execute();
+        
+        // Manejo de errores si no se encontraron resultados
+        if ($exec->rowCount() === 0) { return HandleError(); }
+
+        $value = $exec->fetch();
+        $exec->closeCursor();
+    
+        // Reemplazos en el template del correo
+        $replacements = array(
+        "[NOTIFICACIONES]" => ArrayFormat(json_decode($value['NONOTIF'],true)),
+        "[FECHANOTIF]" => $this->DateFormat($value["FechaNotif"])
+        );
+        
+        // Leer el template del correo
+        $templatePath = APP_URL . "Data/modelos/escritodescargo" . ($value["SIZE"] == 1 ? "" : "2") . ".html";
+        $template = file_get_contents($templatePath);
+        
+        // Construir el cuerpo del correo
+        $modelo = ($this->MailHead($value['NombreCliente'])) .
+                  (str_replace(array_keys($replacements), $replacements, $template)) .
+                  ($this->MailFoot());
+        
+        // Configurar destinatario, asunto y cuerpo del correo
+        $this->mail->addAddress($cc[0]);
+        $this->mail->Subject = mb_convert_encoding('Escrito de descargo sobre inconsistencia DGII - ' . $value["NombreCliente"], "UTF-8", "auto");
+        $this->mail->Body = $modelo;
+    
+        // Añadir adjuntos y CC
+        $this->AddAtachmentToMail(json_decode($value["ArchivoEscrito"], true));
+        $this->AddCCToMail($cc, $value["IDEscrito"], 3);
+    
+        // Enviar el correo
+        $this->SendMail($value["IDEscrito"], 3);
+    
+        return $this->res;
+    }
+    
 }
 ?>

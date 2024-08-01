@@ -555,13 +555,14 @@ word-wrap: break-word;    }
 
 
 .fb{
+  font-size: 92%;
   font-family: monospace;
   font-weight: bold;
 }
 
 .ftitle
 {
-  FONT-SIZE: 1.1rem;
-    font-family: math;
-    font-weight: 600;
+  font-size: 106.2%;
+  font-family: sans-serif;
+  font-weight: 600;
 }

@@ -1,6 +1,6 @@
 <?php
 
-if (strpos($_SERVER['REQUEST_URI'], 'Conexion.php') !== false) { header('LOCATION: ./404'); }
+if (preg_match('/Conexion(?:\.php)?/', $_SERVER['REQUEST_URI'])) { die(header('Location: ./404')); }
 
 require (file_exists('../vendor/autoload.php') ? '..' : '.').'/vendor/autoload.php';
 
