@@ -1,6 +1,8 @@
 <?php
 
-if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) { 
+if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{ http_response_code(404); die(header('Location: ./404')); }
+
 
   function validarCarta($string) : bool 
   {
@@ -79,9 +81,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'Functions.php') === false) {
     $QueryStatement = "CALL SP_INSERT_EMAIL_".$SPName[$V]."(?)";
 
     $QueryExecution = $InstanciacionDB->prepare($QueryStatement);
-    $QueryExecution->bindParam(1,$ID,PDO::PARAM_STR);
+    $QueryExecution->bindParam(1,$ID);
     $QueryExecution->execute();
   } 
-  
-}
-else { header("LOCATION: ./404"); }

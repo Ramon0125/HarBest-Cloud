@@ -12,6 +12,7 @@ class EmailSender extends ConexionDB
     private $res;
     private $user;
 
+
     public function __construct()
     { 
     parent::__construct();
@@ -40,8 +41,8 @@ class EmailSender extends ConexionDB
 
         $SPCall = "CALL SP_ADD_CC_".$SPName[$type]."(?,?)";
         $RES1 = $this->conectdb->prepare($SPCall);
-        $RES1->bindParam(1, $idn, PDO::PARAM_INT);
-        $RES1->bindParam(2, $cc, PDO::PARAM_STR);
+        $RES1->bindParam(1, $idn,1);
+        $RES1->bindParam(2, $cc);
         $RES1->execute(); 
     }
 
@@ -120,7 +121,7 @@ class EmailSender extends ConexionDB
     {
     $RES = "UPDATE ". $Table[$Type] ." SET Estatus = 'T' WHERE ". $Col[$Type] . " = ?";
     $RES1 = $this->conectdb->prepare($RES);
-    $RES1->bindParam(1, $IDReg, PDO::PARAM_INT);
+    $RES1->bindParam(1, $IDReg, 1);
     $RES1->execute();
     $this->res['success'] = true;
     $this->res['message'] = 'EEC1';
@@ -136,42 +137,47 @@ class EmailSender extends ConexionDB
 
 
     public function SendMailNotif($dat,$cc)
-    {
-    $query = "CALL SENDMAIL_NOTIF(?)";
-    $exec = $this->conectdb->prepare($query);
-    $exec->bindParam(1, $dat, PDO::PARAM_INT);
-    $exec->execute();
+    {        
+      // Llamada al procedimiento almacenado para obtener los datos de la notificacion
+      $query = "CALL SENDMAIL_NOTIF(?)";
+      $exec = $this->conectdb->prepare($query);
+      $exec->bindParam(1, $dat, 1);
+      $exec->execute();
 
-    if ($exec->rowCount() === 0) {return HandleError();}
+      // Manejo de errores si no se encontraron resultados
+      if ($exec->rowCount() === 0) {return HandleError();}
     
-    $value = $exec->fetch(PDO::FETCH_ASSOC);
-    $exec->closeCursor();
+      $value = $exec->fetch();
+      $exec->closeCursor();
+
+      // Reemplazos en el template del correo
+      $replacements = array(
+      "[NO_NOTIFICACION]" => ArrayFormat(json_decode($value["NONOTIF"])),
+      "[NO_IMPUESTO]" => ArrayFormat(json_decode($value["IMPU"])),
+      "[FECHA_MAXIMA]" => $this->DateFormat($value["VENCIMIENTO"]),
+      "[TIPO_PERSONA]" => $value["TipoCliente"] == "Fisica" ? "" : "con el <u>sello</u> de la empresa "
+      );
+
+      // Leer el template del correo
+      $templatePath = APP_URL . "Data/modelos/notifinconsis" . ($value["SIZE"] == 1 ? "" : "2") . ".html";
+      $template = file_get_contents($templatePath);
     
-    $replacements = array(
-    "[Nombre del Cliente]" => $value["NOCLT"],
-    "[Número de Notificación]" => ArrayFormat(json_decode($value["NONOTIF"])),
-    "[Nombre del Impuesto]" => ArrayFormat(json_decode($value["IMPU"])),
-    "[NOMBRE EJECUTIVO]" => $this->user['Nombre'],
-    "[EMAIL EJECUTIVO]" => $this->user['Email'],
-    "[FECHAMAXIMA]" => $this->DateFormat($value["VENCIMIENTO"]),
-    "[TipoPersona]" => $value["TipoCliente"] == "Fisica" ? "" : "con el <u>sello</u> de la empresa "
-    );
+      // Construir el cuerpo del correo
+      $modelo = ($this->MailHead($value['NOCLT'])) .
+                (str_replace(array_keys($replacements), $replacements, $template)) .
+                ($this->MailFoot());
 
-    $arch = file_get_contents("../Data/modelos/notifinconsis". ($value["SIZE"] == 1 ? "" : "2") .".html");
-    
-    $modelo = str_replace(array_keys($replacements), $replacements, $arch);
+      // Configurar destinatario, asunto y cuerpo del correo
+      $this->mail->addAddress($cc[0]);
+      $this->mail->Subject = mb_convert_encoding('Notificación de Impuestos Internos - '.$value["NOCLT"], "UTF-8", "auto");
+      $this->mail->Body =  $modelo;
 
-    $this->mail->addAddress($cc[0]);
+      // Añadir adjuntos y CC
+      $this->AddAtachmentToMail(json_decode($value["CARTA"], true));
+      $this->AddCCToMail($cc,$value["IDNotif"],1);
 
-    $this->mail->Subject = mb_convert_encoding('Notificación de Impuestos Internos - '.$value["NOCLT"], "UTF-8", "auto");
-
-    $this->mail->Body = $modelo;
-
-    $this->AddAtachmentToMail(json_decode($value["CARTA"], true));
-
-    $this->AddCCToMail($cc,$value["IDNotif"],1);
-
-    $this->SendMail($value["IDNotif"],1);
+      // Enviar el correo
+      $this->SendMail($value["IDNotif"],1);
 
     return $this->res;
     }
@@ -179,56 +185,63 @@ class EmailSender extends ConexionDB
 
     public function SendMailDDC($dat,$cc)
     {
-    $query = "CALL SENDMAIL_DETALLE(?)";
-    $exec = $this->conectdb->prepare($query);
-    $exec->bindParam(1, $dat, PDO::PARAM_INT);
-    $exec->execute();
-    
-    if ($exec->rowCount() === 0){return HandleError();}
+      // Llamada al procedimiento almacenado para obtener los datos del detalle de citacion      
+      $query = "CALL SENDMAIL_DETALLE(?)";
+      $exec = $this->conectdb->prepare($query);
+      $exec->bindParam(1, $dat, 1);
+      $exec->execute();
+
+      // Manejo de errores si no se encontraron resultados
+      if ($exec->rowCount() === 0){return HandleError();}
         
-    $value = $exec->fetch();
-    $exec->closeCursor();
-    
-    $Detalles = json_decode($value["INCONSISTENCIAS"], true);
+      $value = $exec->fetch();
+      $exec->closeCursor();
 
-    $inconsistencias = "";
-
-    foreach ((array) $Detalles as $values) 
-    {
-      $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.$values["NOTIFICACION"].'<br>';
+      // Preparamos la manera de mostrar las inconsistencias
+      $Detalles = json_decode($value["INCONSISTENCIAS"], true);
+      $inconsistencias = "";
+      
+      foreach ($Detalles as $detalle) 
+      {
+          $inconsistencias .= '<li style="text-align: justify;">Inconsistencia ' . htmlspecialchars($detalle["NOTIFICACION"]) . '<br>';
           
-      foreach ((array) $values["DETALLES"] as $values2) 
-      { 
-        $inconsistencias .= ($values2['Detalle'].', periodo '.substr($values2['Periodo'],0,4).'-'.substr($values2['Periodo'],4).' por valor de RD$'.$values2['Valor'].'<br>'); 
+          foreach ((array) $detalle["DETALLES"] as $detalleInner) 
+          {
+              $periodo = substr($detalleInner['Periodo'], 0, 4) . '-' . substr($detalleInner['Periodo'], 4);
+              $valor = $detalleInner['Valor'];
+              $inconsistencias .= htmlspecialchars($detalleInner['Detalle']) . ', periodo ' . htmlspecialchars($periodo) . ' por valor de RD$' . htmlspecialchars($valor) . '<br>';
+          }
+          
+          $inconsistencias .= '</li><br>';
       }
-          
-      $inconsistencias .= '</li><br>';
-    }
-    
-    $replacements = array(
-    "[NOMBRE CLIENTE]" => $value["NombreCliente"],
-    "[NOTIFICACION INCONSISTENCIA]" => ArrayFormat(array_column($Detalles,"NOTIFICACION")),
-    "[DETALLES INCONSISTENCIAS]" => $inconsistencias,
-    "[NOMBRE EJECUTIVO]" => $this->user['Nombre'],
-    "[EMAIL EJECUTIVO]" => $this->user['Email'],
-    "[FECHA VENCIMIENTO]" => $this->DateFormat($value["FechaVenci"])
-    );
-    
-    $Template = file_get_contents("../Data/modelos/detallescitacion". ($value["SIZE"] == 1 ? "" : "2") .".html");
-        
-    $modelo = str_replace(array_keys($replacements), $replacements, $Template);
-    
-    $this->mail->addAddress($cc[0]);
 
-    $this->mail->Subject = mb_convert_encoding('Detalle de citación sobre inconsistencia DGII - '.$value["NombreCliente"], "UTF-8", "auto");
-        
-    $this->mail->Body = $modelo;
+      // Reemplazos en el template del correo   
+      $replacements = array(
+      "[INCONSISTENCIAS]" => ArrayFormat(array_column($Detalles,"NOTIFICACION")),
+      "[DETALLES_INCONSISTENCIAS]" => $inconsistencias,
+      "[FECHA_VENCIMIENTO]" => $this->DateFormat($value["FechaVenci"])
+      );
 
-    $this->AddAtachmentToMail(json_decode($value["ARCHIVOS"], true));
-    
-    $this->AddCCToMail($cc,$value["IDDetalle"],2);
+      // Leer el template del correo
+      $templatePath = APP_URL . "Data/modelos/detallescitacion". ($value["SIZE"] == 1 ? "" : "2") .".html";
+      $template = file_get_contents($templatePath);
 
-    $this->SendMail($value["IDDetalle"],2);
+      // Construir el cuerpo del correo  
+      $modelo = ($this->MailHead($value['NombreCliente'])) .
+                (str_replace(array_keys($replacements), $replacements, $template)) .
+                ($this->MailFoot());
+
+      // Configurar destinatario, asunto y cuerpo del correo
+      $this->mail->addAddress($cc[0]);
+      $this->mail->Subject = mb_convert_encoding('Detalle de citación sobre inconsistencia DGII - '.$value["NombreCliente"], "UTF-8", "auto");
+      $this->mail->Body = $modelo;
+
+      // Añadir adjuntos y CC
+      $this->AddAtachmentToMail(json_decode($value["ARCHIVOS"], true));
+      $this->AddCCToMail($cc,$value["IDDetalle"],2);
+
+      // Enviar el correo
+      $this->SendMail($value["IDDetalle"],2);
     
     return $this->res;
     }
@@ -236,10 +249,10 @@ class EmailSender extends ConexionDB
 
     function SendMailEscrito(int $IDEscrito, array $cc): array
     {
-        // Llamada al procedimiento almacenado para obtener los datos del escrito
+        // Llamada al procedimiento almacenado para obtener los datos del escrito de descargo
         $query = "CALL SENDMAIL_ESCRITO(?)";
         $exec = $this->conectdb->prepare($query);
-        $exec->bindParam(1, $IDEscrito, PDO::PARAM_INT);
+        $exec->bindParam(1, $IDEscrito, 1);
         $exec->execute();
         
         // Manejo de errores si no se encontraron resultados
@@ -279,4 +292,3 @@ class EmailSender extends ConexionDB
     }
     
 }
-?>

@@ -1,4 +1,9 @@
-<?php if (strpos($_SERVER['REQUEST_URI'], 'Mescrito.php') !== false) { header('LOCATION: ./404');} ?>
+<?php 
+
+if (preg_match('/Mescrito(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{ http_response_code(404); die(header('Location: ./404')); } 
+
+?>
 
 <!---- MODAL AGREGAR DETALLE DE CITACION --------->
 <div class="modal fade" id="agredd" data-bs-backdrop="static" aria-hidden="true" >
@@ -28,7 +33,7 @@
 
   <div class="container" id="formEDD" style="display: none; padding-left: unset;">
 
-  <hr class="Divisor" style="margin-top: -3%;">
+  <hr class="Divisor" style="margin-top: 3%;">
   
   <div class="col-lg-12">
     <label for="fdddc" class="form-label center" style="margin-top: 3%;">Fecha escrito</label>

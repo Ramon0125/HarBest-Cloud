@@ -16,7 +16,7 @@ if (VALIDARBLOCK() === 'T')
   if ($_POST['tipo'] == "iniusr" && isset($_POST['email'],$_POST['password']))
   { $response = $verificar->ValidarLogin($_POST['email'],$_POST['password']); }
 
-  else if ($_POST['tipo'] === "mdfpass" && isset($_POST['passwordn1']) && Validarcadena1($_COOKIE['IDENTITY']))
+  else if ($_POST['tipo'] === "mdfpass" && isset($_POST['passwordn1']))
   { $response = $verificar->ModificarPassword($_POST['passwordn1']); }
 
   else {$response = HandleError();}

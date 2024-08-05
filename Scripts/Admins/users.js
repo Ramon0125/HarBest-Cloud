@@ -7,7 +7,7 @@ $.ajax({// Realizar una solicitud AJAX para agregar el usuario
 type: 'POST',//Metodo en el que se enviaran los datos
 beforeSend: function () { load(1); }, // Mostrar indicador de carga antes de enviar la solicitud
 complete: function () { load(2); }, // Ocultar indicador de carga después de completar la solicitud
-url: PageURL+'Managers/ManagerUser.php',//Direccion a la cual se enviaran los datos
+url: PageURL+'Managers/ManagerUser',//Direccion a la cual se enviaran los datos
 data: { tipo: "addusr",Privi: privi, Email: email, Name: name, Lastn: lastn },//Datos que se enviaran
 success: function (data){
 if(data.success){
@@ -25,7 +25,7 @@ if (!validarparams(token) || !validarint(id) || id === 0) {return Alerta(txt.EEL
 
  $.ajax({
  type: 'POST', //Metodo en el que se enviaran los datos
- url: PageURL+'Managers/ManagerUser.php',//Direccion a las que se enviaran los datos
+ url: PageURL+'Managers/ManagerUser',//Direccion a las que se enviaran los datos
  data: { tipo: "vdusr", ID: id, TOKEN: token },//Datos que se enviaran
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); },//Ocultar pantalla de carga
@@ -52,7 +52,7 @@ if (!validarint(id)){return Alerta(txt.EELS, txt.E, 2000);}
 
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
- url: PageURL+'Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
+ url: PageURL+'Managers/ManagerUser',//Direccion a la que se enviaran los datos
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); },//Ocultar pantalla de carga
  data: {tipo: "edtusr", id: id, name: name, email: email, nname: nname, lastn: lastn, pass: pass},//Datos que se enviaran
@@ -76,7 +76,7 @@ function dltusr(id, name)
 
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
- url: PageURL+'Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
+ url: PageURL+'Managers/ManagerUser',//Direccion a la que se enviaran los datos
  data: { tipo: "dltusr", id: id, name: name },//Datos que seran enviados
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); }, //Ocultar pantalla de carga
@@ -97,7 +97,7 @@ function desusr(id)
 
  $.ajax({
  type: 'POST',//Metodo en el que se enviaran los datos
- url: PageURL+'Managers/ManagerUser.php',//Direccion a la que se enviaran los datos
+ url: PageURL+'Managers/ManagerUser',//Direccion a la que se enviaran los datos
  data: { tipo: "desusr", id: id},//Datos que seran enviados
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); }, //Ocultar pantalla de carga

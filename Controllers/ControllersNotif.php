@@ -1,7 +1,9 @@
 <?php 
 
-if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false) 
-{ 
+if (preg_match('/ControllersNotif(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{ http_response_code(404); die(header('Location: ./404')); }
+
+
     class ControllersNotif extends ConexionDB
     {
     private $ConexionDB;
@@ -17,148 +19,157 @@ if (strpos($_SERVER['REQUEST_URI'], 'ControllersNotif.php') === false)
     
     public function AGRNotif(int $IDC,string $FEN,array $NOT,array $TIP,array $IMPU,array $CARTA) : array
     {
-    try {
-
-     $NOTIF = json_encode(array_map(function($N,$T,$I)
-     {return array(
-     'NOTIFICACION' => $N,
-     'TIPO' => $T,
-     'IMPUESTO' => $I);},
-     $NOT,$TIP,$IMPU));
-
-
-     $CARTANOTIF = json_encode(array_map(function($c,$m,$n)
+     try 
      {
-     return array(
-     'CARTA' => base64_encode(file_get_contents($c)),
-     'MIME' => $m,
-     'NOMBRE' => $n);
-     },
-     $CARTA["tmp_name"],$CARTA["type"],$CARTA["name"]));
+        //Preparar la notificacion para su insercion
+        $NOTIF = json_encode(array_map(function($N,$T,$I)
+        {
+         return array(
+         'NOTIFICACION' => $N,
+         'TIPO' => $T,
+         'IMPUESTO' => $I);
+        },$NOT,$TIP,$IMPU));
+
+        //Preparar la insercion de la carta
+        $CARTANOTIF = json_encode(array_map(function($c,$m,$n)
+        {
+         return array(
+         'CARTA' => base64_encode(file_get_contents($c)),
+         'MIME' => $m,
+         'NOMBRE' => $n);
+        },$CARTA["tmp_name"],$CARTA["type"],$CARTA["name"]));
         
-
-     $query = 'CALL SP_INSERTAR_NOTIF(?,?,?,?,?)';
-     $exec = $this->ConexionDB->prepare($query);
-     $IDE = GetInfo('IDUsuario');
-     $exec->bindParam(1,$IDE,1);
-     $exec->bindParam(2,$IDC,1);
-     $exec->bindParam(3,$FEN,2);
-     $exec->bindParam(4,$NOTIF,2);
-     $exec->bindValue(5,$CARTANOTIF,3);
-     $exec->execute();
+        // Llamada al procedimiento almacenado para insertar la notificacion
+        $query = 'CALL SP_INSERTAR_NOTIF(?,?,?,?,?)';
+        $exec = $this->ConexionDB->prepare($query);
+        $IDE = GetInfo('IDUsuario');
+        $exec->bindParam(1,$IDE,1);
+        $exec->bindParam(2,$IDC,1);
+        $exec->bindParam(3,$FEN);
+        $exec->bindParam(4,$NOTIF);
+        $exec->bindValue(5,$CARTANOTIF,3);
+        $exec->execute();
         
-     if ($exec->rowCount() === 0){ return HandleError();} 
+        // Si la consulta no trae datos dispara error
+        if ($exec->rowCount() === 0){ return HandleError();} 
 
-     $res = $exec->fetch(PDO::FETCH_ASSOC);
+        $res = $exec->fetch();
 
-     $this->Response['message'] = $res['MENSAJE'];
+        $this->Response['message'] = $res['MENSAJE'];
 
-     $this->Response['success'] = $this->Response['message'] === 'NIC';
+        $this->Response['success'] = $this->Response['message'] === 'NIC';
 
-     if($this->Response['success'])
-     {
-     EMAILS(json_encode($NOT),1);
-     AUDITORIA(GetInfo('IDUsuario'),'INSERTO UNA NOTIFICACION DE INCONSISTENCIA');
-     }
-     else {SUMBLOCKUSER();}
+        if($this->Response['success'])
+        {
+         EMAILS(json_encode($NOT),1);
+         AUDITORIA(GetInfo('IDUsuario'),'INSERTO UNA NOTIFICACION DE INCONSISTENCIA');
+        }
+        else {SUMBLOCKUSER();}
      
-    }catch (Exception $E) {return $E; HandleError();}
+     }catch(Exception $e) {error_log($e->getMessage());  return HandleError();}
     
-    return $this->Response;
+     return $this->Response;
     }
+
 
     public function vcarta(int $IDN) : array 
     {
-        $query = 'CALL SP_VER_CARTA(?)';
-        $exec = $this->ConexionDB->prepare($query);
-        $exec->bindParam(1,$IDN,PDO::PARAM_INT);
-        $exec->execute();
+     try
+     {
+        // Obtener las cartas de notificacion
+       $query = 'CALL SP_VER_CARTA(?)';
+       $exec = $this->ConexionDB->prepare($query);
+       $exec->bindParam(1,$IDN,PDO::PARAM_INT);
+       $exec->execute();
 
-        if ($exec->rowCount() === 0){return HandleError();}
+       // Si la consulta no trae datos dispara error
+       if ($exec->rowCount() === 0){return HandleError();}
         
-            $res = $exec->fetch(PDO::FETCH_ASSOC);
-            $this->Response['success'] = true;
-            $this->Response['CARTA'] = $res['CARTA'];
+       $res = $exec->fetch();
+       $this->Response['success'] = true;
+       $this->Response['CARTA'] = $res['CARTA'];
 
-        return $this->Response;
+     }catch(Exception $e) {error_log($e->getMessage()); return HandleError();}
+
+     return $this->Response;
     }
 
 
     public function DLTNotif(int $idn,string $non) : array 
     {
-    try {
-
+      try
+      {
+        // Llamada al procedimiento almacenado para eliminar la notificacion
         $query = 'CALL SP_ELIMINAR_NOTIF(?,?)';
         $exec = $this->ConexionDB->prepare($query);
         $exec->bindParam(1,$idn,pdo::PARAM_INT);
-        $exec->bindParam(2,$non,pdo::PARAM_STR);
+        $exec->bindParam(2,$non);
         $exec->execute();
         
+        // Si la consulta no trae datos dispara error
         if ($exec->rowCount() === 0){return HandleError();}
         
-            $res = $exec->fetch(PDO::FETCH_ASSOC);
+        $res = $exec->fetch();
 
-            $this->Response['message'] = $res['MENSAJE'];
-            $this->Response['success'] = $this->Response['message'] === 'NEC';
-            $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'ELIMINO UNA NOTIFICACION DE INCONSISTENCIA') : SUMBLOCKUSER();
+        $this->Response['message'] = $res['MENSAJE'];
+        $this->Response['success'] = $this->Response['message'] === 'NEC';
+        $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'ELIMINO UNA NOTIFICACION DE INCONSISTENCIA') : SUMBLOCKUSER();
         
-    }catch (Exception) {return HandleError();}
+      }catch(Exception $e) {error_log($e->getMessage());  return HandleError();}
     
-    return $this->Response;
+      return $this->Response;
     }
           
 
     public function SearchNotif(string $Cod) : array 
     {
-    try {
+        try 
+        {
+         // Llamada al procedimiento almacenado para buscar datos de una notificacion
+         $query = 'CALL SP_SEARCH_NOTIF(?)';
+         $exec = $this->ConexionDB->prepare($query);
+         $exec->bindParam(1,$Cod);
+         $exec->execute();
 
-        $query = 'CALL SP_SEARCH_NOTIF(?)';
-        $exec = $this->ConexionDB->prepare($query);
-        $exec->bindParam(1,$Cod,pdo::PARAM_STR);
-        $exec->execute();
+         // Si la consulta no trae datos dispara error
+         if ($exec->rowCount() === 0){return HandleError();}
         
-        if ($exec->rowCount() === 0){return HandleError();}
-        
-            $res = $exec->fetch(PDO::FETCH_ASSOC);
+         $res = $exec->fetch();
 
-            $this->Response['message'] = $res['MENSAJE'];
-            $this->Response['success'] = $this->Response['message'] !== 'EELS';
+         $this->Response['message'] = $res['MENSAJE'];
+         $this->Response['success'] = $this->Response['message'] !== 'EELS';
 
-            if (!$this->Response['success']) {SUMBLOCKUSER();}
+         if (!$this->Response['success']) {SUMBLOCKUSER();}
         
-    }catch (Exception) {return HandleError();}
+        }catch(Exception $e) {error_log($e->getMessage());  return HandleError();}
     
-    return $this->Response;
+        return $this->Response;
     }
 
 
     public function DetallesCaso(string $Cod) : array 
     {
-    try {
-
+      try 
+      {
+        // Llamada al procedimiento almacenado para buscar los casos de notificaciones  
         $query = 'CALL SP_DETALLES_CASOS(?)';
         $exec = $this->ConexionDB->prepare($query);
-        $exec->bindParam(1,$Cod,pdo::PARAM_STR);
+        $exec->bindParam(1,$Cod);
         $exec->execute();
         
+        // Si la consulta no trae datos dispara error
         if ($exec->rowCount() === 0){return HandleError();}
         
-            $res = $exec->fetch(PDO::FETCH_ASSOC);
+        $res = $exec->fetch();
             
-            $this->Response['success'] = !isset($res['MENSAJE']);
+        $this->Response['success'] = !isset($res['MENSAJE']);
 
-            if (!$this->Response['success']) { $this->Response['message'] = $res['MENSAJE']; SUMBLOCKUSER();}
-            else 
-            {        
-              foreach ($res as $column => $value) 
-              { $this->Response[$column] = $value; }
-            }
+        if (!$this->Response['success']) { $this->Response['message'] = $res['MENSAJE']; SUMBLOCKUSER();}
+        else { foreach ($res as $column => $value) { $this->Response[$column] = $value; } }
         
-    }catch (Exception) {return HandleError();}
+      }catch(Exception $e) {error_log($e->getMessage());  return HandleError();}
     
-    return $this->Response;
+      return $this->Response;
     }
 
-    }
 }
-else { header("LOCATION: ./404"); }

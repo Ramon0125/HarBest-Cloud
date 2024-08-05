@@ -365,7 +365,7 @@ function DetailsNotif(IDD)
   
   $.ajax({
    type: "POST",
-   url: PageURL+"Managers/ManagerNotif.php",
+   url: PageURL+"Managers/ManagerNotif",
    beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
    complete: function () { load(2); }, //Ocultar pantalla de carga
    data: {tipo: 'vdcaso',IDD: IDD},
@@ -384,7 +384,7 @@ function DetailsNotif(IDD)
     DATA.FechaEscrito ? ModEscrito(DATA) : modifystyle('#ContainerEscritoDC','display','none');
    }
    else{ return responses(DATA);}},
-   error: function(){return Alerta(txt.EELS,txt.W,2000);}
+   error: function(e){console.log(e);    return Alerta(txt.EELS,txt.W,2000);}
   });
 
 let Modal = new bootstrap.Modal(document.getElementById('DetailNotif'));

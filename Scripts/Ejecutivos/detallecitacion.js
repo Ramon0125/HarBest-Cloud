@@ -111,7 +111,7 @@ LimpiarModal('#slcntfddc1',['#formDDC','#btnagrddc'],['#formagrddc','#formagrddc
 }
 
 
-function addddc(INCODNOT,INFECHA,ARCHIVOS,NOTIF,NOCASO,INDETALL,PERIODO,VALOR,IMPUESTO,CORAUD,NOMAUD,TELAUD)
+function addddc(INCODNOT,INFECHA,ARCHIVOS,INDETALL,PERIODO,VALOR,IMPUESTO,CORAUD,NOMAUD,TELAUD)
 {
 
 if(nontfddc.length - 1 != Object.keys(incon).length)
@@ -151,7 +151,7 @@ if ((Array.from(ARCHIVOS).reduce((total, item) => total + item.size, 0) / (1024 
 
    $.ajax({
     type: "POST",
-    url: PageURL+"Managers/ManagerDetalle.php",
+    url: PageURL+"Managers/ManagerDetalle",
     data: formData,
     contentType: false,
     processData: false,
@@ -179,7 +179,7 @@ function AbrirDocumentosDetalles(IDD)
   
     $.ajax({
       type: "POST",
-      url: PageURL+"Managers/ManagerDetalle.php",
+      url: PageURL+"Managers/ManagerDetalle",
       beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
       complete: function () { load(2); }, //Ocultar pantalla de carga  
       data: {tipo: 'vddc',IDD: IDD},

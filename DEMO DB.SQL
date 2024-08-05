@@ -336,7 +336,7 @@ BEGIN
 
     IF NOT EXISTS (SELECT * FROM ADM WHERE IDADM = in_IDADM AND NombreADM = in_NombreADM) THEN
         SELECT 'EELS' AS MENSAJE;
-    ELSEIF EXISTS (SELECT * FROM ADM WHERE IDADM <> in_IDADM AND NombreADM = in_NNombreADM AND DireccionADM = in_NDIRECCION_ADM) THEN
+    ELSEIF EXISTS (SELECT * FROM ADM WHERE IDADM <> in_IDADM AND NombreADM = in_NNombreADM OR DireccionADM = in_NDIRECCION_ADM) THEN
         SELECT 'EAE' AS MENSAJE;
     ELSE
         UPDATE ADM 
@@ -926,6 +926,7 @@ SELECT
       D.FechaVenci AS FechaVenciDC,
       ED.Estatus AS EstatusDC,
       D.DetallesCitacion,
+      E.IDEscrito,
       E.FechaEscrito,
       E.FechaVenci AS FechaVenciED,
       EE.Estatus AS EstatusED FROM

@@ -5,7 +5,7 @@ async function updatedatalists(tipo,datalists)
 
     $.ajax({
         type: 'POST',
-        url: PageURL+'Controllers/datos.php',
+        url: PageURL+'Controllers/datos',
         data: { tipo: tipo },
         dataType: 'json',
         success: function (data) {

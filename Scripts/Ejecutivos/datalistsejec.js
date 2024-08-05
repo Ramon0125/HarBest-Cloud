@@ -106,3 +106,21 @@ eventlisten('#slcdltedd','keydown',(e) => {
 if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtldltedd')}});
 
 /////////FIN DATALIST DLTEDD//////////////////////////////////////////////
+
+
+
+/////////DATALIST AGRRDGII//////////////////////////////////////////////
+
+eventlisten('#dtlagrrdgii','click', function(event)
+{datalistclick(event,'#slcntfrdgii','#slcntfrdgii1',['#formrdgii','#btnagrrdgii'],'#dtlagrrdgii',false,true);});
+
+eventlisten('#slcntfrdgii','input',function () 
+{datalistinput('#slcntfrdgii','#slcntfrdgii1',['#formrdgii','#btnagrrdgii'],'#dtlagrrdgii');});
+
+eventlisten('#slcntfrdgii','blur',function () 
+{datalistblur('#slcntfrdgii','#slcntfrdgii1',['#formrdgii','#btnagrrdgii'],'#dtlagrrdgii');});
+
+eventlisten('#slcntfrdgii','keydown',(e) => {
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlagrrdgii')}});
+
+/////////FIN DATALIST AGRRDGII//////////////////////////////////////////////

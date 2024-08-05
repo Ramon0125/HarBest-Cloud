@@ -6,7 +6,7 @@ function agradm(name,direcc)
       type: "POST", // Metodo en el que se enviaran los datos
       beforeSend: function () { load(1); }, // Mostrar indicador de carga antes de enviar la solicitud
       complete: function () { load(2); }, // Ocultar indicador de carga después de completar la solicitud
-      url: PageURL+'Managers/ManagerAdm.php', // Direccion a la que se enviaran los datos
+      url: PageURL+'Managers/ManagerAdm', // Direccion a la que se enviaran los datos
       data: {FUNC: "agradm", Name: name, Dire: direcc}, // Datos que seran enviados
       dataType: "JSON", // Formato que recibira los datos la peticion
       success: function (data) 
@@ -32,7 +32,7 @@ function edtadm(id,name,nname,ndirecc)
   type: "POST", // Metodo en el que se enviaran los datos
   beforeSend: function () { load(1); }, // Mostrar indicador de carga antes de enviar la solicitud
   complete: function () { load(2); }, // Ocultar indicador de carga después de completar la solicitud
-  url: PageURL+'./Managers/ManagerAdm.php', // Direccion a la que se enviaran los datos
+  url: PageURL+'./Managers/ManagerAdm', // Direccion a la que se enviaran los datos
   data: {FUNC: 'edtadm',id: id, name: name, nname: nname, ndirec: ndirecc}, // Datos que seran enviados
   dataType: "JSON", // Formato que recibira los datos la peticion
   success: function (data) 

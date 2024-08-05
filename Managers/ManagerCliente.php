@@ -8,7 +8,7 @@ require '../Controllers/ControllersCliente.php';
 
 if(VALIDARBLOCK() === 'T'){
 
-if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0 && Validarcadena1($_COOKIE['IDENTITY']))
+if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0)
 {
 if (Validarcadena1($_POST)){
 

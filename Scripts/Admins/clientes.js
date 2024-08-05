@@ -15,7 +15,7 @@ let Tipopersona = tipo.checked ? tipo.value : tipo2.value;
 
   $.ajax({
   type: 'POST',//Metodo en el que se enviaran los datos
-  url: PageURL+'Managers/ManagerCliente.php',//Direccion a la que seran enviados los datos
+  url: PageURL+'Managers/ManagerCliente',//Direccion a la que seran enviados los datos
   data: {FUNC:'agrclt', rnc: rnc, email: email, nombre: nombre, tipopersona:Tipopersona, adm: adm},//Datos que seran enviados
   beforeSend: function () { load(1);},//Mostrar pantalla de carga durante la solicitud
   complete: function () { load(2);},//Ocultar pantalla de carga
@@ -38,7 +38,7 @@ if(!validarint(id)){return Alerta(txt.EELS, txt.E,2000);}
 
  $.ajax({
  type: 'POST',
- url: PageURL+'Managers/ManagerCliente.php',
+ url: PageURL+'Managers/ManagerCliente',
  data: { FUNC: "vdclt", ID: id, TOKEN: token },
  beforeSend: function () {load(1);},
  complete: function () {load(2);},
@@ -71,7 +71,7 @@ let Tipopersona = tipo.checked ? tipo.value : tipo2.value;
 
  $.ajax({
  type: 'POST',//Metodo en el que seran enviados los datos
- url: PageURL+'Managers/ManagerCliente.php',//Direccion a la que seran enviados los datos
+ url: PageURL+'Managers/ManagerCliente',//Direccion a la que seran enviados los datos
  data: {FUNC:'edtclt', id: id, nc: nc, rnc: rnc, email: email, nombre: nombre, tipopersona:Tipopersona ,adm: adm},//Datos que seran enviados
  beforeSend: function () { load(1);},//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2);},//Ocultar pantalla de carga
@@ -94,7 +94,7 @@ function dltclt(id, name)
 
   $.ajax({
   type: 'POST',//Metodo en el que seran enviados los datos
-  url: PageURL+'Managers/ManagerCliente.php',//Direccion a la que seran enviados los datos
+  url: PageURL+'Managers/ManagerCliente',//Direccion a la que seran enviados los datos
   data: { FUNC: "dltclt", id: id, name: name },//Datos que seran enviados
   beforeSend: function() { load(1); },//Muestra la pantalla de carga durante la solicitud
   complete: function () { load(2); },//Oculta la pantalla de carga

@@ -241,7 +241,35 @@ else {
   <!--   Escrito de Descargo -->
 
 
+    <!-- Respuesta de la DGII -->
+    <li class="nav-item">
   
+  <a class="nav-link collapsed b1" data-bs-target="#resdgii" data-bs-toggle="collapse">
+   <i class="bi bi-journal-text"></i>
+   <span>Respuesta de la DGII</span>
+   <i class="bi bi-chevron-down ms-auto"></i>
+  </a>
+
+  <ul id="resdgii" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+  
+  <li class="dropdown-item">
+   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrresdgii">
+   <i class="bi-plus-square"></i>Adicionar</a>
+  </li>
+
+  <li class="dropdown-item">
+   <hr class="divioer">
+    <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltddc">
+     <i class="dan bi bi-trash-fill"></i>Eliminar
+    </a>
+  </li>
+
+  </ul>
+
+  </li>
+  <!-- End Detalle de Citacion -->
+
+
   <!--   Resolución de Determinación --><li class="nav-item">
   <a class="nav-link collapsed b1" data-bs-target="#resdet" data-bs-toggle="collapse" href="#">
   <i class="bi bi-journal-text"></i><span>Res. de Determinación</span><i class="bi bi-chevron-down ms-auto"></i>
@@ -458,8 +486,12 @@ else {  ?>
 <?php include_once './ModalesEjec/Mescrito.php'; ?>
 <!---------------------------------------------------FIN MODAL ESCRITO DE DESCARGO---------------------------------------------->
 
+<!-----------------------------------------------------MODAL RESPUESTA DE LA DGII---------------------------------------------->
+<?php include_once './ModalesEjec/Mrespuesta.php'; ?>
+<!---------------------------------------------------FIN MODAL RESPUESTA DE LA DGII---------------------------------------------->
+
 <!-----------------------------------------------------MODAL DETALLES COMPLETOS---------------------------------------------->
-<?php include_once './ModalesEjec/MDetalleCompleto.php'; ?>
+<?php include_once './ModalesEjec/MdetalleCompleto.php'; ?>
 <!---------------------------------------------------FIN MODAL DETALLES COMPLETOS---------------------------------------------->
 <!---------------------FIN MODALES------- ------------------->
 

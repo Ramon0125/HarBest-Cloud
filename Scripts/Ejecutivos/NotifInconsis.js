@@ -167,7 +167,7 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
 
     $.ajax({
         type: "POST",
-        url: PageURL+"Managers/ManagerNotif.php",
+        url: PageURL+"Managers/ManagerNotif",
         data: formData,
         contentType: false,
         processData: false,
@@ -190,7 +190,7 @@ function vcarta(IDN)
 
     $.ajax({
       type: "POST",
-      url: PageURL+"Managers/ManagerNotif.php",
+      url: PageURL+"Managers/ManagerNotif",
       beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
       complete: function () { load(2); }, //Ocultar pantalla de carga
       data: {tipo: 'vcarta',IDN: IDN},
@@ -210,7 +210,7 @@ function dltnotif(idn,non)
 
     $.ajax({
     type: "POST",
-    url: PageURL+"Managers/ManagerNotif.php",
+    url: PageURL+"Managers/ManagerNotif",
     data: {tipo:'dltnotif', IDN:idn, COD:non},
     dataType: "JSON",
     beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
@@ -245,7 +245,7 @@ async function sendmail(nop)
 
    $.ajax({
     type: "POST",
-    url: PageURL + "Managers/ManagerEmails.php",
+    url: PageURL + "Managers/ManagerEmails",
     data: { FUNC: 'NOTIF.', ENTITY: nop, CC: values },
     dataType: "JSON",
     beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud

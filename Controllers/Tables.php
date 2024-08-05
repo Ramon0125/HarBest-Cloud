@@ -1,7 +1,8 @@
 <?php 
 
-if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
-{
+if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) && preg_match('/Tables(?:\.php)?/', $_SERVER['REQUEST_URI']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') 
+{ http_response_code(404); die(header('Location: ./404')); }
+
 require './Conexion.php';
 require './ControllersBlocks.php';
 require './Functions.php';
@@ -59,6 +60,3 @@ else {
 header('Content-Type: application/json');  
 echo json_encode(HandleError());
 }
-
-}
-else { header("LOCATION: ./404"); }

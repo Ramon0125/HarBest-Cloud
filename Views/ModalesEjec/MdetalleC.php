@@ -1,6 +1,10 @@
 <?php 
 
-if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
+if (preg_match('/MdetalleC(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{ http_response_code(404); die(header('Location: ./404')); } 
+
+?>
+
 <!---- MODAL AGREGAR DETALLE DE CITACION --------->
 
 <div class="modal fade" id="agrddc" data-bs-backdrop="static" aria-hidden="true" >
@@ -160,8 +164,6 @@ if (strpos($_SERVER['REQUEST_URI'], 'MdetalleC.php') === false) { ?>
 <button type="button" tabindex="-1" class="btn btn-success" id="btnagrddc" style="display:none" onclick="addddc(document.getElementById('slcntfddc1').value,
 document.getElementById('fdddc').value,
 document.getElementById('archivosddc').files,
-document.getElementById('nontfddc').value,
-document.getElementById('nocddc').value,
 document.getElementById('inconsisddc').value,
 document.getElementById('perddc').value,
 document.getElementById('valddc').value,
@@ -208,8 +210,3 @@ document.getElementById('telddc').value)">
 </div>
 </div></div></div></div>
 <!----------------FIN ELIMINAR NOTIFICACION------------------------------->
-
-<?php }
-else {header('LOCATION: ./404');}
-
-?>
