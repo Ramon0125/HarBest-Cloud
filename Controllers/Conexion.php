@@ -1,6 +1,7 @@
 <?php
 
-if (preg_match('/Conexion(?:\.php)?/', $_SERVER['REQUEST_URI'])) { die(header('Location: ./404')); }
+if (preg_match('/Conexion(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{ http_response_code(404); die(header('Location: ./404')); }
 
 require (file_exists('../vendor/autoload.php') ? '..' : '.').'/vendor/autoload.php';
 
@@ -47,17 +48,20 @@ class ConexionDB
 
     public function __construct() 
     {
-      try { 
-
+      try 
+      { 
       $dsn = 'mysql:host='.$_ENV['DB_HOST'].';dbname='.$_ENV['DB_NAME'];
       $usuario = $_ENV['DB_USER'];
       $clave = $_ENV['DB_PASS'];
       $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4'",
       PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC);
-      
       $this->conexion = new PDO($dsn, $usuario, $clave, $options); 
-
-      } catch (Exception) { die(header('LOCATION: ../Error/?Error=002')); }
+      } 
+      catch (Exception $e) 
+      { 
+        error_log($e->getMessage()); 
+        die(header('LOCATION: '. APP_URL .'Error/?Error=002')); 
+      }
     }
 
     public function obtenerConexion() { return $this->conexion; }

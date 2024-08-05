@@ -31,11 +31,11 @@ elseif($_POST['FUNC'] == 'dltclt' && isset($_POST['id'],$_POST['name']))
 { $data = $CC->DeleteCliente($_POST['id'], $_POST['name']); }
 
 
-elseif($_POST['FUNC'] == 'getccclt' && isset($_POST['id'])) 
+elseif($_POST['FUNC'] == 'getccclt' && isset($_POST['id'],$_POST['type'])) 
 { $data = $CC->GetCCCliente($_POST['id'],$_POST['type']); }
 
 
-else {$data = HandleError();}
+else {$data = 'hola'; HandleError();}
 }
 
 else {$data['CNV'] = true; SUMBLOCKUSER();}

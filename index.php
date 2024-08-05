@@ -61,15 +61,12 @@ elseif (VALIDARBLOCK() !== 'T') { die(file_get_contents(APP_URL.'Error/index.php
   <input type="password" name="password" id="password" class="form-style" autocomplete="password" readonly>
  </div>
 
- <div class="form-item"> 
- <div class="checkbox-wrapper-18">
-  <div class="square">
-    <input type="checkbox" id="checkbox-18" onclick="visor(document.getElementById('password'))" />
-    <label for="checkbox-18"></label>
+ <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="gridCheck2" style="margin-left: 0%;" onclick="visor(document.getElementById('password'))" >
+      <label class="form-check-label cp" style="position: absolute;   margin-top: 3px;" for="gridCheck2">
+        Mostrar contraseña
+      </label>
   </div>
-  <label for="checkbox-18" class="rp" >Mostrar contraseña</label>
-</div>
- </div>
 
  
  <div class="form-item">
@@ -92,8 +89,13 @@ elseif (VALIDARBLOCK() !== 'T') { die(file_get_contents(APP_URL.'Error/index.php
   <div class="form-item">
    <p class="formLabel">Confirmar contraseña</p>
    <input type="password" name="cpass" id="cpass" class="form-style" maxlength="15" autocomplete="new-password" readonly>        
-   <input type="checkbox" class="mc" name="mc1" id="mc1" onclick="visor(document.getElementById('cpass'))">
-   <label for="mc1" class="rup-pass">Mostrar Contraseña</label>
+  </div>
+
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="gridCheck" style="margin-left: 0%;" onclick="visor(document.getElementById('cpass'))" >
+      <label class="form-check-label cp" style="position: absolute;   margin-top: 3px;" for="gridCheck">
+        Mostrar contraseña
+      </label>
   </div>
 
   <div class="form-item">

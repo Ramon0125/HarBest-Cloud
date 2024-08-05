@@ -133,7 +133,7 @@ class ControllerCliente extends ConexionDB {
     $this->Response['success'] = true;
     $this->Response['message'] = $QueryExecution->fetch(PDO::FETCH_ASSOC);
 
-    }catch(Exception) { return HandleError(); }
+    }catch(Exception $e) { error_log($e->getMessage());  return HandleError(); }
 
     return $this->Response;
     }

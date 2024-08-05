@@ -1,6 +1,7 @@
 <?php
 
-if (strpos($_SERVER['REQUEST_URI'], 'ControllerEmails.php') !== false) { header('LOCATION: ./404'); }
+if (preg_match('/ControllerEmails(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{ http_response_code(404); die(header('Location: ./404')); }
 
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -30,7 +31,6 @@ class EmailSender extends ConexionDB
     'Nombre' => (GetInfo('Nombres').' '.GetInfo('Apellidos')),
     'Email' => GetInfo('Email'));
     $this->mail->addReplyTo($this->user['Email'], $this->user['Nombre']);
-
     }
 
 
@@ -76,9 +76,9 @@ class EmailSender extends ConexionDB
 
     private function AddAtachmentToMail($Archivos)
     {
-    foreach ($Archivos as $inconsistencia) 
+    foreach ((array) $Archivos as $inconsistencia) 
     {
-     $archivo_temporal = tempnam(sys_get_temp_dir(), 'Archivo');
+     $archivo_temporal = tempnam(sys_get_temp_dir(), $inconsistencia['NOMBRE']);
                 
      file_put_contents($archivo_temporal, base64_decode($inconsistencia['CARTA']));
             
@@ -92,7 +92,9 @@ class EmailSender extends ConexionDB
      if(count($cc) > 1)
      {
       $ccvalue = array_slice($cc,1);
-      foreach($ccvalue as $CC) { $this->mail->addCC($CC); }
+
+      foreach((array) $ccvalue as $CC) { $this->mail->addCC($CC); }
+
       $this->MDFCC($IDReg,json_encode($ccvalue),$Type);
      }
     }
@@ -191,11 +193,11 @@ class EmailSender extends ConexionDB
 
     $inconsistencias = "";
 
-    foreach ($Detalles as $values) 
+    foreach ((array) $Detalles as $values) 
     {
       $inconsistencias .= '<li style="text-align: justify;">Inconsistencia '.$values["NOTIFICACION"].'<br>';
           
-      foreach ($values["DETALLES"] as $values2) 
+      foreach ((array) $values["DETALLES"] as $values2) 
       { 
         $inconsistencias .= ($values2['Detalle'].', periodo '.substr($values2['Periodo'],0,4).'-'.substr($values2['Periodo'],4).' por valor de RD$'.$values2['Valor'].'<br>'); 
       }

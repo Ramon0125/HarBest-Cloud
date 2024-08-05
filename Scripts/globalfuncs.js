@@ -62,7 +62,6 @@ const tabledata = {
   "info":           "&nbsp; Mostrando _END_ de _TOTAL_ registros",
   "infoEmpty":      "&nbsp; No hay coincidencias",
   "infoFiltered":   "(filtrado de _MAX_ registros totales)",
-  "infoPostFix":    "",
   "thousands":      ",",
   "lengthMenu":     "&nbsp; Mostrar _MENU_ registros",
   "loadingRecords": "Cargando...",
@@ -70,7 +69,7 @@ const tabledata = {
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron registros",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
-  "lengthMenu": [17,40,50,100]
+  "lengthMenu": [ [17, 40, 50, -1], ["17", "40", "50", "Todos"] ]
   };
 
   
