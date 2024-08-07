@@ -259,7 +259,7 @@ else {
 
   <li class="dropdown-item">
    <hr class="divioer">
-    <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltddc">
+    <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltrdgii">
      <i class="dan bi bi-trash-fill"></i>Eliminar
     </a>
   </li>
@@ -269,73 +269,6 @@ else {
   </li>
   <!-- End Detalle de Citacion -->
 
-
-  <!--   Resolución de Determinación --><li class="nav-item">
-  <a class="nav-link collapsed b1" data-bs-target="#resdet" data-bs-toggle="collapse" href="#">
-  <i class="bi bi-journal-text"></i><span>Res. de Determinación</span><i class="bi bi-chevron-down ms-auto"></i>
-  </a>
-
-  <ul id="resdet" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
-  <i class="bi-plus-square"></i>Adicionar</a></li>
-
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-  <i class="bi bi-pencil-square"></i>Modificar</a></li>
-  
-  <li class="dropdown-item">
-  <hr class="divioer">
-  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
-  <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
-  </ul></li><!--- End Resolución de Determinación -->
-
-
-
-    <!--    Recurso de Reconsideración. --><li class="nav-item">
-    <a class="nav-link collapsed b1" data-bs-target="#resrec" data-bs-toggle="collapse" href="#">
-  <i class="bi bi-journal-text"></i><span>Rec. de Reconsideración</span><i class="bi bi-chevron-down ms-auto"></i>
-  </a>
-
-  <ul id="resrec" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-  
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
-  <i class="bi-plus-square"></i>Adicionar</a></li>
-
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-  <i class="bi bi-pencil-square"></i>Modificar</a></li>
-  
-  <li class="dropdown-item">
-  <hr class="divioer">
-  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
-  <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
-  </ul></li><!--- End Resolución de Determinación -->
-
-
-
-    <!--    Recurso Contencioso. --><li class="nav-item">
-    <a class="nav-link collapsed dan dan1" data-bs-target="#reccon" data-bs-toggle="collapse" href="#">
-  <i class="bi bi-journal-text "></i><span>Recurso Contencioso</span><i class="bi bi-chevron-down ms-auto"></i>
-  </a>
-
-  <ul id="reccon" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-  
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
-  <i class="bi-plus-square"></i>Adicionar</a></li>
-
-  <li class="dropdown-item">
-  <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtnot">
-  <i class="bi bi-pencil-square"></i>Modificar</a></li>
-  
-  <li class="dropdown-item">
-  <hr class="divioer">
-  <a class="dan nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#dltnot">
-  <i class="dan bi bi-trash-fill"></i>Eliminar</a></li>
-  </ul></li><!--- End Resolución de Determinación -->
 
   <!-- Tablas -->
 
@@ -499,4 +432,5 @@ else {  ?>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/detallecitacion.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/escritodescargo.js" type="text/javascript"></script> 
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/respuestadgii.js" type="text/javascript"></script> 
 <?php } ?> </body></html> <?php }

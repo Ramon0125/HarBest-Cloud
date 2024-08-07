@@ -6,16 +6,13 @@ if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI']))
 
   function validarCarta($string) : bool 
   {
-  $permitidos = ['pdf', 'jpg', 'png', 'docx', 'doc'];
-  //Estas son las extensiones permitidas
+    $permitidos = ['pdf', 'jpg', 'png', 'docx', 'doc'];
+    //Estas son las extensiones permitidas
         
-  if (is_array($string)) { return empty(array_diff(array_map('strtolower', $string), $permitidos));}
-  //1: array_map volvera todos los elementos del array en minusculas
-  //2: array_diff retornara un array con los elementos que no estan en la variable $permitidos
-  //3: empty evaluara si el array retornado tiene contenido o no
-        
-  else { return in_array(strtolower($string), $permitidos); }
-  //in_array evaluara si el contenido se encuentra entre las extensiones permitidas
+    return empty(array_diff(array_map('strtolower',(array) $string), $permitidos));
+    //1: array_map convertira todos los caracteres del array en minusculas
+    //2: array_diff retornara un array con los elementos que no estan en la variable $permitidos
+    //3: empty evaluara si el array retornado tiene contenido o no     
   }
     
   
@@ -45,6 +42,7 @@ if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI']))
       return true;
   }
 
+
   function ArrayFormat ($array) 
   {
     if (count($array) === 1) { return $array[0]; }
@@ -71,7 +69,7 @@ if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI']))
   }
 
 
-  function EMAILS(string $ID,INT $V)
+  function EMAILS(string $ID,INT $V) : void
   {
     $ConexionDB = NEW ConexionDB();
     $InstanciacionDB = $ConexionDB->obtenerConexion();

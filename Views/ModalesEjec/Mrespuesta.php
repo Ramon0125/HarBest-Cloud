@@ -5,14 +5,14 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
 
 ?>
 
-<!---- MODAL AGREGAR DETALLE DE CITACION --------->
+<!---- MODAL AGREGAR RESPUESTA DGII --------->
 <div class="modal fade" id="agrresdgii" data-bs-backdrop="static" aria-hidden="true" >
  <div class="modal-dialog center">
   <div class="modal-content">
    
   <div class="modal-body">
     <div class="ModalTitle">
-     <h3 class="modal-title"><strong>Agregar un respuesta de la DGII</strong></h3>
+     <h3 class="modal-title"><strong>Agregar una respuesta de la DGII</strong></h3>
      <hr class="my-4 Divisor">
     </div>
   
@@ -22,10 +22,10 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
     <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfrdgii" name="slcntfrdgii">
     <input type="hidden" id="slcntfrdgii1" name="slcntfrdgii1">
     <datalist id="dtlagrrdgii" role="listbox">
-    <?php $DataED = Datos(7);
-    if ($DataED !== false && count($DataED) > 0) {
-    foreach ($DataED as $EDD){ ?>
-    <option value="<?php echo $EDD["CodigoNotif"]; ?>"><?php echo $EDD["CodigoNotif"]; ?></option>
+    <?php $DataRD = Datos(9);
+    if ($DataRD !== false && count($DataRD) > 0) {
+    foreach ($DataRD as $RDGII){ ?>
+    <option value="<?php echo $RDGII["CodigoNotif"]; ?>"><?php echo $RDGII["CodigoNotif"]; ?></option>
     <?php }} ?>
     </datalist>
     </form>
@@ -33,20 +33,24 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
 
   <div class="container" id="formrdgii" style="display: none; padding-left: unset;">
 
-  <hr class="Divisor" style="margin-top: 3%; margin-bottom: 2%; width: 103%;">
+   <hr class="Divisor" style="margin-top: 3%; margin-bottom: 2%; width: 103%;">
 
-  <div style="display:flex; gap: 10px;">
-  <div class="col-sm-6">
-    <label for="frdgii" class="form-label center" style="margin-top: 3%;">Fecha respuesta</label>
-    <input type="DATE" class="form-control" id="frdgii" name="frdgii" required autocomplete="off">
+   <div style="display:flex; gap: 10px;">
+
+    <div class="col-sm-6">
+
+     <label for="frdgii" class="form-label center" style="margin-top: 3%;">Fecha respuesta</label>
+     <input type="DATE" class="form-control" id="frdgii" name="frdgii" required autocomplete="off">
   
-    <label for="tipordgii" class="form-label center" style="margin-top: 13px;">Tipo respuesta</label>
-        <select id="tipordgii" class="form-select">
-            <option value="">Acta de descargo</option>
-            <option value="">Aceptacion de inconsistencia</option>
-            <option value="">Resolucion de determinacion</option>
-        </select>
-</div>
+     <label for="tipordgii" class="form-label center" style="margin-top: 13px;">Tipo respuesta</label>
+    
+     <select id="tipordgii" class="form-select">
+      <option value="Acta de descargo">Acta de descargo</option>
+      <option value="Aceptacion de inconsistencia">Aceptacion de inconsistencia</option>
+      <option value="Resolucion de determinacion">Resolucion de determinacion</option>
+     </select>
+     
+    </div>
   
     <div class="col-sm-6 upload-container">
 
@@ -59,15 +63,16 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
           </svg>
         </div>
        
-        <input type="file" id="FileEscrito" hidden>
+        <input type="file" id="FileRes" hidden>
       
         <p class="center">       
-         <span><a id="file-browser" class="cp">Buscar</a> el archivo.</span>
+         <span><a id="file-res-browser" class="cp">Buscar</a> el archivo.</span>
         </p>
 
       </div>
       
     </div>
+
     </div>
 
   </div>
@@ -77,8 +82,47 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
 
 <div class="modal-footer justify-content-center">
 <button type="button" class="btn btn-success" id="btnagrrdgii" style="display:none" 
-onclick="addedd(document.getElementById('slcntfedd1').value,document.getElementById('FechaEscrito').value,document.getElementById('FileEscrito').files[0])">
+onclick="addres(document.getElementById('slcntfrdgii').value,document.getElementById('frdgii').value,document.getElementById('tipordgii').value,document.getElementById('FileRes').files[0])">
 <i class="bi bi-floppy"></i> Crear</button>
-<button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeescrito()">Cancelar</button>
+
+<button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeres()">Cancelar</button>
+
 </div></div></div></div>
-<!----------------FIN AGREGAR ESCRITO------------------------------->
+<!----------------FIN AGREGAR RESPUESTA DGII------------------------------->
+
+
+
+<!----------------------- MODAL ELIMINAR RESPUESTA DGII-------------------->
+<div class="modal fade" id="dltrdgii" data-bs-backdrop="static" aria-hidden="true">
+<div class="modal-dialog modal-dialog"><div class="modal-content">
+<div class="modal-body">
+<div style="text-align: center; flex-direction: column; align-items: center; justify-content: center;">
+<h3 style="color: #6f6e73;" class="modal-title"><strong>Eliminar una respuesta de la DGGI</strong></h3>
+<hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+</div>
+<div class="container">
+
+<div class="col-fluid col-lg-12">
+<form id="formdltrdgii">
+  <label for="slcdltrdgii" class="form-label labeledtmdf">Seleccione el codigo de notificaciòn</label>  
+  <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltrdgii" name="slcdltrdgii" placeholder="">
+  <input type="hidden" id="slcdltrdgii1" name="slcdltrdgii">
+  <datalist id="dtldltrdgii" role="listbox">
+  <?php $DataRD1 = Datos(10);
+  if ($DataRD1 !== false && count($DataRD1) > 0) {
+  foreach ($DataRD1 as $RDGII1){ ?>
+  <option value="<?php echo $RDGII1["IDRespuesta"]; ?>"><?php echo $RDGII1["CodigoNotif"]; ?></option>
+  <?php }} ?>
+  </datalist>
+</form>
+</div>
+
+</div>
+  <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
+  <div class="modal-footer justify-content-center">
+    <button type="button" id="btndltrdgii" class="btn btn-success" style="background-color:green; display:none;" onclick="dltrdgii(document.getElementById('slcdltrdgii').value,document.getElementById('slcdltrdgi').value)">
+    <i class="bi bi-trash"></i>Eliminar</button>
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltrdgii1',['#dtldltrdgii','#btndltrdgii'],'#formdltrdgii')">Cancelar</button>
+</div>
+</div></div></div></div>
+<!----------------FIN ELIMINAR RESPUESTA DGII------------------------------->

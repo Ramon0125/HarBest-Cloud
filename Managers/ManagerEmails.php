@@ -2,7 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['FUNC']) && isset($_POST['ENTITY']) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
 {
 
-require "../Controllers/Conexion.php";
+require '../Controllers/Conexion.php';
 require '../Controllers/ControllersBlocks.php';
 require '../Controllers/Functions.php';
 require '../Controllers/ControllerEmails.php';

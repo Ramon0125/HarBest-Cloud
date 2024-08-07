@@ -1,9 +1,11 @@
 <?php
 
 if (preg_match('/ControllerEmails(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
-{ http_response_code(404); die(header('Location: ./404')); }
+{ http_response_code(404); die(header('Location: ./404')); }  
 
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
 
 class EmailSender extends ConexionDB
 {
@@ -14,28 +16,43 @@ class EmailSender extends ConexionDB
 
 
     public function __construct()
-    { 
+    {
     parent::__construct();
     $this->conectdb = $this->obtenerConexion();
+    $this->user = array('Nombre' => (GetInfo('Nombres').' '.GetInfo('Apellidos')),'Email' => GetInfo('Email'));
+    
     $this->mail = new PHPMailer(true);
-    $this->mail->isSMTP();
-    $this->mail->Host = $_ENV['MAIL_HOST'];
-    $this->mail->SMTPAuth = true;
-    $this->mail->Username = $_ENV['MAIL_USERNAME'];
-    $this->mail->Password = $_ENV['MAIL_PASSWORD'];
-    $this->mail->SMTPSecure = 'tls'; // tls o ssl
-    $this->mail->Port = 587; // Puerto de SMTP
-    $this->mail->setFrom($_ENV['MAIL_USERNAME'],$_ENV['COMPANY_NAME']);
-    $this->mail->CharSet = 'UTF-8';
-    $this->mail->isHTML(); 
-    $this->user = array(
-    'Nombre' => (GetInfo('Nombres').' '.GetInfo('Apellidos')),
-    'Email' => GetInfo('Email'));
-    $this->mail->addReplyTo($this->user['Email'], $this->user['Nombre']);
+   
+    try 
+    {
+
+      $this->mail->isSMTP(); // Establecer el uso del protocolo SMTP para enviar correos
+      $this->mail->Host = $_ENV['MAIL_HOST']; // Especificar el servidor SMTP a utilizar (almacenado en una variable de entorno)
+      $this->mail->SMTPAuth = true; // Habilitar la autenticación SMTP
+      $this->mail->Username = $_ENV['MAIL_USERNAME']; // Nombre de usuario para la autenticación SMTP (almacenado en una variable de entorno)
+      $this->mail->Password = $_ENV['MAIL_PASSWORD']; // Contraseña para la autenticación SMTP (almacenado en una variable de entorno)
+      $this->mail->SMTPSecure = 'tls'; // Habilitar la seguridad TLS (o 'ssl' si se prefiere)
+      $this->mail->Port = 587; // Puerto a utilizar para la conexión SMTP (587 para TLS, 465 para SSL)
+      $this->mail->setFrom($_ENV['MAIL_USERNAME'], $_ENV['COMPANY_NAME']); // Establecer la dirección de correo y nombre del remitente (almacenado en variables de entorno)
+      $this->mail->CharSet = 'UTF-8'; // Establecer el juego de caracteres del correo a UTF-8
+      $this->mail->isHTML(); // Habilitar el uso de HTML en el cuerpo del correo
+      $this->mail->addReplyTo($this->user['Email'], $this->user['Nombre']); // Añadir una dirección de respuesta y nombre del usuario
+
+    }
+
+    catch(Exception) 
+    { 
+      error_log($this->mail->ErrorInfo);    
+      $this->res['success'] = false;
+      $this->res['message'] = 'EECE';
+      SUMBLOCKUSER();  
+      return $this->res;  
+    }
+
     }
 
 
-    private function MDFCC($idn,$cc,$type) : void
+    private function MDFCC(int $idn, string $cc, int $type) : void
     {
         $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD');
 
@@ -47,7 +64,7 @@ class EmailSender extends ConexionDB
     }
 
 
-    private function DateFormat($Date)
+    private function DateFormat(string $Date) : string
     {
      $days = array(
      "january" => "enero",
@@ -100,10 +117,12 @@ class EmailSender extends ConexionDB
      }
     }
 
+
     private function MailHead(string $NombreCliente) : string
     {
       return str_replace('[NOMBRE_CLIENTE]',$NombreCliente,file_get_contents(APP_URL.'Data/modelos/HeadEmail.html'));
     }
+
 
     private function MailFoot()
     {
@@ -137,7 +156,9 @@ class EmailSender extends ConexionDB
 
 
     public function SendMailNotif($dat,$cc)
-    {        
+    { 
+      try {
+
       // Llamada al procedimiento almacenado para obtener los datos de la notificacion
       $query = "CALL SENDMAIL_NOTIF(?)";
       $exec = $this->conectdb->prepare($query);
@@ -178,6 +199,8 @@ class EmailSender extends ConexionDB
 
       // Enviar el correo
       $this->SendMail($value["IDNotif"],1);
+      
+      }catch( Exception $e) { error_log($e->getMessage()); return HandleError();}
 
     return $this->res;
     }
@@ -185,6 +208,8 @@ class EmailSender extends ConexionDB
 
     public function SendMailDDC($dat,$cc)
     {
+      try {
+
       // Llamada al procedimiento almacenado para obtener los datos del detalle de citacion      
       $query = "CALL SENDMAIL_DETALLE(?)";
       $exec = $this->conectdb->prepare($query);
@@ -242,6 +267,8 @@ class EmailSender extends ConexionDB
 
       // Enviar el correo
       $this->SendMail($value["IDDetalle"],2);
+
+      }catch( Exception $e) { error_log($e->getMessage()); return HandleError();}
     
     return $this->res;
     }
@@ -249,6 +276,8 @@ class EmailSender extends ConexionDB
 
     function SendMailEscrito(int $IDEscrito, array $cc): array
     {
+        try {
+
         // Llamada al procedimiento almacenado para obtener los datos del escrito de descargo
         $query = "CALL SENDMAIL_ESCRITO(?)";
         $exec = $this->conectdb->prepare($query);
@@ -264,7 +293,7 @@ class EmailSender extends ConexionDB
         // Reemplazos en el template del correo
         $replacements = array(
         "[NOTIFICACIONES]" => ArrayFormat(json_decode($value['NONOTIF'],true)),
-        "[FECHANOTIF]" => $this->DateFormat($value["FechaNotif"])
+        "[NOCASOS]" => ArrayFormat(json_decode($value['NOCASO'],true))
         );
         
         // Leer el template del correo
@@ -287,6 +316,8 @@ class EmailSender extends ConexionDB
     
         // Enviar el correo
         $this->SendMail($value["IDEscrito"], 3);
+
+        }catch( Exception $e) { error_log($e->getMessage()); return HandleError();}
     
         return $this->res;
     }

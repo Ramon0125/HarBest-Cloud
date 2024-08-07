@@ -117,6 +117,7 @@ S: 'success',
 UDC: 'Usuario desbloqueado correctamente',
 EDU: 'Error al desbloquear el usuario',
 ENE: 'Esta Notificacion Existe',
+ENCYA: 'Este numero de caso ya esta agregado',
 NIC: 'Notificacion Insertada correctamente',
 EIN: 'Error al insertar notificaion',
 EEC1: 'Email enviado correctamente',
@@ -145,7 +146,12 @@ EEDDE: 'Este escrito de descargo existe',
 EDDIC: 'Escrito de descargo insertado correctamente',
 EIEDD: 'Error al insertar escrito de descargo',
 EDDEC: 'Escrito de descargo eliminado correctamente',
-EEEDD: 'Error al eliminar escrito de descargo'
+EEEDD: 'Error al eliminar escrito de descargo',
+ERYE: 'Esta respuesta ya fue insertada',
+RIC: 'Respuesta insertada correctamente',
+EIR: 'Error al insertar respuesta',
+REL: 'Respuesta eliminada correctamente',
+EER: 'Error al eliminar respuesta'
 };
 
 

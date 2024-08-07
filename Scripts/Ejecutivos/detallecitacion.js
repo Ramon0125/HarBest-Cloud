@@ -36,8 +36,20 @@ function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)
     incon[NONotif].push(Informacion); 
   }
   
-  else { incon[NONotif] = [Informacion]; }
+  else {
+    
+    for (let notif in incon) 
+    {
+      if (notif !== NONotif) 
+      {
+        let existeEntrada = incon[notif].some(item => item.NOCaso === NOCaso);
+        
+        if (existeEntrada) { return Alerta(txt.ENCYA, txt.W, false, true); }
+      }
+    }
 
+    incon[NONotif] = [Informacion]; 
+}
   Alerta('Detalle añadido',txt.S,2000); 
   updatedetalles();   $('#inconsisddc').val('');  $('#perddc').val(''); $('#valddc').val(''); $('#impddc').val('');
 }

@@ -332,7 +332,7 @@ option:hover,  .active{
   width: 96% !important;
 }
 
-#dtlagredd,#dtldltedd{ width: 93.5%;}
+#dtlagredd,#dtldltedd, #dtlagrrdgii{ width: 93.5%;}
 
 .loading {
   height: 100%;
@@ -541,13 +541,13 @@ word-wrap: break-word;    }
   margin-bottom: -2%;
 }
 
-#file-browser {
+#file-browser,#file-res-browser  {
   text-decoration: none;
   color:  var(--color);
   border-bottom: 3px dotted var(--color);
 }
 
-#file-browser.delete{
+#file-browser.delete, #file-res-browser.delete{
   color:  var(--acolordan);
   border-bottom: 3px dotted var(--acolordan);
 }
