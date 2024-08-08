@@ -18,7 +18,7 @@ $(document).ready(function(){
   
   if (params.has('Notificacion')) 
   {
-    const mensaje = params.get('Notificacion');
+    let mensaje = params.get('Notificacion');
     Alerta(mensaje,txt.S,2000);
     LimpiarParametros();
   }
@@ -58,16 +58,15 @@ $(window).resize(function () { $('#chk').prop('checked',toggval() == 0 ? true : 
 const tabledata = {
   "autoWidth": false,
   "order": [],
-  "language": { "emptyTable":     "No hay datos disponibles en la tabla",
+  "language": { "emptyTable":     "No se encontraron datos en la tabla",
   "info":           "&nbsp; Mostrando _END_ de _TOTAL_ registros",
-  "infoEmpty":      "&nbsp; No hay coincidencias",
+  "infoEmpty":      "&nbsp;  _END_ de _TOTAL_ registros",
   "infoFiltered":   "(filtrado de _MAX_ registros totales)",
-  "thousands":      ",",
   "lengthMenu":     "&nbsp; Mostrar _MENU_ registros",
   "loadingRecords": "Cargando...",
   "processing":     "Procesando...",
   "search":         "Buscar:",
-  "zeroRecords":    "No se encontraron registros",
+  "zeroRecords":    "No se encontraron coincidencias",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
   "lengthMenu": [ [17, 40, 50, -1], ["17", "40", "50", "Todos"] ]
   };
@@ -166,12 +165,12 @@ function cerrar()
   cancelButtonColor: '#dc3545',
   confirmButtonText: 'Si',
   cancelButtonText: 'Cancelar',
-  preConfirm: () => { let url = PageURL+'?hcerrar';  window.location.href = url;}});
+  preConfirm: () => { window.location.href = PageURL+'?hcerrar';}});
 }
 
 
 // Función para mostrar las alertas
-function Alerta(result, icon, tim, sc, tit) 
+function Alerta(result, icon, tim, sc, tit,html) 
 {
   Swal.fire({
   confirmButtonColor: '#28a745',
@@ -179,7 +178,8 @@ function Alerta(result, icon, tim, sc, tit)
   icon: icon,
   title: tit,
   text: result,
-  timer: tim});
+  timer: tim,
+  html: html});
 }
 
 
@@ -195,20 +195,16 @@ switch (resp)
 case "10000": location.reload(); break;///Se ejecuta si el array contiene la propiedad bloqueo
 case "01000": let url = PageURL+'Error/?Error=002'; window.location.href = url; break;///Se ejecuta si el array contiene la propiedad error 
 case "00100": $('.modal').modal('hide'); Alerta(txt[respuesta.message],txt.S, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
-case "00010": Swal.fire({ 
-              title: 'Caracteres No Validos',
-              html: `Por favor, evita ingresar los siguientes caracteres:<br><br>
-               <ul style="text-align:left;">
-                 <li>Punto y coma (;)</li>
-                 <li>Comillas ('-")</li>
-                 <li>Comentarios de una sola línea con '--'</li>
-                 <li>Comentarios multilíneas (/* comentario */)</li>
-                 <li>Prefijo 'xp_'</li>
-                 <li>Caracteres especiales como: $, %, <, >, =</li>
-               </ul>`,
-              icon: 'warning',
-              confirmButtonText: 'Aceptar',
-              confirmButtonColor: 'green'}); break; ///Se ejecuta si el array contiene la propiedad CNV
+case "00010": Alerta(false,txt.W,false,true,txt.CNV,
+                `Por favor, evita ingresar los siguientes caracteres:<br><br>
+                      <ul style="text-align:left;">
+                       <li>Punto y coma (;)</li>
+                       <li>Comillas ('-")</li>
+                       <li>Comentarios de una sola línea con '--'</li>
+                       <li>Comentarios multilíneas (/* comentario */)</li>
+                       <li>Prefijo 'xp_'</li>
+                       <li>Caracteres especiales como: $, %, <, >, =</li>
+                      </ul>`); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00001": Alerta(txt.MCI1,txt.W,false,true,txt.EANV); break; ///Se ejecuta si el array contiene la propiedad CNV
 case "00000": Alerta(txt[respuesta.message],txt.W, 2000, false,false); break; ///Se ejecuta si el array no contiene la propiedad success
 };
