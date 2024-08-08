@@ -49,7 +49,7 @@ public function agrres(string $cod,string $Fecha,string $Tipo, array $archivo): 
 
     if ($this->Response['success']) 
     {
-      /* EMAILS($cod,3); */
+      EMAILS($cod,4);
       AUDITORIA(GetInfo('IDUsuario'),'INSERTO UNA RESPUESTA DE LA DGII');
     }
     else {SUMBLOCKUSER();}
@@ -84,6 +84,29 @@ public function dltres(int $CodRes, string $CodNot): array
   }catch(Exception $e) {error_log($e->getMessage());  return HandleError();}
 
 return $this->Response;
+}
+
+
+public function varchivos(int $IDD) : array 
+{
+  try
+  {
+    // Obtener los archivos de escrito de descargo
+    $query = 'SELECT ArchivoRespuesta FROM RESPUESTA_DGII WHERE IDRespuesta = ?';
+    $exec = $this->ConexionDB->prepare($query);
+    $exec->bindParam(1,$IDD,PDO::PARAM_INT);
+    $exec->execute();
+
+    // Si la consulta no trae datos dispara error
+    if ($exec->rowCount() === 0) {return HandleError();}
+    
+    $res = $exec->fetch();
+    $this->Response['success'] = true;
+    $this->Response['CARTAS'] = $res['ArchivoRespuesta'];
+
+  }catch(Exception $e) {error_log($e->getMessage());  return HandleError();}
+
+  return $this->Response;
 }
 
 }

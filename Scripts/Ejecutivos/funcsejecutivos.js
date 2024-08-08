@@ -359,6 +359,30 @@ const ModEscrito = ({FechaEscrito,FechaVenciED,EstatusED,IDEscrito}) => {
 }
 
 
+const ModRespuesta = ({FechaRespuesta,TipoRespuesta,EstatusRespuesta,IDRespuesta}) => {
+  document.getElementById('FechaRespuestaDC').innerText = FechaRespuesta;
+  document.getElementById('TipoRespuestaDC').innerText = TipoRespuesta;
+  document.getElementById('ArchivosRespuestaDC').setAttribute('onclick',`AbrirDocumentosRespuesta(${IDRespuesta})`);
+
+  let EmailRespuestaDiv = document.getElementById('EstadoEmailRespuestaDC');
+ 
+  if(EstatusRespuesta === 'F')
+  {
+  EmailRespuestaDiv.classList.add('cp');
+  EmailRespuestaDiv.setAttribute('onclick',`SendmailRespuesta(${IDRespuesta})`);
+  EmailRespuestaDiv.innerHTML = '<i class="bi bi-send"></i> Enviar';
+  }
+  else
+  { 
+  EmailRespuestaDiv.classList.remove('cp');
+  EmailRespuestaDiv.removeAttribute('onclick');
+  EmailRespuestaDiv.innerHTML = '<i class="bi bi-check2-circle"></i> Enviado'; 
+  }
+
+  modifystyle('#ContainerRespuestaDC','display','flex');
+
+}
+
 function DetailsNotif(IDD) 
 {
   if (!validarparams(IDD)) {return Alerta(txt.EELS,txt.E,2000);}
@@ -382,6 +406,7 @@ function DetailsNotif(IDD)
         
     DATA.FechaDC ? ModDetalle(DATA) : modifystyle('#ContainerDetalleDC','display','none');        
     DATA.FechaEscrito ? ModEscrito(DATA) : modifystyle('#ContainerEscritoDC','display','none');
+    DATA.FechaRespuesta ? ModRespuesta(DATA) : modifystyle('#ContainerRespuestaDC','display','none');
    }
    else{ return responses(DATA);}},
    error: function(e){console.log(e);    return Alerta(txt.EELS,txt.W,2000);}

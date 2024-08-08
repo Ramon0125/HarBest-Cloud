@@ -74,7 +74,7 @@ if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI']))
     $ConexionDB = NEW ConexionDB();
     $InstanciacionDB = $ConexionDB->obtenerConexion();
     
-    $SPName = array(1 => 'NOTIF', 2 => 'DDC', 3 => 'EDD');
+    $SPName = array(1 => 'NOTIF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES');
     
     $QueryStatement = "CALL SP_INSERT_EMAIL_".$SPName[$V]."(?)";
 

@@ -54,12 +54,13 @@ class EmailSender extends ConexionDB
 
     private function MDFCC(int $idn, string $cc, int $type) : void
     {
-        $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD');
+        $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES');
 
-        $SPCall = "CALL SP_ADD_CC_".$SPName[$type]."(?,?)";
+        $SPCall = "CALL SP_ADD_CC(?,?,?)";
         $RES1 = $this->conectdb->prepare($SPCall);
-        $RES1->bindParam(1, $idn,1);
-        $RES1->bindParam(2, $cc);
+        $RES1->bindParam(1,$idn,1);
+        $RES1->bindParam(2,$SPName[$type]);
+        $RES1->bindParam(3,$cc);
         $RES1->execute(); 
     }
 
@@ -133,14 +134,15 @@ class EmailSender extends ConexionDB
 
     private function SendMail(int $IDReg, int $Type)
     {
-    $Table = array(1 => 'EMAILS_NOTIF', 2 => 'EMAILS_DETALLE', 3 => 'EMAILS_ESCRITO');
-    $Col = array(1 => 'IDNotif', 2 => 'IDDetalle', 3 => 'IDEscrito');
+    $Table = array(1 => 'EMAILS_NOTIF', 2 => 'EMAILS_DETALLE', 3 => 'EMAILS_ESCRITO', 4 => 'EMAILS_RESPUESTA');
+    $Col = array(1 => 'IDNotif', 2 => 'IDDetalle', 3 => 'IDEscrito', 4 => 'IDRespuesta');
 
     if ($this->mail->send()) 
     {
-    $RES = "UPDATE ". $Table[$Type] ." SET Estatus = 'T' WHERE ". $Col[$Type] . " = ?";
+    $RES = "UPDATE ". $Table[$Type] ." SET Estatus = 'T', HoraEnvio = ? WHERE ". $Col[$Type] . " = ?";
     $RES1 = $this->conectdb->prepare($RES);
-    $RES1->bindParam(1, $IDReg, 1);
+    $RES1->bindParam(1, date('Y-m-d H:i:s'));
+    $RES1->bindParam(2, $IDReg, 1);
     $RES1->execute();
     $this->res['success'] = true;
     $this->res['message'] = 'EEC1';
@@ -316,6 +318,55 @@ class EmailSender extends ConexionDB
     
         // Enviar el correo
         $this->SendMail($value["IDEscrito"], 3);
+
+        }catch( Exception $e) { error_log($e->getMessage()); return HandleError();}
+    
+        return $this->res;
+    }
+
+
+    function SendMailRespuesta(int $IDRespuesta, array $cc): array
+    {
+        try {
+
+        // Llamada al procedimiento almacenado para obtener los datos de la respuesta de la dgii
+        $query = "CALL SENDMAIL_ESCRITO(?)";
+        $exec = $this->conectdb->prepare($query);
+        $exec->bindParam(1, $IDRespuesta, 1);
+        $exec->execute();
+        
+        // Manejo de errores si no se encontraron resultados
+        if ($exec->rowCount() === 0) { return HandleError(); }
+
+        $value = $exec->fetch();
+        $exec->closeCursor();
+    
+        // Reemplazos en el template del correo
+        $replacements = array(
+        "[NOTIFICACIONES]" => ArrayFormat(json_decode($value['NONOTIF'],true)),
+        "[NOCASOS]" => ArrayFormat(json_decode($value['NOCASO'],true))
+        );
+        
+        // Leer el template del correo
+        $templatePath = APP_URL . "Data/modelos/respuestadgii" . ($value["SIZE"] == 1 ? "" : "2") . ".html";
+        $template = file_get_contents($templatePath);
+        
+        // Construir el cuerpo del correo
+        $modelo = ($this->MailHead($value['NombreCliente'])) .
+                  (str_replace(array_keys($replacements), $replacements, $template)) .
+                  ($this->MailFoot());
+        
+        // Configurar destinatario, asunto y cuerpo del correo
+        $this->mail->addAddress($cc[0]);
+        $this->mail->Subject = mb_convert_encoding($value["TipoRespuesta"].' sobre inconsistencia DGII - ' . $value["NombreCliente"], "UTF-8", "auto");
+        $this->mail->Body = $modelo;
+    
+        // Añadir adjuntos y CC
+        $this->AddAtachmentToMail(json_decode($value["ArchivoRespuesta"], true));
+        $this->AddCCToMail($cc, $value["IDRespuesta"], 4);
+    
+        // Enviar el correo
+        $this->SendMail($value["IDRespuesta"], 4);
 
         }catch( Exception $e) { error_log($e->getMessage()); return HandleError();}
     

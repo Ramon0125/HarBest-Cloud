@@ -135,12 +135,13 @@ class ControllerCliente extends ConexionDB {
         try
         {
             //Array de nombres de procedimientos
-            $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD');
+            $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES');
 
             // Llamada al procedimiento almacenado para obtener los CC del cliente
-            $Query = "CALL SP_GET_CC_".$SPName[$type]."(?)";
+            $Query = "CALL SP_GET_CC(?,?)";
             $QueryExecution = $this->ConexionDB->prepare($Query);
             $QueryExecution->bindParam(1,$id,PDO::PARAM_INT);
+            $QueryExecution->bindParam(2,$SPName[$type]);
             $QueryExecution->execute();
            
             // Si la consulta no trae datos dispara error

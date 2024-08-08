@@ -120,7 +120,7 @@ onclick="addres(document.getElementById('slcntfrdgii').value,document.getElement
 </div>
   <hr class="my-4" style="background-color: #53ce00 !important; color:#53ce00; height:4px;">
   <div class="modal-footer justify-content-center">
-    <button type="button" id="btndltrdgii" class="btn btn-success" style="background-color:green; display:none;" onclick="dltrdgii(document.getElementById('slcdltrdgii').value,document.getElementById('slcdltrdgi').value)">
+    <button type="button" id="btndltrdgii" class="btn btn-success" style="background-color:green; display:none;" onclick="dltrdgii(document.getElementById('slcdltrdgii1').value,document.getElementById('slcdltrdgii').value)">
     <i class="bi bi-trash"></i>Eliminar</button>
     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltrdgii1',['#dtldltrdgii','#btndltrdgii'],'#formdltrdgii')">Cancelar</button>
 </div>

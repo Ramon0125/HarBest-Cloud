@@ -1,5 +1,5 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['FUNC']) && isset($_POST['ENTITY']) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['FUNC']) && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
 {
 
 require '../Controllers/Conexion.php';
@@ -10,7 +10,7 @@ require '../Controllers/ControllerEmails.php';
 
 if(VALIDARBLOCK() === 'T'){
 
-if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0)
+if (!is_null(GetInfo('IDUsuario')) && GetInfo('IDUsuario') > 0 && isset($_POST['ENTITY'],$_POST['CC']))
 {
 
 if (Validarcadena1($_POST))
@@ -18,19 +18,25 @@ if (Validarcadena1($_POST))
 
 $SENDMAIL = new EmailSender();
 
-if($_POST['FUNC'] == 'NOTIF.' && isset($_POST['ENTITY'],$_POST['CC']))
-{
- $data = $SENDMAIL->SendMailNotif($_POST['ENTITY'],$_POST['CC']);
+switch ($_POST['FUNC']) {
+
+  case 'NOTIF':
+    $data = $SENDMAIL->SendMailNotif($_POST['ENTITY'],$_POST['CC']);
+  break;
+
+  case 'DDC':
+    $data = $SENDMAIL->SendMailDDC($_POST['ENTITY'],$_POST['CC']);
+  break;
+
+  case 'EDD':
+    $data = $SENDMAIL->SendMailEscrito($_POST['ENTITY'],$_POST['CC']);
+  break;
+  
+  default:
+  $data = HandleError();
+  break;
+
 }
-elseif($_POST['FUNC'] == 'DDC' && isset($_POST['ENTITY'],$_POST['CC']))
-{
- $data = $SENDMAIL->SendMailDDC($_POST['ENTITY'],$_POST['CC']);
-}
-elseif($_POST['FUNC'] == 'EDD' && isset($_POST['ENTITY'],$_POST['CC']))
-{
- $data = $SENDMAIL->SendMailEscrito($_POST['ENTITY'],$_POST['CC']);
-}
-else {$data = HandleError();}
 
 }
 

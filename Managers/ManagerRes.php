@@ -24,6 +24,11 @@ if ($_POST['FUNC'] === 'agrres' && isset($_POST['CodNot'],$_POST['Fecha'],$_POST
 elseif ($_POST['FUNC'] === 'dltres' && isset($_POST['CodRes'],$_POST['CodNot'])) 
 { $data = $CR->dltres($_POST['CodRes'],$_POST['CodNot']); }
 
+elseif ($_POST['FUNC'] == 'vrespuesta' && isset($_POST['IDD'])) 
+{
+  $data = $CR->varchivos($_POST['IDD']);
+}
+
 else {$data = HandleError();}
 }
   

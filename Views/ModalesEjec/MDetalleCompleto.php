@@ -8,18 +8,22 @@ if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI']))
 ?>
 
 <div class="modal fade" id="DetailNotif" data-bs-backdrop="static" aria-hidden="true">
- <div class="modal-dialog">
+ <div class="modal-dialog modal-dialog-scrollable">
   <div class="modal-content" style="transform: translate(-50%, 0%); width: 159%; left: 50%;">
 
-    <div class="modal-body">
-
-     <div class="ModalTitle">
+    <div class="modal-header center" style="justify-content:none; border-bottom: none;">
+      <div class="ModalTitle">
          <h3 class="modal-title fb" style="font-size: xx-large;"> 
            Caso: <span id="TitleNotifDC"></span>  
          </h3>
-         <hr class="my-4 Divisor">
-     </div>
 
+         <hr class="Divisor" style="left: 1%; margin-bottom: 0%; width: 98%; position: absolute;">  
+      </div>
+       
+    </div>
+
+    
+    <div class="modal-body">
      <form id="formagrnotif">
       
         <div class="row g-3 " style="text-align: center; overflow-y: auto;">
@@ -35,7 +39,7 @@ if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI']))
          </div>
 
          <div class="col-sm-4">
-          <span>Administración: </span>
+          <span>ADM: </span>
           <span id="AdmCLienteDC" class="fb"></span> 
          </div>
     
@@ -169,7 +173,7 @@ if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI']))
 
          </div>   
 
-                  <!---------- FIN ESCRITO ------------------>
+                  <!---------- FIN DETALLES ------------------>
 
          <div class="row g-3 " id="ContainerEscritoDC" style="display:none; text-align: center;">
          
@@ -200,7 +204,43 @@ if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI']))
          </div>
         
          <hr class="Divisor" style="margin-bottom: -3%;">   
-         </div>   
+         </div>
+         
+         <!---------- FIN ESCRITO ------------------>
+
+
+         <div class="row g-3 " id="ContainerRespuestaDC" style=" text-align: center;">
+         
+         <hr class="Divisor" style="margin-bottom: 0%; margin-top: 4%;">
+
+         <div class="class-lg-12">
+          <span class="center ftitle">Respuesta de la DGII</span>
+         </div>
+
+         <div class="col-sm-6">
+          <span>Fecha Respuesta: </span>
+          <span id="FechaRespuestaDC" class="fb"></span> 
+         </div>
+
+         <div class="col-sm-6">
+          <span>Tipo Respuesta: </span>
+          <span id="TipoRespuestaDC" class="fb"></span> 
+         </div>
+    
+         <div class="col-sm-6">
+          <span>Documento Respuesta: </span>
+          <a id="ArchivosRespuestaDC" class="fb cp"><i class="bi bi-folder2-open"></i> Abrir archivos</a> 
+         </div>
+
+         <div class="col-sm-6">
+          <span>Correo Respuesta: </span>
+          <a id="EstadoEmailRespuestaDC" class="fb">  </a> 
+         </div>
+        
+         <hr class="Divisor" style="margin-bottom: -3%;">   
+         </div>
+         
+         <!---------- FIN RESPUESTA ------------------>
 
 
 </form></div>
