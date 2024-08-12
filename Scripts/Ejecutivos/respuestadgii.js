@@ -25,15 +25,16 @@ function closeres()
     $('#FileRes').val('');
     $('#tipordgii').val('');
     $('#frdgii').val('');
+    $('#ComentsRes').val('');
     $('#file-res-browser').text('Buscar');
     $('#file-res-browser').removeClass('delete');
     LimpiarModal(['#slcntfrdgii1','#slcntfrdgii'],['#formrdgii','#btnagrrdgii'],['#formagrrdgii']);
 }
 
 
-function addres(CODNOT,FECHA,TIPO,ARCHIVORES)
+function addres(CODNOT,FECHA,COMENTARIOS,TIPO,ARCHIVORES)
 {
-if(!validarparams(CODNOT,FECHA,TIPO) || !ARCHIVORES) {return Alerta(txt.CTC,txt.W,2000);}
+if(!validarparams(CODNOT,FECHA,TIPO,COMENTARIOS) || !ARCHIVORES) {return Alerta(txt.CTC,txt.W,2000);}
 
 if((ARCHIVORES.size / (1024 ** 2)) > maxfilesize){return Alerta(txt.AMGR1, txt.W, false, true, txt.AMG);}
 
@@ -44,6 +45,7 @@ let formData = new FormData();
 formData.append('FUNC','agrres')
 formData.append('CodNot',CODNOT);
 formData.append('Fecha',FECHA);
+formData.append('Coments',COMENTARIOS);
 formData.append('Tipo',TIPO);
 
 formData.append('Archivo[]',ARCHIVORES);
@@ -127,7 +129,7 @@ async function SendmailRespuesta(nop)
    $.ajax({
     type: "POST",
     url: PageURL + "Managers/ManagerEmails",
-    data: { FUNC: 'RES', ENTITY: nop, CC: values },
+    data: { FUNC: 'RDGII', ENTITY: nop, CC: values },
     dataType: "JSON",
     beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, // Ocultar pantalla de carga

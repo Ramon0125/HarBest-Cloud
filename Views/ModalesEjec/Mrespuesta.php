@@ -11,46 +11,44 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
   <div class="modal-content">
    
   <div class="modal-body">
+
     <div class="ModalTitle">
      <h3 class="modal-title"><strong>Agregar una respuesta de la DGII</strong></h3>
      <hr class="my-4 Divisor">
     </div>
   
-  <div class="col-fluid col-lg-12">
-    <form id="formagrrdgii">
-    <label for="slcntfrdgii" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>  
-    <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfrdgii" name="slcntfrdgii">
-    <input type="hidden" id="slcntfrdgii1" name="slcntfrdgii1">
-    <datalist id="dtlagrrdgii" role="listbox">
-    <?php $DataRD = Datos(9);
-    if ($DataRD !== false && count($DataRD) > 0) {
-    foreach ($DataRD as $RDGII){ ?>
-    <option value="<?php echo $RDGII["CodigoNotif"]; ?>"><?php echo $RDGII["CodigoNotif"]; ?></option>
-    <?php }} ?>
-    </datalist>
-    </form>
-  </div>
-
-  <div class="container" id="formrdgii" style="display: none; padding-left: unset;">
-
-   <hr class="Divisor" style="margin-top: 3%; margin-bottom: 2%; width: 103%;">
-
-   <div style="display:flex; gap: 10px;">
-
-    <div class="col-sm-6">
-
-     <label for="frdgii" class="form-label center" style="margin-top: 3%;">Fecha respuesta</label>
-     <input type="DATE" class="form-control" id="frdgii" name="frdgii" required autocomplete="off">
-  
-     <label for="tipordgii" class="form-label center" style="margin-top: 13px;">Tipo respuesta</label>
-    
-     <select id="tipordgii" class="form-select">
-      <option value="Acta de descargo">Acta de descargo</option>
-      <option value="Aceptacion de inconsistencia">Aceptacion de inconsistencia</option>
-      <option value="Resolucion de determinacion">Resolucion de determinacion</option>
-     </select>
-     
+    <div class="col-fluid col-lg-12">
+     <form id="formagrrdgii">
+      <label for="slcntfrdgii" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>  
+      <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfrdgii" name="slcntfrdgii">
+      <input type="hidden" id="slcntfrdgii1" name="slcntfrdgii1">
+      <datalist id="dtlagrrdgii" role="listbox">
+       <?php $DataRD = Datos(9);
+       if ($DataRD !== false && count($DataRD) > 0) {
+        foreach ($DataRD as $RDGII){ ?>
+          <option value="<?php echo $RDGII["CodigoNotif"]; ?>"><?php echo $RDGII["CodigoNotif"]; ?></option>
+       <?php }} ?>
+      </datalist>
+     </form>
     </div>
+
+    <div class="container" id="formrdgii" style="display: none; padding-left: unset;">
+
+     <hr class="Divisor" style="margin-top: 3%; margin-bottom: 2%; width: 103%;">
+
+     <div style="display:flex; gap: 10px; margin-bottom: 2%;">
+
+      <div class="col-sm-6">
+       <label for="frdgii" class="form-label center" style="margin-top: 3%;">Fecha respuesta</label>
+       <input type="DATE" class="form-control" id="frdgii" name="frdgii">
+  
+       <label for="tipordgii" class="form-label center" style="margin-top: 13px;">Tipo respuesta</label>
+       <select id="tipordgii" class="form-select">
+        <option value="Acta de descargo">Acta de descargo</option>
+        <option value="Aceptacion de inconsistencia">Aceptacion de inconsistencia</option>
+        <option value="Resolucion de determinacion">Resolucion de determinacion</option>
+       </select>   
+      </div>
   
     <div class="col-sm-6 upload-container">
 
@@ -75,19 +73,25 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
 
     </div>
 
+    <div class="col-lg-12" style="width: 102%;">
+    <label for="ComentsRes" class="form-label labeledtmdf">Comentarios:</label>
+    <textarea rows="5" class="form-control" id="ComentsRes" name="ComentsRes"></textarea>
+  </div>
+
   </div>
  </div>
 
-`<hr class="Divisor" style="margin-top: -5%;">
-
 <div class="modal-footer justify-content-center">
-<button type="button" class="btn btn-success" id="btnagrrdgii" style="display:none" 
-onclick="addres(document.getElementById('slcntfrdgii').value,document.getElementById('frdgii').value,document.getElementById('tipordgii').value,document.getElementById('FileRes').files[0])">
-<i class="bi bi-floppy"></i> Crear</button>
+ 
+ <button type="button" class="btn btn-success" id="btnagrrdgii" style="display:none;" 
+ onclick="addres(document.getElementById('slcntfrdgii').value,document.getElementById('frdgii').value,document.getElementById('ComentsRes').value,document.getElementById('tipordgii').value,document.getElementById('FileRes').files[0])">
+ <i class="bi bi-floppy"></i> Crear</button>
 
-<button type="button" tabindex="-1" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeres()">Cancelar</button>
+ <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeres()">Cancelar</button>
 
-</div></div></div></div>
+</div>
+
+</div></div></div>
 <!----------------FIN AGREGAR RESPUESTA DGII------------------------------->
 
 

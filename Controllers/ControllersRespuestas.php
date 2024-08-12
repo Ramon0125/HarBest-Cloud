@@ -16,7 +16,7 @@ $this->ConexionDB = $this->obtenerConexion();
 }
 
 
-public function agrres(string $cod,string $Fecha,string $Tipo, array $archivo): array
+public function agrres(string $cod,string $Fecha,string $Coments,string $Tipo, array $archivo): array
 {
   try 
   {
@@ -31,12 +31,13 @@ public function agrres(string $cod,string $Fecha,string $Tipo, array $archivo): 
 
 
     // Llamada al procedimiento almacenado para insertar el edd
-    $Query = "CALL SP_INSERT_RES(?,?,?,?)";
+    $Query = "CALL SP_INSERT_RES(?,?,?,?,?)";
     $QueryExecution = $this->ConexionDB->prepare($Query);
     $QueryExecution->bindParam(1, $cod);
     $QueryExecution->bindParam(2, $Fecha);
-    $QueryExecution->bindParam(3, $Tipo);
-    $QueryExecution->bindValue(4, $ArchivoRespuesta, PDO::PARAM_LOB);
+    $QueryExecution->bindParam(3, $Coments);
+    $QueryExecution->bindParam(4, $Tipo);
+    $QueryExecution->bindValue(5, $ArchivoRespuesta, PDO::PARAM_LOB);
     $QueryExecution->execute();
     
     // Si la consulta no trae datos dispara error

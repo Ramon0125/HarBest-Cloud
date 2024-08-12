@@ -31,6 +31,10 @@ switch ($_POST['FUNC']) {
   case 'EDD':
     $data = $SENDMAIL->SendMailEscrito($_POST['ENTITY'],$_POST['CC']);
   break;
+
+  case 'RDGII':
+    $data = $SENDMAIL->SendMailRespuesta($_POST['ENTITY'],$_POST['CC']);
+  break;
   
   default:
   $data = HandleError();

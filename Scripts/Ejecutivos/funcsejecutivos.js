@@ -364,9 +364,10 @@ const ModEscrito = ({FechaEscrito,FechaVenciED,EstatusED,IDEscrito}) => {
 }
 
 
-const ModRespuesta = ({FechaRespuesta,TipoRespuesta,EstatusRespuesta,IDRespuesta}) => {
+const ModRespuesta = ({FechaRespuesta,TipoRespuesta,EstatusRespuesta,IDRespuesta,Comentarios}) => {
   document.getElementById('FechaRespuestaDC').innerText = FechaRespuesta;
   document.getElementById('TipoRespuestaDC').innerText = TipoRespuesta;
+  document.getElementById('ComentRespuesta').innerText = Comentarios;
   document.getElementById('ArchivosRespuestaDC').setAttribute('onclick',`AbrirDocumentosRespuesta(${IDRespuesta})`);
 
   let EmailRespuestaDiv = document.getElementById('EstadoEmailRespuestaDC');
@@ -408,13 +409,12 @@ function DetailsNotif(IDD)
     document.getElementById('AdmCLienteDC').innerText = DATA.NombreAdm;     
 
     ModNotif(DATA);
-        
     DATA.FechaDC ? ModDetalle(DATA) : modifystyle('#ContainerDetalleDC','display','none');        
     DATA.FechaEscrito ? ModEscrito(DATA) : modifystyle('#ContainerEscritoDC','display','none');
     DATA.FechaRespuesta ? ModRespuesta(DATA) : modifystyle('#ContainerRespuestaDC','display','none');
    }
    else{ return responses(DATA);}},
-   error: function(e){console.log(e);    return Alerta(txt.EELS,txt.W,2000);}
+   error: function(e){console.log(e); return Alerta(txt.EELS,txt.W,2000);}
   });
 
 let Modal = new bootstrap.Modal(document.getElementById('DetailNotif'));

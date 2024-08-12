@@ -18,8 +18,8 @@ if (Validarcadena1($_POST))
 {
 $CR = new ControllersRespuestas();
 
-if ($_POST['FUNC'] === 'agrres' && isset($_POST['CodNot'],$_POST['Fecha'],$_POST['Tipo'],$_FILES['Archivo'])) 
-{ $data = $CR->agrres($_POST['CodNot'],$_POST['Fecha'],$_POST['Tipo'],$_FILES['Archivo']); }
+if ($_POST['FUNC'] === 'agrres' && isset($_POST['CodNot'],$_POST['Fecha'],$_POST['Coments'],$_POST['Tipo'],$_FILES['Archivo'])) 
+{ $data = $CR->agrres($_POST['CodNot'],$_POST['Fecha'],$_POST['Coments'],$_POST['Tipo'],$_FILES['Archivo']); }
 
 elseif ($_POST['FUNC'] === 'dltres' && isset($_POST['CodRes'],$_POST['CodNot'])) 
 { $data = $CR->dltres($_POST['CodRes'],$_POST['CodNot']); }

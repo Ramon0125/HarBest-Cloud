@@ -34,7 +34,12 @@ $.ajax({
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); }, //Ocultar pantalla de carga
  success: function (DATA) { 
- if(DATA.success){ closeescrito(); updatedatalists(7,['#dtlagredd']); }
+ if(DATA.success)
+  { 
+    closeescrito(); 
+    updatedatalists(7,['#dtlagredd']);
+    updatedatalists(8,['#dtldltedd']);
+  }
  responses(DATA);},
  error: function(){return Alerta(txt.EELS,txt.E,2000);}
 });

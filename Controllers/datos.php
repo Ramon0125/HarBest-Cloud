@@ -17,7 +17,7 @@ function Datos(int $op): array
 
     $ejecucion = $conexion->prepare("SELECT * FROM ".$select[$op]);
     $ejecucion->execute();
-    $rest = $ejecucion->fetchAll(PDO::FETCH_ASSOC);
+    $rest = $ejecucion->fetchAll();
     return $rest ? $rest : [];
 }
 

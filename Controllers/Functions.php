@@ -1,7 +1,6 @@
 <?php
 
-if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
-{ http_response_code(404); die(header('Location: ./404')); }
+if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI'])) { http_response_code(404); die(header('Location: ./404')); }
 
 
   function validarCarta($string) : bool 
@@ -18,7 +17,7 @@ if (preg_match('/Functions(?:\.php)?/', $_SERVER['REQUEST_URI']))
   
   function Validarcadena1(...$strings) 
   {
-      $pattern = '/(;\s*|\'.*?\'|--.*?$|\/\*.*?\*\/|\bxp_\w+\b|[\$%<>~=])/m';
+      $pattern = '/(;\s*|\'.*?\'|--.*?$|\/\*.*?\*\/|\bxp_\w+\b|[\%<>~=])/m';
   
       foreach ($strings as $value) 
       {

@@ -236,6 +236,22 @@ if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI']))
           <span>Correo Respuesta: </span>
           <a id="EstadoEmailRespuestaDC" class="fb">  </a> 
          </div>
+
+         <div class="DivTable">
+          <ul class="sidebar-nav" id="sidebar-nav" style="width: 100%; margin-bottom: 0%;">
+           <li class="nav-item" style="margin-top: 1%;">
+
+            <a class="nav-link b1 collapsed" style="padding: 8px 0px;" data-bs-target="#divrespuesta" data-bs-toggle="collapse" aria-expanded="false">
+             <span class="center fb" style="width:100%;">Informacion enviada</span><i class="bi bi-chevron-down ms-auto"></i>
+            </a>
+
+            <div id="divrespuesta" class="collapse" style="user-select: text; background-color: white; width: 100%; text-align: justify; padding: 5px;">
+            <p id="ComentRespuesta"></p>  
+            </div>
+
+           </li>
+          </ul>
+         </div>
         
          <hr class="Divisor" style="margin-bottom: -3%;">   
          </div>

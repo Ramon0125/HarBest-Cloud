@@ -31,7 +31,10 @@ function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)
       item.Impuesto === Informacion.Impuesto
     );
 
+    let existeNoCaso = incon[NONotif].some(item => item.NOCaso != NOCaso);
+
     if (existeEntrada) { return Alerta(txt.EDYEA, txt.W, false, true); }
+    if (existeNoCaso) {return Alerta('No puede agregar un número de caso diferente a la misma notificación.',txt.W,false,true);}
 
     incon[NONotif].push(Informacion); 
   }
@@ -197,7 +200,7 @@ function AbrirDocumentosDetalles(IDD)
       data: {tipo: 'vddc',IDD: IDD},
       dataType: "JSON",
       success: function (DATA) 
-      { 
+      {
         DATA.success && DATA.CARTAS ? procesarCartas(DATA.CARTAS) : responses(DATA); 
       },
       error: function(){return Alerta(txt.EELS,txt.E,2000)}
@@ -221,20 +224,19 @@ async function sendmailddc(nop)
 
    $.ajax({
     type: "POST",
-    url: PageURL + "Managers/ManagerEmails.php",
+    url: PageURL + "Managers/ManagerEmails",
     data: { FUNC: 'DDC', ENTITY: nop, CC: values },
     dataType: "JSON",
     beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, // Ocultar pantalla de carga
     success: function (res) 
     {
-      responses(res);
       if (res.success) 
       {
         tablasejec('casos'); 
         updatedatalists(6, ['#dtldltddc']);
         updatedatalists(7,['#dtlagredd']);
-      }
+      } responses(res);
     },
     error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
    });  
@@ -249,7 +251,7 @@ function searchnotif(Cod)
 
   $.ajax({
     type: "POST",
-    url: PageURL + "Managers/ManagerNotif.php",
+    url: PageURL + "Managers/ManagerNotif",
     data: { tipo: 'vdnot', Codigo: Cod},
     dataType: "JSON",
     beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
@@ -280,7 +282,7 @@ function dltddc(idd,noc)
 
     $.ajax({
      method: "POST",
-     url: PageURL + "Managers/ManagerDetalle.php",
+     url: PageURL + "Managers/ManagerDetalle",
      data: {IDD: idd,NOC: noc,tipo: 'dltddc'},
      beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
      complete: function () { load(2); }, //Ocultar pantalla de carga

@@ -146,6 +146,7 @@ ALTER TABLE EMAILS_NOTIF ADD CONSTRAINT FK_ENOTIF_NOTIF
 FOREIGN KEY (IDNotif) REFERENCES NOTIF_INCONSISTENCIA(IDNotificacion)
 ON DELETE CASCADE;
 
+
 CREATE VIEW VW_CASOS
 AS
     SELECT 
@@ -153,11 +154,28 @@ AS
      C.NombreCliente AS `CLIENTE`,
      C.EmailCliente AS `EMAIL CLIENTE`,
      JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS `NOTIFICACIONES`,
-     date_format(N.FechaNotif, '%d/%m/%Y') AS `FECHA`
-    FROM NOTIF_INCONSISTENCIA AS N 
-	JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
-	JOIN EMAILS_NOTIF AS E ON N.IDNotificacion = E.IDNotif
-ORDER BY CASE E.Estatus WHEN 'F' THEN 1 ELSE 2 END,N.FechaVenci ASC;
+     CASE
+		WHEN RD.FechaVenci IS NOT NULL THEN date_format(RD.FechaVenci, '%d/%m/%Y')
+        WHEN EDD.FechaVenci IS NOT NULL THEN date_format(EDD.FechaVenci, '%d/%m/%Y')
+		WHEN D.FechaVenci IS NOT NULL THEN date_format(D.FechaVenci, '%d/%m/%Y')
+        ELSE date_format(N.FechaVenci, '%d/%m/%Y')
+	 END AS `FECHA VENCIMIENTO`
+    FROM NOTIF_INCONSISTENCIA AS N
+    JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
+    LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+    LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
+    LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
+    
+    JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
+    LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
+	LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
+	LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
+ORDER BY CASE 
+	WHEN EN.Estatus = 'F' THEN 4 
+    WHEN ED.Estatus = 'F' THEN 3
+    WHEN EE.Estatus = 'F' THEN 2
+    WHEN ER.Estatus = 'F' THEN 1
+    ELSE 5 END,`FECHA VENCIMIENTO` ASC;
 
 
 CREATE VIEW ALL_NOTIF AS
@@ -258,6 +276,7 @@ IDRespuesta INT AUTO_INCREMENT PRIMARY KEY,
 CodigoNotif CHAR(12) NOT NULL UNIQUE,
 FechaRespuesta DATE NOT NULL,
 FechaVenci DATE,
+Comentarios TEXT NOT NULL,
 TipoRespuesta ENUM('Acta de descargo','Aceptacion de inconsistencia','Resolucion de determinacion') NOT NULL,
 ArchivoRespuesta JSON NOT NULL
 );
@@ -918,6 +937,7 @@ SELECT
       RD.IDRespuesta,
       RD.FechaRespuesta,
       RD.TipoRespuesta,
+      RD.Comentarios,
       ERD.Estatus AS EstatusRespuesta
       FROM
 NOTIF_INCONSISTENCIA AS N
@@ -987,7 +1007,7 @@ SELECT
     C.NombreCliente,
     C.EmailCliente,
     E.ArchivoEscrito,
-	JSON_EXTRACT(D.DetallesCitacion, '$[*].DETALLES[*].NOCaso') AS NOCASO,
+	JSON_EXTRACT(D.DetallesCitacion, '$[*].DETALLES[0].NOCaso') AS NOCASO,
     JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS NONOTIF,
     JSON_LENGTH(N.Notificacion, '$[*].NOTIFICACION') AS SIZE
 FROM ESCRITO_DESCARGO AS E
@@ -1018,6 +1038,7 @@ CREATE PROCEDURE SP_INSERT_RES
 (
 IN INCODNOT VARCHAR(12),
 IN INFECHA DATE,
+IN INCOMENTS TEXT,
 IN INTIPO ENUM('Acta de descargo','Aceptacion de inconsistencia','Resolucion de determinacion'),
 IN INESCRITO JSON
 ) BEGIN
@@ -1030,7 +1051,7 @@ IF EXISTS (SELECT * FROM RESPUESTA_DGII WHERE CodigoNotif = INCODNOT) THEN
 SELECT 'ERYE' AS MENSAJE;
 
 ELSE 
- INSERT INTO RESPUESTA_DGII(CodigoNotif,FechaRespuesta,FechaVenci,TipoRespuesta,ArchivoRespuesta) VALUES(INCODNOT,INFECHA,INFECVEN,INTIPO,INESCRITO);
+ INSERT INTO RESPUESTA_DGII(CodigoNotif,FechaRespuesta,FechaVenci,Comentarios,TipoRespuesta,ArchivoRespuesta) VALUES(INCODNOT,INFECHA,INFECVEN,INCOMENTS,INTIPO,INESCRITO);
  
  IF ROW_COUNT() > 0 THEN
  SELECT 'RIC' AS MENSAJE;
@@ -1151,5 +1172,21 @@ BEGIN
 
 END$$
 
-1162
+
+CREATE PROCEDURE SENDMAIL_RESPUESTA(IN SEARCH INT) BEGIN
+SELECT 
+	RD.IDRespuesta,
+    C.NombreCliente,
+    C.EmailCliente,
+    RD.ArchivoRespuesta,
+    RD.TipoRespuesta,
+    RD.Comentarios
+FROM RESPUESTA_DGII AS RD
+JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
+JOIN NOTIF_INCONSISTENCIA AS N ON RD.CodigoNotif = N.CodigoNotif
+JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+JOIN CLIENTES AS C ON N.IDCliente = C.IDCliente
+WHERE ER.Estatus = "F" AND RD.IDRespuesta = SEARCH;
+END $$
+
 DELIMITER ;

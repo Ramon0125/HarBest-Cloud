@@ -26,7 +26,6 @@ class EmailSender extends ConexionDB
    
     try 
     {
-
       $this->mail->isSMTP(); // Establecer el uso del protocolo SMTP para enviar correos
       $this->mail->Host = $_ENV['MAIL_HOST']; // Especificar el servidor SMTP a utilizar (almacenado en una variable de entorno)
       $this->mail->SMTPAuth = true; // Habilitar la autenticación SMTP
@@ -38,7 +37,6 @@ class EmailSender extends ConexionDB
       $this->mail->CharSet = 'UTF-8'; // Establecer el juego de caracteres del correo a UTF-8
       $this->mail->isHTML(); // Habilitar el uso de HTML en el cuerpo del correo
       $this->mail->addReplyTo($this->user['Email'], $this->user['Nombre']); // Añadir una dirección de respuesta y nombre del usuario
-
     }
 
     catch(Exception) 
@@ -49,7 +47,6 @@ class EmailSender extends ConexionDB
       SUMBLOCKUSER();  
       return $this->res;  
     }
-
     }
 
 
@@ -342,7 +339,7 @@ class EmailSender extends ConexionDB
         try {
 
         // Llamada al procedimiento almacenado para obtener los datos de la respuesta de la dgii
-        $query = "CALL SENDMAIL_ESCRITO(?)";
+        $query = "CALL SENDMAIL_RESPUESTA(?)";
         $exec = $this->conectdb->prepare($query);
         $exec->bindParam(1, $IDRespuesta, 1);
         $exec->execute();
@@ -353,19 +350,9 @@ class EmailSender extends ConexionDB
         $value = $exec->fetch();
         $exec->closeCursor();
     
-        // Reemplazos en el template del correo
-        $replacements = array(
-        "[NOTIFICACIONES]" => ArrayFormat(json_decode($value['NONOTIF'],true)),
-        "[NOCASOS]" => ArrayFormat(json_decode($value['NOCASO'],true))
-        );
-        
-        // Leer el template del correo
-        $templatePath = APP_URL . "Data/modelos/respuestadgii" . ($value["SIZE"] == 1 ? "" : "2") . ".html";
-        $template = file_get_contents($templatePath);
-        
         // Construir el cuerpo del correo
         $modelo = ($this->MailHead($value['NombreCliente'])) .
-                  (str_replace(array_keys($replacements), $replacements, $template)) .
+                  ("<p>".nl2br($value['Comentarios'])."</p>") .
                   ($this->MailFoot());
         
         // Configurar destinatario, asunto y cuerpo del correo
