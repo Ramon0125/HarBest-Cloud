@@ -1,6 +1,10 @@
 //Acciones que se cumpliran cuando se cargue por completo el DOM
 $(document).ready(function(){ tablasejec('casos'); });
 
+const Directivos = ['ericvalerio@harbest.net','aldyperalta@harbest.net',
+  'marielebron@harbest.net','mariamoreno@harbest.net','magdalenaortega@harbest.net',
+  'jennyfermejia@harbest.net','franciscososa@harbest.net','cristinalugo@harbest.net',
+  'yessicasosa@harbest.net','estefanymontero@harbest.net','ysabelnolasco@harbest.net'];  
 
 function tablasejec(str) 
 {
@@ -107,6 +111,7 @@ eventlisten('#FileEscrito','change',function (){
   $('#file-browser').addClass('delete');
 
 });
+
 
 async function Getcc(id, type) {
 

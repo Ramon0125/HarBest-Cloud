@@ -13,6 +13,7 @@ class EmailSender extends ConexionDB
     private $mail;
     private $res;
     private $user;
+    private $Archivos = array();
 
 
     public function __construct()
@@ -101,7 +102,9 @@ class EmailSender extends ConexionDB
                 
      file_put_contents($archivo_temporal, base64_decode($inconsistencia['CARTA']));
             
-     $this->mail->addAttachment($archivo_temporal, $inconsistencia['NOMBRE']);  
+     if($this->mail->addAttachment($archivo_temporal, $inconsistencia['NOMBRE']))
+     { array_push($this->Archivos,$archivo_temporal); }
+     else{ throw new Exception("Error al añadir archivo al emai", 1); }
     }
     }
 
@@ -141,11 +144,20 @@ class EmailSender extends ConexionDB
     {
     $RES = "UPDATE ". $Table[$Type] ." SET Estatus = 'T', HoraEnvio = ? WHERE ". $Col[$Type] . " = ?";
     $RES1 = $this->conectdb->prepare($RES);
-    $RES1->bindParam(1, date('Y-m-d H:i:s'));
+    $RES1->bindValue(1, date('Y-m-d H:i:s'));
     $RES1->bindParam(2, $IDReg, 1);
     $RES1->execute();
+
+    if ($this->Archivos != []) 
+    {
+      foreach ($this->Archivos as $Key) 
+      { unlink($Key); error_log($Key);}
+    }
+
     $this->res['success'] = true;
     $this->res['message'] = 'EEC1';
+
+
     }
     
     else 
@@ -295,7 +307,7 @@ class EmailSender extends ConexionDB
         // Reemplazos en el template del correo
         $replacements = array(
         "[NOTIFICACIONES]" => ArrayFormat(json_decode($value['NONOTIF'],true)),
-        "[NOCASOS]" => ArrayFormat(json_decode($value['NOCASO'],true))
+        "[NOCASO]" => ArrayFormat(json_decode($value['NOCASO'],true))
         );
         
         // Leer el template del correo

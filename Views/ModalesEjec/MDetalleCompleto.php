@@ -78,7 +78,7 @@ if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI']))
           </a>
 
           <div id="divnotifi" class="collapse" style="width: 100%;">
-            <table class="table" style="width: 100%; overflow:auto; text-align:center; margin-bottom: 0%;"> 
+            <table class="table" style="margin-bottom: 0%;"> 
              <colgroup>
               <col style="width: 33%;">
               <col style="width: 33%;">
@@ -141,7 +141,7 @@ if (preg_match('/MDetalleCompleto(?:\.php)?/', $_SERVER['REQUEST_URI']))
   </a>
 
   <div id="divdetalle" class="collapse" style="width: 100%;">
-    <table class="table table-hover " style="width: 100%; table-layout: fixed; text-align:center; margin-bottom: 0%;"> 
+    <table class="table table-hover " style="margin-bottom: 0%;"> 
     
     <colgroup>
     <col style="width: 20%;">

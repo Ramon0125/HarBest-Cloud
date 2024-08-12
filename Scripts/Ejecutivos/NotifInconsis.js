@@ -246,7 +246,7 @@ async function sendmail(nop)
    $.ajax({
     type: "POST",
     url: PageURL + "Managers/ManagerEmails",
-    data: { FUNC: 'NOTIF.', ENTITY: nop, CC: values },
+    data: { FUNC: 'NOTIF', ENTITY: nop, CC: values },
     dataType: "JSON",
     beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
     complete: function () { load(2); }, // Ocultar pantalla de carga

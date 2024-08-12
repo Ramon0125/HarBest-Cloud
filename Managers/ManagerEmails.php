@@ -40,7 +40,7 @@ switch ($_POST['FUNC']) {
 
 }
 
-else {$data['CNV'] = true; SUMBLOCKUSER();}
+else { $data['CNV'] = true; SUMBLOCKUSER(); }
 }
 
 else { echo HandleWarning();}

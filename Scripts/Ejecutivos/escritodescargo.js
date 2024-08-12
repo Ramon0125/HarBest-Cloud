@@ -104,7 +104,8 @@ async function SendmailEscrito(nop)
     success: function (res) {  
     if(res.success)
     {
-      updatedatalists(8,['#dtldltedd']);  
+      updatedatalists(8,['#dtldltedd']);
+      updatedatalists(9,['#dtlagrrdgii'])  
       tablasejec('casos')
     } responses(res);
     },

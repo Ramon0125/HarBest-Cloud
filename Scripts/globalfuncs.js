@@ -1,10 +1,5 @@
 const PageURL = 'http://127.0.0.1/PROGRAMAS/HarBest-Cloud/';
 
-const Directivos = ['ericvalerio@harbest.net','aldyperalta@harbest.net',
-'marielebron@harbest.net','mariamoreno@harbest.net','magdalenaortega@harbest.net',
-'jennyfermejia@harbest.net','franciscososa@harbest.net','cristinalugo@harbest.net',
-'yessicasosa@harbest.net','estefanymontero@harbest.net','ysabelnolasco@harbest.net'];
-
 const toggval = () => parseInt($('#sidebar').css('left'), 10); 
 
 const maxfilesize = 10;
