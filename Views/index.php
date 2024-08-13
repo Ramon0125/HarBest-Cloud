@@ -33,7 +33,7 @@ elseif (VALIDARBLOCK() !== 'T') {
  echo $html; 
 }
 
-elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario'))){ die(HandleWarning());}
+elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario'))){ echo 'IDUsuario'; /* die(HandleWarning()); */}
 
 else {
 

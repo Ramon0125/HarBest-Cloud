@@ -58,7 +58,7 @@ elseif (VALIDARBLOCK() !== 'T') { die(file_get_contents(APP_URL.'Error/index.php
 		
  <div class="form-item">
   <label for="password" class="formLabel">Contraseña</label>
-  <input type="password" name="password" id="password" class="form-style" autocomplete="password" readonly>
+  <input type="password" maxlength="20" name="password" id="password" class="form-style" autocomplete="password" readonly>
  </div>
 
  <div class="form-check">
@@ -83,12 +83,12 @@ elseif (VALIDARBLOCK() !== 'T') { die(file_get_contents(APP_URL.'Error/index.php
   
   <div class="form-item fi1">
    <p class="formLabel">Nueva contraseña</p>
-   <input type="password" name="npass" id="npass" class="form-style" maxlength="15" autocomplete="new-password" readonly>
+   <input type="password" name="npass" id="npass" class="form-style" maxlength="20" autocomplete="new-password" readonly>
   </div>
 		
   <div class="form-item">
    <p class="formLabel">Confirmar contraseña</p>
-   <input type="password" name="cpass" id="cpass" class="form-style" maxlength="15" autocomplete="new-password" readonly>        
+   <input type="password" name="cpass" id="cpass" class="form-style" maxlength="20" autocomplete="new-password" readonly>        
   </div>
 
   <div class="form-check">

@@ -1,62 +1,69 @@
 <?php 
 
-if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) && preg_match('/Tables(?:\.php)?/', $_SERVER['REQUEST_URI']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') 
-{ http_response_code(404); die(header('Location: ./404')); }
+// Verificar si la solicitud no es AJAX y si accede a Tables.php
+if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) || !preg_match('/Tables(?:\.php)?/', $_SERVER['REQUEST_URI']) || strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
+    http_response_code(404);
+    die(header('Location: ./404'));
+}
 
+// Incluir archivos necesarios
 require './Conexion.php';
 require './ControllersBlocks.php';
 require './Functions.php';
 
-if(isset($_GET['tabla']) && Validarcadena1($_GET['tabla']) && GetInfo('IDUsuario') != 0){
+// Verificar si la tabla está establecida, la cadena es válida y el usuario está autenticado
+if (isset($_GET['tabla']) && Validarcadena1($_GET['tabla']) && GetInfo('IDUsuario') != 0) {
 
-$conexion = New ConexionDB();
-$Ejec = $conexion->obtenerConexion();
+    $conexion = new ConexionDB();
+    $Ejec = $conexion->obtenerConexion();
 
-$tabla = GetInfo('PRIVILEGIOS') === 'CASOS FISCALES' ? 
+    // Asignar tabla según los privilegios del usuario
+    $tabla = (GetInfo('PRIVILEGIOS') === 'CASOS FISCALES') 
+        ? ['casos' => 'VW_CASOS'] 
+        : [
+            'usrs' => 'ALL_USER',
+            'clts' => 'ALL_CLTS',
+            'adms' => 'VW_ADM',
+            'usrblocks' => 'ALL_USRBLOCK',
+            'auditoria' => 'VW_AUDITORIA',
+        ];
 
-array('casos' => 'VW_CASOS') 
- : 
-array(
-'usrs' => 'ALL_USER',
-'clts' => 'ALL_CLTS',
-'adms' => 'VW_ADM',
-'usrblocks' => 'ALL_USRBLOCK',
-'auditoria' => 'VW_AUDITORIA',
-);
+    // Preparar y ejecutar la consulta
+    if (isset($tabla[$_GET['tabla']])) {
+        $STR = $Ejec->prepare('SELECT * FROM ' . $tabla[$_GET['tabla']]);
+        $STR->execute();
 
-$STR = $Ejec->prepare('SELECT * FROM '.$tabla[$_GET['tabla']]);
-$STR->execute();
-$DATOS = array();
-?>
+        // Inicializar array de datos
+        $DATOS = array();
 
-<thead>
-<tr> 
-<?php if ($STR->rowCount() > 0) 
-{ 
- $DATOS = $STR->fetchAll(PDO::FETCH_ASSOC);
- foreach($DATOS[0] as $column_name => $value) 
- { ?><?php echo "<th scope='col'>".strtoupper($column_name)."</th>"; }
-} ?>
-</tr>
-</thead>
+        // Generar la cabecera de la tabla si hay resultados
+        if ($STR->rowCount() > 0) 
+        {
+            $DATOS = $STR->fetchAll();
+            
+            echo "<thead><tr>";
 
-<tbody>
-<?php if($DATOS){foreach ($DATOS as $REG) { ?>
-<tr>
-<?php foreach ($REG as $column_value) 
-{
- $VAL = json_decode($column_value, true);
- 
- echo "<td>".(is_array($VAL) ?  ArrayFormat($VAL) : $column_value)."</td>"; 
+            foreach ($DATOS[0] as $column_name => $value) 
+            { echo "<th scope='col'>" . strtoupper($column_name) . "</th>"; }
 
-}
-?>
+            echo "</tr></thead>";
+        }
 
-</tr>
-<?php }} ?> 
-</tbody>
-<?php }
-else {
-header('Content-Type: application/json');  
-echo json_encode(HandleError());
+        // Generar el cuerpo de la tabla
+        echo "<tbody>";
+        foreach ($DATOS as $REG) {
+            echo "<tr>";
+            foreach ($REG as $column_value) {
+                $VAL = json_decode($column_value, true);
+                echo "<td>" . (is_array($VAL) ? ArrayFormat($VAL) : htmlspecialchars($column_value)) . "</td>";
+            }
+            echo "</tr>";
+        }
+        echo "</tbody>";
+    } else {
+        echo json_encode(HandleError());
+    }
+} else {
+    header('Content-Type: application/json');  
+    echo json_encode(HandleError());
 }

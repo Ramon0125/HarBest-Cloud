@@ -39,9 +39,9 @@ function edtadm(id,name,nname,ndirecc)
   {
     if(data.success)
     {
-    LimpiarModal('#admedt1',['#formedtadm1','#Datalistagradm','#btnedtadm'],['#formedtclt11','#formedtadm']);
-    updatedatalists(3,['#Datalistagradm','#browseradmclt','#browseradmedtclt']);  
-    tablas('adms');
+     LimpiarModal('#admedt1',['#formedtadm1','#Datalistagradm','#btnedtadm'],['#formedtclt11','#formedtadm']);
+     updatedatalists(3,['#Datalistagradm','#browseradmclt','#browseradmedtclt']);  
+     tablas('adms');
     } responses(data);
   }, // Acciones para cuando la solicitud sea exitosa
   error: function() {Alerta(txt.EELS, txt.W,3000);} // Acciones para cuando la solicitud sea erronea 

@@ -46,7 +46,7 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
        <select id="tipordgii" class="form-select">
         <option value="Acta de descargo">Acta de descargo</option>
         <option value="Aceptacion de inconsistencia">Aceptacion de inconsistencia</option>
-        <option value="Resolucion de determinacion">Resolucion de determinacion</option>
+        <!-- <option value="Resolucion de determinacion">Resolucion de determinacion</option> -->
        </select>   
       </div>
   

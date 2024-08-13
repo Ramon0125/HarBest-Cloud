@@ -26,12 +26,27 @@ function tablasejec(str)
       $('#tabla').DataTable($.extend(true, {}, tabledata, {
       "order": [],
       "columnDefs": [{
-      "targets": 5, 
+      "targets": 7, 
       "orderable": false,
       "data": null,
       "defaultContent": "<button type='button' class='btn btn-success btnverdetalles' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'><i class='bi bi-folder2-open btnverddc'></i> Abrir</button>"
+      },
+      {
+        "targets": 6,
+        "orderable": false,
+        "render": function (row) {
+          console.log(row);
+          
+          switch (row) 
+          {
+            case 'C': return '<i class="bi bi-check-circle-fill" style="Color:Green;"> Completada</i>';
+            case 'V': return '<i class="bi bi-exclamation-circle-fill" style="Color:Red;"> Vencida</i>';       
+            default: return '<i class="bi bi-clock-fill" style="Color:Orange;"> En proceso</i>';
+          }
+        }
       }]
       }));
+
 
       $('#tabla tbody').on('click', 'button.btnverdetalles', function () 
       { DetailsNotif($(this).closest('tr').find('td:eq(0)').text().trim());});      

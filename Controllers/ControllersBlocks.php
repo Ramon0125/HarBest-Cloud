@@ -9,7 +9,7 @@ $IP = $_SERVER['REMOTE_ADDR'];
 if (!isset($_COOKIE['identificador']))
 {
     $identificador = $IP.session_id(); 
-    setcookie('identificador', md5($identificador),0,'/', '', true, true);
+    setcookie('identificador', md5($identificador),0,'/', '', false, true);
 }
 else {$identificador = $_COOKIE['identificador'];}
 
@@ -24,11 +24,11 @@ function SUMBLOCKUSER() : void
     {BLOCKUSER($identificador);}
     
     elseif(!isset($_COOKIE['ERRORS'])) 
-    { setcookie('ERRORS', 1,0,'/', '', true, true);}
+    { setcookie('ERRORS', 1,0,'/', '', false, true);}
     
     else
     {   $VAL = $_COOKIE['ERRORS'] + 1;
-        setcookie('ERRORS',$VAL,0,'/', '', true, true);  
+        setcookie('ERRORS',$VAL,0,'/', '', false, true);  
     }
 }
 
@@ -43,7 +43,7 @@ function BLOCKUSER($COOKIE) : void
    $EJECUTAR->bindParam(1, $COOKIE);
    $EJECUTAR->bindParam(2, $IP);
    $EJECUTAR->execute();
-   setcookie('ERRORS','',time() - 3600,'/', '', true, true);
+   setcookie('ERRORS','',time() - 3600,'/', '', false, true);
 }
 
 

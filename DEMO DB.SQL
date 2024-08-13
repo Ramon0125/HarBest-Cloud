@@ -148,35 +148,33 @@ ON DELETE CASCADE;
 
 
 CREATE VIEW VW_CASOS
-AS
-    SELECT 
-	 N.CodigoNotif AS `CODIGO`,
-     C.NombreCliente AS `CLIENTE`,
-     C.EmailCliente AS `EMAIL CLIENTE`,
-     JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS `NOTIFICACIONES`,
-     CASE
-		WHEN RD.FechaVenci IS NOT NULL THEN date_format(RD.FechaVenci, '%d/%m/%Y')
-        WHEN EDD.FechaVenci IS NOT NULL THEN date_format(EDD.FechaVenci, '%d/%m/%Y')
-		WHEN D.FechaVenci IS NOT NULL THEN date_format(D.FechaVenci, '%d/%m/%Y')
-        ELSE date_format(N.FechaVenci, '%d/%m/%Y')
-	 END AS `FECHA VENCIMIENTO`
-    FROM NOTIF_INCONSISTENCIA AS N
-    JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
-    LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
-    LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
-    LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
+ AS
+  SELECT 
+   N.CodigoNotif AS `CODIGO`,
+   C.NombreCliente AS `CLIENTE`,
+   C.EmailCliente AS `EMAIL CLIENTE`,
+   JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS `NOTIFICACIONES`,
+   date_format(N.FechaNotif, '%d/%m/%Y') AS 'FECHA INICIO',
+   date_format(COALESCE(RD.FechaVenci, EDD.FechaVenci, D.FechaVenci, N.FechaVenci), '%d/%m/%Y') AS `FECHA VENCIMIENTO`,
+   CASE
+    WHEN COALESCE(RD.FechaVenci, EDD.FechaVenci, D.FechaVenci, N.FechaVenci) < NOW() THEN 'V'
+	WHEN ER.Estatus = 'T' AND RD.TipoRespuesta != 'Resolucion de determinacion' THEN 'C'
+	ELSE 'P' 
+   END AS `ESTADO`
+   FROM NOTIF_INCONSISTENCIA AS N
+   JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
+   LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+   LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
+   LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
+   JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
+   LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
+   LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
+   LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
+   ORDER BY CASE 
+    WHEN `ESTADO` = 'C' THEN 3
+	WHEN `ESTADO` = 'V' THEN 2
+    ELSE 1 END, DATE_FORMAT(STR_TO_DATE(`FECHA VENCIMIENTO`, '%d/%m/%Y'), '%Y/%m/%d') ASC;
     
-    JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
-    LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
-	LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
-	LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
-ORDER BY CASE 
-	WHEN EN.Estatus = 'F' THEN 4 
-    WHEN ED.Estatus = 'F' THEN 3
-    WHEN EE.Estatus = 'F' THEN 2
-    WHEN ER.Estatus = 'F' THEN 1
-    ELSE 5 END,`FECHA VENCIMIENTO` ASC;
-
 
 CREATE VIEW ALL_NOTIF AS
 select N.IDNotificacion,N.CodigoNotif AS 'Notificacion' 
@@ -322,7 +320,7 @@ DETERMINISTIC
 BEGIN
     DECLARE NEWSTR VARCHAR(100);
     
-    SET NEWSTR = REGEXP_REPLACE(UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(STR, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u')), '[^a-zA-Z0-9,. -]', '');
+    SET NEWSTR = REGEXP_REPLACE(UPPER(REPLACE(REPLACE(REPLACE(REPLACE(REPLACE(STR, 'á', 'a'), 'é', 'e'), 'í', 'i'), 'ó', 'o'), 'ú', 'u')), '[^a-zA-Z0-9ñÑ,. -]', '');
 
     RETURN NEWSTR;
 END $$
@@ -351,7 +349,7 @@ END $$
 
 CREATE PROCEDURE `SP_VALIDAR_LOGIN` (
     IN in_EMAIL VARCHAR(50),
-    IN in_CLAVE VARCHAR(15)
+    IN in_CLAVE VARCHAR(20)
 )
 BEGIN
     IF NOT EXISTS (
@@ -437,8 +435,8 @@ END $$
 CREATE PROCEDURE SP_MODIFICAR_CLAVES_USUARIOS
 (
 IN in_Email VARCHAR(50),
-IN in_Clave VARCHAR(15),
-IN in_NClave VARCHAR(15)
+IN in_Clave VARCHAR(20),
+IN in_NClave VARCHAR(20)
 )
 BEGIN
 
@@ -1045,7 +1043,7 @@ IN INESCRITO JSON
 
 DECLARE INFECVEN DATE;
 
-SELECT IF(INTIPO = 'Acta de descargo',NULL,(DIASLABORABLES(INFECHA,90))) INTO INFECVEN;
+SELECT IF(INTIPO != 'Resolucion de determinacion',NULL,(DIASLABORABLES(INFECHA,90))) INTO INFECVEN;
 
 IF EXISTS (SELECT * FROM RESPUESTA_DGII WHERE CodigoNotif = INCODNOT) THEN 
 SELECT 'ERYE' AS MENSAJE;

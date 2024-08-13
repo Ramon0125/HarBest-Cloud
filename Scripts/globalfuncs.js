@@ -1,4 +1,4 @@
-const PageURL = 'http://127.0.0.1/PROGRAMAS/HarBest-Cloud/';
+const PageURL = 'http://192.168.0.186/PROGRAMAS/HarBest-Cloud/';
 
 const toggval = () => parseInt($('#sidebar').css('left'), 10); 
 

@@ -3,6 +3,8 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['FUNC'])  && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') 
 {
 
+  error_log($_POST['FUNC']);
+
 require '../Controllers/Conexion.php';
 require '../Controllers/ControllersBlocks.php';
 require '../Controllers/Functions.php';

@@ -24,9 +24,13 @@ function CerrarSesion() : void
     {
         setcookie($nombre, '', time() - 3600, '/', '', isset($_SERVER["HTTPS"]), true);
     }
+
+    // Iniciar sesión si no está activa
+    if (session_status() !== PHP_SESSION_ACTIVE) {
+        session_start();
+    }
     
     // Destruir la sesión
-    session_start();
     session_unset();
     session_destroy();
     
@@ -34,6 +38,7 @@ function CerrarSesion() : void
     if (ini_get("session.use_cookies")) 
     {
         $params = session_get_cookie_params();
+        // Eliminar la cookie de sesión configurando un tiempo en el pasado
         setcookie(session_name(), '', time() - 42000,
             $params["path"], $params["domain"],
             $params["secure"], $params["httponly"]

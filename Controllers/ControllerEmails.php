@@ -50,7 +50,7 @@ class EmailSender extends ConexionDB
     }
 
 
-    private function MDFCC(int $idn, string $cc, int $type) : void
+    private function ModificarCC(int $idn, string $cc, int $type) : void
     {
         $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES');
 
@@ -114,7 +114,7 @@ class EmailSender extends ConexionDB
 
       foreach((array) $ccvalue as $CC) { $this->mail->addCC($CC); }
 
-      $this->MDFCC($IDReg,json_encode($ccvalue),$Type);
+      $this->ModificarCC($IDReg,json_encode($ccvalue),$Type);
      }
     }
 
@@ -145,23 +145,17 @@ class EmailSender extends ConexionDB
     $RES1->bindParam(2, $IDReg, 1);
     $RES1->execute();
 
-    if ($this->Archivos != []) 
-    {
-      foreach ($this->Archivos as $Key) 
-      { unlink($Key); error_log($Key);}
-    }
+    if ($this->Archivos != []) { foreach ($this->Archivos as $Key) { unlink($Key);} }
 
     $this->res['success'] = true;
     $this->res['message'] = 'EEC1';
-
-
     }
     
     else 
     { 
-    $this->res['success'] = false;
-    $this->res['message'] = 'EECE';
-    SUMBLOCKUSER(); 
+      $this->res['success'] = false;
+      $this->res['message'] = 'EECE';
+      SUMBLOCKUSER(); 
     }
     }
 

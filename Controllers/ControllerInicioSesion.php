@@ -26,6 +26,7 @@ class ControllerInicioSesion extends ConexionDB
     $QueryExecution->bindParam(1,$Email);
     $QueryExecution->bindParam(2,$Password);
     $QueryExecution->execute();
+    
        
     // Si la consulta no trae datos dispara error
     if ($QueryExecution->rowCount() === 0){return HandleError();}
@@ -50,7 +51,7 @@ class ControllerInicioSesion extends ConexionDB
       $encrypted_identity = openssl_encrypt($UserData['Token'], $cipher_method, $encryption_key, 0, $iv);
   
       // Asigna la cookie que determina la identidad del usuario
-      setcookie('IDENTITY', base64_encode($encrypted_identity . '::' . base64_encode($iv)), 0, '/', '', true, true);
+      setcookie('IDENTITY', base64_encode($encrypted_identity . '::' . base64_encode($iv)), 0, '/', '', false, true);
   
       $this->response['CCLAVE'] = $UserData['CClave'];
   
@@ -58,7 +59,7 @@ class ControllerInicioSesion extends ConexionDB
       if ($this->response['CCLAVE'] === 'F') 
       {
         $_SESSION['LOG'] = true;
-        setcookie('PASS', $Password, 0, '/', '', true, true);
+        setcookie('PASS', $Password, 0, '/', '', false, true);
       }
     }
     
