@@ -33,15 +33,17 @@ $(document).ready(function(){
   // Obtener la fecha actual
   eventlisten('.modal','show.bs.modal', function () {
 
-    var today = new Date();
-    var dd = String(today.getDate()).padStart(2, '0');
-    var mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
-    var yyyy = today.getFullYear();
+    if($(this).find('input[type="date"]').length !== 0)
+    {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0');
+    let mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
 
-    today = yyyy + '-' + mm + '-' + dd;
+    today = currentYear + '-' + mm + '-' + dd;
 
     // Establecer la fecha actual en formato "yyyy-mm-dd" en todos los campos de fecha
     $(this).find('input[type="date"]').val(today);
+    }
 });
 
 

@@ -34,9 +34,7 @@ function tablasejec(str)
       {
         "targets": 6,
         "orderable": false,
-        "render": function (row) {
-          console.log(row);
-          
+        "render": function (row) {          
           switch (row) 
           {
             case 'C': return '<i class="bi bi-check-circle-fill" style="Color:Green;"> Completada</i>';

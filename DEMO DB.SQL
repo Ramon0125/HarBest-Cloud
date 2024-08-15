@@ -157,7 +157,7 @@ CREATE VIEW VW_CASOS
    date_format(N.FechaNotif, '%d/%m/%Y') AS 'FECHA INICIO',
    date_format(COALESCE(RD.FechaVenci, EDD.FechaVenci, D.FechaVenci, N.FechaVenci), '%d/%m/%Y') AS `FECHA VENCIMIENTO`,
    CASE
-    WHEN COALESCE(RD.FechaVenci, EDD.FechaVenci, D.FechaVenci, N.FechaVenci) < NOW() THEN 'V'
+    WHEN COALESCE(RD.FechaVenci, EDD.FechaVenci, D.FechaVenci, N.FechaVenci) < CURDATE() THEN 'V'
 	WHEN ER.Estatus = 'T' AND RD.TipoRespuesta != 'Resolucion de determinacion' THEN 'C'
 	ELSE 'P' 
    END AS `ESTADO`
@@ -170,10 +170,12 @@ CREATE VIEW VW_CASOS
    LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
    LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
    LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
-   ORDER BY CASE 
-    WHEN `ESTADO` = 'C' THEN 3
-	WHEN `ESTADO` = 'V' THEN 2
-    ELSE 1 END, DATE_FORMAT(STR_TO_DATE(`FECHA VENCIMIENTO`, '%d/%m/%Y'), '%Y/%m/%d') ASC;
+   ORDER BY 
+    CASE 
+     WHEN `ESTADO` = 'C' THEN 3
+	 WHEN `ESTADO` = 'V' THEN 2
+     ELSE 1 
+    END, DATE_FORMAT(STR_TO_DATE(`FECHA VENCIMIENTO`, '%d/%m/%Y'), '%Y/%m/%d') ASC;
     
 
 CREATE VIEW ALL_NOTIF AS

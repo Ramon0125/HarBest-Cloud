@@ -18,26 +18,26 @@
 <!--- Links -------------->
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
-
-<?php 
-
-require '../Controllers/datos.php';
+<?php require '../Controllers/datos.php';
 
 require '../Controllers/ControllersBlocks.php';
 
-if(isset($_SESSION['LOG']) || isset($_COOKIE['PASS']) && !isset($_COOKIE['IDENTITY']) ){ header("Location:".APP_URL);}
+if(isset($_SESSION['LOG']) || isset($_COOKIE['PASS']) && !isset($_COOKIE['IDENTITY']) )
+{ 
+  header("Location:".APP_URL);
+}
 
-elseif (VALIDARBLOCK() !== 'T') {
+elseif (VALIDARBLOCK() !== 'T') 
+{
  $url = APP_URL.'Error/index.php?Error=001';
  $html = file_get_contents($url);
  echo $html; 
 }
 
-elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario'))){ echo 'IDUsuario'; /* die(HandleWarning()); */}
+elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario')))
+{ die(HandleWarning()); }
 
-else {
-
-?>
+else { ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" type="text/css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" rel="stylesheet" crossorigin="anonymous" type="text/css">
@@ -46,11 +46,14 @@ else {
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"  type="text/javascript" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/2.0.3/js/dataTables.js" type="text/javascript" crossorigin="anonymous"></script>
 <link href="<?PHP echo APP_URL ?>Styles/style.css" rel="stylesheet" type="text/css">
-</head><body>
+<!--- Fin Links -------------->
 
+</head>
+
+<body>
 
 <div id="carga" class="loading">
-<div class="spin"></div>
+ <div class="spin"></div>
 </div>
 
 <!-- ======= Header ======= -->
@@ -60,8 +63,8 @@ else {
 <div class="d-flex align-items-center justify-content-between">
 
  <a class="logo d-flex align-items-center">
- <img src="<?php echo APP_URL ?>Data/favicon.png" alt="Logo de <?php echo APP_NAME ?>">
- <span class="d-none d-lg-block"><?php echo APP_NAME ?></span>
+  <img src="<?php echo APP_URL ?>Data/favicon.png" alt="Logo de <?php echo APP_NAME ?>">
+  <span class="d-none d-lg-block"><?php echo APP_NAME ?></span>
  </a>
  
  <div class="header1 toggle-sidebar-btn">
@@ -149,6 +152,20 @@ else {
     Consulta de casos
    </a>
   </li>
+
+
+  <li class="nav-heading">Prorrogas</li>
+
+<!-- Notificaciones de inconsistencia -->
+<li class="nav-item">
+
+<li class="dropdown-item">
+   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
+   <i class="bi bi-plus-circle"></i>Adicionar</a>
+  </li>
+
+</li>
+
 
   <li class="nav-heading">Protocolos</li>
 

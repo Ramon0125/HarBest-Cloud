@@ -47,26 +47,22 @@ error: function () {Alerta(txt.EELS,txt.E, 2000);}
 
 // Función para modificar la contraseña
 function MdfPass(event,p, p2) 
-{ event.preventDefault();
+{ 
+  event.preventDefault();
+  
   if (!validarparams(p,p2)) {return Alerta(txt.CTC, txt.W, 1450); } //Esto verifica si las contraseñas no estan vacias
 
   if (p !== p2){return Alerta(txt.LCC, txt.E, 1450); }//Esto verifica si las contraseñas son iguales 
 
   if(!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(p))
   {
-	return Swal.fire({
-		icon: 'error',
-		title: 'Contraseña no valida',
-		html: `Por favor, asegúrate de que tu contraseña:
-			   <ul style="text-align: left;">
-				 <li>Contenga al menos 8 caracteres.</li>
-				 <li>Incluya al menos una letra minúscula (a-z).</li>
-				 <li>Incluya al menos una letra mayúscula (A-Z).</li>
-				 <li>Incluya al menos un número (0-9).</li>
-			   </ul>`,
-		confirmButtonText: 'Aceptar',
-		confirmButtonColor: 'green'
-	});
+	return Alerta(false,txt.E,false,true,'Contraseña no valida',`Por favor, asegúrate de que tu contraseña:
+			<ul style="text-align: left;">
+			  <li>Contenga al menos 8 caracteres.</li>
+			  <li>Incluya al menos una letra minúscula (a-z).</li>
+			  <li>Incluya al menos una letra mayúscula (A-Z).</li>
+			  <li>Incluya al menos un número (0-9).</li>
+			</ul>`);
   }
 	
   $.ajax({
