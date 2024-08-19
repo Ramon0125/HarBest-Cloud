@@ -80,7 +80,48 @@ else { ?>
 <!-- End Logo -->
 
 <!-- Navigation -->
-<nav class="header-nav ms-auto"><ul class="d-flex align-items-center">
+<nav class="header-nav ms-auto">
+  
+<ul class="d-flex align-items-center">
+
+<!--Prorrogas -->
+<li class="nav-item dropdown-center pe-3" style="font-weight: 550; right: 239%; color: var(--acolorhov);">
+
+<a class="nav-link nav-profile d-flex align-items-center pe-0 cpp cp" data-bs-toggle="dropdown">
+<i class="bi bi-clock-fill"></i>
+ <span class="d-none d-md-block dropdown-toggle ps-2">PRORROGAS</span>
+</a>
+
+<!-- Profile Dropdown Items -->
+<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+
+<li class="dan1" onclick="cerrar()">
+ <a class="dropdown-item d-flex align-items-center dan1">
+ <i class="bi bi-plus-circle-fill"></i>
+ <span>Agregar</span>
+ </a>
+</li>
+
+<li class="dan" onclick="cerrar()">
+ <a class="dan dropdown-item d-flex align-items-center dan">
+ <i class="bi bi-trash-fill"></i>
+ <span>Eliminar</span>
+ </a>
+</li>
+
+<li><hr class="dropdown-divider"></li>
+
+<li class="dan1" onclick="cerrar()">
+ <a class="dropdown-item d-flex align-items-center dan1">
+ <i class="bi bi-send-fill"></i>
+ <span>Enviar</span>
+ </a>
+</li>
+            
+</ul><!-- End Profile Dropdown Items -->
+        
+</li><!-- End Profile Nav -->
+
 
 <!--Profile Nav -->
 <li class="nav-item dropdown pe-3">
@@ -152,19 +193,6 @@ else { ?>
     Consulta de casos
    </a>
   </li>
-
-
-  <li class="nav-heading">Prorrogas</li>
-
-<!-- Notificaciones de inconsistencia -->
-<li class="nav-item">
-
-<li class="dropdown-item">
-   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#agrnot">
-   <i class="bi bi-plus-circle"></i>Adicionar</a>
-  </li>
-
-</li>
 
 
   <li class="nav-heading">Protocolos</li>
@@ -287,6 +315,7 @@ else { ?>
   <!-- End Detalle de Citacion -->
 
 
+
   <!-- Tablas -->
 
 <?php } else { ?> 
@@ -378,6 +407,8 @@ else { ?>
   <a class="nav-link d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#edtadm">
   <i class="bi bi-pencil-square"></i>Modificar</a></li> <hr class="divioer">
   </ul></li><!--   END ADMS. -->
+
+  
 
  <?php } ?>
   </ul></aside><!-- End Sidebar-->

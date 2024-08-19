@@ -87,8 +87,7 @@ color: var(--acolor);
 position: absolute;
 inset: 0px 0px auto auto;
 margin: 0px;
-transform: translate(1px, 46px) !important;
-min-width: 240px;
+transform: translate(-7px, 46px) !important;
 padding-bottom: 0;
 top: 8px !important;}
 
@@ -267,6 +266,8 @@ background-color: var(--acolorhov);
 
 .dan:hover,
 .dan:hover i{color: var(--acolordan) !important; cursor: pointer;}
+
+.dan1:hover{color: var(--acolorhov) !important; cursor: pointer;}
 
 .cpp {margin-top: 20px !important;}
 
