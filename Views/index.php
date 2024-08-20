@@ -85,7 +85,7 @@ else { ?>
 <ul class="d-flex align-items-center">
 
 <!--Prorrogas -->
-<li class="nav-item dropdown-center pe-3" style="font-weight: 550; right: 239%; color: var(--acolorhov);">
+<li class="nav-item dropdown-center pe-3" style="font-weight: 550; color: var(--acolorhov);">
 
 <a class="nav-link nav-profile d-flex align-items-center pe-0 cpp cp" data-bs-toggle="dropdown">
 <i class="bi bi-clock-fill"></i>
@@ -95,8 +95,8 @@ else { ?>
 <!-- Profile Dropdown Items -->
 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
-<li class="dan1" onclick="cerrar()">
- <a class="dropdown-item d-flex align-items-center dan1">
+<li class="dan1">
+ <a class="dropdown-item d-flex align-items-center dan1" data-bs-toggle="modal" data-bs-target="#agrprorrogas" >
  <i class="bi bi-plus-circle-fill"></i>
  <span>Agregar</span>
  </a>
@@ -474,6 +474,9 @@ else {  ?>
 <!-----------------------------------------------------MODAL DETALLES COMPLETOS---------------------------------------------->
 <?php include_once './ModalesEjec/MdetalleCompleto.php'; ?>
 <!---------------------------------------------------FIN MODAL DETALLES COMPLETOS---------------------------------------------->
+<!-----------------------------------------------------MODALES COMPLEMENTOS---------------------------------------------->
+<?php include_once './ModalesEjec/MComplementos.php'; ?>
+<!---------------------------------------------------FIN MODALES COMPLEMENTOS---------------------------------------------->
 <!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 

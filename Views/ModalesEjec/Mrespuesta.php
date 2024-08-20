@@ -1,9 +1,8 @@
 <?php 
 
-if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
-{ http_response_code(404); die(header('Location: ./404')); } 
+if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI'])) { http_response_code(404); die(header('Location: ./404')); }
 
-?>
+else { ?>
 
 <!---- MODAL AGREGAR RESPUESTA DGII --------->
 <div class="modal fade" id="agrresdgii" data-bs-backdrop="static" aria-hidden="true" >
@@ -28,7 +27,7 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
         foreach ($DataRD as $RDGII){ ?>
           <option value="<?php echo $RDGII["CodigoNotif"]; ?>"><?php echo $RDGII["CodigoNotif"]; ?></option>
        <?php }} ?>
-      </datalist>
+      </datalist> 
      </form>
     </div>
 
@@ -130,3 +129,4 @@ if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI']))
 </div>
 </div></div></div></div>
 <!----------------FIN ELIMINAR RESPUESTA DGII------------------------------->
+<?php }
