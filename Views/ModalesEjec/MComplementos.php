@@ -18,53 +18,54 @@ if (preg_match('/MComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) {
                     </div>
 
                     <div class="col-fluid col-lg-12">
-                        <label for="slcntfrdgii" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>
-                        <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfrdgii" name="slcntfrdgii">
-                        <input type="hidden" id="slcntfrdgii1" name="slcntfrdgii1">
-                        <datalist id="dtlagrrdgii" role="listbox">
-                            <?php $DataRD = Datos(9);
-                            if ($DataRD !== false && count($DataRD) > 0) {
-                                foreach ($DataRD as $RDGII) { ?>
-                                    <option value="<?php echo $RDGII["CodigoNotif"]; ?>"><?php echo $RDGII["CodigoNotif"]; ?></option>
-                                <?php }
-                            } ?>
+                        <label for="slcntfprg" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>
+                        <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfprg" name="slcntfprg">
+                        <input type="hidden" id="slcntfprg1" name="slcntfprg1">
+                        <datalist id="dtlagrprg" role="listbox">
+                            <?php $DataProrroga = Datos(11);
+
+                                if ($DataProrroga !== false && count($DataProrroga) > 0) 
+                                {
+                                    foreach ($DataProrroga as $DATAPRG) { ?>
+                                        <option value="<?php echo $DATAPRG["CodigoNotif"]; ?>"><?php echo $DATAPRG["CodigoNotif"]; ?></option>
+                                    <?php }
+                                } 
+
+                            ?>
                         </datalist>
                     </div>
 
-                    <div class="container" id="formrdgii" style="display: none; padding-left: unset;">
-
+                    <div class="container" id="Containeragrprg" style="display: none; padding-left: unset;">
                         <hr class="Divisor" style="margin-top: 3%; margin-bottom: 2%; width: 103%;">
 
                         <div style="display:flex; gap: 10px; margin-bottom: 2%;">
 
                             <div class="col-sm-6">
-                                <label for="frdgii" class="form-label center" style="margin-top: 3%;">Fecha respuesta</label>
+                                <label for="frdgii" class="form-label center" style="margin-top: 3%;">Fecha prorroga</label>
                                 <input type="DATE" class="form-control" id="frdgii" name="frdgii">
-
-                                <label for="tipordgii" class="form-label center" style="margin-top: 13px;">Tipo respuesta</label>
-                                <select id="tipordgii" class="form-select">
-                                    <option value="Acta de descargo">Acta de descargo</option>
-                                    <option value="Aceptacion de inconsistencia">Aceptacion de inconsistencia</option>
-                                    <!-- <option value="Resolucion de determinacion">Resolucion de determinacion</option> -->
-                                </select>
                             </div>
 
-                            <div class="col-sm-6 upload-container">
+                            <div class="col-sm-6">
+                                <label for="frdgii" class="form-label center" style="margin-top: 3%;">Dias aprobados</label>
+                                <input type="number" class="form-control" id="frdgii" name="frdgii">
+                            </div>
+
+                            <div class="col-lg-12 upload-container">
 
                                 <div class="border-container1">
 
-                                    <div class="center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
-                                            <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707z" />
-                                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
-                                        </svg>
-                                    </div>
+                                <div class="center">
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                                   <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707z"/>
+                                   <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+                                  </svg>
+                                </div>
+ 
+                                <input type="file" id="FileRes" hidden>
 
-                                    <input type="file" id="FileRes" hidden>
-
-                                    <p class="center">
-                                        <span><a id="file-res-browser" class="cp">Buscar</a> el archivo.</span>
-                                    </p>
+                                <p class="center">       
+                                 <span><a id="file-res-browser" class="cp">Buscar</a> el archivo.</span>
+                                </p>
 
                                 </div>
 
@@ -72,12 +73,8 @@ if (preg_match('/MComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) {
 
                         </div>
 
-                        <div class="col-lg-12" style="width: 102%;">
-                            <label for="ComentsRes" class="form-label labeledtmdf">Comentarios:</label>
-                            <textarea rows="5" class="form-control" id="ComentsRes" name="ComentsRes"></textarea>
-                        </div>
-
                     </div>
+                
                 </div>
 
                 <div class="modal-footer justify-content-center">

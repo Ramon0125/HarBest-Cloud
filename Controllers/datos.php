@@ -13,7 +13,7 @@ function Datos(int $op): array
 
     $select = array( 1 => "VW_USERS", 2 => "VW_CLIENTES", 3 => "ADM", 4 => "ALL_NOTIF", 5 => "ALL_NOTIF_FOR_DETALLE",
     6 => "ALL_DETALLES", 7 => "ALL_NOTIF_FOR_ESCRITO", 8 => "ALL_ESCRITO", 9 => "ALL_NOTIF_FOR_RESPUESTA",
-    10 => "ALL_RESPUESTA");
+    10 => "ALL_RESPUESTA",11 => "VW_PRORROGAS");
 
     $ejecucion = $conexion->prepare("SELECT * FROM ".$select[$op]);
     $ejecucion->execute();

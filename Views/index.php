@@ -84,6 +84,7 @@ else { ?>
   
 <ul class="d-flex align-items-center">
 
+<?php if(GetInfo('Privilegios') === 'CASOS FISCALES') { ?>
 <!--Prorrogas -->
 <li class="nav-item dropdown-center pe-3" style="font-weight: 550; color: var(--acolorhov);">
 
@@ -121,7 +122,7 @@ else { ?>
 </ul><!-- End Profile Dropdown Items -->
         
 </li><!-- End Profile Nav -->
-
+<?php } ?>
 
 <!--Profile Nav -->
 <li class="nav-item dropdown pe-3">
