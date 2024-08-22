@@ -40,7 +40,7 @@ else {window[func]($(input2).val(),$(input).val());}
 }
 
 else 
-{modifystyle(object,'display',$(input2).val() == 0 ? 'none' : 'block');}
+{modifystyle(object,'display',$(input2).val() == 0 ? 'none' : 'flex');}
 }
 
 

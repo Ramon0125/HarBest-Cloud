@@ -31,7 +31,7 @@ else { ?>
      </form>
     </div>
 
-    <div class="container" id="formrdgii" style="display: none; padding-left: unset;">
+    <div class="row" id="formrdgii" style="display: none; padding-left: unset;">
 
      <hr class="Divisor" style="margin-top: 3%; margin-bottom: 2%; width: 103%;">
 

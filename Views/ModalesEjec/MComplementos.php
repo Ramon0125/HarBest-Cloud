@@ -1,14 +1,16 @@
 <?php
 
-if (preg_match('/MComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) {
-    http_response_code(404);
-    die(header('Location: ./404'));
-} else { ?>
+if (preg_match('/MComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{
+    http_response_code(404);    die(header('Location: ./404'));
+} 
 
+else {
+
+?>
     <!---- Seccion agregar prorrogas --------->
     <div class="modal fade" id="agrprorrogas" data-bs-backdrop="static" aria-hidden="true">
-        <div class="modal-dialog center">
-            <div class="modal-content">
+        <div class="modal-dialog center"><div class="modal-content">
 
                 <div class="modal-body">
 
@@ -35,43 +37,45 @@ if (preg_match('/MComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) {
                         </datalist>
                     </div>
 
-                    <div class="container" id="Containeragrprg" style="display: none; padding-left: unset;">
-                        <hr class="Divisor" style="margin-top: 3%; margin-bottom: 2%; width: 103%;">
+                    <div class="row" id="Containeragrprg" style="display: none;">
 
-                        <div style="display:flex; gap: 10px; margin-bottom: 2%;">
+                        <hr class="Divisor" style="margin-top: 2%; margin-bottom: 2%;">
 
-                            <div class="col-sm-6">
-                                <label for="frdgii" class="form-label center" style="margin-top: 3%;">Fecha prorroga</label>
-                                <input type="DATE" class="form-control" id="frdgii" name="frdgii">
+                            <div class="col-lg-12" style="margin-bottom: 2%;">
+                                <label for="dateprg" class="form-label labeledtmdf">Fecha prorroga</label>
+                                <input type="DATE" class="form-control" id="dateprg">
                             </div>
 
                             <div class="col-sm-6">
-                                <label for="frdgii" class="form-label center" style="margin-top: 3%;">Dias aprobados</label>
-                                <input type="number" class="form-control" id="frdgii" name="frdgii">
+                                <label for="Comentsprg" class="form-label labeledtmdf">Comentarios</label>
+                                <textarea style="height: 144px;" class="form-control" id="Comentsprg" name="Comentsprg"></textarea>
                             </div>
 
-                            <div class="col-lg-12 upload-container">
+                            <div class="col-sm-6">
 
-                                <div class="border-container1">
+                                <label for="Fileprg" class="labeledtmdf">Archivo de prorroga</label>
+                                <input type="file" id="Fileprg" hidden>
 
-                                <div class="center">
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
-                                   <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707z"/>
-                                   <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-                                  </svg>
-                                </div>
- 
-                                <input type="file" id="FileRes" hidden>
+                                <div class="upload-container">
 
-                                <p class="center">       
-                                 <span><a id="file-res-browser" class="cp">Buscar</a> el archivo.</span>
-                                </p>
+                                    <div class="border-container1 cp">
+
+                                    <div class="center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383"/>
+                                            <path fill-rule="evenodd" d="M7.646 4.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V14.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708z"/>
+                                        </svg>
+                                    </div>
+
+                                    <p class="center">       
+                                        <span><a class="colgree">Buscar</a> el archivo.</span>
+                                    </p>
+
+                                    </div>
 
                                 </div>
 
                             </div>
-
-                        </div>
 
                     </div>
                 
@@ -79,16 +83,15 @@ if (preg_match('/MComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) {
 
                 <div class="modal-footer justify-content-center">
 
-                    <button type="button" class="btn btn-success" id="btnagrrdgii" style="display:none;"
-                        onclick="addres(document.getElementById('slcntfrdgii').value,document.getElementById('frdgii').value,document.getElementById('ComentsRes').value,document.getElementById('tipordgii').value,document.getElementById('FileRes').files[0])">
-                        <i class="bi bi-floppy"></i> Crear</button>
+                    <button type="button" class="btn btn-success" id="btnagrprg" style="display:none;">
+                    <i class="bi bi-floppy"></i>&nbsp;Crear
+                    </button>
 
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeres()">Cancelar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
 
                 </div>
 
-            </div>
-        </div>
+        </div></div>
     </div>
     <!----Fin Seccion agregar prorrogas --------->
 

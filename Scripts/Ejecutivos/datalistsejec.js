@@ -146,16 +146,15 @@ if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e
 /////////DATALIST AGRPRG//////////////////////////////////////////////
 
 eventlisten('#dtlagrprg','click', function(event) 
-{datalistclick(event,'#slcntfprg','#slcntfprg1',['#Containeragrprg'],'#dtlagrprg',false,true);});
+{datalistclick(event,'#slcntfprg','#slcntfprg1',['#Containeragrprg','#btnagrprg'],'#dtlagrprg',false,true);});
 
 eventlisten('#slcntfprg','input', function() 
-{datalistinput('#slcntfprg','#slcntfprg1',['#Containeragrprg'],'#dtlagrprg');});
+{datalistinput('#slcntfprg','#slcntfprg1',['#Containeragrprg','#btnagrprg'],'#dtlagrprg');});
 
 eventlisten('#slcntfprg','blur', function() 
-{datalistblur('#slcntfprg','#slcntfprg1',['#Containeragrprg'],'#dtlagrprg');});
+{datalistblur('#slcntfprg','#slcntfprg1',['#Containeragrprg','#btnagrprg'],'#dtlagrprg');});
 
 eventlisten('#slcntfprg','keydown',(e) => { 
-if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtldltedd')}});
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlagrprg')}});
 
 /////////FIN DATALIST AGRPRG//////////////////////////////////////////////
-

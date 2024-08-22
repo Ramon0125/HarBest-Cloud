@@ -31,7 +31,7 @@ if (preg_match('/Mescrito(?:\.php)?/', $_SERVER['REQUEST_URI']))
     </form>
   </div>
 
-  <div class="container" id="formEDD" style="display: none; padding-left: unset;">
+  <div class="row" id="formEDD" style="display: none; padding-left: unset;">
 
   <hr class="Divisor" style="margin-top: 3%;">
   

@@ -566,3 +566,9 @@ word-wrap: break-word;    }
   font-family: sans-serif;
   font-weight: 600;
 }
+
+span a.colgree
+{
+  color: var(--color) !important;
+  border-bottom: 3px dotted var(--color);
+}
