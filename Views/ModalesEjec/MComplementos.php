@@ -21,7 +21,7 @@ else {
 
                     <div class="col-fluid col-lg-12">
                         <label for="slcntfprg" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>
-                        <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfprg" name="slcntfprg">
+                        <input class="form-control MInput" autocomplete="off" role="combobox" list="" id="slcntfprg" name="slcntfprg">
                         <input type="hidden" id="slcntfprg1" name="slcntfprg1">
                         <datalist id="dtlagrprg" role="listbox">
                             <?php $DataProrroga = Datos(11);
@@ -41,22 +41,21 @@ else {
 
                         <hr class="Divisor" style="margin-top: 2%; margin-bottom: 2%;">
 
-                            <div class="col-lg-12" style="margin-bottom: 2%;">
+                            <div class="col-lg-12 center" style="flex-direction:column; margin-bottom: 2%;">
                                 <label for="dateprg" class="form-label labeledtmdf">Fecha prorroga</label>
-                                <input type="DATE" class="form-control" id="dateprg">
+                                <input type="DATE" class="form-control" id="dateprg" style="text-align: center;  width: 50%;">
                             </div>
 
                             <div class="col-sm-6">
                                 <label for="Comentsprg" class="form-label labeledtmdf">Comentarios</label>
-                                <textarea style="height: 144px;" class="form-control" id="Comentsprg" name="Comentsprg"></textarea>
+                                <textarea style="height: 81.9%;" class="form-control" id="Comentsprg"></textarea>
                             </div>
 
                             <div class="col-sm-6">
-
                                 <label for="Fileprg" class="labeledtmdf">Archivo de prorroga</label>
                                 <input type="file" id="Fileprg" hidden>
 
-                                <div class="upload-container">
+                                <div class="upload-container" id="ContainerPRG">
 
                                     <div class="border-container1 cp">
 
@@ -68,13 +67,12 @@ else {
                                     </div>
 
                                     <p class="center">       
-                                        <span><a class="colgree">Buscar</a> el archivo.</span>
+                                        <span><a id="Spanprg" style="color: var(--color);">Buscar</a> el archivo.</span>
                                     </p>
 
                                     </div>
 
                                 </div>
-
                             </div>
 
                     </div>

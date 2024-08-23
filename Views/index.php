@@ -35,7 +35,9 @@ elseif (VALIDARBLOCK() !== 'T')
 }
 
 elseif(GetInfo('IDUsuario') == 0 || is_null(GetInfo('IDUsuario')))
-{ die(HandleWarning()); }
+{ 
+  die(HandleWarning()); 
+}
 
 else { ?>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" type="text/css">
@@ -53,7 +55,8 @@ else { ?>
 <body>
 
 <div id="carga" class="loading">
- <div class="spin"></div>
+  <div class="spin">
+  </div>
 </div>
 
 <!-- ======= Header ======= -->
@@ -484,5 +487,6 @@ else {  ?>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/detallecitacion.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/escritodescargo.js" type="text/javascript"></script> 
-<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/respuestadgii.js" type="text/javascript"></script> 
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/respuestadgii.js" type="text/javascript"></script>
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/complementos.js" type="text/javascript"></script> 
 <?php } ?> </body></html> <?php }

@@ -320,14 +320,27 @@ IDProrroga INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 CodigoNotif CHAR(12) NOT NULL,
 FechaProrroga DATE NOT NULL,
 ArchivoProrroga JSON NOT NULL,
-ComentariosProrrogas TEXT NOT NULL,
-TipoProrroga VARCHAR(20) NOT NULL
+ComentarioProrrogas TEXT NOT NULL
 );
 
 
 ALTER TABLE PRORROGA ADD CONSTRAINT FK_PRORROGA_NOTIFICACION
 FOREIGN KEY PRORROGA(CodigoNotif) REFERENCES NOTIF_INCONSISTENCIA(CodigoNotif);
 
+
+ CREATE VIEW VW_PRORROGAS AS
+ SELECT N.CodigoNotif
+   FROM NOTIF_INCONSISTENCIA AS N
+   JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
+   LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+   LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
+   LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
+   JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
+   LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
+   LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
+   LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
+   WHERE COALESCE(ER.Estatus,EE.Estatus,ED.Estatus,EN.Estatus) <> 'F';
+   
 
 CREATE TABLE EMAILS_PRORROGA
 (
@@ -1214,18 +1227,59 @@ JOIN CLIENTES AS C ON N.IDCliente = C.IDCliente
 WHERE ER.Estatus = "F" AND RD.IDRespuesta = SEARCH;
 END $$
 
+
+CREATE PROCEDURE SP_INSERT_PRORROGA
+(
+ IN INCodigoNotif CHAR(12),
+ IN INFechaPRG DATE,
+ IN INComentsPRG TEXT,
+ IN INArchivosPRG JSON
+) BEGIN
+
+ DECLARE TABLA VARCHAR(20);
+
+ -- Seleccionar la tabla
+ IF EXISTS( SELECT CodigoNotif FROM RESPUESTA_DGII WHERE CodigoNotif = INCodigoNotif)
+ THEN SELECT 'RESPUESTA_DGII' INTO TABLA;
+
+ ELSEIF EXISTS( SELECT CodigoNotif FROM ESCRITO_DESCARGO WHERE CodigoNotif = INCodigoNotif)
+ THEN SELECT 'ESCRITO_DESCARGO' INTO TABLA;
+
+ ELSEIF EXISTS( SELECT CodigoNotif FROM DETALLE_CITACION WHERE CodigoNotif = INCodigoNotif)
+ THEN SELECT 'DETALLE_CITACION' INTO TABLA;
+
+ ELSE SELECT 'NOTIF_INCONSISTENCIA' INTO TABLA;
+ END IF;
+
+ -- Calcular la nueva fecha de vencimiento usando una función y actualizando el registro
+ SET @FSENTENCE = CONCAT('SELECT DIASLABORABLES(FechaVenci,10) INTO @FechaFinal FROM ', TABLA, ' WHERE CodigoNotif = ?');
+ PREPARE stmt FROM @FSENTENCE;
+ SET @CodigoNotifParam = INCodigoNotif;
+ EXECUTE stmt USING @CodigoNotifParam;
+ DEALLOCATE PREPARE stmt;
+
+ -- Actualizar la fecha de vencimiento en la tabla correspondiente
+ SET @SENTENCE = CONCAT('UPDATE ', TABLA, ' SET FechaVenci = @FechaFinal WHERE CodigoNotif = ?');
+ PREPARE stmt FROM @SENTENCE;
+ EXECUTE stmt USING @CodigoNotifParam;
+ 
+  -- Mensaje final basado en si la actualización fue exitosa
+ IF (ROW_COUNT() > 0) THEN
+ INSERT INTO PRORROGA(CodigoNotif,FechaProrroga,ArchivoProrroga,ComentarioProrroga)
+ VALUES(INCodigoNotif,INFechaPRG,INArchivosPRG,INComentsPRG);
+ 
+ SELECT 'PIC' AS MENSAJE;
+ 
+ ELSE SELECT 'EAIP' AS MENSAJE;
+ END IF;
+ 
+ DEALLOCATE PREPARE stmt;
+
+ -- Limpiar variables temporales
+ SET @FSENTENCE = NULL;
+ SET @SENTENCE = NULL;
+ SET @FechaFinal = NULL;
+
+END $$
+
 DELIMITER ;
-
-
- CREATE VIEW VW_PRORROGAS AS
- SELECT N.CodigoNotif
-   FROM NOTIF_INCONSISTENCIA AS N
-   JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
-   LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
-   LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
-   LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
-   JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
-   LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
-   LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
-   LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
-   WHERE  COALESCE(ER.Estatus,EE.Estatus,ED.Estatus,EN.Estatus) <> 'F';
