@@ -1,7 +1,7 @@
 RewriteEngine On
 Options All -Indexes
 
-ErrorDocument 404 /Programas/HarBest-Cloud/Error/?Error=404
+ErrorDocument 404 /HarBest-Cloud/Error/?Error=404
 
 Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 
