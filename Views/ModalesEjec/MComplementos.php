@@ -21,7 +21,7 @@ else {
 
                     <div class="col-fluid col-lg-12">
                         <label for="slcntfprg" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>
-                        <input class="form-control MInput" autocomplete="off" role="combobox" list="" id="slcntfprg" name="slcntfprg">
+                        <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfprg" name="slcntfprg">
                         <input type="hidden" id="slcntfprg1" name="slcntfprg1">
                         <datalist id="dtlagrprg" role="listbox">
                             <?php $DataProrroga = Datos(11);

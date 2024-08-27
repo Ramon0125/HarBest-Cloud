@@ -320,7 +320,10 @@ IDProrroga INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 CodigoNotif CHAR(12) NOT NULL,
 FechaProrroga DATE NOT NULL,
 ArchivoProrroga JSON NOT NULL,
-ComentarioProrrogas TEXT NOT NULL
+ComentarioProrrogas TEXT NOT NULL,
+HoraRegistro DATETIME NOT NULL,
+HoraEnvio DATETIME NOT NULL,
+Estatus ENUM('T','F') DEFAULT 'F'
 );
 
 
@@ -341,16 +344,6 @@ FOREIGN KEY PRORROGA(CodigoNotif) REFERENCES NOTIF_INCONSISTENCIA(CodigoNotif);
    LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
    WHERE COALESCE(ER.Estatus,EE.Estatus,ED.Estatus,EN.Estatus) <> 'F';
    
-
-CREATE TABLE EMAILS_PRORROGA
-(
-IDEProrroga INT PRIMARY KEY AUTO_INCREMENT,
-IDProrroga INT UNIQUE NOT NULL,
-HoraRegistro DATETIME NOT NULL,
-HoraEnvio DATETIME,
-Estatus ENUM('T','F') DEFAULT 'F'
-);
-
 /* PROCEDIMIENTOS */*\
 DELIMITER $$
 
@@ -1228,6 +1221,26 @@ WHERE ER.Estatus = "F" AND RD.IDRespuesta = SEARCH;
 END $$
 
 
+
+CREATE PROCEDURE SP_INSERT_PRORROGA
+(
+ IN INCodigoNotif CHAR(12),
+ IN INFechaPRG DATE,
+ IN INComentsPRG TEXT,
+ IN INArchivosPRG JSON
+) BEGIN
+
+ INSERT INTO PRORROGA(CodigoNotif,FechaProrroga,ArchivoProrroga,ComentarioProrroga,HoraRegistro)
+ VALUES(INCodigoNotif,INFechaPRG,INArchivosPRG,INComentsPRG,NOW());
+ 
+ IF ROW_COUNT() > 0 THEN SELECT 'PIC' AS MENSAJE;
+ ELSE SELECT 'EAIP' AS MENSAJE;
+ END IF;
+ 
+END $$
+
+
+////////////////////////////////////////////
 CREATE PROCEDURE SP_INSERT_PRORROGA
 (
  IN INCodigoNotif CHAR(12),
