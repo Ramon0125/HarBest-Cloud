@@ -1,5 +1,27 @@
 //Acciones que se cumpliran cuando se cargue por completo el DOM
-$(document).ready(function(){ tablasejec('casos'); });
+$(document).ready(function(){ 
+  
+  tablasejec('casos'); 
+
+  const dd = String(NDate.getDate()).padStart(2, '0');
+  const mm = String(NDate.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+
+  const today = currentYear + '-' + mm + '-' + dd;
+
+  // Obtener la fecha actual
+  eventlisten('.modal','show.bs.modal', function () {
+
+    if($(this).find('input[type="date"]').length !== 0)
+    {
+    // Establecer la fecha actual en formato "yyyy-mm-dd" en todos los campos de fecha
+    $(this).find('input[type="date"]').val(today);
+    }
+  });
+
+  $('body').find('input[type="date"]').attr('max',today);
+  $('body').find('input[type="file"]').attr('accept','.jpg,.pdf,.png,.docx,.doc');
+
+});
 
 const Directivos = ['ericvalerio@harbest.net','aldyperalta@harbest.net',
   'marielebron@harbest.net','mariamoreno@harbest.net','magdalenaortega@harbest.net',

@@ -4,7 +4,9 @@ const toggval = () => parseInt($('#sidebar').css('left'), 10);
 
 const maxfilesize = 10;
 
-const currentYear = new Date().getFullYear();
+const NDate = new Date();
+
+const currentYear = NDate.getFullYear();
 
 //Acciones que se cumpliran cuando se cargue por completo el DOM
 $(document).ready(function(){
@@ -28,24 +30,6 @@ $(document).ready(function(){
   
   eventlisten('.hamburger-lines','click',function () {
   $('#chk').click(); $('body').toggleClass('toggle-sidebar');})
-
-
-  // Obtener la fecha actual
-  eventlisten('.modal','show.bs.modal', function () {
-
-    if($(this).find('input[type="date"]').length !== 0)
-    {
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, '0');
-    let mm = String(today.getMonth() + 1).padStart(2, '0'); // Enero es 0!
-
-    today = currentYear + '-' + mm + '-' + dd;
-
-    // Establecer la fecha actual en formato "yyyy-mm-dd" en todos los campos de fecha
-    $(this).find('input[type="date"]').val(today);
-    }
-});
-
 
 });
 
