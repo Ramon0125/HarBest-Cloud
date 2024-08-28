@@ -8,7 +8,7 @@ else { ?>
 <!---- MODAL AGREGAR DETALLE DE CITACION --------->
 
 <div class="modal fade" id="agrddc" data-bs-backdrop="static" aria-hidden="true" >
-    <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-dialog">
       <div class="modal-content" style="width: 125%;">
    
   <div class="modal-body">
@@ -17,7 +17,7 @@ else { ?>
      <hr class="hdivisor">
     </div>
   
-    <div class="col-fluid col-lg-12">
+    <div class="col-fluid col-lg-12 SMData">
       <form id="formagrddc1">
         <label for="slcntfddc" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>  
         <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfddc">
