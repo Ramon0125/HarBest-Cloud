@@ -57,7 +57,7 @@ else {
 
                                 <div class="upload-container" id="ContainerPRG">
 
-                                    <div class="border-container1 cp">
+                                    <div class="border-container cp">
 
                                     <div class="center">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">

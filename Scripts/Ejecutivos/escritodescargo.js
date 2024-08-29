@@ -1,8 +1,42 @@
+eventlisten('#ContainerEDD','click',
+  function () { 
+      
+      if($('#ContainerEDD').hasClass('has'))
+      {
+          $('#FileEDD').val('');
+          $('#ContainerEDD').removeClass('has');
+          $('#Spanedd').text('Buscar');
+          modifystyle(['#Spanedd'],'color','green');
+      }
+      
+      else{ $('#FileEDD').click(); }
+  }
+  );
+  
+  eventlisten('#FileEDD','change',
+  function () { 
+      
+      if($('#FileEDD')[0].files.length > 0)
+      {
+          $('#ContainerEDD').addClass('has');
+          $('#Spanedd').text('Quitar');
+          modifystyle(['#Spanedd'],'color','red');
+      }
+      
+      else
+      { $('#ContainerEDD').removeClass('has');
+        $('#Spanedd').text('Buscar');
+        modifystyle(['#Spanedd'],'color','green');
+      }
+  }
+  );
+
+
 function closeescrito()
 {
-    $('#FileEscrito').val('');
-    $('#file-browser').text('Buscar');
-    $('#file-browser').removeClass('delete');
+    $('#FileEDD').val('');
+    $('#Spanedd').text('Buscar');
+    $('#Spanedd').removeClass('has');
     LimpiarModal(['#slcntfedd1','#slcntfedd'],['#formEDD','#btnagredd'],['#formagrddc1']);
 }
 

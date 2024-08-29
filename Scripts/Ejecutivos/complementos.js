@@ -16,7 +16,7 @@ function () {
 eventlisten('#Fileprg','change',
 function () { 
     
-    if($('#Fileprg').val() !== null)
+    if($('#Fileprg')[0].files.length > 0)
     {
         $('#ContainerPRG').addClass('has');
         $('#Spanprg').text('Quitar');

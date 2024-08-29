@@ -426,7 +426,7 @@ else { ?>
 </main>
 <!-----------------------------------------------------FIN TABLA---------------------------------------------->
 
-
+<!---------------------MODALES------- ------------------->
 <script defer src="<?php echo APP_URL ?>Scripts/globalfuncs.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/datalistsglobal.js" type="text/javascript"></script>
 
@@ -434,19 +434,9 @@ else { ?>
 
 <script defer src="<?php echo APP_URL ?>Scripts/Admins/funcsadmins.js" type="text/javascript"></script>
 
-<!---------------------MODALES------- ------------------->
-<!-----------------------------------------------------MODAL USUARIOS---------------------------------------------->
 <?php include_once './ModalesAdmin/Musuarios.php'; ?>
-<!---------------------------------------------------FIN MODAL USUARIOS---------------------------------------------->
-
-<!-----------------------------------------------------MODAL CLIENTES---------------------------------------------->
 <?php include_once './ModalesAdmin/Mclientes.php'; ?>
-<!---------------------------------------------------FIN MODAL CLIENTES---------------------------------------------->
-
-<!-----------------------------------------------------MODAL ADMINISTRACION---------------------------------------------->
 <?php include_once './ModalesAdmin/Madms.php'; ?>
-<!---------------------------------------------------FIN MODAL ADMINISTRACION---------------------------------------------->
-<!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Admins/datalistsadmin.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Admins/users.js" type="text/javascript"></script>
@@ -458,30 +448,12 @@ else {  ?>
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/funcsejecutivos.js" type="text/javascript"></script>
 
-<!---------------------MODALES------- ------------------->
-<!-----------------------------------------------------MODAL NOTIF. INCONSIS---------------------------------------------->
 <?php include_once './ModalesEjec/Mnotif.php'; ?>
-<!---------------------------------------------------FIN MODAL NOTIF. INCONSIS---------------------------------------------->
-
-<!-----------------------------------------------------MODAL DETALLE CITACION---------------------------------------------->
 <?php include_once './ModalesEjec/MdetalleC.php'; ?>
-<!---------------------------------------------------FIN MODAL DETALLE CITACION---------------------------------------------->
-
-<!-----------------------------------------------------MODAL ESCRITO DE DESCARGO---------------------------------------------->
 <?php include_once './ModalesEjec/Mescrito.php'; ?>
-<!---------------------------------------------------FIN MODAL ESCRITO DE DESCARGO---------------------------------------------->
-
-<!-----------------------------------------------------MODAL RESPUESTA DE LA DGII---------------------------------------------->
 <?php include_once './ModalesEjec/Mrespuesta.php'; ?>
-<!---------------------------------------------------FIN MODAL RESPUESTA DE LA DGII---------------------------------------------->
-
-<!-----------------------------------------------------MODAL DETALLES COMPLETOS---------------------------------------------->
 <?php include_once './ModalesEjec/MdetalleCompleto.php'; ?>
-<!---------------------------------------------------FIN MODAL DETALLES COMPLETOS---------------------------------------------->
-<!-----------------------------------------------------MODALES COMPLEMENTOS---------------------------------------------->
 <?php include_once './ModalesEjec/MComplementos.php'; ?>
-<!---------------------------------------------------FIN MODALES COMPLEMENTOS---------------------------------------------->
-<!---------------------FIN MODALES------- ------------------->
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
@@ -489,4 +461,8 @@ else {  ?>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/escritodescargo.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/respuestadgii.js" type="text/javascript"></script>
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/complementos.js" type="text/javascript"></script> 
-<?php } ?> </body></html> <?php }
+<?php } ?>
+<!---------------------FIN MODALES------- ------------------->
+
+</body>
+</html> <?php }

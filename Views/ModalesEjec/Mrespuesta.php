@@ -1,27 +1,25 @@
 <?php 
 
-if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI'])) { http_response_code(404); die(header('Location: ./404')); }
+if (preg_match('/Mrespuesta(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+{ http_response_code(404); die(header('Location: ./404')); }
 
-else { ?>
-
-<!---- MODAL AGREGAR RESPUESTA DGII --------->
+else { ?><!---- MODAL AGREGAR RESPUESTA DGII --------->
 <div class="modal fade" id="agrresdgii" data-bs-backdrop="static" aria-hidden="true" >
- <div class="modal-dialog center">
-  <div class="modal-content">
-   
-  <div class="modal-body">
-
-    <div class="ModalTitle">
-     <h3 class="modal-title"><strong>Agregar una respuesta de la DGII</strong></h3>
-     <hr class="my-4 Divisor">
-    </div>
+  <div class="modal-dialog center">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="ModalTitle">
+          <h3 class="modal-title">Agregar una respuesta de la DGII</h3>
+          <hr class="hdivisor mb-2">
+        </div>
   
-    <div class="col-fluid col-lg-12">
-     <form id="formagrrdgii">
-      <label for="slcntfrdgii" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>  
-      <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfrdgii" name="slcntfrdgii">
-      <input type="hidden" id="slcntfrdgii1" name="slcntfrdgii1">
-      <datalist id="dtlagrrdgii" role="listbox">
+        <div class="col-lg-12">
+          <form id="formagrrdgii">
+            <label for="slcntfrdgii" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>  
+            <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfrdgii">
+            <input type="hidden" id="slcntfrdgii1">
+
+            <datalist id="dtlagrrdgii" role="listbox">
        <?php $DataRD = Datos(9);
        if ($DataRD !== false && count($DataRD) > 0) {
         foreach ($DataRD as $RDGII){ ?>
