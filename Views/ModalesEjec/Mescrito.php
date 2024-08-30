@@ -19,7 +19,7 @@ else { ?><!---- MODAL AGREGAR ESCRITO DE DESCARGO --------->
           <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfedd">
           <input type="hidden" id="slcntfedd1" name="slcntfedd1">
           
-          <datalist id="dtlagredd" role="listbox" class="dtl2">
+          <datalist id="dtlagredd" role="listbox">
             <?php $DataED = Datos(7);
               if ($DataED !== false && count($DataED) > 0) 
               {
@@ -42,7 +42,7 @@ else { ?><!---- MODAL AGREGAR ESCRITO DE DESCARGO --------->
         </div>
 
         <div class="col-sm-6">
-          <label for="Fileprg" class="labeledtmdf">Archivo de escrito</label>
+          <label for="FileEDD" class="labeledtmdf">Archivo de escrito</label>
           <input type="file" id="FileEDD" hidden>
           
           <div class="upload-container" id="ContainerEDD">
@@ -88,7 +88,7 @@ else { ?><!---- MODAL AGREGAR ESCRITO DE DESCARGO --------->
           <hr class="hdivisor mb-2">
         </div>
   
-        <div class="col-lg-12">
+        <div class="col-lg-12 SMData">
           <form id="formagredd">
             <label for="slcdltedd" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>  
             <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltedd">
@@ -111,7 +111,7 @@ else { ?><!---- MODAL AGREGAR ESCRITO DE DESCARGO --------->
 
       <div class="modal-footer mfooter">
         <button type="button" class="btn btn-success" id="btndltedd" style="display:none" onclick="dltedd(document.getElementById('slcdltedd1').value,document.getElementById('slcdltedd').value)">
-          <i class="bi bi-trash"></i> Eliminar
+          <i class="bi bi-trash"></i>&nbsp;Eliminar
         </button>
 
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeescrito()">Cancelar</button>

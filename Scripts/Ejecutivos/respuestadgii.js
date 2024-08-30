@@ -1,23 +1,35 @@
-
-eventlisten('#file-res-browser','click',function (){ 
+eventlisten('#ContainerRES','click',
+  function () { 
+      
+      if($('#ContainerRES').hasClass('has'))
+      {
+          $('#FileRes').val('');
+          $('#ContainerRES').removeClass('has');
+          $('#Spanres').text('Buscar');
+          modifystyle(['#Spanres'],'color','green');
+      }
+      
+      else{ $('#FileRes').click(); }
+  }
+  );
   
-    if ($('#file-res-browser').hasClass('delete')) 
-    { 
-      $('#FileRes').val('');
-      $('#file-res-browser').text('Buscar');
-      $('#file-res-browser').removeClass('delete');
-    }
-  
-    else { $('#FileRes').click(); } 
-});
-  
-  
-eventlisten('#FileRes','change',function (){
-  
-    $('#file-res-browser').text('Quitar');
-    $('#file-res-browser').addClass('delete');
-  
-});
+  eventlisten('#FileRes','change',
+  function () { 
+      
+      if($('#FileRes')[0].files.length > 0)
+      {
+          $('#ContainerRES').addClass('has');
+          $('#Spanres').text('Quitar');
+          modifystyle(['#Spanres'],'color','red');
+      }
+      
+      else
+      { $('#ContainerRES').removeClass('has');
+        $('#Spanres').text('Buscar');
+        modifystyle(['#Spanres'],'color','green');
+      }
+  }
+  );
 
 
 function closeres()
@@ -26,8 +38,9 @@ function closeres()
     $('#tipordgii').val('');
     $('#frdgii').val('');
     $('#ComentsRes').val('');
-    $('#file-res-browser').text('Buscar');
-    $('#file-res-browser').removeClass('delete');
+    $('#Spanres').text('Buscar');
+    $('#ContainerRES').removeClass('has');
+    modifystyle(['#Spanres'],'color','green');
     LimpiarModal(['#slcntfrdgii1','#slcntfrdgii'],['#formrdgii','#btnagrrdgii'],['#formagrrdgii']);
 }
 

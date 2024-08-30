@@ -36,7 +36,7 @@ if (!validarparams(token) || !validarint(id) || id === 0) {return Alerta(txt.EEL
  document.querySelector('#edtusrname').value = data.Nombres;
  document.querySelector('#edtusrlastname').value = data.Apellidos;
  document.querySelector('#edtpassword').value = '';
- modifystyle(['#formedt','#btnedtusr'],'display','block');
+ modifystyle(['#formedt','#btnedtusr'],'display','flex');
  }
  else {responses(data);}}, // Mostrar mensaje de error
  error: function () {Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX

@@ -14,12 +14,6 @@
 <meta name="author" content="RAMON E. LEBRON">
 <!--- Fin Meta -------------->
 
-<!--- Links -------------->
-<link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
-<link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
-<link rel="stylesheet" href="<?php echo APP_URL ?>Styles/styles.css" type="text/css">
-<!--- Fin Links -------------->
-
 <?php
 
 require './Controllers/ControllersBlocks.php';
@@ -29,7 +23,15 @@ if (!is_null(GetInfo('IDUsuario')) && !isset($_SESSION['LOG']) && !isset($_COOKI
 
 elseif (VALIDARBLOCK() !== 'T') { die(file_get_contents(APP_URL.'Error/index.php?Error=001')); }
 
-?>
+else { ?>
+
+<!--- Links -------------->
+<link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
+<link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
+<link rel="stylesheet" href="<?php echo APP_URL ?>Styles/styles.css" type="text/css">
+<!--- Fin Links -------------->
+
+
 <!--- Scripts -------------->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11" type="text/javascript"></script>
 <script src="https://code.jquery.com/jquery-2.1.0.min.js"></script>
@@ -106,7 +108,7 @@ elseif (VALIDARBLOCK() !== 'T') { die(file_get_contents(APP_URL.'Error/index.php
 </div>
 </body>
 </html>
-<?php
+<?php }
 
 if (isset($_GET['hcerrar']) || isset($_GET['hcerrar1']) ) 
 {
@@ -118,8 +120,3 @@ if (isset($_GET['hcerrar'])) { echo "Alerta('Sesión cerrada correctamente','suc
 
 echo "LimpiarParametros(); </script>";
 }
-
-
-
-
-

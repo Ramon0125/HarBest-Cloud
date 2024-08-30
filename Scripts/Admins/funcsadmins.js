@@ -3,16 +3,20 @@ $(document).ready(function(){tablas('usrs');});
 
 function datausrblocks()
 {
+
     $('#tabla thead tr').append('<th>ACCIONES</th>');
   
-    $('#tabla').DataTable($.extend(true, {}, tabledata, {"columnDefs": [
-    {"targets": -1, 
+    $('#tabla').DataTable($.extend(true, {}, tabledata, {
+    "order": [],
+    "columnDefs": [{
+    "targets": 5, 
+    "orderable": false,
     "data": null,
-    "defaultContent": "<button type='button' class='btn btn-success btnusrbloc' style='background-color:green; height: 31px; --bs-btn-padding-y: 0px;'>Desbloquear</button>"
+    "defaultContent": "<button type='button' class='btn btn-success btnusrbloc' style='height: 31px; --bs-btn-padding-y: 0px;'>Desbloquear</button>"
     }]}));
   
-    $('#tabla tbody').on('click', '.btnusrbloc', function() {
-    desusr($(this).closest('tr').find('td:eq(0)').text());// Valor de la primera columna
+    $('#tabla tbody').on('click', 'button.btnusrbloc', function() {
+    desusr($(this).closest('tr').find('td:eq(0)').text().trim());// Valor de la primera columna
   });
 }
 
@@ -31,6 +35,7 @@ function tablas(str)
 
   $('#tabla').DataTable().destroy();
   $('#tabla').html(data);
+  
   str === 'usrblocks' ? datausrblocks() : $('#tabla').DataTable(tabledata); 
 },
   error: function () {Alerta(txt.EELS, txt.E, 2000);}});   

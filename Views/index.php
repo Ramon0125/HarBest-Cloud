@@ -420,7 +420,7 @@ else { ?>
 <!-----------------------------------------------------TABLA---------------------------------------------->
 <main id="main" class="main">
 <div class="card info-card sales-card" style="overflow: auto;">
-<table class="table table-hover" id="tabla" style="margin: 0; user-select:text; width:100%;">
+<table class="table table-hover w-100" id="tabla" style="margin: 0; user-select:text;">
 </table>
 </div>
 </main>

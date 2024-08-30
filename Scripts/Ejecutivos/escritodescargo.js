@@ -37,6 +37,7 @@ function closeescrito()
     $('#FileEDD').val('');
     $('#Spanedd').text('Buscar');
     $('#Spanedd').removeClass('has');
+    modifystyle(['#Spanedd'],'color','green');
     LimpiarModal(['#slcntfedd1','#slcntfedd'],['#formEDD','#btnagredd'],['#formagrddc1']);
 }
 

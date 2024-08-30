@@ -19,8 +19,8 @@ else { ?> <!---- MODAL AGREGAR DETALLE DE CITACION --------->
             <input class="form-control" autocomplete="off" role="combobox" list="" id="slcntfddc">
             <input type="hidden" id="slcntfddc1">
 
-            <datalist id="dtlagrddc" role="listbox" class="dtl2">
-              <?php $DataDC = Datos(5); // Obtener clientes
+            <datalist id="dtlagrddc" role="listbox">
+              <?php $DataDC = Datos(5);
                 if ($DataDC !== false && count($DataDC) > 0) 
                 {
                   foreach ($DataDC as $DDC)
@@ -162,7 +162,7 @@ else { ?> <!---- MODAL AGREGAR DETALLE DE CITACION --------->
 
       <div class="modal-footer mfooter">
         <button type="button" class="btn btn-success" id="btnagrddc" style="display:none" onclick="addddc(document.getElementById('slcntfddc1').value,document.getElementById('fdddc').value,document.getElementById('archivosddc').files,document.getElementById('inconsisddc').value,document.getElementById('perddc').value,document.getElementById('valddc').value,document.getElementById('impddc').value,document.getElementById('cdaddc').value,document.getElementById('ndaddc').value,document.getElementById('telddc').value)">
-          <i class="bi bi-floppy"></i> Crear
+          <i class="bi bi-floppy"></i>&nbsp;Crear
         </button>
 
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closedetails()">Cancelar</button>
@@ -189,7 +189,7 @@ else { ?> <!---- MODAL AGREGAR DETALLE DE CITACION --------->
               <label for="slcdltddc" class="form-label labeledtmdf">Seleccione el codigo de notificaciòn</label>  
               <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltddc">
               <input type="hidden" id="slcdltddc1">
-              <datalist id="dtldltddc" role="listbox" class="dtl2">
+              <datalist id="dtldltddc" role="listbox">
                 <?php $ddc1 = Datos(6);
                   if ($ddc1 !== false && count($ddc1) > 0) 
                   {
@@ -207,7 +207,7 @@ else { ?> <!---- MODAL AGREGAR DETALLE DE CITACION --------->
 
       <div class="modal-footer mfooter">
         <button type="button" id="btndltddc" class="btn btn-success" style="display:none;" onclick="dltddc(document.getElementById('slcdltddc1').value,document.getElementById('slcdltddc').value)">
-          <i class="bi bi-trash"></i>Eliminar
+          <i class="bi bi-trash"></i>&nbsp;Eliminar
         </button>
 
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc')">Cancelar</button>

@@ -50,7 +50,7 @@ if(!validarint(id)){return Alerta(txt.EELS, txt.E,2000);}
  $('#admedtclt1').val(data.IDADM);
  $('#admedtclt').val(data.NombreADM);
  $( data.TipoCliente == 'Fisica' ? '#Tipedtclt' : '#Tipedtclt1').prop('checked', true);
- modifystyle(['#formedtclt1','#btnedtclt'],'display','block');} // Mostrar el formulario de edición
+ modifystyle(['#formedtclt1','#btnedtclt'],'display','flex');} // Mostrar el formulario de edición
  else {responses(data);}}, // Mostrar mensaje de error        
  error: function () {Alerta(txt.EELS, txt.E, 2000);}}); // Mostrar mensaje de error en caso de fallo en la solicitud AJAX
 }
