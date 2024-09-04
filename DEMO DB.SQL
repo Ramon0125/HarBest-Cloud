@@ -320,7 +320,7 @@ IDProrroga INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 CodigoNotif CHAR(12) NOT NULL,
 FechaProrroga DATE NOT NULL,
 ArchivoProrroga JSON NOT NULL,
-ComentarioProrrogas TEXT NOT NULL,
+ComentarioProrroga TEXT NOT NULL,
 HoraRegistro DATETIME NOT NULL,
 HoraEnvio DATETIME NOT NULL,
 Estatus ENUM('T','F') DEFAULT 'F'

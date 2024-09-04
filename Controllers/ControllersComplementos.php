@@ -3,6 +3,8 @@
 if (preg_match('/ControllersComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
 { http_response_code(404); die(header('Location: ./404')); }
 
+else {
+
 class ControllersComplementos extends ConexionDB
 {
 private $ConexionDB;
@@ -49,7 +51,7 @@ public function agrprg(string $cod,string $Fecha,string $Coments, array $archivo
 
     if ($this->Response['success']) 
     {
-      EMAILS($cod,4);
+      /* EMAILS($cod,4); */
       AUDITORIA(GetInfo('IDUsuario'),'INSERTO UNA PRORROGA');
     }
     else {SUMBLOCKUSER();}
@@ -57,6 +59,7 @@ public function agrprg(string $cod,string $Fecha,string $Coments, array $archivo
   }catch(Exception $e) {error_log($e->getMessage());  return HandleError();}
 
 return $this->Response;
+}
 }
 
 }

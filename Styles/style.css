@@ -1,6 +1,7 @@
 :root {
-scroll-behavior: smooth;
 --color: green; /* Color primario de la pagina */
+--colorhov: rgb(1, 114, 1); /* Color primario para hover de la pagina */
+
 --backgroundp:#d6d8dc;
 --background: white; /* Color secundario de la pagina */
 --tabletxt: black; /* Color de texto para tabla */
@@ -12,6 +13,8 @@ scroll-behavior: smooth;
 --acolordan: red; /* Color al hacer hover a los links danger */
 --optionshover:  #0d6efd;
 --textligthcolor:  white;
+--Fuente: "Open Sans", sans-serif;
+
 }
 
 /* Cambiar el color del contenedor del scrollbar */
@@ -26,16 +29,28 @@ scroll-behavior: smooth;
   border: 3px solid #ffffff; /* Espacio entre la barra y el contenedor */
 }
 
+::selection
+{
+  background-color: var(--color);
+  color: var(--textligthcolor);
+}
+
+body.swal2-shown.swal2-height-auto
+{
+overflow: auto !important;
+padding-right: 0px !important;
+}
+
 body {
 background: var(--backgroundp);
 overflow: hidden;
-font-family: "Open Sans", sans-serif;
+font-family: var(--Fuente);
 user-select: none;
 }
 
 a { color: var(--acolor); text-decoration: none; }
 
-h1,h2,h3,h4,h5,h6 { font-family: "Nunito", sans-serif; }
+h1,h2,h3,h4,h5,h6 { font-family: var(--Fuente); }
 
 /*--------------------------------------------------------------
 # Main
@@ -61,7 +76,7 @@ margin-right: 6px;
 font-size: 26px;
 font-weight: 700;
 color: var(--color);
-font-family: "Nunito", sans-serif;
+font-family: var(--Fuente);
 }
 
 .header {
@@ -96,7 +111,6 @@ position: absolute;
 inset: 0px 0px auto auto;
 margin: 0px;
 transform: translate(-7px, 46px) !important;
-padding-bottom: 0;
 top: 8px !important;}
 
 .header-nav .profile .dropdown-header h6 {
@@ -119,8 +133,10 @@ margin-right: 10px;
 font-size: 18px;
 line-height: 0;}
 
-.header-nav .profile .dropdown-item:hover {
-background-color:var(--background)}
+.header-nav .profile .dropdown-item:hover 
+{
+background-color:var(--backgroundp);
+}
 
 /*--------------------------------------------------------------
 # Sidebar

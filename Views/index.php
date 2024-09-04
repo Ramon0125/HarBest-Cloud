@@ -18,9 +18,9 @@
 <!--- Links -------------->
 <link rel="shortcut icon" type="image/x-icon" href="<?php echo APP_URL ?>Data/favicon.ico"/>
 <link rel="icon" href="<?php echo APP_URL?>Data/favicon.ico" type="image/x-icon"/>
-<?php require '../Controllers/datos.php';
-
-require '../Controllers/ControllersBlocks.php';
+<?php 
+      require '../Controllers/datos.php';
+      require '../Controllers/ControllersBlocks.php';
 
 if(isset($_SESSION['LOG']) || isset($_COOKIE['PASS']) && !isset($_COOKIE['IDENTITY']) )
 { 
@@ -96,7 +96,7 @@ else { ?>
  <span class="d-none d-md-block dropdown-toggle ps-2">PRORROGAS</span>
 </a>
 
-<!-- Profile Dropdown Items -->
+<!-- Prorrogas Dropdown Items -->
 <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
 
 <li class="dan1">
@@ -106,25 +106,25 @@ else { ?>
  </a>
 </li>
 
-<li class="dan" onclick="cerrar()">
- <a class="dan dropdown-item d-flex align-items-center dan">
- <i class="bi bi-trash-fill"></i>
- <span>Eliminar</span>
- </a>
-</li>
-
-<li><hr class="dropdown-divider"></li>
-
 <li class="dan1" onclick="cerrar()">
  <a class="dropdown-item d-flex align-items-center dan1">
  <i class="bi bi-send-fill"></i>
  <span>Enviar</span>
  </a>
 </li>
+
+<li><hr class="dropdown-divider"></li>
+
+<li class="dan" onclick="cerrar()">
+ <a class="dan dropdown-item d-flex align-items-center dan">
+ <i class="bi bi-trash-fill"></i>
+ <span>Eliminar</span>
+ </a>
+</li>
             
-</ul><!-- End Profile Dropdown Items -->
+</ul><!-- End Prorrogas Dropdown Items -->
         
-</li><!-- End Profile Nav -->
+</li><!-- End Prorrogas Nav -->
 <?php } ?>
 
 <!--Profile Nav -->

@@ -131,7 +131,9 @@ ERYE: 'Esta respuesta ya fue insertada',
 RIC: 'Respuesta insertada correctamente',
 EIR: 'Error al insertar respuesta',
 REL: 'Respuesta eliminada correctamente',
-EER: 'Error al eliminar respuesta'
+EER: 'Error al eliminar respuesta',
+PIC: 'Prorroga insertada correctamente',
+EAIP: 'Error al insertar prorroga'
 };
 
 
