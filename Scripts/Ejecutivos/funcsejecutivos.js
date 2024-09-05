@@ -5,11 +5,10 @@ $(document).ready(function(){
 
   const dd = String(NDate.getDate()).padStart(2, '0');
   const mm = String(NDate.getMonth() + 1).padStart(2, '0'); // Enero es 0!
-
   const today = currentYear + '-' + mm + '-' + dd;
 
   // Obtener la fecha actual
-  eventlisten('.modal','show.bs.modal', function () {
+  eventlisten('.modal','show.bs.modal',function(){
 
     if($(this).find('input[type="date"]').length !== 0)
     {
@@ -74,7 +73,6 @@ function tablasejec(str)
     error: function () {Alerta(txt.EELS, "error", 2000);}});   
 }
 
-
 eventlisten('.fico','click',function (){ 
   
   if ($('#fiicon').hasClass('bi-x-circle')) 
@@ -99,6 +97,7 @@ eventlisten('#Cartanotif','change',function ()
   $('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
 
 });
+
 
 
 eventlisten('.fico1','click',function (){ 
