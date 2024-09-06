@@ -35,7 +35,7 @@
   color: var(--textligthcolor);
 }
 
-body.swal2-shown.swal2-height-auto
+body.swal2-shown.swal2-height-auto, body.modal-open
 {
 overflow: auto !important;
 padding-right: 0px !important;

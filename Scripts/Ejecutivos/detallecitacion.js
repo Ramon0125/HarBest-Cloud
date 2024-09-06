@@ -242,7 +242,7 @@ async function sendmailddc(nop)
    });  
  
   } catch (error) { return Alerta(error, txt.W, 2000); }
-  }
+}
   
 
 function searchnotif(Cod)

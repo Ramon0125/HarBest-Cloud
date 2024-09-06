@@ -158,3 +158,20 @@ eventlisten('#slcntfprg','keydown',(e) => {
 if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlagrprg')}});
 
 /////////FIN DATALIST AGRPRG//////////////////////////////////////////////
+
+
+/////////DATALIST SENDPRG//////////////////////////////////////////////
+
+eventlisten('#dtlsendprg','click', function(event)
+{datalistclick(event,'#slcsendprg','#slcsendprg1',['#btnsendprg'],'#dtlsendprg','searchnotif');});
+
+eventlisten('#slcsendprg','input',function () 
+{datalistinput('#slcsendprg','#slcsendprg1',['#btnsendprg'],'#dtlsendprg');});
+
+eventlisten('#slcsendprg','blur',function () 
+{datalistblur('#slcsendprg','#slcsendprg',['#btnsendprg'],'#dtlsendprg');});
+
+eventlisten('#slcsendprg','keydown',(e) => {
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlsendprg')}});
+    
+/////////FIN DATALIST SENDPRG//////////////////////////////////////////////

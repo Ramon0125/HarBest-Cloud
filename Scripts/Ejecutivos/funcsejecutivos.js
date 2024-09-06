@@ -432,3 +432,65 @@ function DetailsNotif(IDD)
 let Modal = new bootstrap.Modal(document.getElementById('DetailNotif'));
 Modal.show();
 }
+
+
+function ToContainerFile(Container,Input,Span)  
+{
+
+
+    for (const node of arguments) 
+    {      
+        if(!/[^#12]/.test(node) || typeof node !== 'string')
+        { 
+            return console.error('You must enter 3 IDs with the `#` sign in front, like this: \'#container\', \'#input\', \'#span\'.');
+        }
+
+        if($(node).prop('tagName') === undefined)
+        { 
+            return console.error(`The parameter #${node} is not valid.`);
+        }
+    }
+
+    if ($(Container).prop('tagName').toLowerCase() !== 'div') 
+    {
+        return console.error('The container is not valid.');      
+    }
+        
+    if ($(Input).prop('tagName').toLowerCase() !== 'input') 
+    {
+        return console.error('The input is not valid.');
+    }
+        
+    if ($(Span).prop('tagName').toLowerCase() !== 'a') 
+    {
+        return console.error('The Span is not valid.');
+    }        
+
+    eventlisten(Container,'click',function(){
+        if($(Container).hasClass('has'))
+        {
+            $(Input).val('');
+            $(Container).removeClass('has');
+            $(Span).text('Buscar');
+            modifystyle([Span],'color','green');
+        }
+        
+        else{ $(Input).click(); }
+    });
+
+    eventlisten(Input,'change',function(){   
+        if ($(Input)[0].files.length > 0)
+        {
+            $(Container).addClass('has');
+            $(Span).text('Quitar');
+            modifystyle([Span],'color','red');
+        }
+        
+        else 
+        {   
+            $(Container).removeClass('has');
+            $(Span).text('Buscar');
+            modifystyle([Span],'color','green');
+        }
+    });       
+}

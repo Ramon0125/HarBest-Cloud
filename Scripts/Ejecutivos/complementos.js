@@ -1,99 +1,4 @@
-Object.prototype.ToContainerFile = function() 
-{
-    const keys = Object.keys(this);
-    
-    if (keys.length !== 3){console.error('It should accept 3 arguments.');}
-    keys.forEach(str => { if(!/[^#12]/.test(str) || typeof str !== 'string'){ return console.error('You must enter 3 IDs with the `#` sign in front, for example: `(\'#container\', \'#input\', \'#span\');`.') } });
-     
-    const Container = keys[0];
-    const Input = keys[1];
-    const Span = keys[2];
-    const Type = keys[3];
-
-
-    const Type1 = () => {
-        
-        if(!$(Container).hasClass('upload-container') || $(Container).prop('tagName').toLowerCase() != 'div')
-        {
-            console.error('The container is not valid.'); 
-            return null;
-        }
-
-        if(!$(Input).prop('tagName').toLowerCase() != 'input')
-        {
-            console.error('The input is not valid.'); 
-            return null;
-        }
-
-        if(!$(Span).prop('tagName').toLowerCase() != 'span')
-        {
-            console.error('The Span is not valid.'); 
-            return null;
-        }
-
-        eventlisten(Container,'click',function(){
-            if($(Container).hasClass('has'))
-            {
-                $(Input).val('');
-                $(Container).removeClass('has');
-                $(Span).text('Buscar');
-                modifystyle([Span],'color','green');
-            }
-            
-            else{ $(Input).click(); }
-        });
-
-        eventlisten(Input,'change',function(){   
-            if ($(Input)[0].files.length > 0)
-            {
-                $(Container).addClass('has');
-                $(Span).text('Quitar');
-                modifystyle([Span],'color','red');
-            }
-            
-            else 
-            {   
-                $(Container).removeClass('has');
-                $(Span).text('Buscar');
-                modifystyle([Span],'color','green');
-            }
-        });
-    };
-
-
-    const Type2 = () => {
-
-        eventlisten('.fico','click',function (){ 
-  
-            if ($('#fiicon').hasClass('bi-x-circle')) 
-            { 
-              $('#Cartanotif').val('');
-              $('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
-              $('#fispan').text(' Buscar archivos');
-              $('#fiicon').removeClass('bi-x-circle');
-              $('#fiicon').addClass('bi-arrow-up-circle');
-            }
-          
-            else { $('#Cartanotif').click(); } 
-            
-          });
-          
-          
-          eventlisten('#Cartanotif','change',function ()
-          {
-            $('#fispan').text(' Quitar archivos' );
-            $('#fiicon').removeClass('bi-arrow-up-circle');
-            $('#fiicon').addClass('bi-x-circle');
-            $('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
-          
-          });
-    }
-}
-
-eventlisten('#btnagrprg','click',
-    () => { ADDPRG($('#slcntfprg1').val() ,$('#dateprg').val() ,$('#Comentsprg').val(),document.getElementById('Fileprg').files[0]);}
-);
-
+eventlisten('#btnagrprg','click',function(){ ADDPRG($('#slcntfprg1').val() ,$('#dateprg').val() ,$('#Comentsprg').val(),document.getElementById('Fileprg').files[0]);} );
 
 async function ADDPRG(CodigoNotif,FechaPRG,ComentsPRG,ArchivoPRG)
 {
@@ -122,8 +27,6 @@ try
             beforeSend: () => load(1),
             complete: () => load(2),
         });
-
-        console.log(response);
         
         if (response.success) 
         {
@@ -134,4 +37,41 @@ try
 
 } 
 catch (error) { Alerta(txt.EELS, txt.E, 2000); }
+}
+
+
+async function sendmailprg(nop) 
+{
+  if (!validarint(nop)) { return Alerta(txt.EELS,txt.W,2000); }
+    
+  try {
+
+   const { CC, CCLT } = await Getcc(nop, 2);
+  
+   if (!validaremailcl(CCLT) || typeof CC != 'object') {return Alerta(txt.EELS, txt.W, 2000);}
+
+   const values = await ShowFormEmail(CC, CCLT);
+
+   if (!values || typeof values != 'object' ) {return Alerta(txt.EELS, txt.W, 2000)} 
+
+   $.ajax({
+    type: "POST",
+    url: PageURL + "Managers/ManagerEmails",
+    data: { FUNC: 'DDC', ENTITY: nop, CC: values },
+    dataType: "JSON",
+    beforeSend: function () { load(1); }, // Mostrar pantalla de carga durante la solicitud
+    complete: function () { load(2); }, // Ocultar pantalla de carga
+    success: function (res) 
+    {
+      if (res.success) 
+      {
+        tablasejec('casos'); 
+        updatedatalists(6, ['#dtldltddc']);
+        updatedatalists(7,['#dtlagredd']);
+      } responses(res);
+    },
+    error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
+   });  
+ 
+  } catch (error) { return Alerta(error, txt.W, 2000); }
 }

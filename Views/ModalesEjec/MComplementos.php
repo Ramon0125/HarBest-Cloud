@@ -62,7 +62,7 @@ else { ?><!---- Seccion agregar prorrogas --------->
                 
                 </div>
 
-                <div class="modal-footer justify-content-center">
+                <div class="modal-footer mfooter">
 
                     <button type="button" class="btn btn-success" id="btnagrprg" style="display:none;">
                     <i class="bi bi-floppy"></i>&nbsp;Crear
@@ -76,4 +76,44 @@ else { ?><!---- Seccion agregar prorrogas --------->
     </div>
     <!----Fin Seccion agregar prorrogas --------->
 
+
+    <!---- Seccion enviar prorrogas --------->
+<div class="modal fade" id="sendprorrogas" data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog center">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="ModalTitle">
+                    <h3 class="modal-title">Enviar una prorroga</h3>
+                    <hr class="hdivisor mb-2">
+                </div>
+
+                <div class="col-lg-12 SMData">
+                    <label for="slcsendprg" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>
+                    <input class="form-control" autocomplete="off" role="combobox" list="" id="slcsendprg">
+                    <input type="hidden" id="slcsendprg1">
+                    <datalist id="dtlsendprg" role="listbox">
+                        <?php $SendProrroga = Datos(12);
+                            if ($SendProrroga !== false && count($SendProrroga) > 0) 
+                            {
+                                foreach ($SendProrroga as $SENDPRG) 
+                                { 
+                                    echo '<option value="' . htmlspecialchars($SENDPRG["IDProrroga"]) . '">' . htmlspecialchars($SENDPRG["CodigoNotif"]) . '</option>'; 
+                                }
+                            }
+                        ?>
+                    </datalist>
+                </div>     
+            </div>
+
+            <div class="modal-footer mfooter">
+                <button type="button" class="btn btn-success" id="btnsendprg" style="display:none;">
+                <i class="bi bi-floppy"></i>&nbsp;Crear
+                </button>
+
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div></div>
+    </div>
+    <!----Fin Seccion enviar prorrogas --------->
 <?php }

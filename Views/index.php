@@ -89,7 +89,7 @@ else { ?>
 
 <?php if(GetInfo('Privilegios') === 'CASOS FISCALES') { ?>
 <!--Prorrogas -->
-<li class="nav-item dropdown-center pe-3" style="font-weight: 550; color: var(--acolorhov);">
+<li class="nav-item dropdown-center pe-3 fb" style="font-size: 115%;">
 
 <a class="nav-link nav-profile d-flex align-items-center pe-0 cpp cp" data-bs-toggle="dropdown">
 <i class="bi bi-clock-fill"></i>
@@ -106,8 +106,8 @@ else { ?>
  </a>
 </li>
 
-<li class="dan1" onclick="cerrar()">
- <a class="dropdown-item d-flex align-items-center dan1">
+<li class="dan1">
+ <a class="dropdown-item d-flex align-items-center dan1" data-bs-toggle="modal" data-bs-target="#sendprorrogas" >
  <i class="bi bi-send-fill"></i>
  <span>Enviar</span>
  </a>
