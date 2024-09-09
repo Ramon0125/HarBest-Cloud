@@ -1,4 +1,7 @@
-$(document).ready(function () {  OnlyNumber('#Aincu'); });
+$(document).ready(function () {  
+  OnlyNumber('#Aincu'); 
+  ToInputFile('#Cartanotif','#ContainerFilenotif','#FilenotifIcon','#FilenotifSpan','#FilenotifLabel');
+});
 
 var nonotif = []; //Variable de los numeros de notificación
 var tipnotif = []; //Variable de los tipos de notificación
@@ -33,10 +36,7 @@ function addnotificacion(n,t)
    tipnotif.push(t);
    impunotif.push(i);
 
-   $('#Notfic').val('');
-   $('#Tiponotf').val('');
-   $('#Motnotif').val('');
-   $('#Aincu').val('');
+   ['#Notfic', '#Tiponotf', '#Motnotif', '#Aincu'].forEach(id => $(id).val(''));
 
     while (inputs.length > 2) { dltinc() }
 
@@ -91,10 +91,10 @@ updatenotificacion();
 
 $('#Cartanotif').val('');
 $('#spannotif').text(`${incon.length} Notificaciones agregadas`);
-$('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
-$('#fispan').text(' Buscar archivos');
-$('#fiicon').removeClass('bi-x-circle');
-$('#fiicon').addClass('bi-arrow-up-circle');
+$('#FilenotifLabel').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
+$('#FilenotifSpan').text(' Buscar archivos');
+$('#FilenotifIcon').removeClass('bi-x-circle');
+$('#FilenotifIcon').addClass('bi-arrow-up-circle');
 
 LimpiarModal('#cltagrnot1',false,'#formagrnotif');
 
@@ -176,6 +176,7 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
         success: function (DATA) { 
         if(DATA.success){
         updatedatalists(4,['#dtldltnot']);
+        updatedatalists(11, ['#dtlagrprg']);
         closenotif(); 
         tablasejec('casos');} 
         responses(DATA); },

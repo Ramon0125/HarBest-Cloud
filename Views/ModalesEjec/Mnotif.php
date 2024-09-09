@@ -38,14 +38,14 @@ else { ?><!---- MODAL AGREGAR NOTIFICACION --------->
           </div>
 
           <div class="col-lg-12">
-            <label id="labelcartanotif" for="Cartanotif" class="form-label">Archivos de la notificación</label>
+            <label id="FilenotifLabel" for="Cartanotif" class="form-label">Archivos de la notificación</label>
             
             <div class="form-control cartadiv">
               <input type="file" id="Cartanotif" class="cartafiles cp" multiple>
               
-              <div class="fileicon fico">
-                <i id="fiicon" class="bi bi-arrow-up-circle"></i>
-                <span id="fispan"> Buscar archivos</span>
+              <div id="ContainerFilenotif" class="fileicon">
+                <i id="FilenotifIcon" class="bi bi-arrow-up-circle"></i>
+                <span id="FilenotifSpan"> Buscar archivos</span>
               </div>
             </div>
           </div>

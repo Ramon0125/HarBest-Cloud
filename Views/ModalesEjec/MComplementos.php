@@ -44,9 +44,9 @@ else { ?><!---- Seccion agregar prorrogas --------->
                             <label for="Fileprg" id="labelFileprg" class="form-label">Archivo de prorroga</label>
           
                             <div class="form-control cartadiv">
-                                <input type="file" id="Fileprg" class="cartafiles cp" multiple>
+                                <input type="file" id="Fileprg" class="cartafiles cp">
             
-                                <div class="fileicon fico1">
+                                <div id="ContainerFileprg" class="fileicon">
                                     <i id="fiiconprg" class="bi bi-arrow-up-circle"></i>
                                     <span id="Spanprg"> Buscar archivos</span>
                                 </div>
@@ -78,7 +78,7 @@ else { ?><!---- Seccion agregar prorrogas --------->
 
 
     <!---- Seccion enviar prorrogas --------->
-<div class="modal fade" id="sendprorrogas" data-bs-backdrop="static" aria-hidden="true">
+<div class="modal fade" id="sendprorrogas" data-bs-backdrop="static">
     <div class="modal-dialog center">
         <div class="modal-content">
             <div class="modal-body">

@@ -73,57 +73,6 @@ function tablasejec(str)
     error: function () {Alerta(txt.EELS, "error", 2000);}});   
 }
 
-eventlisten('.fico','click',function (){ 
-  
-  if ($('#fiicon').hasClass('bi-x-circle')) 
-  { 
-    $('#Cartanotif').val('');
-    $('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
-    $('#fispan').text(' Buscar archivos');
-    $('#fiicon').removeClass('bi-x-circle');
-    $('#fiicon').addClass('bi-arrow-up-circle');
-  }
-
-  else { $('#Cartanotif').click(); } 
-  
-});
-
-
-eventlisten('#Cartanotif','change',function ()
-{
-  $('#fispan').text(' Quitar archivos' );
-  $('#fiicon').removeClass('bi-arrow-up-circle');
-  $('#fiicon').addClass('bi-x-circle');
-  $('#labelcartanotif').text(`Archivos de la notificación - ${(Cartanotif.files.length)} añadidos`)
-
-});
-
-
-
-eventlisten('.fico1','click',function (){ 
-  
-    if ($('#fiiconddc').hasClass('bi-x-circle')) 
-    { 
-      $('#archivosddc').val('');
-      $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);
-      $('#fispanddc').text(' Buscar archivos');
-      $('#fiiconddc').removeClass('bi-x-circle');
-      $('#fiiconddc').addClass('bi-arrow-up-circle');
-    }
-  
-    else { $('#archivosddc').click(); } 
-    
-});
-  
-  
-eventlisten('#archivosddc','change',function (){
-
-  $('#labelarchivosddc').text(`Archivos de detalle - ${(archivosddc.files.length)} archivos añadidos`);    
-  $('#fispanddc').text(' Quitar archivos' );
-  $('#fiiconddc').removeClass('bi-arrow-up-circle');
-  $('#fiiconddc').addClass('bi-x-circle');
-
-});
 
 async function Getcc(id, type) {
 
@@ -437,7 +386,6 @@ Modal.show();
 function ToContainerFile(Container,Input,Span)  
 {
 
-
     for (const node of arguments) 
     {      
         if(!/[^#12]/.test(node) || typeof node !== 'string')
@@ -493,4 +441,71 @@ function ToContainerFile(Container,Input,Span)
             modifystyle([Span],'color','green');
         }
     });       
+}
+
+ 
+function ToInputFile(Input,Container,Icon,Span,Label)  
+{
+
+    for (const node of arguments) 
+    {      
+        if(!/[^#12]/.test(node) || typeof node !== 'string')
+        { 
+            return console.error('You must enter 3 IDs with the `#` sign in front, like this: \'#container\', \'#input\', \'#span\'.');
+        }
+
+        if($(node).prop('tagName') === undefined)
+        { 
+            return console.error(`The parameter #${node} is not valid.`);
+        }
+    }
+        
+    if ($(Input).prop('tagName').toLowerCase() !== 'input') 
+    {
+        return console.error('The input is not valid.');
+    }
+
+    if ($(Container).prop('tagName').toLowerCase() !== 'div') 
+    {
+      return console.error('The container is not valid.');      
+    }
+
+    if ($(Icon).prop('tagName').toLowerCase() !== 'i') 
+    {
+      return console.error('The icon is not valid.');      
+    }
+        
+    if ($(Span).prop('tagName').toLowerCase() !== 'span') 
+    {
+      return console.error('The Span is not valid.');
+    }
+
+    if ($(Label).prop('tagName').toLowerCase() !== 'label') 
+    {
+      return console.error('The label is not valid.');
+    }
+    
+    eventlisten(Container,'click',function (){ 
+
+      if ($(Icon).hasClass('bi-x-circle')) 
+      { 
+        $(Input).val('');
+        $(Label).text(`${$(Input)[0].files.length} - Archivos añadidos`);
+        $(Span).text(' Buscar archivo(s)');
+        $(Icon).removeClass('bi-x-circle');
+        $(Icon).addClass('bi-arrow-up-circle');
+      }
+    
+      else { $(Input).click(); } 
+
+    });
+
+
+    eventlisten(Input,'change',function ()
+    {
+      $(Span).text(' Quitar archivo(s)' );
+      $(Icon).removeClass('bi-arrow-up-circle');
+      $(Icon).addClass('bi-x-circle');
+      $(Label).text(`${$(Input)[0].files.length} - Archivos añadidos`);
+    });      
 }

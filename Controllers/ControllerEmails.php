@@ -52,7 +52,7 @@ class EmailSender extends ConexionDB
 
     private function ModificarCC(int $idn, string $cc, int $type) : void
     {
-        $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES');
+        $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES',  5 => 'PRG');
 
         $SPCall = "CALL SP_ADD_CC(?,?,?)";
         $RES1 = $this->conectdb->prepare($SPCall);
@@ -134,8 +134,8 @@ class EmailSender extends ConexionDB
 
     private function SendMail(int $IDReg, int $Type)
     {
-    $Table = array(1 => 'EMAILS_NOTIF', 2 => 'EMAILS_DETALLE', 3 => 'EMAILS_ESCRITO', 4 => 'EMAILS_RESPUESTA');
-    $Col = array(1 => 'IDNotif', 2 => 'IDDetalle', 3 => 'IDEscrito', 4 => 'IDRespuesta');
+    $Table = array(1 => 'EMAILS_NOTIF', 2 => 'EMAILS_DETALLE', 3 => 'EMAILS_ESCRITO', 4 => 'EMAILS_RESPUESTA', 5 => 'PRORROGA');
+    $Col = array(1 => 'IDNotif', 2 => 'IDDetalle', 3 => 'IDEscrito', 4 => 'IDRespuesta', 5 => 'IDProrroga');
 
     if ($this->mail->send()) 
     {
@@ -366,4 +366,49 @@ class EmailSender extends ConexionDB
         return $this->res;
     }
     
+    function SendMailProrroga(int $IDProrroga, array $cc): array
+    {
+        try {
+
+        // Llamada al procedimiento almacenado para obtener los datos de la respuesta de la dgii
+        $query = "CALL SENDMAIL_PRORROGA(?)";
+        $exec = $this->conectdb->prepare($query);
+        $exec->bindParam(1, $IDProrroga, 1);
+        $exec->execute();
+        
+        // Manejo de errores si no se encontraron resultados
+        if ($exec->rowCount() === 0) { return HandleError(); }
+
+        $value = $exec->fetch();
+        $exec->closeCursor();
+    
+        // Construir el cuerpo del correo
+        $modelo = ($this->MailHead($value['NombreCliente'])) .
+                  ("<p>".nl2br($value['ComentarioProrroga'])."</p>") .
+                  ($this->MailFoot());
+        
+        // Configurar destinatario, asunto y cuerpo del correo
+        $this->mail->addAddress($cc[0]);
+        $this->mail->Subject = mb_convert_encoding('Prorroga sobre inconsistencia DGII - ' . $value["NombreCliente"], "UTF-8", "auto");
+        $this->mail->Body = $modelo;
+    
+        // Añadir adjuntos y CC
+        $this->AddAtachmentToMail(json_decode($value["ArchivoProrroga"], true));
+        $this->AddCCToMail($cc, $value["IDProrroga"], 5);
+    
+        // Enviar el correo
+        $this->SendMail($value["IDProrroga"], 5);
+
+        if($this->res['message'] === 'EEC1')
+        {
+          $Statement = "CALL SP_AUMENTAR_PRG(?)";
+          $StatementExecution = $this->conectdb->prepare($Statement);
+          $StatementExecution->bindParam(1, $value["CodigoNotif"]);
+          $StatementExecution->execute();
+        }
+
+        }catch( Exception $e) { error_log($e->getMessage()); return HandleError();}
+    
+        return $this->res;
+    }
 }

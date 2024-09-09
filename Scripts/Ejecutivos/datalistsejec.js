@@ -163,13 +163,13 @@ if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e
 /////////DATALIST SENDPRG//////////////////////////////////////////////
 
 eventlisten('#dtlsendprg','click', function(event)
-{datalistclick(event,'#slcsendprg','#slcsendprg1',['#btnsendprg'],'#dtlsendprg','searchnotif');});
+{datalistclick(event,'#slcsendprg','#slcsendprg1',['#btnsendprg'],'#dtlsendprg','sendmailprg');});
 
 eventlisten('#slcsendprg','input',function () 
 {datalistinput('#slcsendprg','#slcsendprg1',['#btnsendprg'],'#dtlsendprg');});
 
 eventlisten('#slcsendprg','blur',function () 
-{datalistblur('#slcsendprg','#slcsendprg',['#btnsendprg'],'#dtlsendprg');});
+{datalistblur('#slcsendprg','#slcsendprg1',['#btnsendprg'],'#dtlsendprg');});
 
 eventlisten('#slcsendprg','keydown',(e) => {
 if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlsendprg')}});

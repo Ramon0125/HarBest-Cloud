@@ -135,7 +135,7 @@ class ControllerCliente extends ConexionDB {
         try
         {
             //Array de nombres de procedimientos
-            $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES');
+            $SPName = array(1 => 'NTF', 2 => 'DDC', 3 => 'EDD', 4 => 'RES', 5 => 'PRG');
 
             // Llamada al procedimiento almacenado para obtener los CC del cliente
             $Query = "CALL SP_GET_CC(?,?)";

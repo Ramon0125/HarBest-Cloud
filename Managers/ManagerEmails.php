@@ -35,6 +35,10 @@ switch ($_POST['FUNC']) {
   case 'RDGII':
     $data = $SENDMAIL->SendMailRespuesta($_POST['ENTITY'],$_POST['CC']);
   break;
+
+  case 'PRG':
+    $data = $SENDMAIL->SendMailProrroga($_POST['ENTITY'],$_POST['CC']);
+  break;
   
   default:
   $data = HandleError();
