@@ -453,14 +453,14 @@ else {  ?>
 <?php include_once './ModalesEjec/Mescrito.php'; ?>
 <?php include_once './ModalesEjec/Mrespuesta.php'; ?>
 <?php include_once './ModalesEjec/MdetalleCompleto.php'; ?>
-<?php include_once './ModalesEjec/MComplementos.php'; ?>
+<?php include_once './ModalesEjec/Mprogrogas.php'; ?>
 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/datalistsejec.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/notifinconsis.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/detallecitacion.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/escritodescargo.js" type="text/javascript"></script> 
 <script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/respuestadgii.js" type="text/javascript"></script>
-<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/complementos.js" type="text/javascript"></script> 
+<script defer src="<?php echo APP_URL ?>Scripts/Ejecutivos/Prorrogas.js" type="text/javascript"></script> 
 <?php } ?>
 <!---------------------FIN MODALES------- ------------------->
 

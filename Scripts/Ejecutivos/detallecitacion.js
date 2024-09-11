@@ -1,5 +1,10 @@
 $(document).ready(function () {
-OnlyNumber('#nocddc'); OnlyNumber('#telddc');  OnlyNumber('#valddc');  OnlyNumber('#perddc'); OnlyValor('#valddc');
+  OnlyNumber('#nocddc'); 
+  OnlyNumber('#telddc');  
+  OnlyNumber('#valddc');  
+  OnlyNumber('#perddc'); 
+  OnlyValor('#valddc');
+  ToInputFile('#archivosddc','#ContainerFilesDDC','#fiiconddc','#fispanddc','#labelarchivosddc');
 });
 
 var incon = [];

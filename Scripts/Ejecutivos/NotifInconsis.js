@@ -176,7 +176,6 @@ function agrnotif(IDCLT,FECHANOT,CARTA,NONOT,TIPNOT,MOTIVNOT,AINCUMPLI)
         success: function (DATA) { 
         if(DATA.success){
         updatedatalists(4,['#dtldltnot']);
-        updatedatalists(11, ['#dtlagrprg']);
         closenotif(); 
         tablasejec('casos');} 
         responses(DATA); },
@@ -255,7 +254,8 @@ async function sendmail(nop)
     if(res.success)
     {
       updatedatalists(4,['#dtldltnot']); 
-      updatedatalists(5,['#dtlagrddc']);  
+      updatedatalists(5,['#dtlagrddc']);
+      updatedatalists(11, ['#dtlagrprg']);  
       tablasejec('casos')
     } responses(res);
     },

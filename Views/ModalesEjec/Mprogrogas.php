@@ -1,6 +1,6 @@
 <?php
 
-if (preg_match('/MComplementos(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
+if (preg_match('/Mprogrogas(?:\.php)?/', $_SERVER['REQUEST_URI'])) 
 {
     http_response_code(404);    die(header('Location: ./404'));
 } 
@@ -68,7 +68,7 @@ else { ?><!---- Seccion agregar prorrogas --------->
                     <i class="bi bi-floppy"></i>&nbsp;Crear
                     </button>
 
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="CloseAddprg()">Cancelar</button>
 
                 </div>
 

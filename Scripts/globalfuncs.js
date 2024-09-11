@@ -49,7 +49,7 @@ const tabledata = {
   "search":         "Buscar:",
   "zeroRecords":    "No se encontraron coincidencias",
   "paginate": { "first":"Primero", "last": "Último", "next": ">", "previous":   "<" }},
-  "lengthMenu": [ [17, 40, 50, -1], ["17", "40", "50", "Todos"] ]
+  "lengthMenu": [ [15, 40, 50, -1], ["15", "40", "50", "Todos"] ]
   };
 
   

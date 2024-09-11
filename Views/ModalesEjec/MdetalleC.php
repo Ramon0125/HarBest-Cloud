@@ -45,10 +45,10 @@ else { ?> <!---- MODAL AGREGAR DETALLE DE CITACION --------->
             <div class="col-sm-6 cp">
               <label for="archivosddc" id="labelarchivosddc" class="form-label">Archivos de detalle</label>
           
-              <div class="form-control cartadiv ">
+              <div class="form-control  cartadiv">
                 <input type="file" id="archivosddc" class="cartafiles cp" multiple>
             
-                <div class="fileicon fico1">
+                <div id="ContainerFilesDDC" class="fileicon">
                   <i id="fiiconddc" class="bi bi-arrow-up-circle"></i>
                   <span id="fispanddc"> Buscar archivos</span>
                 </div>
