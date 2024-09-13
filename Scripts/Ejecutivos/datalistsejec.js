@@ -175,3 +175,20 @@ eventlisten('#slcsendprg','keydown',(e) => {
 if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtlsendprg')}});
     
 /////////FIN DATALIST SENDPRG//////////////////////////////////////////////
+
+
+/////////DATALIST SENDPRG//////////////////////////////////////////////
+
+eventlisten('#dtldltprg','click', function(event)
+{datalistclick(event,'#slcdltprg','#slcdltprg1',['#btndltprg'],'#dtldltprg',false,true);});
+
+eventlisten('#slcdltprg','input',function () 
+{datalistinput('#slcdltprg','#slcdltprg1',['#btndltprg'],'#dtldltprg');});
+
+eventlisten('#slcdltprg','blur',function () 
+{datalistblur('#slcdltprg','#slcdltprg1',['#btndltprg'],'#dtldltprg');});
+
+eventlisten('#slcdltprg','keydown',(e) => {
+if (e.keyCode === 40 || e.keyCode === 38 || e.keyCode === 13) {datalistkeydown(e,'#dtldltprg')}});
+    
+/////////FIN DATALIST SENDPRG//////////////////////////////////////////////

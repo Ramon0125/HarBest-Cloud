@@ -115,8 +115,8 @@ else { ?>
 
 <li><hr class="dropdown-divider"></li>
 
-<li class="dan" onclick="cerrar()">
- <a class="dan dropdown-item d-flex align-items-center dan">
+<li class="dan">
+ <a class="dan dropdown-item d-flex align-items-center dan" data-bs-toggle="modal" data-bs-target="#dltprorrogas">
  <i class="bi bi-trash-fill"></i>
  <span>Eliminar</span>
  </a>

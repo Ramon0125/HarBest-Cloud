@@ -133,7 +133,9 @@ EIR: 'Error al insertar respuesta',
 REL: 'Respuesta eliminada correctamente',
 EER: 'Error al eliminar respuesta',
 PIC: 'Prorroga insertada correctamente',
-EAIP: 'Error al insertar prorroga'
+EAIP: 'Error al insertar prorroga',
+PEC: 'Prorroga eliminada correctamente',
+EAEP: 'Error al eliminar prorroga'
 };
 
 

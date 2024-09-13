@@ -116,4 +116,45 @@ else { ?><!---- Seccion agregar prorrogas --------->
         </div></div>
     </div>
     <!----Fin Seccion enviar prorrogas --------->
+
+
+    <!---- Seccion eliminar prorrogas --------->
+<div class="modal fade" id="dltprorrogas" data-bs-backdrop="static">
+    <div class="modal-dialog center">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="ModalTitle">
+                    <h3 class="modal-title">Eliminar una prorroga</h3>
+                    <hr class="hdivisor mb-2">
+                </div>
+
+                <div class="col-lg-12 SMData">
+                    <label for="slcdltprg" class="form-label labeledtmdf">Seleccione el codigo de la notificacion</label>
+                    <input class="form-control" autocomplete="off" role="combobox" list="" id="slcdltprg">
+                    <input type="hidden" id="slcdltprg1">
+                    <datalist id="dtldltprg" role="listbox">
+                        <?php 
+                            if ($SendProrroga !== false && count($SendProrroga) > 0) 
+                            {
+                                foreach ($SendProrroga as $SENDPRG) 
+                                { 
+                                    echo '<option value="' . htmlspecialchars($SENDPRG["IDProrroga"]) . '">' . htmlspecialchars($SENDPRG["CodigoNotif"]) . '</option>'; 
+                                }
+                            }
+                        ?>
+                    </datalist>
+                </div>     
+            </div>
+
+            <div class="modal-footer mfooter">
+                <button type="button" class="btn btn-warning" id="btndltprg" style="display:none;">
+                <i class="bi bi-trash"></i>&nbsp;Eliminar
+                </button>
+
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+
+        </div></div>
+    </div>
+    <!----Fin Seccion eliminar prorrogas --------->
 <?php }

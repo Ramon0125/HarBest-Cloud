@@ -49,10 +49,39 @@ public function agrprg(string $cod,string $Fecha,string $Coments, array $archivo
     $this->Response['message'] = $Data['MENSAJE'];
     $this->Response['success'] = $this->Response['message'] === 'PIC';
 
+    $this->Response['success'] ? AUDITORIA(GetInfo('IDUsuario'),'INSERTO UNA PRORROGA') : SUMBLOCKUSER();
+
+  }catch(Exception $e) {
+                          error_log($e->getMessage());  
+                          return HandleError();
+                       }
+
+  return $this->Response;
+}
+
+
+public function dltprg(string $idp,string $cod): array
+{
+  try 
+  {
+    // Llamada al procedimiento almacenado para insertar el edd
+    $Query = "CALL SP_DELETE_PRG(?,?)";
+    $QueryExecution = $this->ConexionDB->prepare($Query);
+    $QueryExecution->bindParam(1, $idp, 1);
+    $QueryExecution->bindParam(2, $cod);
+    $QueryExecution->execute();
+    
+    // Si la consulta no trae datos dispara error
+    if($QueryExecution->rowCount() === 0) { return HandleError(); }
+    
+    $Data = $QueryExecution->fetch();
+
+    $this->Response['message'] = $Data['MENSAJE'];
+    $this->Response['success'] = $this->Response['message'] === 'PEC';
+
     if ($this->Response['success']) 
     {
-      /* EMAILS($cod,4); */
-      AUDITORIA(GetInfo('IDUsuario'),'INSERTO UNA PRORROGA');
+      AUDITORIA(GetInfo('IDUsuario'),'ELIMINO UNA PRORROGA');
     }
     else {SUMBLOCKUSER();}
 
@@ -60,6 +89,7 @@ public function agrprg(string $cod,string $Fecha,string $Coments, array $archivo
 
 return $this->Response;
 }
+
 }
 
 }

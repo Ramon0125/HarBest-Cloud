@@ -30,6 +30,12 @@ else {
           if (empty($response))
           { $response = $verificar->agrprg($_POST['CodNot'], $_POST['Fecha'], $_POST['Comentarios'], $_FILES['Archivo']);}
         }
+
+        elseif($_POST['tipo'] === 'dltprg' && isset($_POST['IDP'],$_POST['COD']))
+        {
+          $response = $verificar->dltprg($_POST['IDP'],$_POST['COD']);
+        }
+
         else { $response = HandleError(); }
       }
       else { $response['CNV'] = true; SUMBLOCKUSER(); }
