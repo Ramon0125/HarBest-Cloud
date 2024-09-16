@@ -15,7 +15,7 @@ Email VARCHAR(50) NOT NULL UNIQUE,
 Nombres VARCHAR(20) NOT NULL,
 Apellidos VARCHAR(20) NOT NULL,
 Clave VARBINARY(100) NOT NULL,
-Privilegios ENUM('ADMINISTRADOR','CASOS FISCALES') NOT NULL,
+Privilegios ENUM('ADMINISTRADOR','CASOS FISCALES','CONSULTA') NOT NULL,
 CClave ENUM('T','F') NOT NULL DEFAULT 'F',
 Estatus ENUM('T','F') NOT NULL DEFAULT 'T',
 Token TEXT NOT NULL
@@ -34,7 +34,6 @@ FROM USUARIOS where Privilegios <> 'ADMINISTRADOR' AND Estatus = 'T';
 CREATE VIEW ALL_USER AS
 SELECT IDUsuario AS ID,Email,CONCAT(Nombres,' ',Apellidos) AS NOMBRE,CClave,IF(Estatus = 'T', 'ACTIVO', 'INACTIVO') AS ESTADO
 FROM USUARIOS WHERE Privilegios <> 'ADMINISTRADOR';
-
 /*FIN DE TABLA USUARIOS*/
 
 
@@ -114,7 +113,7 @@ ORDER BY A.IDMovimiento DESC;
 CREATE TABLE NOTIF_INCONSISTENCIA
 (
 IDNotificacion INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-CodigoNotif VARCHAR(12) UNIQUE KEY,
+CodigoNotif CHAR(12) UNIQUE KEY,
 IDEncargado INT NOT NULL,
 IDCliente INT NOT NULL,
 FechaNotif DATE NOT NULL,
@@ -147,21 +146,6 @@ FOREIGN KEY (IDNotif) REFERENCES NOTIF_INCONSISTENCIA(IDNotificacion)
 ON DELETE CASCADE;
 
 
- CREATE VIEW VW_PRORROGAS AS
- SELECT N.CodigoNotif
- FROM NOTIF_INCONSISTENCIA AS N
- JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
- LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
- LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
- LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
- JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
- LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
- LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
- LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
- LEFT JOIN PRORROGA AS P ON N.CodigoNotif = P.CodigoNotif
- WHERE COALESCE(P.Estatus,ER.Estatus,EE.Estatus,ED.Estatus,EN.Estatus) <> 'F' AND ER.Estatus IS NULL;
-
-
 CREATE VIEW ALL_NOTIF AS
 select N.IDNotificacion,N.CodigoNotif AS 'Notificacion' 
 from NOTIF_INCONSISTENCIA as N 
@@ -171,7 +155,7 @@ where e.Estatus = 'F';
 
 CREATE TABLE DETALLE_CITACION (
   IDDetalle int NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  CodigoNotif varchar(12) NOT NULL UNIQUE KEY,
+  CodigoNotif char(12) NOT NULL UNIQUE KEY,
   Fecha date NOT NULL,
   FechaVenci date NOT NULL,
   DetallesCitacion json NOT NULL,
@@ -184,14 +168,6 @@ CREATE TABLE DETALLE_CITACION (
 ALTER TABLE DETALLE_CITACION ADD CONSTRAINT FK_DETALLE_CITACION_NOTIF
 FOREIGN KEY (`CodigoNotif`) REFERENCES NOTIF_INCONSISTENCIA (`CodigoNotif`)
 ON DELETE CASCADE;
-
-
-CREATE VIEW ALL_NOTIF_FOR_DETALLE AS
-SELECT N.CodigoNotif,N.CodigoNotif as NONotif
-FROM NOTIF_INCONSISTENCIA AS N 
-left join EMAILS_NOTIF as e on N.IDNotificacion = e.IDNotif
-left join DETALLE_CITACION as d on N.CodigoNotif = d.CodigoNotif
-where e.Estatus = 'T' and d.CodigoNotif IS NULL;
 
 
 CREATE TABLE EMAILS_DETALLE (
@@ -224,13 +200,6 @@ ArchivoEscrito JSON NOT NULL
 ALTER TABLE ESCRITO_DESCARGO ADD CONSTRAINT FK_ESCRITO_NOTIF
 FOREIGN KEY (CodigoNotif) REFERENCES NOTIF_INCONSISTENCIA(CodigoNotif)
 ON DELETE CASCADE;
-
-
-CREATE VIEW ALL_NOTIF_FOR_ESCRITO AS
-SELECT D.CodigoNotif,D.CodigoNotif AS NONOTIF FROM DETALLE_CITACION AS D
-LEFT JOIN EMAILS_DETALLE AS E ON D.IDDetalle = E.IDDetalle
-LEFT JOIN ESCRITO_DESCARGO AS ED ON D.CodigoNotif = ED.CodigoNotif
-WHERE E.Estatus = 'T' AND ED.CodigoNotif IS NULL;
 
 
 CREATE TABLE EMAILS_ESCRITO
@@ -270,13 +239,6 @@ FOREIGN KEY (CodigoNotif) REFERENCES NOTIF_INCONSISTENCIA(CodigoNotif)
 ON DELETE CASCADE;
 
 
-CREATE VIEW ALL_NOTIF_FOR_RESPUESTA AS
-SELECT ED.CodigoNotif,ED.CodigoNotif AS NONOTIF FROM ESCRITO_DESCARGO AS ED
-LEFT JOIN EMAILS_ESCRITO AS EE ON ED.IDEscrito = EE.IDEscrito
-LEFT JOIN RESPUESTA_DGII AS RD ON ED.CodigoNotif = RD.CodigoNotif
-WHERE EE.Estatus = 'T' AND RD.CodigoNotif IS NULL;
-
-
 CREATE TABLE EMAILS_RESPUESTA
 (
 IDERespuesta INT PRIMARY KEY AUTO_INCREMENT,
@@ -306,7 +268,7 @@ FechaProrroga DATE NOT NULL,
 ArchivoProrroga JSON NOT NULL,
 ComentarioProrroga TEXT NOT NULL,
 HoraRegistro DATETIME NOT NULL,
-HoraEnvio DATETIME NOT NULL,
+HoraEnvio DATETIME,
 Estatus ENUM('T','F') DEFAULT 'F'
 );
 
@@ -316,22 +278,111 @@ FOREIGN KEY PRORROGA(CodigoNotif) REFERENCES NOTIF_INCONSISTENCIA(CodigoNotif);
 
 
  CREATE VIEW VW_PRORROGAS AS
- SELECT N.CodigoNotif,N.CodigoNotif AS `C2`
+SELECT DISTINCT N.CodigoNotif, N.CodigoNotif AS `C2`
+FROM NOTIF_INCONSISTENCIA AS N
+JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
+JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
+LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
+LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
+LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
+LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
+LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
+LEFT JOIN PRORROGA AS P ON N.CodigoNotif = P.CodigoNotif
+WHERE COALESCE(ER.Estatus, EE.Estatus, ED.Estatus, EN.Estatus) <> 'F'
+  AND ER.Estatus IS NULL
+  AND NOT EXISTS (
+    SELECT 1 
+    FROM PRORROGA AS P2 
+    WHERE P2.CodigoNotif = N.CodigoNotif 
+      AND P2.Estatus = 'F'
+  );
+
+
+
+
+CREATE VIEW ALL_PRORROGA AS 
+SELECT IDProrroga, CodigoNotif FROM PRORROGA WHERE HoraEnvio IS NULL AND Estatus = 'F';
+
+
+CREATE VIEW VW_CASOS
+ AS
+  SELECT 
+   N.CodigoNotif AS `CODIGO`,
+   C.NombreCliente AS `CLIENTE`,
+   C.EmailCliente AS `EMAIL CLIENTE`,
+   JSON_EXTRACT(N.Notificacion, '$[*].NOTIFICACION') AS `NOTIFICACIONES`,
+   date_format(N.FechaNotif, '%d/%m/%Y') AS 'FECHA INICIO',
+   date_format(COALESCE(RD.FechaVenci, EDD.FechaVenci, D.FechaVenci, N.FechaVenci), '%d/%m/%Y') AS `FECHA VENCIMIENTO`,
+   CASE
+    WHEN COALESCE(RD.FechaVenci, EDD.FechaVenci, D.FechaVenci, N.FechaVenci) < CURDATE() THEN 'V'
+	WHEN ER.Estatus = 'T' AND RD.TipoRespuesta != 'Resolucion de determinacion' THEN 'C'
+	ELSE 'P' 
+   END AS `ESTADO`
    FROM NOTIF_INCONSISTENCIA AS N
-   JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
    JOIN CLIENTES AS C ON C.IDCliente = N.IDCliente 
    LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
    LEFT JOIN ESCRITO_DESCARGO AS EDD ON N.CodigoNotif = EDD.CodigoNotif
    LEFT JOIN RESPUESTA_DGII AS RD ON N.CodigoNotif = RD.CodigoNotif
+   JOIN EMAILS_NOTIF AS EN ON N.IDNotificacion = EN.IDNotif
    LEFT JOIN EMAILS_DETALLE AS ED ON D.IDDetalle = ED.IDDetalle
    LEFT JOIN EMAILS_ESCRITO AS EE ON EDD.IDEscrito = EE.IDEscrito
    LEFT JOIN EMAILS_RESPUESTA AS ER ON RD.IDRespuesta = ER.IDRespuesta
-   LEFT JOIN PRORROGA AS P ON N.CodigoNotif = P.CodigoNotif
-   WHERE COALESCE(P.Estatus,ER.Estatus,EE.Estatus,ED.Estatus,EN.Estatus) <> 'F';
+   ORDER BY 
+    CASE 
+     WHEN `ESTADO` = 'C' THEN 3
+	 WHEN `ESTADO` = 'V' THEN 2
+     ELSE 1 
+    END, DATE_FORMAT(STR_TO_DATE(`FECHA VENCIMIENTO`, '%d/%m/%Y'), '%Y/%m/%d') ASC;
 
 
-   CREATE VIEW ALL_PRORROGA
-   AS SELECT IDProrroga,CodigoNotif FROM PRORROGA WHERE HoraEnvio IS NULL AND Estatus = 'F'
+CREATE VIEW ALL_NOTIF_FOR_RESPUESTA AS
+SELECT DISTINCT ED.CodigoNotif, ED.CodigoNotif AS NONOTIF 
+FROM ESCRITO_DESCARGO AS ED
+LEFT JOIN EMAILS_ESCRITO AS EE ON ED.IDEscrito = EE.IDEscrito
+LEFT JOIN RESPUESTA_DGII AS RD ON ED.CodigoNotif = RD.CodigoNotif
+JOIN PRORROGA AS P ON ED.CodigoNotif = P.CodigoNotif
+WHERE COALESCE(P.Estatus, EE.Estatus) = 'T' 
+  AND RD.CodigoNotif IS NULL
+  AND NOT EXISTS (
+    SELECT 1 
+    FROM PRORROGA AS P2 
+    WHERE P2.CodigoNotif = ED.CodigoNotif 
+      AND P2.Estatus = 'F'
+  );
+
+
+CREATE VIEW ALL_NOTIF_FOR_ESCRITO AS
+SELECT DISTINCT D.CodigoNotif, D.CodigoNotif AS NONOTIF 
+FROM DETALLE_CITACION AS D
+LEFT JOIN EMAILS_DETALLE AS E ON D.IDDetalle = E.IDDetalle
+LEFT JOIN ESCRITO_DESCARGO AS ED ON D.CodigoNotif = ED.CodigoNotif
+JOIN PRORROGA AS P ON D.CodigoNotif = P.CodigoNotif
+WHERE COALESCE(P.Estatus, E.Estatus) = 'T' 
+  AND ED.CodigoNotif IS NULL
+  AND NOT EXISTS (
+    SELECT 1 
+    FROM PRORROGA AS P2 
+    WHERE P2.CodigoNotif = D.CodigoNotif 
+      AND P2.Estatus = 'F'
+  );
+
+
+CREATE VIEW ALL_NOTIF_FOR_DETALLE AS
+SELECT DISTINCT N.CodigoNotif, N.CodigoNotif AS NONotif
+FROM NOTIF_INCONSISTENCIA AS N 
+LEFT JOIN EMAILS_NOTIF AS E ON N.IDNotificacion = E.IDNotif
+LEFT JOIN DETALLE_CITACION AS D ON N.CodigoNotif = D.CodigoNotif
+JOIN PRORROGA AS P ON N.CodigoNotif = P.CodigoNotif
+WHERE COALESCE(P.Estatus, E.Estatus) = 'T' 
+  AND D.CodigoNotif IS NULL
+  AND NOT EXISTS (
+    SELECT 1 
+    FROM PRORROGA AS P2 
+    WHERE P2.CodigoNotif = N.CodigoNotif 
+      AND P2.Estatus = 'F'
+  );
+
    
 /* PROCEDIMIENTOS */*\
 DELIMITER $$
@@ -1240,42 +1291,41 @@ WHERE PR.Estatus = "F" AND PR.IDProrroga = SEARCH;
 END $$
 
 
-CREATE PROCEDURE SP_AUMENTAR_PRG
-(IN INCodigoNotif CHAR(12)) BEGIN
+CREATE PROCEDURE SP_AUMENTAR_PRG(IN INCodigoNotif CHAR(12)) 
+BEGIN
+    DECLARE TABLA VARCHAR(20);
+    DECLARE FechaFinal DATE;
 
-DECLARE TABLA VARCHAR(20);
+    -- Seleccionar la tabla
+    IF EXISTS(SELECT CodigoNotif FROM RESPUESTA_DGII WHERE CodigoNotif = INCodigoNotif) THEN
+        SET TABLA = 'RESPUESTA_DGII';
+    ELSEIF EXISTS(SELECT CodigoNotif FROM ESCRITO_DESCARGO WHERE CodigoNotif = INCodigoNotif) THEN
+        SET TABLA = 'ESCRITO_DESCARGO';
+    ELSEIF EXISTS(SELECT CodigoNotif FROM DETALLE_CITACION WHERE CodigoNotif = INCodigoNotif) THEN
+        SET TABLA = 'DETALLE_CITACION';
+    ELSE
+        SET TABLA = 'NOTIF_INCONSISTENCIA';
+    END IF;
 
--- Seleccionar la tabla
-IF EXISTS( SELECT CodigoNotif FROM RESPUESTA_DGII WHERE CodigoNotif = INCodigoNotif)
-THEN SELECT 'RESPUESTA_DGII' INTO TABLA;
+    -- Calcular la nueva fecha de vencimiento usando una función y actualizando el registro
+    SET @FSENTENCE = CONCAT('SELECT DIASLABORABLES(FechaVenci, 10) INTO @FechaFinal FROM ', TABLA, ' WHERE CodigoNotif = ''', INCodigoNotif, '''');
+    PREPARE stmt FROM @FSENTENCE;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
-ELSEIF EXISTS( SELECT CodigoNotif FROM ESCRITO_DESCARGO WHERE CodigoNotif = INCodigoNotif)
-THEN SELECT 'ESCRITO_DESCARGO' INTO TABLA;
+    -- Actualizar la fecha de vencimiento en la tabla correspondiente
+    SET @SENTENCE = CONCAT('UPDATE ', TABLA, ' SET FechaVenci = @FechaFinal WHERE CodigoNotif = ''', INCodigoNotif, '''');
+    PREPARE stmt FROM @SENTENCE;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
 
-ELSEIF EXISTS( SELECT CodigoNotif FROM DETALLE_CITACION WHERE CodigoNotif = INCodigoNotif)
-THEN SELECT 'DETALLE_CITACION' INTO TABLA;
-
-ELSE SELECT 'NOTIF_INCONSISTENCIA' INTO TABLA;
-END IF;
-
- -- Calcular la nueva fecha de vencimiento usando una función y actualizando el registro
- SET @FSENTENCE = CONCAT('SELECT DIASLABORABLES(FechaVenci,10) INTO @FechaFinal FROM ', TABLA, ' WHERE CodigoNotif =',INCodigoNotif);
- PREPARE stmt FROM @FSENTENCE;
- EXECUTE stmt;
- DEALLOCATE PREPARE stmt;
-
- -- Actualizar la fecha de vencimiento en la tabla correspondiente
- SET @SENTENCE = CONCAT('UPDATE ', TABLA, ' SET FechaVenci = @FechaFinal WHERE CodigoNotif = ',INCodigoNotif);
- PREPARE stmt FROM @SENTENCE;
- EXECUTE stmt USING @CodigoNotifParam;
- DEALLOCATE PREPARE stmt;
-
- -- Limpiar variables temporales
- SET @FSENTENCE = NULL;
- SET @SENTENCE = NULL;
- SET @FechaFinal = NULL;
-
+    -- Limpiar variables temporales
+    SET @FSENTENCE = NULL;
+    SET @SENTENCE = NULL;
+    SET @FechaFinal = NULL;
 END $$
+
+
 
 CREATE PROCEDURE SP_DELETE_PRG
 (IN IN_IDP INT,IN IN_CodNot CHAR(12)) BEGIN

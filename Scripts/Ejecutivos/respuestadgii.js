@@ -77,7 +77,8 @@ $.ajax({
     { 
      closeres(); 
      updatedatalists(9,['#dtlagrrdgii']);
-     updatedatalists(10,['#dtldltrdgii']); 
+     updatedatalists(10,['#dtldltrdgii']);
+     updatedatalists(11, ['#dtlagrprg']); 
     }responses(DATA);
  },
  error: function(){return Alerta(txt.EELS,txt.E,2000);}
@@ -96,11 +97,17 @@ $.ajax({
  data: {FUNC: 'dltres', CodRes: CodRes, CodNot: CodNot},
  beforeSend: function () { load(1); },//Mostrar pantalla de carga durante la solicitud
  complete: function () { load(2); }, //Ocultar pantalla de carga
- success: function (DATA) {
- if(DATA.success){ updatedatalists(9,['#dtlagrrdgii']); updatedatalists(10,['#dtldltrdgii']); }
- responses(DATA); },
- error: function(e){console.log(e);
-  return Alerta(txt.EELS,txt.E,2000);}
+ success: function (DATA) 
+ {
+  if(DATA.success)
+    { 
+      LimpiarModal('#slcdltrdgii1',['#dtldltrdgii','#btndltrdgii'],'#formdltrdgii')
+      updatedatalists(9,['#dtlagrrdgii']); 
+      updatedatalists(10,['#dtldltrdgii']);
+      updatedatalists(11, ['#dtlagrprg']); 
+    } responses(DATA); 
+ },
+ error: function(){ return Alerta(txt.EELS,txt.E,2000);}
 });
 }
 
@@ -149,7 +156,8 @@ async function SendmailRespuesta(nop)
     success: function (res) {  
     if(res.success)
     {
-      updatedatalists(10,['#dtldltrdgii']);  
+      updatedatalists(10,['#dtldltrdgii']);
+      updatedatalists(11, ['#dtlagrprg']);  
       tablasejec('casos')
     } responses(res);
     },

@@ -92,10 +92,10 @@ else { ?><!---- Seccion agregar prorrogas --------->
                     <input class="form-control" autocomplete="off" role="combobox" list="" id="slcsendprg">
                     <input type="hidden" id="slcsendprg1">
                     <datalist id="dtlsendprg" role="listbox">
-                        <?php $SendProrroga = Datos(12);
-                            if ($SendProrroga !== false && count($SendProrroga) > 0) 
+                        <?php $AllPRG = Datos(12);
+                            if ($AllPRG !== false && count($AllPRG) > 0) 
                             {
-                                foreach ($SendProrroga as $SENDPRG) 
+                                foreach ($AllPRG as $SENDPRG) 
                                 { 
                                     echo '<option value="' . htmlspecialchars($SENDPRG["IDProrroga"]) . '">' . htmlspecialchars($SENDPRG["CodigoNotif"]) . '</option>'; 
                                 }
@@ -110,7 +110,7 @@ else { ?><!---- Seccion agregar prorrogas --------->
                 <i class="bi bi-floppy"></i>&nbsp;Crear
                 </button>
 
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal(['#slcsendprg','#slcsendprg1'],'#btnsendprg',false)">Cancelar</button>
             </div>
 
         </div></div>
@@ -134,11 +134,11 @@ else { ?><!---- Seccion agregar prorrogas --------->
                     <input type="hidden" id="slcdltprg1">
                     <datalist id="dtldltprg" role="listbox">
                         <?php 
-                            if ($SendProrroga !== false && count($SendProrroga) > 0) 
+                            if ($AllPRG !== false && count($AllPRG) > 0) 
                             {
-                                foreach ($SendProrroga as $SENDPRG) 
+                                foreach ($AllPRG as $DLTPRG) 
                                 { 
-                                    echo '<option value="' . htmlspecialchars($SENDPRG["IDProrroga"]) . '">' . htmlspecialchars($SENDPRG["CodigoNotif"]) . '</option>'; 
+                                    echo '<option value="' . htmlspecialchars($DLTPRG["IDProrroga"]) . '">' . htmlspecialchars($DLTPRG["CodigoNotif"]) . '</option>'; 
                                 }
                             }
                         ?>
@@ -151,7 +151,7 @@ else { ?><!---- Seccion agregar prorrogas --------->
                 <i class="bi bi-trash"></i>&nbsp;Eliminar
                 </button>
 
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal(['#slcdltprg','#slcdltprg'],['#btndltprg'],false)">Cancelar</button>
             </div>
 
         </div></div>

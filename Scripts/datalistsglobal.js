@@ -1,32 +1,36 @@
-
-async function updatedatalists(tipo,datalists) 
+async function updatedatalists(tipo, datalists) 
 {
-  if(!validarint(tipo)){return Alerta(txt.EELS, txt.E, 2000);}
+  if (!validarint(tipo)) { return Alerta(txt.EELS, txt.E, 2000); }
 
-    $.ajax({
-        type: 'POST',
-        url: PageURL+'Controllers/datos',
-        data: { tipo: tipo },
-        dataType: 'json',
-        success: function (data) {
-
-        if (!data.error)
-        { $(datalists).each(function(index, datalist) {
-
-        $(datalist).empty();
-        
-        $.each(data, function(index, valor) {
-        let keys = Object.keys(valor);
+  $.ajax({
+    type: 'POST',
+    url: PageURL + 'Controllers/datos',
+    data: { tipo: tipo },
+    dataType: 'json',
+    success: function (data) {
     
-        $('<option>', { value: valor[keys[0]], text: valor[keys[1]] }).appendTo(datalist);
-            });
-        }); }
-        
-        else {responses(data);}
-      },
-      error: function(){return Alerta(txt.EELS,txt.E,2000);}
-      });
+      if (!data.error) 
+      {
+        $(datalists).each(function (index, datalist) {
+          $(datalist).empty();
+
+          $.each(data, function (index, valor) {
+            let keys = Object.keys(valor);
+
+            // Compara la longitud del array keys, no el array directamente
+            let option = keys.length > 1 
+              ? { value: valor[keys[0]], text: valor[keys[1]] } 
+              : { value: valor[keys[0]], text: valor[keys[0]] };
+
+            $('<option>', option).appendTo(datalist);
+          });
+        });
+      }else { responses(data); }
+    },
+    error: function () { return Alerta(txt.EELS, txt.E, 2000); }
+  });
 }
+
 
 
 function datalistcontrol(input, input2, object, datalist,func = '', st = false) 
@@ -42,7 +46,6 @@ else {window[func]($(input2).val(),$(input).val());}
 else 
 {modifystyle(object,'display',$(input2).val() == 0 ? 'none' : 'flex');}
 }
-
 
 
 function datalistclick(event,input,input2,objects,datalist,func = '',st = false) 

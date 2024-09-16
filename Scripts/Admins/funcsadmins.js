@@ -3,7 +3,6 @@ $(document).ready(function(){tablas('usrs');});
 
 function datausrblocks()
 {
-
     $('#tabla thead tr').append('<th>ACCIONES</th>');
   
     $('#tabla').DataTable($.extend(true, {}, tabledata, {

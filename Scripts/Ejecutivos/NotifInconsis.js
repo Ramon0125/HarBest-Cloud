@@ -24,6 +24,7 @@ function addnotificacion(n,t)
       if (c + 1 < inputs.length) 
       { 
         if(!validarparams(inputs[c].value,inputs[c+1].value)) {return Alerta(txt.CTC,txt.W,2000);}
+        if(!["ITB","IR1","IR2","IR17"].includes(inputs[c].value)){ return Alerta("Los impuestos solo deben ser: ITB, IR1, IR2 O IR17",txt.W,false,true,"Impuesto no permitido");}
         if(!validaraño(inputs[c+1].value)) {return Alerta(txt.IAV,txt.W,2000);}
 
         i += `${inputs[c].value}/${inputs[c+1].value}`;

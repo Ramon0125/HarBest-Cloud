@@ -1,11 +1,12 @@
 //Acciones que se cumpliran cuando se cargue por completo el DOM
+const dd = String(NDate.getDate()).padStart(2, '0');
+const mm = String(NDate.getMonth() + 1).padStart(2, '0'); // Enero es 0!
+const today = currentYear + '-' + mm + '-' + dd;
+
+
 $(document).ready(function(){ 
   
   tablasejec('casos'); 
-
-  const dd = String(NDate.getDate()).padStart(2, '0');
-  const mm = String(NDate.getMonth() + 1).padStart(2, '0'); // Enero es 0!
-  const today = currentYear + '-' + mm + '-' + dd;
 
   // Obtener la fecha actual
   eventlisten('.modal','show.bs.modal',function(){
@@ -375,7 +376,7 @@ function DetailsNotif(IDD)
     DATA.FechaRespuesta ? ModRespuesta(DATA) : modifystyle('#ContainerRespuestaDC','display','none');
    }
    else{ return responses(DATA);}},
-   error: function(e){console.log(e); return Alerta(txt.EELS,txt.W,2000);}
+   error: function(){ return Alerta(txt.EELS,txt.W,2000); }
   });
 
 let Modal = new bootstrap.Modal(document.getElementById('DetailNotif'));

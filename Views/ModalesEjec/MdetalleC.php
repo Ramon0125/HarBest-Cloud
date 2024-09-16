@@ -6,7 +6,7 @@ if (preg_match('/MdetalleC(?:\.php)?/', $_SERVER['REQUEST_URI']))
 else { ?> <!---- MODAL AGREGAR DETALLE DE CITACION --------->
 <div class="modal fade" id="agrddc" data-bs-backdrop="static" aria-hidden="true" >
   <div class="modal-dialog">
-    <div class="modal-content" style="width: 125%;">
+    <div class="modal-content" style="left: 50%; width: 159%; transform: translate(-50%, -1%);">
       <div class="modal-body">
         <div class="ModalTitle">
           <h3 class="modal-title">Agregar un detalle de citación</h3>
@@ -130,6 +130,7 @@ else { ?> <!---- MODAL AGREGAR DETALLE DE CITACION --------->
                 <option value="ITB">ITB</option>
                 <option value="IR1">IR1</option>
                 <option value="IR2">IR2</option>
+                <option value="IR17">IR17</option>
               </select>
             </div>
 

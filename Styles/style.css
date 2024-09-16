@@ -492,6 +492,12 @@ word-wrap: break-word;    }
   background: silver;
 }
 
+.DivTable table
+{
+  overflow-wrap: break-word;
+  table-layout: fixed;
+}
+
 .trtable{
   border-bottom: 5px black;
 }

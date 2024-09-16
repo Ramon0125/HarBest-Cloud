@@ -96,8 +96,6 @@ else { ?><!---- MODAL AGREGAR NOTIFICACION --------->
             <select id="Tiponotf" class="form-select">
               <option value=""></option>
               <option value="FISCALIZACION">Fiscalizaci&oacute;n</option>
-              <option value="CONTROL">Control</option>
-              <option value="DEBERES FORMALES">Deberes formales</option>
             </select>
           </div>   
 

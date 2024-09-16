@@ -114,7 +114,7 @@ else { ?><!---- MODAL AGREGAR ESCRITO DE DESCARGO --------->
           <i class="bi bi-trash"></i>&nbsp;Eliminar
         </button>
 
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="closeescrito()">Cancelar</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="LimpiarModal(['#slcdltedd1','#slcdltedd'],['#btndltedd'],['#formagredd'])">Cancelar</button>
       </div>
     </div>
   </div>

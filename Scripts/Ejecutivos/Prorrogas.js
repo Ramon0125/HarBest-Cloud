@@ -4,18 +4,13 @@ eventlisten('#btndltprg','click',function(){ DLTPRG( $('#slcdltprg1').val(), $('
 
 const CloseAddprg = () =>
 {
-$('#slcntfprg').val('');
-$('#slcntfprg1').val('');
-$('#dateprg').val('');
-$('#Fileprg').val('');
-$('#Comentsprg').val('');
-
 $('#labelFileprg').text('Archivo de prorroga');
 $('#Spanprg').text('Buscar archivo(s)');
 $('#fiiconprg').removeClass('bi-x-circle');
 $('#fiiconprg').addClass('bi-arrow-up-circle');
-}
 
+LimpiarModal(['#slcntfprg','#slcntfprg1','#dateprg','#Fileprg','#Comentsprg'],['#Containeragrprg','#btnagrprg'],false);
+}
 
 
 function ADDPRG(CodigoNotif,FechaPRG,ComentsPRG,ArchivoPRG)
@@ -45,9 +40,12 @@ $.ajax({
     { 
       if (response.success) 
         {
-            closeescrito();
+            CloseAddprg();
+            updatedatalists(5,['#dtlagrddc']);
+            updatedatalists(7,['#dtlagredd']);
+            updatedatalists(9,['#dtlagrrdgii']);
             updatedatalists(11, ['#dtlagrprg']);
-            updatedatalists(12, ['#dtlsendprg']);
+            updatedatalists(12, ['#dtlsendprg','#dtldltprg']);        
         }   responses(response);
     },
     error: function(){return Alerta(txt.EELS, txt.W, 2000);}
@@ -63,6 +61,7 @@ async function sendmailprg(nop)
   try {
 
     $('#sendprorrogas').modal('hide');
+    LimpiarModal(['#slcsendprg','#slcsendprg1'],'#btnsendprg',false);
 
    const { CC, CCLT } = await Getcc(nop, 5);
   
@@ -83,8 +82,12 @@ async function sendmailprg(nop)
     {
       if (res.success) 
       {
-        tablasejec('casos'); 
-        updatedatalists(12, ['#dtlsendprg']);
+        updatedatalists(5,['#dtlagrddc']);
+        updatedatalists(7,['#dtlagredd']);
+        updatedatalists(9,['#dtlagrrdgii']);
+        updatedatalists(11, ['#dtlagrprg']);
+        updatedatalists(12, ['#dtlsendprg','#dtldltprg']);        
+
       } responses(res);
     },
     error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
@@ -111,9 +114,13 @@ function DLTPRG(idp,non)
     { 
       if (response.success) 
         {
-            closeescrito();
+            LimpiarModal(['#slcdltprg','#slcdltprg'],['#btndltprg'],false);
+            updatedatalists(5,['#dtlagrddc']);
+            updatedatalists(7,['#dtlagredd']);
+            updatedatalists(9,['#dtlagrrdgii']);
             updatedatalists(11, ['#dtlagrprg']);
-            updatedatalists(12, ['#dtlsendprg']);
+            updatedatalists(12, ['#dtlsendprg','#dtldltprg']);        
+
         }   responses(response);
     },
     error: function(){return Alerta(txt.EELS,txt.E,2000);}

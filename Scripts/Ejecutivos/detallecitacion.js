@@ -14,17 +14,17 @@ eventlisten('#nontfddc','change',function() {$('#nocddc').val('');})
 
 function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto) 
 {
-  if (!validarparams(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto))
-    {return Alerta(txt.CTC,txt.W,2000);}
+  if (!validarparams(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)){return Alerta(txt.CTC,txt.W,2000);}
 
   if (!validarint(NOCaso)){return Alerta(txt.INCV,txt.W,2000);}
 
   if (!validarvalor(Valor)){return Alerta(txt.IVV,txt.W,2000);}
 
-  if(!validaraño(Periodo.substring(0, 4)) || Periodo.substring(4) < 1 || Periodo.substring(4) > 12) 
-  {return Alerta(txt.IPV,txt.W,2000);}
+  if( !validaraño(Periodo.substring(0, 4)) || Periodo.substring(4) < 1 || 
+      Periodo.substring(4) > 12 || Periodo.substring(0, 4) == currentYear && Periodo.substring(4) > mm
+    ) { return Alerta(txt.IPV, txt.W, 2000); }
 
-  let Informacion = {NOCaso,Detalle,Periodo,Valor,Impuesto};
+  let Informacion = {NOCaso, Detalle, Periodo, Valor, Impuesto};
 
   if(incon.hasOwnProperty(NONotif))
   { 
@@ -33,19 +33,18 @@ function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)
       item.Detalle === Informacion.Detalle &&
       item.Periodo === Informacion.Periodo &&
       item.Valor === Informacion.Valor &&
-      item.Impuesto === Informacion.Impuesto
-    );
+      item.Impuesto === Informacion.Impuesto);
 
     let existeNoCaso = incon[NONotif].some(item => item.NOCaso != NOCaso);
 
     if (existeEntrada) { return Alerta(txt.EDYEA, txt.W, false, true); }
-    if (existeNoCaso) {return Alerta('No puede agregar un número de caso diferente a la misma notificación.',txt.W,false,true);}
+    if (existeNoCaso) {return Alerta('No puede agregar un número de caso diferente en la misma notificación.',txt.W,false,true);}
 
     incon[NONotif].push(Informacion); 
   }
   
-  else {
-    
+  else 
+  {
     for (let notif in incon) 
     {
       if (notif !== NONotif) 
@@ -57,9 +56,12 @@ function adddetail(NONotif,NOCaso,Detalle,Periodo,Valor,Impuesto)
     }
 
     incon[NONotif] = [Informacion]; 
-}
-  Alerta('Detalle añadido',txt.S,2000); 
-  updatedetalles();   $('#inconsisddc').val('');  $('#perddc').val(''); $('#valddc').val(''); $('#impddc').val('');
+  }
+
+  $('#inconsisddc').val(''); $('#perddc').val(''); 
+  $('#valddc').val(''); $('#impddc').val('');
+  
+  updatedetalles();  Alerta('Detalle añadido',txt.S,2000); 
 }
 
 
@@ -110,7 +112,7 @@ function updatedetalles()
     });
   }
 
-$('#spandetalle').text(`${Object.keys(incon).length} Inconsistencias detalladas`);
+  $('#spandetalle').text(`${Object.keys(incon).length} Inconsistencias detalladas`);
 } 
 
 
@@ -184,6 +186,7 @@ if ((Array.from(ARCHIVOS).reduce((total, item) => total + item.size, 0) / (1024 
       closedetails(); 
       updatedatalists(5,['#dtlagrddc']); 
       updatedatalists(6,['#dtldltddc']);
+      updatedatalists(11, ['#dtlagrprg']);
       tablasejec('casos');
       } responses(DATA);
     },
@@ -241,6 +244,7 @@ async function sendmailddc(nop)
         tablasejec('casos'); 
         updatedatalists(6, ['#dtldltddc']);
         updatedatalists(7,['#dtlagredd']);
+        updatedatalists(11, ['#dtlagrprg']);
       } responses(res);
     },
     error: function (){ return Alerta(txt.EELS, txt.W, 2000); }
@@ -299,9 +303,9 @@ function dltddc(idd,noc)
       LimpiarModal('#slcdltddc1',['#dtldltddc','#btndltddc'],'#formdltddc'); 
       updatedatalists(5,['#dtlagrddc']); 
       updatedatalists(6,['#dtldltddc']);
+      updatedatalists(11, ['#dtlagrprg']);
      } responses(DATA);
     },
      error: function(){return Alerta(txt.EELS, txt.W, 2000);}
     });
 }
-

@@ -18,7 +18,9 @@ else { ?><!-----------------MODAL AGREGAR USUARIOS--------------------->
             <label for="privusr" class="form-label">Departamento</label>  
             
             <select id="privusr" class="form-select">
-              <option selected value="CASOS FISCALES">CASOS FISCALES</option>
+              <option value="" selected></option>
+              <option value="CASOS FISCALES">CASOS FISCALES</option>
+              <option value="CONSULTA">CONSULTA</option>
             </select>
           </div>
   
