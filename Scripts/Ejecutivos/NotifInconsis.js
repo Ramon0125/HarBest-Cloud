@@ -1,7 +1,5 @@
-$(document).ready(function () {  
-  OnlyNumber('#Aincu'); 
-  ToInputFile('#Cartanotif','#ContainerFilenotif','#FilenotifIcon','#FilenotifSpan','#FilenotifLabel');
-});
+OnlyNumber('#Aincu'); 
+ToInputFile('#Cartanotif','#ContainerFilenotif','#FilenotifIcon','#FilenotifSpan','#FilenotifLabel');
 
 var nonotif = []; //Variable de los numeros de notificación
 var tipnotif = []; //Variable de los tipos de notificación

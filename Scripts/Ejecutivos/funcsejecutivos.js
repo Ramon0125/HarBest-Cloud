@@ -3,15 +3,19 @@ const dd = String(NDate.getDate()).padStart(2, '0');
 const mm = String(NDate.getMonth() + 1).padStart(2, '0'); // Enero es 0!
 const today = currentYear + '-' + mm + '-' + dd;
 
+const Directivos = ['ericvalerio@harbest.net','aldyperalta@harbest.net',
+  'marielebron@harbest.net','mariamoreno@harbest.net','magdalenaortega@harbest.net',
+  'jennyfermejia@harbest.net','franciscososa@harbest.net','cristinalugo@harbest.net',
+  'yessicasosa@harbest.net','estefanymontero@harbest.net','ysabelnolasco@harbest.net']; 
 
+  
 $(document).ready(function(){ 
   
   tablasejec('casos'); 
 
-  // Obtener la fecha actual
   eventlisten('.modal','show.bs.modal',function(){
 
-    if($(this).find('input[type="date"]').length !== 0)
+    if($(this).find('input[type="date"]').length > 0)
     {
     // Establecer la fecha actual en formato "yyyy-mm-dd" en todos los campos de fecha
     $(this).find('input[type="date"]').val(today);
@@ -23,10 +27,7 @@ $(document).ready(function(){
 
 });
 
-const Directivos = ['ericvalerio@harbest.net','aldyperalta@harbest.net',
-  'marielebron@harbest.net','mariamoreno@harbest.net','magdalenaortega@harbest.net',
-  'jennyfermejia@harbest.net','franciscososa@harbest.net','cristinalugo@harbest.net',
-  'yessicasosa@harbest.net','estefanymontero@harbest.net','ysabelnolasco@harbest.net'];  
+ 
 
 function tablasejec(str) 
 {

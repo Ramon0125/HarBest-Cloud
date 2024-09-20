@@ -1,35 +1,4 @@
-eventlisten('#ContainerRES','click',
-  function () { 
-      
-      if($('#ContainerRES').hasClass('has'))
-      {
-          $('#FileRes').val('');
-          $('#ContainerRES').removeClass('has');
-          $('#Spanres').text('Buscar');
-          modifystyle(['#Spanres'],'color','green');
-      }
-      
-      else{ $('#FileRes').click(); }
-  }
-  );
-  
-  eventlisten('#FileRes','change',
-  function () { 
-      
-      if($('#FileRes')[0].files.length > 0)
-      {
-          $('#ContainerRES').addClass('has');
-          $('#Spanres').text('Quitar');
-          modifystyle(['#Spanres'],'color','red');
-      }
-      
-      else
-      { $('#ContainerRES').removeClass('has');
-        $('#Spanres').text('Buscar');
-        modifystyle(['#Spanres'],'color','green');
-      }
-  }
-  );
+ToContainerFile('#ContainerRES','#FileRes','#Spanres');
 
 
 function closeres()

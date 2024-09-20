@@ -12,15 +12,15 @@ async function updatedatalists(tipo, datalists)
       if (!data.error) 
       {
         $(datalists).each(function (index, datalist) {
+          
           $(datalist).empty();
 
           $.each(data, function (index, valor) {
-            let keys = Object.keys(valor);
 
+            let keys = Object.keys(valor);
+      
             // Compara la longitud del array keys, no el array directamente
-            let option = keys.length > 1 
-              ? { value: valor[keys[0]], text: valor[keys[1]] } 
-              : { value: valor[keys[0]], text: valor[keys[0]] };
+            let option = { value: valor[keys[0]], text: valor[(keys[keys.length > 1 ? 1 : 0])] } 
 
             $('<option>', option).appendTo(datalist);
           });
